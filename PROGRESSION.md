@@ -238,7 +238,7 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   la poignée ; 1 tour de poignée = 48/223 an ; lecture : 1 tour par seconde × vitesse. Survol (souris) ou toucher
   sans glisser (doigt) : roue la plus proche de l'observateur sous le pointeur (bras des roues évidées compris),
   cartouche « nom · dents · rapport » et ligne « Roue » des valeurs.
-- Durée d'une image (Chromium, iPhone 15 émulé, NAS chargé, moyenne de 30 images) : fermée 0,4 ms (×1) et 1,5–2,3 ms
+- Durée d'une image (Chromium, iPhone 15 émulé, NAS chargé, moyenne de 15 à 30 images) : fermée 0,4 ms (×1) et 1,5–2,3 ms
   (processeur ralenti ×4) ; ouverte 0,9–1,2 ms (×1), 3,5–4,8 ms (×4) ; éclatée 3,6–4,9 ms (×4). Première image d'une
   face : ≈ 200 ms (construction du cache, une fois).
 - Tests : `anticythere.test.ts` (tests d'Anticythere3D + références SageMath `tests/references/anticythere_sage.json`),

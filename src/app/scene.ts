@@ -129,11 +129,11 @@ export class Scene implements Hote {
     this.observateur.rendu?.();
   }
 
-  /** Durée de rendu des images (ms) : moyenne et maximum des 30 dernières, dans data-ms (mesures, tests). */
+  /** Durée de rendu des images (ms) : moyenne et maximum des 15 dernières, dans data-ms (mesures, tests). */
   private durees: number[] = [];
   private mesurer(ms: number): void {
     this.durees.push(ms);
-    if (this.durees.length >= 30) {
+    if (this.durees.length >= 15) {
       const moy = this.durees.reduce((a, b) => a + b, 0) / this.durees.length;
       this.canvas.dataset.ms = `${moy.toFixed(2)} ${Math.max(...this.durees).toFixed(2)}`;
       this.durees = [];

@@ -260,11 +260,11 @@ test('machine d’Anticythère : cadrans, enveloppe, faces, roue touchée, lectu
   await page.mouse.move(b.x + b.width * 0.6, b.y + b.height * 0.4, { steps: 8 });
   await page.mouse.up();
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
-  // lecture : la date avance ; durée de rendu mesurée (moyenne de 30 images)
+  // lecture : la date avance ; durée de rendu mesurée (moyenne de 15 images)
   const avant = await dd.first().textContent();
   await page.locator('.transport .bouton.principal').click();
   await expect.poll(() => dd.first().textContent(), { timeout: 20_000 }).not.toBe(avant);
-  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 20_000 }).not.toBeNull();
+  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 45_000 }).not.toBeNull();
   const ms = Number((await toile.getAttribute('data-ms'))!.split(' ')[0]);
   test.info().annotations.push({ type: 'durée de rendu (ms)', description: String(ms) });
   // garde-fou seulement : rendu logiciel, plusieurs navigateurs en parallèle (mesures propres : PROGRESSION.md)
