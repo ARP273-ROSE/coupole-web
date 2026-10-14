@@ -306,7 +306,9 @@ test('Orion en 3D : vue du ciel, dépliement, plongée vers M42 (image et crédi
   await expect(fiche).toBeHidden();
   // « Vue 3D » : le dépliement va à 100 % et s'arrête seul
   await page.getByRole('button', { name: 'Vue 3D', exact: true }).click();
-  await expect.poll(() => page.locator('.valeurs dd').first().textContent(), { timeout: 15_000 }).toBe('en 3D');
+  // la transition avance par images (au plus 0,2 s chacune) : lente si le navigateur dessine lentement (WebKit
+  // logiciel de la machine d'intégration continue)
+  await expect.poll(() => page.locator('.valeurs dd').first().textContent(), { timeout: 90_000 }).toBe('en 3D');
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
   await capture(page, 'orion-3d');
   // durée de rendu en lecture (la scène tourne lentement)
