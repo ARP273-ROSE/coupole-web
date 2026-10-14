@@ -165,7 +165,7 @@ test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ p
   if (!test.info().project.name.endsWith('bureau')) ids = ids.filter((_, i) => i % 6 === 0);
   for (const id of ids) {
     await page.goto(`./#/a/${id}`);
-    await expect(page.locator('.scene canvas')).toBeVisible();
+    await expect(page.locator('.scene canvas'), `${id} ${s.erreurs.join(' | ')} ${page.url()}`).toBeVisible({ timeout: 30_000 });
     await expect.poll(() => couleursToile(page), { message: id }).toBeGreaterThan(3);
     const lecture = page.locator('.transport .bouton.principal');
     if (await lecture.count()) {

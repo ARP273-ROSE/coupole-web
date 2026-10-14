@@ -163,3 +163,4 @@ export function soleil_barycentrique(siecles: number, planetes: readonly string[
   }
   return [-sx / tot, -sy / tot, -sz / tot];
 }
+

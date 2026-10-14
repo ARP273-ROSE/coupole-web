@@ -2,6 +2,7 @@
  * « Ce qu'il faut voir » : pour chaque animation, ce qu'on doit remarquer en la manipulant (FR, EN).
  * Texte propre à Coupole Web ; les descriptions et tous les autres textes sont ceux de Coupole.
  */
+import { A_VOIR_SUITE } from './a_voir_suite';
 import type { Langue } from './i18n';
 
 const A_VOIR: Record<string, [string, string]> = {
@@ -92,10 +93,10 @@ const A_VOIR: Record<string, [string, string]> = {
 };
 
 export function aVoir(id: string, l: Langue): string {
-  const t = A_VOIR[id];
+  const t = A_VOIR[id] ?? A_VOIR_SUITE[id];
   return t ? t[l === 'fr' ? 0 : 1] : '';
 }
 
 export function idsAvecAVoir(): string[] {
-  return Object.keys(A_VOIR);
+  return [...Object.keys(A_VOIR), ...Object.keys(A_VOIR_SUITE)];
 }

@@ -61,7 +61,7 @@ function construireEntete(): void {
   const seg = h('div', { class: 'segmente', role: 'group', 'aria-label': tr('web_langue') });
   for (const l of LANGUES) {
     const b = h('button', { type: 'button', lang: l, 'aria-pressed': String(l === langue()), text: l.toUpperCase() });
-    b.setAttribute('aria-label', l === 'fr' ? 'Français' : 'English');
+    b.setAttribute('aria-label', l === 'fr' ? 'FR – Français' : 'EN – English');
     b.addEventListener('click', () => void changerLangue(l));
     seg.append(b);
   }

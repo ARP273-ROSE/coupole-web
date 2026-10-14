@@ -12,7 +12,7 @@ Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupol
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
 distances des étoiles, lumière et spectres, exoplanètes, étoiles doubles… Refaites d’après **ClassAction**
 (University of Nebraska-Lincoln Astronomy Education, licence Apache 2.0), avec **les mêmes formules, les mêmes données,
-les mêmes réglages et les mêmes textes** que l’application de bureau Coupole.
+les mêmes réglages et les mêmes textes** que l’application de bureau Coupole. Les **92 animations** sont disponibles.
 
 - **Partout** : Chrome, Safari, Firefox, Edge ; ordinateur, tablette, téléphone ; de 320 px au 4K, portrait ou
   paysage.
@@ -57,8 +57,8 @@ node outils/budget.mjs   # budget : première page < 150 Ko compressés, une ani
 npm run test:e2e     # bout en bout (Playwright) : Chromium, Firefox, WebKit × téléphone, tablette, bureau
 ```
 
-Pile : Vite, TypeScript strict, Canvas 2D, aucun cadriciel ; quatre dépendances de développement, aucune à
-l’exécution.
+Pile : Vite, TypeScript strict, Canvas 2D, aucun cadriciel ; cinq dépendances de développement (Vite, Vitest,
+TypeScript, Playwright, types de Node), aucune à l’exécution.
 
 ## Licence et crédits
 
@@ -103,6 +103,9 @@ npm test                 # unit tests (Vitest)
 npm run build            # static site in dist/
 npm run test:e2e         # end-to-end (Playwright): Chromium, Firefox, WebKit × phone, tablet, desktop
 ```
+
+Stack: Vite, strict TypeScript, Canvas 2D, no framework; five development dependencies (Vite, Vitest, TypeScript,
+Playwright, Node types), none at run time.
 
 ## License and credits
 

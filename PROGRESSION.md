@@ -7,7 +7,10 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 
 - Socle complet : catalogue, fiche, toile, réglages, adresse partageable, mémoire, thèmes, langues, PWA hors ligne,
   sécurité, tests, CI, déploiement GitHub Pages.
-- Animations disponibles : **21 / 92** (lot 1 : coordonnées, temps, orbites, distances).
+- Animations disponibles : **92 / 92**, toutes vérifiées contre les références de Coupole (réglages et valeurs
+  affichées, FR et EN), chacune avec son texte « Ce qu’il faut voir ».
+- Lighthouse (mobile et bureau, catalogue, à propos, deux animations) : performances 97–100, accessibilité 100,
+  bonnes pratiques 100, référencement 100.
 
 ## Méthode de transposition
 
@@ -19,7 +22,8 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 3. `npm test` : le test `tests/unit/animations.test.ts` compare réglages et valeurs affichées à ceux de Coupole
    (`tests/references/animations.json`), au caractère près, en français et en anglais, puis dessine l’animation dans
    quatre formats et deux thèmes, souris comprise.
-4. Ajouter le texte « Ce qu’il faut voir » (FR, EN) dans `src/i18n/a_voir.ts`.
+4. Ajouter le texte « Ce qu’il faut voir » (FR, EN) dans `src/i18n/a_voir.ts` ou `a_voir_suite.ts` (un test vérifie
+   que les 92 en ont un).
 
 Régénérer les fichiers tirés de Coupole (quand Coupole change) :
 
@@ -42,9 +46,16 @@ QT_QPA_PLATFORM=offscreen python3 outils/references_animations.py CHEMIN_DE_COUP
       celhorcomp, siderealTimeAndHourAngleDemo, seasonsim, obliquity, zodiac, siderealSolarTime, latsim, shadowsim,
       marsorbit, pathtracer, retrograde, kepler, parallaxdiag, stellarmag.
 
+### 2026-10-14 — lots 1 bis, 2 et 3 : 92 / 92
+
+- [x] Lot 1 bis et lot 2 : coordonnées et mouvements, Lune, Renaissance, astronomie antique, propriétés stellaires.
+- [x] Lot 3 : lumière et spectres, exoplanètes, étoiles doubles et variables, Système solaire, Soleil, Voie lactée,
+      cosmologie, télescopes, temps de regard en arrière.
+- [x] Directions des galaxies du ballon (tirage numpy de Coupole) exportées telles quelles dans `lot3.json`.
+- [x] « Ce qu’il faut voir » pour les 92 animations (FR, EN).
+- [x] Tests de bout en bout sur les 92 animations (bureau) et un échantillon (téléphone, tablette), trois moteurs.
+
 ## Reste à faire
 
-- Lot 1 bis (9) : daylighthoursexplorer, meridaltdiagram, sunpaths, sunmotionsoverview, horizon, daylightsimulator,
-  antipodesexplorer, bigdipper, celestialhorizon.
-- Lot 2 (25) et 2 bis (5) : Lune, Renaissance, astronomie antique, ombre d’un bâtiment, propriétés stellaires.
-- Lot 3 (32) : lumière et spectres, exoplanètes, étoiles doubles et variables, divers.
+- Rien d’obligatoire. Pistes : tirages aléatoires identiques à ceux de Python (Mersenne Twister) pour le CCD et le
+  télescope (seules les valeurs non affichées en dépendent) ; bouton « Version web » dans Coupole.

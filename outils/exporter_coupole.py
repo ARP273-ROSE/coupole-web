@@ -82,7 +82,19 @@ def main(coupole: Path) -> None:
         'neutrino_moyen_kev': d3.NEUTRINO_MOYEN_KEV, 'condensation_k': d3.CONDENSATION_K,
         'formation_terre': d3.FORMATION_TERRE, 'formation_jupiter': d3.FORMATION_JUPITER,
         'distances_ua': d3.DISTANCES_UA,
+        'ballon_directions': directions_ballon(),
     })
+
+
+def directions_ballon() -> list:
+    """Directions des galaxies de Balloon Universe, tirées comme dans Coupole (numpy, graine 9)."""
+    import numpy as np
+    g = np.random.default_rng(9)
+    v = g.normal(size=(40, 3))
+    dirs = v / np.linalg.norm(v, axis=1)[:, None]
+    dirs[0] = (0.35, -0.6, 0.72)
+    dirs[0] /= np.linalg.norm(dirs[0])
+    return dirs.tolist()
 
 
 if __name__ == '__main__':
