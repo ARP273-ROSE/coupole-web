@@ -9,6 +9,8 @@ import { defineConfig, type Plugin } from 'vite';
  * l'installation, hors ligne complet) et une version tirée de leur contenu (une nouvelle version → mise à jour
  * proposée à l'utilisateur).
  */
+const INDEX_CONTENU = new Set(['contenu/modules.json', 'contenu/titres.json', 'contenu/recherche.json', 'contenu/relevant.json', 'contenu/q/macros.json', 'contenu/q/couleurs.json', 'contenu/images/images.json', 'contenu/sources.json']);
+
 function serviceWorker(): Plugin {
   return {
     name: 'coupole-service-worker',
@@ -30,9 +32,12 @@ function serviceWorker(): Plugin {
           else {
             const r = relative(publics, p).split('\\').join('/');
             if (r === 'sw.js' || r.endsWith('.txt') && r !== 'robots.txt') continue;
-            fichiers.add(r);
             h.update(r);
             h.update(readFileSync(p));
+            // contenus des modules (≈ 5 Mo) : seuls les index sont mis en cache à l'installation ; chaque question,
+            // fiche, table ou image l'est à sa première ouverture (le service worker garde tout ce qu'il sert)
+            if (r.startsWith('contenu/') && !INDEX_CONTENU.has(r)) continue;
+            fichiers.add(r);
           }
         }
       };

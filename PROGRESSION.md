@@ -13,6 +13,10 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
   voir ».
 - 0.3.0 : spectres sur bases physiques, Orion en 3D, fiche au survol générique, couleur vraie des étoiles, règle
   typographique (unités SI, signe moins, délimiteurs extensibles) sur tous les textes affichés.
+- 0.4.0 : navigation par les 22 modules de ClassAction (+ 2 bonus), 517 questions, 110 fiches, 14 tables, 109
+  schémas, 58 images ; recherche globale FR/EN ; Mes modules ; sauvegarde de tout (IndexedDB, export/import commun
+  avec le bureau, réinitialisation tout ou partie) ; Orion en 3D refaite sur le modèle de la Grande Ourse 3D avec M42
+  et IC 434 en volume ; intensités des spectres sur grille fine (PCHIP) et contraste pédagogique.
 - Lighthouse (mobile et bureau, catalogue, à propos, deux animations) : performances 97–100, accessibilité 100,
   bonnes pratiques 100, référencement 100.
 
@@ -356,6 +360,82 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   et la règle des animations ; formules du demandeur (« d = 10^((m − M + 5)/5) », « t ≈ 10¹⁰ × (M/M☉)^(−2,5) »,
   racine de « (1+β)/(1−β) »).
 
+
+### Modules, questions et ressources (0.4.0 ; `src/app/page_*.ts`, `src/contenu/*`)
+- Contenus importés par `outils/importer_contenu.py DOSSIER` dans `public/contenu/` (aucun fichier écrit à la main) :
+  `modules.json` (24 modules : ordre, numéros W/G/C/D, ressources), `q/<module>.json` (questions), `q/macros.json`,
+  `q/couleurs.json`, `q/images.json` + WebP, `fiches|tables|schemas/<id>.json`, `images/images.json` + WebP,
+  `recherche.json`, `titres.json`, `relevant.json` (★), `sources.json` ; moteur des questions recopié tel quel
+  (`src/contenu/moteur_questions.ts`) ; références de parité recalculées par le moteur Python de référence
+  (`tests/references/questions/banque_empreintes.json`). Quelques tournures sont neutralisées à l'import (dépôt public).
+  Ajouter des questions = relancer le script.
+- Chargement : la page d'accueil ne lit que `modules.json` (20 Ko compressés) ; pages des modules dans un morceau
+  (`pages_modules`, 32 Ko) avec sa feuille `classe.css` ; chaque question, fiche, table, image lue à l'ouverture ;
+  service worker : seuls les index sont préchargés, le reste est gardé à la première ouverture.
+- Adresses : `#/` accueil, `#/animations` catalogue, `#/m/<module>[/<onglet>]`, `#/m/<module>/q/<id>?p_<menu>=…&g=…`,
+  `#/mm/<id>` (module personnel), `#/mes-modules`, `#/progression`, `#/recherche?q=`, `#/r/<fiche|table|image>/<id>`.
+- Onglets : motif ARIA (flèches, Début, Fin), panneau rempli à la première ouverture ; bascule « ce module / tous les
+  modules » (groupés par module, comme ClassAction).
+- Question : menus construits depuis `parametres` (options indisponibles exclues), « Nouveau tirage » (graine) si la
+  question tire au hasard ou mélange ; choix en boutons radio (cases si plusieurs bonnes réponses), disposition
+  liste / ligne / grille / colonnes ; « Valider » note la tentative (choix, menus, graine), « Montrer la réponse » :
+  bonne réponse orange (#FF9900), 7 clignotements de 200 ms puis fixe, éléments `afficher: reponse` et explication ;
+  indice (texte et figure) ; statut « Question corrigée » / « Réponse établie pour Coupole » ; volet « Ce qui a
+  changé » ; ressources liées ★ (liens de l'original, puis choisis, puis par mots-clés en dernier, sans étoile).
+- Figures des questions : `figure_svg.ts` (port de rendu_svg.py des questions) → SVG, jetons de `couleurs.json` selon
+  le thème, `**…**` en couleur « valeur », `$…$` en MathML dans un `foreignObject`, cartes et globes avec les côtes
+  Natural Earth (chargées seulement si la figure en a), photos avec leur crédit sous la figure.
+- Fiches : HTML et MathML préparés (nettoyés par liste blanche, aucun style en ligne), schémas en SVG, encadrés
+  « Piège » et « Pour aller plus loin », « Ce qui a changé », sources repliables. Tables : `<table>` à en-têtes de
+  ligne et de colonne, nombres alignés à droite, source en infobulle.
+- Schémas : `schema_svg.ts` (port de rendu_svg.py des ressources) ; mesure réelle des textes par `measureText` pour la
+  marge du titre vertical et le cadre de vue (élargi si un texte en sort) ; contrôle de recouvrement repris
+  (tests : 109 schémas × FR/EN, 0 conflit) ; couleurs résolues par thème, redessinées au changement de thème.
+- Fenêtres de ressources : panneaux non modaux (role=dialog), barre déplaçable (pointeur ou flèches), redimensionnables
+  (`resize`), une par ressource, en cascade ; sous 720 px, en bas de l'écran ; Échap ferme ; elles restent ouvertes
+  quand la page change (question + fiche + table côte à côte).
+- Aperçu au survol : bulle de 196 × 156 px après 400 ms (fondu 300 ms) : résumé et premier schéma d'une fiche, 4
+  lignes d'une table, image réduite ; aussi au focus clavier.
+- Recherche : normalisation sans accents, chaque mot préfixe d'un mot du titre (×1,5), des mots-clés (×1,3), du
+  résumé (×1), dans les deux langues ; tri par nombre de mots trouvés puis score ; résultats par genre.
+
+### Sauvegarde (0.4.0 ; `src/contenu/sauvegarde.ts`, `src/app/stockage.ts`)
+- Format commun `coupole-sauvegarde` version 1 (portage Python identique au bureau, 34 cas de parité) ; migration de
+  la version 0 (clés « coupole-web:reglages:<id> », thème, langue) ; une version future n'est jamais écrasée.
+- IndexedDB (base `coupole-web`, magasin `etat`), repli localStorage, tout en try/catch ; écriture au plus tard 400 ms
+  après un changement (minuteur non relancé), copie de secours synchrone quand la page est cachée ou quittée (la plus
+  récente est reprise au chargement).
+- Export : JSON stable (clés triées) ; import : fusionner ou remplacer (confirmation, copie téléchargée avant) ;
+  réinitialisation : une animation, un module, réglages, réponses, Mes modules, préférences, tout ; « Annuler » 10 s.
+
+### Orion en 3D (0.4.0, refaite)
+- Mise en scène de la Grande Ourse 3D : direction d'Orion (α 84°, δ −1°) ramenée par une rotation (est et nord
+  gardés) à celle de la Grande Ourse ; Terre à l'origine ; sphère céleste de 450 pc ; étoiles principales (8 de la
+  figure + Hatysa + θ¹ Ori C) à leur distance (distance du groupe pour Alnilam, Mintaka, Meissa, Hatysa ; mesures
+  brutes en option) ; projections et figure (Stellarium) sur la sphère, épée en trait fin ; figure dans l'espace en
+  option ; toute la scène cadrée dans la toile ; vues instantanées « De côté » (172,5°, 12°, défaut) et « De face »
+  (352,5°, −55°) ; aucune lecture (ANIMEE = false).
+- M42 et IC 434 en volume (`src/calc/nebuleuses_orion.ts`, jumeau Python, référence commune) : 1 038 particules
+  pré-calculées (mulberry32), géométrie publiée, agrandies ×12 autour de leur centre avec leurs étoiles excitatrices,
+  triées par profondeur, sprites dégradés préparés une fois par couleur, gaz en mélange additif, poussière opaque ;
+  estompées en vue de face (sinon elles cachent la figure) ; mention « taille agrandie ×12, position et distance
+  exactes ; forme de M42 au-delà de 0,5 pc et profondeur d'IC 434 schématiques ».
+- Ciel nocturne (#06080E) dans les deux thèmes ; étiquettes 1,08 × la base, grasses, sur cartouche (placeur commun).
+- Gel signalé après le dépliement : non reproduit par mesure (Chromium et WebKit, processeur ralenti ×4 : aucune
+  boucle de rendu au repos, une tâche longue de 98 ms au premier affichage d'une photographie en plongée ; bureau :
+  6–14 ms par image dans les transitions) ; causes possibles supprimées à la racine (transitions automatiques de
+  2,2 s pilotant un curseur à chaque image, photographies décodées et transformées à chaque image) ; garde-fous : test
+  « aucune animation ne redessine au repos » sur les 94 animations (Playwright), test d'Orion (pas de tâche > 50 ms
+  en tournant, rendu court, aucune image au repos), test unitaire de durée.
+
+### Spectres (0.4.0)
+- Intensités des familles calculées tous les 1/8 de type (`intensites_fines.json`, 24 Ko compressés) par la physique du
+  modèle (outils/verif_anim/intensites_fines.py de Coupole), étalonnage interpolé par PCHIP (log T_eff, log g) ; aux
+  types entiers, écart ≤ 0,01 sur 100 avec la table du modèle ; le moteur interpole la grille fine par PCHIP ;
+  courbes tracées tous les 1/8 de type.
+- Bande de spectre : « contraste pédagogique » par défaut (raies élargies à 0,8 nm, résidu élevé au cube), dit sous
+  la bande et dans les valeurs ; « échelle réaliste » en option ; aussi dans la Parallaxe spectroscopique.
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,
@@ -414,6 +494,17 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - [x] WebKit : une scène observée avant sa mise en page pouvait rester 1 × 1 (redimension vérifiée jusqu’à la mise en
       page).
 - [x] Tests : 827 unitaires ; Playwright 3 moteurs × 3 formats ; 0.3.0.
+
+### 2026-10-14 — 0.4.0 : modules, questions, ressources, sauvegarde ; Orion refaite ; spectres lissés
+
+- [x] Contenus importés (24 modules, 517 questions, 110 fiches, 14 tables, 109 schémas, 58 + 3 images) ; moteur des
+      questions et sauvegarde identiques au bureau (empreintes, 34 cas).
+- [x] Accueil des modules, page de module à onglets, question, fenêtres de ressources, aperçu, recherche, Mes modules,
+      Ma progression, À propos, NOTICE (licences et crédits exacts).
+- [x] Orion en 3D sur le modèle de la Grande Ourse 3D, M42 et IC 434 en volume ; notes des fiches traduites.
+- [x] Explorateur de spectres : grille fine, PCHIP, contraste pédagogique.
+- [x] Tests : unitaires (contenus, typographie de tous les textes, schémas, moteur, sauvegarde), Playwright (modules,
+      questions, fenêtres, Mes modules, progression, Orion, repos des 94 animations), 3 moteurs × 3 formats.
 
 ## Reste à faire
 

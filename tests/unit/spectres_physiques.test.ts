@@ -5,10 +5,11 @@
  */
 import { describe, expect, it } from 'vitest';
 import DONNEES from '../../src/donnees/genere/modele_spectres.json';
+import FINES from '../../src/donnees/genere/intensites_fines.json';
 import REF from '../references/spectres_physiques.json';
 import { ModeleSpectres } from '../../src/calc/spectres_physiques';
 
-const m = new ModeleSpectres(DONNEES);
+const m = new ModeleSpectres(DONNEES, FINES);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ref = REF as any;
 const TOL = 1e-9;

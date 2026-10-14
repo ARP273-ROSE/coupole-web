@@ -62,6 +62,7 @@ export class ParallaxeSpectro extends Animation {
 
   sp!: Reglage;
   classe!: Choix;
+  echelle!: Choix;
   m!: Reglage;
   c_emission!: Coche;
   private graphe: [Rect, number, number] | null = null;
@@ -71,6 +72,7 @@ export class ParallaxeSpectro extends Animation {
     this.classe = this.choix('classe', CLASSES.map(([c, n]) => ['anim_spectroparallax_c_' + c, n] as [string, number]), 5);
     this.m = this.curseur('m', -5.0, 15.0, 1.0, { dec: 2 });
     this.c_emission = this.coche('emission', false);
+    this.echelle = this.choix('echelle', [['anim_spectrum010_e_pedago', 'pedagogique'], ['anim_spectrum010_e_realiste', 'realiste']], 'pedagogique', 'anim_spectrum010_echelle');
     this.graphe = null;
   }
 
@@ -97,6 +99,7 @@ export class ParallaxeSpectro extends Animation {
     ];
     const rq = remarques(this.sp.value(), this.cl()).filter((x) => !r.ancien || x !== tr('spectres_d_interpole'));
     if (rq.length) out.push([tr('anim_spectrum010_remarque'), rq.join(' ; ')]);
+    out.push([tr('anim_spectrum010_echelle_v'), tr(this.echelle.currentData() === 'pedagogique' ? 'anim_spectrum010_e_pedago_v' : 'anim_spectrum010_e_realiste_v')]);
     return out;
   }
 
@@ -199,6 +202,6 @@ export class ParallaxeSpectro extends Animation {
 
   private spectre(p: Peintre, r: Rect): void {
     const bande = new Rect(r.x + 8, r.y + 2, r.w - 16, Math.max(10, r.h - 18));
-    dessiner_bande(p, bande, this.sp.value(), this.cl(), this.c_emission.isChecked() ? 'emission' : 'absorption', null);
+    dessiner_bande(p, bande, this.sp.value(), this.cl(), this.c_emission.isChecked() ? 'emission' : 'absorption', null, true, this.echelle.currentData() === 'pedagogique', false);
   }
 }

@@ -1,12 +1,23 @@
 /**
  * Adresses (dans le fragment, pour un site statique) :
- *   #/                         catalogue (?q=recherche&t=thème)
+ *   #/                         accueil (modules) ; #/?q=… ou #/?t=… : catalogue (anciennes adresses)
+ *   #/animations?q=…&t=…       catalogue des animations (recherche, thème)
  *   #/a/<id>?cle=valeur&…      une animation, avec ses réglages (adresse partageable)
- *   #/apropos                  à propos
+ *   #/m/<module>[/<onglet>]    un module (onglets questions, animations, fiches, tables, images)
+ *   #/m/<module>/q/<question>?p_<menu>=<option>&g=<graine>   une question dans son module
+ *   #/mm/<id>[/<onglet>], #/mm/<id>/q/<question>             un module personnel (« Mes modules »)
+ *   #/mes-modules, #/progression, #/recherche?q=…, #/r/<fiche|table|image>/<id>, #/apropos
  */
 import type { EtatReglages } from '../anim/base';
 
 export type Route =
+  | { page: 'accueil' }
+  | { page: 'module'; cle: string; onglet: string; perso: boolean }
+  | { page: 'question'; cle: string; question: string; perso: boolean; params: URLSearchParams }
+  | { page: 'mes-modules'; nouveau: boolean }
+  | { page: 'progression' }
+  | { page: 'recherche'; q: string }
+  | { page: 'ressource'; genre: string; id: string }
   | { page: 'catalogue'; q: string; theme: string }
   | { page: 'animation'; id: string; etat: EtatReglages }
   | { page: 'apropos' };
@@ -27,7 +38,18 @@ export function lireRoute(hash = location.hash): Route {
     return { page: 'animation', id: decodeURIComponent(morceaux[1]), etat };
   }
   if (morceaux[0] === 'apropos') return { page: 'apropos' };
-  return { page: 'catalogue', q: params.get('q') ?? '', theme: params.get('t') ?? '' };
+  const id = (x: string | undefined): string => decodeURIComponent(x ?? '').slice(0, 80);
+  if ((morceaux[0] === 'm' || morceaux[0] === 'mm') && morceaux[1]) {
+    const perso = morceaux[0] === 'mm';
+    if (morceaux[2] === 'q' && morceaux[3]) return { page: 'question', cle: id(morceaux[1]), question: id(morceaux[3]), perso, params };
+    return { page: 'module', cle: id(morceaux[1]), onglet: id(morceaux[2]), perso };
+  }
+  if (morceaux[0] === 'mes-modules') return { page: 'mes-modules', nouveau: params.get('nouveau') === '1' };
+  if (morceaux[0] === 'progression') return { page: 'progression' };
+  if (morceaux[0] === 'recherche') return { page: 'recherche', q: (params.get('q') ?? '').slice(0, 200) };
+  if (morceaux[0] === 'r' && morceaux[1] && morceaux[2]) return { page: 'ressource', genre: id(morceaux[1]), id: id(morceaux[2]) };
+  if (morceaux[0] === 'animations' || params.has('q') || params.has('t')) return { page: 'catalogue', q: params.get('q') ?? '', theme: params.get('t') ?? '' };
+  return { page: 'accueil' };
 }
 
 export function adresseAnimation(id: string, etat: EtatReglages = {}): string {
@@ -42,7 +64,7 @@ export function adresseCatalogue(q = '', theme = ''): string {
   if (q) p.set('q', q);
   if (theme) p.set('t', theme);
   const s = p.toString();
-  return '#/' + (s ? '?' + s : '');
+  return '#/animations' + (s ? '?' + s : '');
 }
 
 /** Remplace l'adresse sans créer d'entrée d'historique ni déclencher de changement de page. */

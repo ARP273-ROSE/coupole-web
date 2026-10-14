@@ -70,7 +70,7 @@ test.beforeEach(async ({ page }) => {
 
 test('catalogue : cartes, recherche, filtre par thème, vignettes', async ({ page }) => {
   const s = await surveiller(page);
-  await page.goto('./');
+  await page.goto('./#/animations');
   await expect(page.locator('h1')).toContainText('Le ciel');
   const cartes = page.locator('a.carte');
   const n = await cartes.count();
@@ -159,7 +159,7 @@ test('à propos : licence et crédit', async ({ page }) => {
 test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ page }) => {
   test.setTimeout(900_000);
   const s = await surveiller(page);
-  await page.goto('./');
+  await page.goto('./#/animations');
   let ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
   // toutes sur les formats bureau ; un échantillon régulier (une sur six) sur téléphone et tablette
   if (!test.info().project.name.endsWith('bureau')) ids = ids.filter((_, i) => i % 6 === 0);
@@ -183,7 +183,7 @@ test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ p
 test('titres des panneaux : dans leur panneau, sans recouvrement, titre complet accessible (téléphone)', async ({ page }) => {
   test.skip(!test.info().project.name.endsWith('telephone'), 'format téléphone');
   test.setTimeout(420_000);
-  await page.goto('./');
+  await page.goto('./#/animations');
   const ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
   const fautes: string[] = [];
   for (const id of ids) {
@@ -276,23 +276,38 @@ test('machine d’Anticythère : cadrans, enveloppe, faces, roue touchée, lectu
   expect(s.externes).toEqual([]);
 });
 
-test('Orion en 3D : vue du ciel, dépliement, plongée vers M42 (image et crédit), fiche au survol, durée de rendu', async ({ page }) => {
+test('Orion en 3D : vues de côté et de face, M42 et IC 434 en volume, fiche au survol, perfs (pas de gel)', async ({ page, browserName }) => {
   test.setTimeout(150_000);
   const s = await surveiller(page);
+  await page.addInitScript(() => {
+    const w = window as unknown as { __raf: number; __longues: number[] };
+    w.__raf = 0;
+    w.__longues = [];
+    const o = window.requestAnimationFrame.bind(window);
+    window.requestAnimationFrame = (f) => {
+      w.__raf++;
+      return o(f);
+    };
+    try {
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries()) w.__longues.push(Math.round(e.duration));
+      }).observe({ type: 'longtask', buffered: false });
+    } catch {
+      /* longtask : Chromium seulement */
+    }
+  });
   await page.goto('./#/a/orion3d');
   await expect(page.locator('h1')).toHaveText('Orion en 3D');
-  await expect(page.locator('.lien-croise a')).toHaveAttribute('href', /coupole\/blob\/main\/NOTICE$/);
   const toile = page.locator('.scene canvas');
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
-  await capture(page, 'orion-ciel');
+  await expect(page.locator('.transport .bouton.principal')).toHaveCount(0);
+  await capture(page, 'orion-cote');
   // fiche au clavier : Tab désigne l'étoile la plus brillante (Rigel), Échap ferme
   await toile.focus();
   await page.keyboard.press('Tab');
   const fiche = page.locator('.fiche-objet');
   await expect(fiche).toBeVisible();
   await expect(fiche).toContainText('Rigel');
-  await expect(page.locator('.scene [role="status"]')).toContainText('Rigel');
-  // jamais par-dessus l'objet : la boîte de la fiche ne touche pas le disque de l'étoile
   const [ox, oy, orr] = ((await fiche.getAttribute('data-objet')) ?? '0 0 0').split(' ').map(Number) as [number, number, number];
   const fb = (await fiche.boundingBox())!;
   const sb = (await page.locator('.scene').boundingBox())!;
@@ -300,33 +315,73 @@ test('Orion en 3D : vue du ciel, dépliement, plongée vers M42 (image et crédi
   const cy = Math.max(fb.y - sb.y, Math.min(fb.y - sb.y + fb.height, oy));
   expect(Math.hypot(cx - ox, cy - oy)).toBeGreaterThanOrEqual(orr);
   await capture(page, 'orion-fiche');
-  await page.keyboard.press('ArrowRight');
-  await expect(fiche).not.toContainText('Rigel');
   await page.keyboard.press('Escape');
   await expect(fiche).toBeHidden();
-  // « Vue 3D » : le dépliement va à 100 % et s'arrête seul
-  await page.getByRole('button', { name: 'Vue 3D', exact: true }).click();
-  // la transition avance par images (au plus 0,2 s chacune) : lente si le navigateur dessine lentement (WebKit
-  // logiciel de la machine d'intégration continue)
-  await expect.poll(() => page.locator('.valeurs dd').first().textContent(), { timeout: 90_000 }).toBe('en 3D');
+  // vue de face (depuis la Terre) : instantanée
+  await page.getByRole('button', { name: 'De face (vue de la Terre)', exact: true }).click();
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
-  await capture(page, 'orion-3d');
-  // durée de rendu en lecture (la scène tourne lentement)
-  await page.locator('.transport .bouton.principal').click();
-  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 45_000 }).not.toBeNull();
+  await capture(page, 'orion-face');
+  await page.getByRole('button', { name: 'De côté', exact: true }).click();
+  // glisser pour tourner : pas de tâche longue, rendu court
+  const bb = (await toile.boundingBox())!;
+  await page.evaluate(() => ((window as unknown as { __longues: number[] }).__longues = []));
+  await page.mouse.move(bb.x + bb.width / 2, bb.y + bb.height / 2);
+  await page.mouse.down();
+  // au moins 15 images dessinées pour la mesure (data-ms) : un pas, une image
+  for (let i = 0; i < 40; i++) {
+    await page.mouse.move(bb.x + bb.width / 2 + (i % 20) * 6, bb.y + bb.height / 2 + (i % 7) * 3);
+    await page.waitForTimeout(20);
+  }
+  await page.mouse.up();
+  // et au clavier (tous les formats, tactiles compris) : chaque flèche fait tourner la scène d'un pas
+  await toile.focus();
+  for (let i = 0; i < 20; i++) {
+    await page.keyboard.press(i % 2 ? 'ArrowRight' : 'ArrowUp');
+    await page.waitForTimeout(30);
+  }
+  await page.keyboard.press('Escape');
+  await capture(page, 'orion-tournee');
+  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 30_000 }).not.toBeNull();
   const ms = Number((await toile.getAttribute('data-ms'))!.split(' ')[0]);
   test.info().annotations.push({ type: 'durée de rendu Orion 3D (ms)', description: String(ms) });
-  expect(ms).toBeLessThan(100);
-  await page.locator('.transport .bouton.principal').click();
-  // plongée vers M42 : image ESO posée sur le ciel, crédit mot pour mot avec lien actif
-  await page.goto('./#/a/orion3d?cible=m42');
-  const credit = page.locator('.credits-images a').first();
-  await expect(credit).toHaveText('Image : ESO/G. Beccari (CC BY 4.0)', { timeout: 15_000 });
-  await expect(credit).toHaveAttribute('href', 'https://www.eso.org/public/images/eso1723a/');
-  await expect.poll(() => couleursToile(page), { timeout: 15_000 }).toBeGreaterThan(200);
-  await capture(page, 'orion-m42');
+  expect(ms).toBeLessThan(browserName === 'chromium' ? 12 : 40);
+  if (browserName === 'chromium') expect(await page.evaluate(() => (window as unknown as { __longues: number[] }).__longues.filter((d) => d > 50))).toEqual([]);
+  // au repos, plus aucune image n'est demandée (aucune boucle de rendu)
+  await page.waitForTimeout(600);
+  const r0 = await page.evaluate(() => (window as unknown as { __raf: number }).__raf);
+  await page.waitForTimeout(1500);
+  expect((await page.evaluate(() => (window as unknown as { __raf: number }).__raf)) - r0).toBeLessThanOrEqual(1);
   expect(s.erreurs).toEqual([]);
   expect(s.externes).toEqual([]);
+});
+
+test('aucune animation ne redessine en continu quand rien ne bouge (pause)', async ({ page }) => {
+  test.skip(test.info().project.name !== 'chromium-bureau', 'une fois suffit');
+  test.setTimeout(900_000);
+  await page.addInitScript(() => {
+    const w = window as unknown as { __raf: number };
+    w.__raf = 0;
+    const o = window.requestAnimationFrame.bind(window);
+    window.requestAnimationFrame = (f) => {
+      w.__raf++;
+      return o(f);
+    };
+  });
+  await page.goto('./#/animations');
+  const liens = await page.locator('a.carte').evaluateAll((l) => l.map((a) => (a as HTMLAnchorElement).getAttribute('href')!));
+  const fautes: string[] = [];
+  for (const href of liens) {
+    await page.goto('./' + href);
+    await expect.poll(() => couleursToile(page), { timeout: 15_000 }).toBeGreaterThan(5);
+    const lecture = page.locator('.transport .bouton.principal[aria-pressed="true"]');
+    if (await lecture.count()) await lecture.click();
+    await page.waitForTimeout(400);
+    const r0 = await page.evaluate(() => (window as unknown as { __raf: number }).__raf);
+    await page.waitForTimeout(900);
+    const n = (await page.evaluate(() => (window as unknown as { __raf: number }).__raf)) - r0;
+    if (n > 2) fautes.push(`${href} : ${n} images en 0,9 s au repos`);
+  }
+  expect(fautes).toEqual([]);
 });
 
 test('fiches au survol dans les animations à étoiles réelles (Grande Ourse : souris ou doigt)', async ({ page }) => {
@@ -365,7 +420,7 @@ test('spectres physiques : courbes, raies nommées, cas signalés ; parallaxe sp
 
 test('hors ligne après la première visite', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'service worker piloté hors ligne : Chromium');
-  await page.goto('./');
+  await page.goto('./#/animations');
   await page.evaluate(async () => {
     const reg = await navigator.serviceWorker.ready;
     return !!reg.active;

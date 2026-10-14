@@ -45,14 +45,41 @@ const EXPRESSIONS_EN: [RegExp, string][] = [
   [/naine de même sous-type/g, 'dwarf of the same subtype'],
   [/table révisée/g, 'revised table'],
   [/point zéro/g, 'zero point'],
+  // notes et commentaires des fiches d'Orion (âges, distances) : traduits plutôt que coupés
+  [/Tête \(ISF\) ; la Queue s'étend jusqu'à ≈ 470 pc/g, 'Head (ISF); the Tail extends to ≈ 470 pc'],
+  [/squelette 3D \(plage /g, '3D skeleton (range '],
+  [/\(moyennes/g, '(means'],
+  [/mesure propre peu fiable/g, 'own measurement unreliable'],
+  [/, cité par /g, ', cited by '],
+  [/\(cité par /g, '(cited by '],
+  [/ cité par /g, ' cited by '],
+  [/\(intervalle 3σ\)/g, '(3σ interval)'],
+  [/composante Aa/g, 'component Aa'],
+  [/distance photométrique/g, 'photometric distance'],
+  [/\(modèle, à prendre avec prudence pour une étoile brillante\)/g, '(model, to be taken with caution for a bright star)'],
+  [/ONC dont le Trapèze/g, 'ONC including the Trapezium'],
+  [/distance de σ Ori AB/g, 'distance of σ Ori AB'],
+  [/même hypothèse que la Tête de Cheval/g, 'same assumption as the Horsehead'],
+  [/vestige de supernova possible/g, 'possible supernova remnant'],
+  [/rétroaction de l'amas /g, 'feedback from the cluster '],
+  [/ depuis ∼/g, ' for ∼'],
+  [/estimée de B−V de la composante /g, 'estimated from B−V of the component '],
+  [/ via la séquence des naines de /g, ' via the dwarf sequence of '],
 ];
+
+/** Texte de fiche en français → anglais (expressions connues, virgule décimale, « : » sans espace avant). */
+export function traduire_en(t: string): string {
+  for (const [re, v] of EXPRESSIONS_EN) t = t.replace(re, v);
+  t = t.replace(/(\d),(\d)/g, '$1.$2');
+  return t.replace(/ ([:;]) /g, '$1 ');
+}
 
 /** Source courte et dans la langue : en anglais, le commentaire en français qui suit la référence est retiré. */
 export function source_courte(s: string | undefined | null, lg = langue()): string {
   if (!s) return '';
   let t = s.trim();
   if (lg === 'en') {
-    for (const [re, v] of EXPRESSIONS_EN) t = t.replace(re, v);
+    t = traduire_en(t);
     for (const sep of [' — ', ' ; ', ' (VizieR', ', voir', ' : «', ', résumé']) {
       const i = t.indexOf(sep);
       if (i > 0) t = t.slice(0, i);
@@ -143,7 +170,10 @@ export function contenu_fiche(f: Fiche, lg = langue()): ContenuFiche {
   if (age) {
     if (typeof age.valeur_Myr === 'number')
       L.push({ libelle: tr('anim_fiche_age'), valeur: `${nombre(age.valeur_Myr, 1)}${typeof age.err_Myr === 'number' ? ` ± ${nombre(age.err_Myr, 1)}` : ''} ${tr('anim_fiche_ma')}`, source: source_courte(age.ref, lg) });
-    else if (age.note) L.push({ libelle: tr('anim_fiche_age'), valeur: source_courte(age.note, 'fr'), source: '' });
+    else if (age.note) {
+      const note = lg === 'en' ? traduire_en(age.note.trim()) : age.note.trim();
+      L.push({ libelle: tr('anim_fiche_age'), valeur: note.length > 150 ? note.slice(0, 149).trimEnd() + '…' : note, source: '' });
+    }
   }
   if (f.etoiles_excitatrices?.length)
     L.push({ libelle: tr('anim_fiche_excitatrices'), valeur: f.etoiles_excitatrices.map((s) => s.replace(/^\* /, '').split(' (')[0]!.split(' — ')[0]!.trim()).join(', '), source: '' });

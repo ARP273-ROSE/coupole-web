@@ -16,7 +16,7 @@ import { COULEURS_FAMILLES, dessiner_bande, FAMILLES, LAMBDA_MAX, LAMBDA_MIN, ty
 const T_AXE = [40000, 30000, 20000, 15000, 10000, 8000, 7000, 6000, 5000, 4000, 3500, 3000];
 const NOMS_H: Record<string, string> = { '656.3': 'Hα', '486.1': 'Hβ', '434.0': 'Hγ', '410.2': 'Hδ', '397.0': 'Hε', '388.9': 'H8', '383.5': 'H9' };
 
-/** Courbes des intensités d'une classe (0 à 69 par quart de type) : mises en cache. */
+/** Courbes des intensités d'une classe (0 à 69 par huitième de type) : mises en cache. */
 const COURBES = new Map<string, Record<string, [number, number][]>>();
 function courbes(classe: string): Record<string, [number, number][]> {
   let c = COURBES.get(classe);
@@ -24,8 +24,9 @@ function courbes(classe: string): Record<string, [number, number][]> {
     const m = modele();
     c = {};
     for (const f of [...FAMILLES, 'ch']) c[f] = [];
-    for (let k = 0; k <= 276; k++) {
-      const t = k / 4;
+    // 8 points par type (comme la grille fine du modèle) : courbes lisses, sans cassure
+    for (let k = 0; k <= 552; k++) {
+      const t = k / 8;
       const it = m.intensites(t, classe);
       for (const f of Object.keys(c)) c[f]!.push([t, it[f]!]);
     }
@@ -66,12 +67,14 @@ export class ExplorateurSpectres extends Animation {
   mode!: Choix;
   sp!: Reglage;
   classe!: Choix;
+  echelle!: Choix;
   cases: Record<string, Coche> = {};
 
   override construire(): void {
     this.mode = this.choix('mode', [['anim_spectrum010_continu', 'continu'], ['anim_spectrum010_emission', 'emission'], ['anim_spectrum010_absorption', 'absorption']], 'absorption');
     this.sp = this.curseur('type', 0.0, 69.0, 42.0, { dec: 0 });
     this.classe = this.choix('classe', [['anim_spectroparallax_c_I', 'I'], ['anim_spectroparallax_c_III', 'III'], ['anim_spectroparallax_c_V', 'V']], 'V');
+    this.echelle = this.choix('echelle', [['anim_spectrum010_e_pedago', 'pedagogique'], ['anim_spectrum010_e_realiste', 'realiste']], 'pedagogique');
     this.cases = {};
     for (const f of FAMILLES) this.cases[f] = this.coche('f_' + f, true);
     this.etat();
@@ -107,6 +110,7 @@ export class ExplorateurSpectres extends Animation {
     const e = modele().etalonnage(t, cl);
     const out: [string, string][] = [
       [tr('anim_spectrum010_mode_v'), tr('anim_spectrum010_' + mode)],
+      [tr('anim_spectrum010_echelle_v'), tr(this.echelle.currentData() === 'pedagogique' ? 'anim_spectrum010_e_pedago_v' : 'anim_spectrum010_e_realiste_v')],
       [tr('anim_spectrum010_type_v'), `${hr.nom_type(t)} ${cl}`],
       [tr('anim_stellarlum_temperature'), `${nombre(e.teff, 0)} K`],
       [tr('anim_spectrum010_logg'), nombre(e.logg, 2)],
@@ -136,7 +140,7 @@ export class ExplorateurSpectres extends Animation {
     const hautNoms = mode === 'absorption' && r.h > 90 ? fm.height() * 0.85 + 4 : 0;
     const bande = new Rect(r.x + 10, r.y + 6 + hautNoms, r.w - 20, Math.max(24.0, r.h - 34 - hautNoms - basNote));
     const fam = mode === 'continu' ? [] : this.familles();
-    dessiner_bande(p, bande, t, cl, mode, mode === 'continu' ? null : fam);
+    dessiner_bande(p, bande, t, cl, mode, mode === 'continu' ? null : fam, true, this.echelle.currentData() === 'pedagogique');
     if (hautNoms) this.noms_raies(p, bande, t, cl, fam);
     if (rq.length) {
       dessin.police(p, 0.8);

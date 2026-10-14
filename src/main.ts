@@ -7,7 +7,9 @@ import { chargerCatalogue, choisirLangue, type Langue, langue, langueDuNavigateu
 import { annoncer, h, icone } from './app/dom';
 import { type Page, pageApropos } from './app/page_apropos';
 import { pageCatalogue } from './app/page_catalogue';
+import { pageAccueil } from './app/page_accueil';
 import * as prefs from './app/prefs';
+import * as stockage from './app/stockage';
 import { lireRoute, type Route } from './app/routeur';
 
 type ChoixTheme = 'auto' | 'sombre' | 'clair';
@@ -50,9 +52,16 @@ function construireEntete(): void {
   const nav = document.getElementById('nav')!;
   const outils = document.getElementById('outils')!;
   nav.setAttribute('aria-label', tr('web_nav'));
+  const lien = (href: string, page: string, ico: Parameters<typeof icone>[0], cle: string): HTMLAnchorElement => {
+    const a = h('a', { href, 'data-page': page, title: tr(cle) }, icone(ico), h('span', { class: 'nav-texte', text: tr(cle) }));
+    return a;
+  };
   nav.replaceChildren(
-    h('a', { href: '#/', 'data-page': 'catalogue', text: tr('web_nav_catalogue') }),
-    h('a', { href: '#/apropos', 'data-page': 'apropos', text: tr('web_nav_apropos') }),
+    lien('#/', 'accueil', 'modules', 'web_nav_modules'),
+    lien('#/animations', 'catalogue', 'animation', 'web_nav_catalogue'),
+    lien('#/mes-modules', 'mes-modules', 'dossier', 'web_nav_mes_modules'),
+    lien('#/progression', 'progression', 'progres', 'web_nav_progression'),
+    lien('#/apropos', 'apropos', 'info', 'web_nav_apropos'),
   );
   document.querySelector('.marque')?.setAttribute('aria-label', tr('web_marque_aide'));
   const evitement = document.querySelector('.evitement');
@@ -75,6 +84,7 @@ function construireEntete(): void {
   bTheme.addEventListener('click', () => {
     choixTheme = choixTheme === 'auto' ? 'sombre' : choixTheme === 'sombre' ? 'clair' : 'auto';
     prefs.ecrire('theme', choixTheme);
+    stockage.memoriserPreference('theme', choixTheme);
     appliquerTheme();
     majTheme();
   });
@@ -85,6 +95,7 @@ function construireEntete(): void {
 async function changerLangue(l: Langue): Promise<void> {
   if (l === langue()) return;
   prefs.ecrire('langue', l);
+  stockage.memoriserPreference('langue', l);
   await chargerCatalogue(l);
   choisirLangue(l);
   racine.lang = l;
@@ -94,8 +105,9 @@ async function changerLangue(l: Langue): Promise<void> {
 
 // ------------------------------------------------------------------ pages
 function marquerNav(route: Route): void {
+  const p = route.page === 'module' || route.page === 'question' ? (route.perso ? 'mes-modules' : 'accueil') : route.page === 'animation' ? 'catalogue' : route.page;
   document.querySelectorAll<HTMLAnchorElement>('#nav a').forEach((a) => {
-    const actif = a.dataset.page === route.page;
+    const actif = a.dataset.page === p;
     if (actif) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
   });
@@ -109,7 +121,19 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
     const m = await import('./app/page_animation');
     nouvelle = await m.pageAnimation(route.id, route.etat);
   } else if (route.page === 'apropos') nouvelle = pageApropos();
-  else nouvelle = pageCatalogue(route.q, route.theme);
+  else if (route.page === 'catalogue') nouvelle = pageCatalogue(route.q, route.theme);
+  else if (route.page === 'accueil') {
+    await stockage.pret();
+    nouvelle = pageAccueil();
+  } else {
+    if (!page) contenu.replaceChildren(h('p', { class: 'page', text: tr('web_chargement') }));
+    try {
+      nouvelle = await pageModules(route);
+    } catch (err) {
+      console.error(err);
+      nouvelle = { el: h('div', { class: 'page' }, h('p', { class: 'erreur', role: 'alert', text: tr('web_ressource_indisponible') })), titre: 'Coupole Web', detruire() {} };
+    }
+  }
   if (n !== jeton) {
     nouvelle.detruire();
     return;
@@ -125,7 +149,24 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
   }
 }
 
+/** Pages des modules, questions, ressources, recherche, progression : un morceau chargé à la demande. */
+async function pageModules(route: Route): Promise<Page> {
+  const m = await import('./app/pages_modules');
+  return m.page(route);
+}
+
 window.addEventListener('hashchange', () => void afficher(lireRoute()));
+window.addEventListener('coupole:rafraichir', () => void afficher(lireRoute(), false));
+// préférences importées ou effacées : thème et langue suivent la sauvegarde
+window.addEventListener('coupole:preferences', () => {
+  const t = stockage.preference('theme');
+  choixTheme = t === 'sombre' || t === 'clair' ? t : 'auto';
+  prefs.ecrire('theme', choixTheme);
+  appliquerTheme();
+  construireEntete();
+  const l = stockage.preference('langue');
+  if ((l === 'fr' || l === 'en') && l !== langue()) void changerLangue(l);
+});
 
 // ------------------------------------------------------------------ service worker
 function enregistrerServiceWorker(): void {
@@ -175,6 +216,7 @@ function enregistrerServiceWorker(): void {
 
 // ------------------------------------------------------------------ démarrage
 async function demarrer(): Promise<void> {
+  void stockage.pret();
   const l = langueDepart();
   await chargerCatalogue(l);
   // l'autre langue sert à la recherche (noms et descriptions FR et EN)

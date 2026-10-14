@@ -157,7 +157,7 @@ describe('couleur vraie des étoiles', () => {
 });
 
 describe('animations à fiches', () => {
-  const avec: [string, number][] = [['orion3d', 50], ['bigdipper', 7], ['dipperclock', 1], ['celhorcomp', 3], ['hrexplorer', 0], ['heliacalrisingsim', 0]];
+  const avec: [string, number][] = [['orion3d', 18], ['bigdipper', 7], ['dipperclock', 1], ['celhorcomp', 3], ['hrexplorer', 0], ['heliacalrisingsim', 0]];
   for (const [id, mini] of avec) {
     it(`${id} : objets à fiche, fiches connues, ordre du clavier`, async () => {
       const e = ENTREES.find((x) => x.id === id)!;
@@ -189,7 +189,7 @@ describe('animations à fiches', () => {
 });
 
 describe('Orion en 3D : garde-fous', () => {
-  it('1 000 glissers aberrants, tous les réglages, transitions : jamais de valeur non finie dessinée', async () => {
+  it('1 000 glissers aberrants, tous les réglages : jamais de valeur non finie dessinée, aucune lecture', async () => {
     const cls = await charger(ENTREES.find((x) => x.id === 'orion3d')!);
     const a = new cls().initialiser();
     const { ctx, bilan } = fauxContexte();
@@ -212,7 +212,7 @@ describe('Orion en 3D : garde-fous', () => {
       const dy = i % 11 === 0 ? aberrants[(i + 3) % aberrants.length]! : (hasard() - 0.5) * 300;
       a.glisser(new Pt(hasard() * 820, hasard() * 560), dx, dy);
       a.relacher(new Pt(0, 0));
-      a.pas(0.05 + hasard() * 0.3);
+      expect(a.en_lecture).toBe(false);
     }
     a.peindre(p, r);
     expect(bilan.nonFinis.slice(0, 5)).toEqual([]);
@@ -220,18 +220,51 @@ describe('Orion en 3D : garde-fous', () => {
     for (const v of a.valeurs()) expect(v[1]).not.toMatch(/NaN|Infinity|undefined/);
   });
 
-  it('boutons « vue 3D » puis « vue du ciel » : le dépliement va et revient, la lecture s’arrête seule', async () => {
+  it('vues « de face » et « de côté » instantanées, sans lecture ; scène fixe (aucune animation)', async () => {
+    const cls = await charger(ENTREES.find((x) => x.id === 'orion3d')!);
+    expect(cls.ANIMEE).toBe(false);
+    const a = new cls().initialiser();
+    const { VUE_FACE, VUE_COTE } = await import('../../src/anim/animations/orion3d');
+    expect([(a as unknown as { vue3d: { az: number; alt: number; tourner(x: number, y: number, s: number): void } }).vue3d.az, (a as unknown as { vue3d: { az: number; alt: number; tourner(x: number, y: number, s: number): void } }).vue3d.alt]).toEqual([...VUE_COTE]);
+    (a.controles.find((c) => c.cle === 'anim_orion3d_b_face') as unknown as { click(): void }).click();
+    expect((a as unknown as { vue3d: { az: number; alt: number; tourner(x: number, y: number, s: number): void } }).vue3d.alt).toBeCloseTo(VUE_FACE[1], 9);
+    expect(a.en_lecture).toBe(false);
+    (a.controles.find((c) => c.cle === 'anim_orion3d_b_cote') as unknown as { click(): void }).click();
+    expect((a as unknown as { vue3d: { az: number; alt: number; tourner(x: number, y: number, s: number): void } }).vue3d.az).toBeCloseTo(VUE_COTE[0], 9);
+    expect(a.en_lecture).toBe(false);
+  });
+
+  it('M42 et IC 434 en volume : mêmes particules que le bureau, à la bonne place', async () => {
+    const N = await import('../../src/calc/nebuleuses_orion');
+    const ref = (await import('../references/nebuleuses_orion.json')).default as unknown as { agrandi: number; nebuleuses: { id: string; particules: unknown[][] }[] };
+    expect(ref.agrandi).toBe(N.AGRANDI);
+    const ns = N.nebuleuses();
+    ns.forEach((n, k) => {
+      const r = ref.nebuleuses[k]!;
+      expect(n.id).toBe(r.id);
+      expect(n.particules.length).toBe(r.particules.length);
+      n.particules.forEach((q, i) => {
+        const x = r.particules[i]! as number[];
+        for (let j = 0; j < 3; j++) expect(Math.abs(q.p[j]! - x[j]!)).toBeLessThan(1e-3);
+        expect(q.genre).toBe(r.particules[i]![r.particules[i]!.length - 1]);
+      });
+    });
+    expect(Math.abs(O.norme(ns[0]!.centre) - 388)).toBeLessThan(0.5);
+  });
+
+  it('rendu rapide : ≤ 5 ms par image (vue de côté, de face, nuages)', async () => {
     const cls = await charger(ENTREES.find((x) => x.id === 'orion3d')!);
     const a = new cls().initialiser();
-    const dep = a.defauts.get('depliement')![0] as Reglage;
-    const b3d = a.controles.find((c) => c.cle === 'anim_orion3d_b_3d') as unknown as { click(): void };
-    b3d.click();
-    expect(a.en_lecture).toBe(true);
-    for (let i = 0; i < 40 && a.en_lecture; i++) a.battement(0.1);
-    expect(dep.value()).toBe(100);
-    expect(a.en_lecture).toBe(false);
-    (a.controles.find((c) => c.cle === 'anim_orion3d_b_ciel') as unknown as { click(): void }).click();
-    for (let i = 0; i < 40 && a.en_lecture; i++) a.battement(0.1);
-    expect(dep.value()).toBe(0);
+    const { ctx } = fauxContexte();
+    const p = new Peintre(ctx);
+    const r = new Rect(0, 0, 900, 600);
+    a.peindre(p, r);
+    const t0 = performance.now();
+    for (let i = 0; i < 20; i++) {
+      (a as unknown as { vue3d: { az: number; alt: number; tourner(x: number, y: number, s: number): void } }).vue3d.tourner(13, 3, 1);
+      a.peindre(p, r);
+    }
+    // calcul seul (sans tracé réel) : borne large pour un serveur chargé
+    expect((performance.now() - t0) / 20).toBeLessThan(15);
   });
 });

@@ -7,8 +7,7 @@ Usage : python3 outils/exporter_coupole.py CHEMIN_DU_DEPOT_COUPOLE
   src/i18n/genere/{catalogue,anim}.{fr,en}.json   textes FR/EN (mêmes clés que Coupole)
   src/donnees/genere/catalogue.json               les 93 animations (id, thème, titre et fichier d'origine), lots
   src/donnees/genere/*.json                       données des animations (spectres, binaires, étoiles… ; côtes : cotes_natural_earth.py)
-  public/orion/*.webp                             images d'Orion en 3D (ESO, ESA/Hubble, CC BY 4.0), chargées à la demande
-  tests/references/{spectres_physiques,couleurs_reference,orion3d_reference,typographie_reference,typographie_cas}.json   références communes au bureau et au web
+  tests/references/{spectres_physiques,couleurs_reference,orion3d_reference,nebuleuses_orion,typographie_reference,typographie_cas}.json   références communes au bureau et au web
 
 Seules les bibliothèques standard sont nécessaires ; les modules importés de Coupole sont ceux sans Qt."""
 from __future__ import annotations
@@ -71,19 +70,21 @@ def main(coupole: Path) -> None:
     ecrire(g / 'binaires.json', lire_gz(anim / 'donnees' / 'binaires.json.gz'))
     # spectres physiques, Orion en 3D, fiches au survol, couleur vraie des étoiles (outils/donnees_etoiles_reelles.py
     # de Coupole)
-    for nom in ('modele_spectres', 'spectres_atmosphere', 'couleurs_etoiles', 'orion3d', 'fiches', 'etoiles_reelles'):
+    for nom in ('modele_spectres', 'spectres_atmosphere', 'intensites_fines', 'couleurs_etoiles', 'orion3d', 'fiches', 'etoiles_reelles'):
         ecrire(g / (nom + '.json'), lire_gz(anim / 'donnees' / (nom + '.json.gz')))
+    # Orion en 3D (0.4.0) n'emploie plus de photographies : M42 et IC 434 sont dessinées en volume
     images = ICI / 'public' / 'orion'
-    images.mkdir(parents=True, exist_ok=True)
-    for f in sorted((anim / 'donnees' / 'orion').glob('*.webp')):
-        (images / f.name).write_bytes(f.read_bytes())
-        print('%-50s %8d octets' % ((images / f.name).relative_to(ICI), f.stat().st_size))
+    if images.exists():
+        for f in images.iterdir():
+            f.unlink()
+        images.rmdir()
     refs = ICI / 'tests' / 'references'
     ecrire(refs / 'spectres_physiques.json', lire_gz(coupole / 'tests' / 'spectres_physiques_reference.json.gz'))
     ecrire(refs / 'couleurs_reference.json', json.loads((coupole / 'tests' / 'couleurs_reference.json').read_text('utf-8')))
     ecrire(refs / 'typographie_cas.json', json.loads((coupole / 'tests' / 'typographie_cas.json').read_text('utf-8')))
     ecrire(refs / 'typographie_reference.json', json.loads((coupole / 'tests' / 'typographie_reference.json').read_text('utf-8')))
     ecrire(refs / 'orion3d_reference.json', json.loads((coupole / 'tests' / 'orion3d_reference.json').read_text('utf-8')))
+    ecrire(refs / 'nebuleuses_orion.json', json.loads((coupole / 'tests' / 'nebuleuses_orion_reference.json').read_text('utf-8')))
     ecrire(g / 'etoiles.json', {'proches': donnees_etoiles.PROCHES, 'brillantes': donnees_etoiles.BRILLANTES,
                                 'communes': donnees_etoiles.COMMUNES})
     ecrire(g / 'eclipses.json', {'soleil': donnees_eclipses.SOLEIL, 'lune': donnees_eclipses.LUNE,

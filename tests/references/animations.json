@@ -20552,22 +20552,14 @@ true
 "lecture_au_depart": false
 },
 "orion3d": {
-"animee": true,
+"animee": false,
 "changements": [
 [
-"depliement",
-77.0
+"unite",
+"pc"
 ],
 [
-"cible",
-"tete"
-],
-[
-"image",
-"hubble"
-],
-[
-"figure",
+"lignes",
 false
 ],
 [
@@ -20575,23 +20567,31 @@ false
 false
 ],
 [
+"sphere",
+false
+],
+[
+"figure",
+false
+],
+[
 "nebuleuses",
 false
 ],
 [
-"images",
-false
+"nuages",
+true
 ],
 [
 "barres",
 false
 ],
 [
-"accentuees",
+"brutes",
 true
 ],
 [
-"brutes",
+"accentuees",
 true
 ]
 ],
@@ -20601,65 +20601,56 @@ true
 "creation",
 [
 [
-"View",
-"the sky seen from the Earth"
+"Betelgeuse",
+"168.1 (−14.9/+27.5) pc · 548 ly"
 ],
 [
-"Looking at",
-"All of Orion"
+"Bellatrix",
+"77.4 (−3.0/+3.2) pc · 252 ly"
 ],
 [
-"Closest star of the figure",
-"Tabit : 8.1 pc (26 ly)"
+"Meissa",
+"≈ 404 pc · 1 318 ly (measured: 336.7 (−52.6/+76.5) pc)"
 ],
 [
-"Farthest star of the figure",
-"χ² Ori : 552 pc (1 802 ly)"
+"Mintaka",
+"≈ 380 pc · 1 239 ly (measured: 212.3 (−23.3/+29.8) pc)"
 ],
 [
-"Belt",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Alnilam",
+"≈ 380 pc · 1 239 ly (measured: 606.1 (−129.9/+227.3) pc)"
 ],
 [
-"Distances",
-"published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
+"Alnitak",
+"387.0 ± 54.0 pc · 1 262 ly"
 ],
 [
-"Scale",
-"everything is to scale except the size of the stars (by magnitude)"
-]
-]
+"Saiph",
+"198.4 (−8.3/+9.1) pc · 647 ly"
 ],
 [
-"pas",
-[
-[
-"View",
-"the sky seen from the Earth"
+"Rigel",
+"264.6 (−21.8/+26.1) pc · 863 ly"
 ],
 [
-"Looking at",
-"All of Orion"
+"Hatysa",
+"≈ 412 pc · 1 344 ly (measured: 714.3 (−97.0/+133.2) pc)"
 ],
 [
-"Closest star of the figure",
-"Tabit : 8.1 pc (26 ly)"
+"Trapezium (θ¹ Ori C)",
+"388.0 ± 5.0 pc · 1 265 ly"
 ],
 [
-"Farthest star of the figure",
-"χ² Ori : 552 pc (1 802 ly)"
+"M42",
+"388 pc · 1 265 ly"
 ],
 [
-"Belt",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Horsehead",
+"387.5 pc · 1 264 ly"
 ],
 [
 "Distances",
 "published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
-],
-[
-"Scale",
-"everything is to scale except the size of the stars (by magnitude)"
 ]
 ]
 ],
@@ -20667,69 +20658,56 @@ true
 "reglages",
 [
 [
-"View",
-"unfolding 77 %"
+"Betelgeuse",
+"168.1 (−14.9/+27.5) pc · 548 ly"
 ],
 [
-"Looking at",
-"the Horsehead"
+"Bellatrix",
+"77.4 (−3.0/+3.2) pc · 252 ly"
 ],
 [
-"Closest star of the figure",
-"Tabit : 8.1 pc (26 ly)"
+"Meissa",
+"336.7 (−52.6/+76.5) pc · 1 098 ly"
 ],
 [
-"Farthest star of the figure",
-"Alnilam : 606 pc (1 977 ly)"
+"Mintaka",
+"212.3 (−23.3/+29.8) pc · 692 ly"
 ],
 [
-"Belt",
-"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+"Alnilam",
+"606.1 (−129.9/+227.3) pc · 1 977 ly"
 ],
 [
-"Distances",
-"raw direct measurements"
+"Alnitak",
+"387.0 ± 54.0 pc · 1 262 ly"
 ],
 [
-"Scale",
-"everything is to scale except the size of the stars (by magnitude)"
+"Saiph",
+"198.4 (−8.3/+9.1) pc · 647 ly"
 ],
 [
-"Colours",
-"enhanced (saturation × 2.5)"
-]
-]
+"Rigel",
+"264.6 (−21.8/+26.1) pc · 863 ly"
 ],
 [
-"reglages_pas",
-[
-[
-"View",
-"unfolding 77 %"
+"Hatysa",
+"714.3 (−97.0/+133.2) pc · 2 330 ly"
 ],
 [
-"Looking at",
-"the Horsehead"
+"Trapezium (θ¹ Ori C)",
+"388.0 ± 5.0 pc · 1 265 ly"
 ],
 [
-"Closest star of the figure",
-"Tabit : 8.1 pc (26 ly)"
+"M42",
+"388 pc · 1 265 ly"
 ],
 [
-"Farthest star of the figure",
-"Alnilam : 606 pc (1 977 ly)"
-],
-[
-"Belt",
-"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+"Horsehead",
+"387.5 pc · 1 264 ly"
 ],
 [
 "Distances",
 "raw direct measurements"
-],
-[
-"Scale",
-"everything is to scale except the size of the stars (by magnitude)"
 ],
 [
 "Colours",
@@ -20741,139 +20719,124 @@ true
 "reinitialiser",
 [
 [
-"View",
-"the sky seen from the Earth"
+"Betelgeuse",
+"168.1 (−14.9/+27.5) pc · 548 ly"
 ],
 [
-"Looking at",
-"All of Orion"
+"Bellatrix",
+"77.4 (−3.0/+3.2) pc · 252 ly"
 ],
 [
-"Closest star of the figure",
-"Tabit : 8.1 pc (26 ly)"
+"Meissa",
+"≈ 404 pc · 1 318 ly (measured: 336.7 (−52.6/+76.5) pc)"
 ],
 [
-"Farthest star of the figure",
-"χ² Ori : 552 pc (1 802 ly)"
+"Mintaka",
+"≈ 380 pc · 1 239 ly (measured: 212.3 (−23.3/+29.8) pc)"
 ],
 [
-"Belt",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Alnilam",
+"≈ 380 pc · 1 239 ly (measured: 606.1 (−129.9/+227.3) pc)"
+],
+[
+"Alnitak",
+"387.0 ± 54.0 pc · 1 262 ly"
+],
+[
+"Saiph",
+"198.4 (−8.3/+9.1) pc · 647 ly"
+],
+[
+"Rigel",
+"264.6 (−21.8/+26.1) pc · 863 ly"
+],
+[
+"Hatysa",
+"≈ 412 pc · 1 344 ly (measured: 714.3 (−97.0/+133.2) pc)"
+],
+[
+"Trapezium (θ¹ Ori C)",
+"388.0 ± 5.0 pc · 1 265 ly"
+],
+[
+"M42",
+"388 pc · 1 265 ly"
+],
+[
+"Horsehead",
+"387.5 pc · 1 264 ly"
 ],
 [
 "Distances",
 "published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
-],
-[
-"Scale",
-"everything is to scale except the size of the stars (by magnitude)"
 ]
 ]
 ]
 ],
 "reglages": [
 {
-"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
-"cle": "vitesse",
-"dec": 2,
-"defaut": 1.0,
-"libelle": "Speed",
-"log": true,
-"maxi": 10.0,
-"mini": 0.1,
-"type": "curseur",
-"unite": "×",
-"valeur": 1.0
-},
-{
-"aide": "0 %: the constellation as we see it, every star on the celestial sphere; 100 %: every star and cloud at its measured distance, seen from the side.",
-"cle": "depliement",
-"dec": 0,
-"defaut": 0,
-"libelle": "Unfolding (sky → 3D)",
-"log": false,
-"maxi": 100,
-"mini": 0,
-"type": "curseur",
-"unite": "%",
-"valeur": 0.0
-},
-{
-"aide": "The whole constellation, or a dive towards the Orion Nebula (M42) or the Horsehead.",
-"cle": "cible",
-"defaut": "orion",
+"aide": "Unit of the distances written next to the stars: light-years or parsecs (1 pc = 3.26 ly).",
+"cle": "unite",
+"defaut": "al",
 "options": [
 [
-"All of Orion",
-"orion"
+"light-years",
+"al"
 ],
 [
-"the Orion Nebula (M42)",
-"m42"
-],
-[
-"the Horsehead",
-"tete"
+"parsecs",
+"pc"
 ]
 ],
 "type": "choix"
 },
 {
-"aide": "Photograph laid on the sky in the dives: ESO ground-based telescopes (VST, VLT) or the Hubble Space Telescope (infrared for the Horsehead).",
-"cle": "image",
-"defaut": "sol",
-"options": [
-[
-"ESO (VST, VLT)",
-"sol"
-],
-[
-"Hubble",
-"hubble"
-]
-],
-"type": "choix"
-},
-{
-"aide": "Lines of the figure (Stellarium, “modern” sky): in 3D they join stars that nothing links.",
-"cle": "figure",
+"aide": "From the Earth to each star: seen from the Earth, each star lies somewhere along its line of sight.",
+"cle": "lignes",
 "defaut": true,
-"libelle": "Constellation figure",
+"libelle": "Lines of sight",
 "type": "coche"
 },
 {
-"aide": "Names of the main stars and nebulae (and distance in 3D).",
+"aide": "Name of each star, of M42 and of the Horsehead, with its distance.",
 "cle": "noms",
 "defaut": true,
-"libelle": "Names",
+"libelle": "Names and distances",
 "type": "coche"
 },
 {
-"aide": "Orion A and B molecular clouds, λ Orionis ring, Barnard’s Loop, M42 and the Horsehead, at their published distances.",
+"aide": "Projection of each star on the celestial sphere, where the figure of Orion appears as we see it.",
+"cle": "sphere",
+"defaut": true,
+"libelle": "Celestial sphere",
+"type": "coche"
+},
+{
+"aide": "The lines of the figure (Stellarium, “modern” sky) between the stars at their distance: from the side, they join stars that nothing links.",
+"cle": "figure",
+"defaut": true,
+"libelle": "Figure in space",
+"type": "coche"
+},
+{
+"aide": "The Orion Nebula (blister hollowed into the OMC-1 cloud, Trapezium, Veil) and IC 434 (red front lit by σ Ori, Horsehead pillar, edge of Orion B) at their exact position, enlarged to be visible.",
 "cle": "nebuleuses",
 "defaut": true,
-"libelle": "Clouds and nebulae",
+"libelle": "M42 and IC 434 in volume",
 "type": "coche"
 },
 {
-"aide": "ESO and ESA/Hubble photographs (CC BY 4.0) laid on the sky at their exact place (loaded on demand).",
-"cle": "images",
-"defaut": true,
-"libelle": "Images",
+"aide": "Published skeletons of the giant molecular clouds Orion A and Orion B (Zucker et al. 2021).",
+"cle": "nuages",
+"defaut": false,
+"libelle": "Orion A and B clouds",
 "type": "coche"
 },
 {
-"aide": "Uncertainty of each distance along the line of sight; dashed, the direct measurement of a star shown at its published distance.",
+"aide": "Uncertainty of each measured distance, along the line of sight (Alnilam, Mintaka, Meissa and Hatysa, placed at the distance of their group, have none: their own measurement is in the values).",
 "cle": "barres",
 "defaut": true,
 "libelle": "Error bars",
-"type": "coche"
-},
-{
-"aide": "Boosts the saturation of the true colours, pale to the eye (teaching choice, off by default).",
-"cle": "accentuees",
-"defaut": false,
-"libelle": "Enhanced colours",
 "type": "coche"
 },
 {
@@ -20881,6 +20844,13 @@ true
 "cle": "brutes",
 "defaut": false,
 "libelle": "Raw measured distances",
+"type": "coche"
+},
+{
+"aide": "Boosts the saturation of the true colours, pale to the eye (teaching choice, off by default).",
+"cle": "accentuees",
+"defaut": false,
+"libelle": "Enhanced colours",
 "type": "coche"
 }
 ]
@@ -20891,65 +20861,56 @@ true
 "creation",
 [
 [
-"Vue",
-"le ciel vu de la Terre"
+"Bételgeuse",
+"168,1 (−14,9/+27,5) pc · 548 al"
 ],
 [
-"On regarde",
-"Orion entier"
+"Bellatrix",
+"77,4 (−3,0/+3,2) pc · 252 al"
 ],
 [
-"Étoile de la figure la plus proche",
-"Tabit : 8,1 pc (26 al)"
+"Meissa",
+"≈ 404 pc · 1 318 al (mesure : 336,7 (−52,6/+76,5) pc)"
 ],
 [
-"Étoile de la figure la plus lointaine",
-"χ² Ori : 552 pc (1 802 al)"
+"Mintaka",
+"≈ 380 pc · 1 239 al (mesure : 212,3 (−23,3/+29,8) pc)"
 ],
 [
-"Ceinture",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Alnilam",
+"≈ 380 pc · 1 239 al (mesure : 606,1 (−129,9/+227,3) pc)"
 ],
 [
-"Distances",
-"publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
+"Alnitak",
+"387,0 ± 54,0 pc · 1 262 al"
 ],
 [
-"Échelle",
-"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
-]
-]
+"Saiph",
+"198,4 (−8,3/+9,1) pc · 647 al"
 ],
 [
-"pas",
-[
-[
-"Vue",
-"le ciel vu de la Terre"
+"Rigel",
+"264,6 (−21,8/+26,1) pc · 863 al"
 ],
 [
-"On regarde",
-"Orion entier"
+"Hatysa",
+"≈ 412 pc · 1 344 al (mesure : 714,3 (−97,0/+133,2) pc)"
 ],
 [
-"Étoile de la figure la plus proche",
-"Tabit : 8,1 pc (26 al)"
+"Trapèze (θ¹ Ori C)",
+"388,0 ± 5,0 pc · 1 265 al"
 ],
 [
-"Étoile de la figure la plus lointaine",
-"χ² Ori : 552 pc (1 802 al)"
+"M42",
+"388 pc · 1 265 al"
 ],
 [
-"Ceinture",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Tête de Cheval",
+"387,5 pc · 1 264 al"
 ],
 [
 "Distances",
 "publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
-],
-[
-"Échelle",
-"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
 ]
 ]
 ],
@@ -20957,69 +20918,56 @@ true
 "reglages",
 [
 [
-"Vue",
-"dépliement 77 %"
+"Bételgeuse",
+"168,1 (−14,9/+27,5) pc · 548 al"
 ],
 [
-"On regarde",
-"la Tête de Cheval"
+"Bellatrix",
+"77,4 (−3,0/+3,2) pc · 252 al"
 ],
 [
-"Étoile de la figure la plus proche",
-"Tabit : 8,1 pc (26 al)"
+"Meissa",
+"336,7 (−52,6/+76,5) pc · 1 098 al"
 ],
 [
-"Étoile de la figure la plus lointaine",
-"Alnilam : 606 pc (1 977 al)"
+"Mintaka",
+"212,3 (−23,3/+29,8) pc · 692 al"
 ],
 [
-"Ceinture",
-"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+"Alnilam",
+"606,1 (−129,9/+227,3) pc · 1 977 al"
 ],
 [
-"Distances",
-"mesures directes brutes"
+"Alnitak",
+"387,0 ± 54,0 pc · 1 262 al"
 ],
 [
-"Échelle",
-"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+"Saiph",
+"198,4 (−8,3/+9,1) pc · 647 al"
 ],
 [
-"Couleurs",
-"accentuées (saturation × 2,5)"
-]
-]
+"Rigel",
+"264,6 (−21,8/+26,1) pc · 863 al"
 ],
 [
-"reglages_pas",
-[
-[
-"Vue",
-"dépliement 77 %"
+"Hatysa",
+"714,3 (−97,0/+133,2) pc · 2 330 al"
 ],
 [
-"On regarde",
-"la Tête de Cheval"
+"Trapèze (θ¹ Ori C)",
+"388,0 ± 5,0 pc · 1 265 al"
 ],
 [
-"Étoile de la figure la plus proche",
-"Tabit : 8,1 pc (26 al)"
+"M42",
+"388 pc · 1 265 al"
 ],
 [
-"Étoile de la figure la plus lointaine",
-"Alnilam : 606 pc (1 977 al)"
-],
-[
-"Ceinture",
-"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+"Tête de Cheval",
+"387,5 pc · 1 264 al"
 ],
 [
 "Distances",
 "mesures directes brutes"
-],
-[
-"Échelle",
-"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
 ],
 [
 "Couleurs",
@@ -21031,139 +20979,124 @@ true
 "reinitialiser",
 [
 [
-"Vue",
-"le ciel vu de la Terre"
+"Bételgeuse",
+"168,1 (−14,9/+27,5) pc · 548 al"
 ],
 [
-"On regarde",
-"Orion entier"
+"Bellatrix",
+"77,4 (−3,0/+3,2) pc · 252 al"
 ],
 [
-"Étoile de la figure la plus proche",
-"Tabit : 8,1 pc (26 al)"
+"Meissa",
+"≈ 404 pc · 1 318 al (mesure : 336,7 (−52,6/+76,5) pc)"
 ],
 [
-"Étoile de la figure la plus lointaine",
-"χ² Ori : 552 pc (1 802 al)"
+"Mintaka",
+"≈ 380 pc · 1 239 al (mesure : 212,3 (−23,3/+29,8) pc)"
 ],
 [
-"Ceinture",
-"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+"Alnilam",
+"≈ 380 pc · 1 239 al (mesure : 606,1 (−129,9/+227,3) pc)"
+],
+[
+"Alnitak",
+"387,0 ± 54,0 pc · 1 262 al"
+],
+[
+"Saiph",
+"198,4 (−8,3/+9,1) pc · 647 al"
+],
+[
+"Rigel",
+"264,6 (−21,8/+26,1) pc · 863 al"
+],
+[
+"Hatysa",
+"≈ 412 pc · 1 344 al (mesure : 714,3 (−97,0/+133,2) pc)"
+],
+[
+"Trapèze (θ¹ Ori C)",
+"388,0 ± 5,0 pc · 1 265 al"
+],
+[
+"M42",
+"388 pc · 1 265 al"
+],
+[
+"Tête de Cheval",
+"387,5 pc · 1 264 al"
 ],
 [
 "Distances",
 "publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
-],
-[
-"Échelle",
-"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
 ]
 ]
 ]
 ],
 "reglages": [
 {
-"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
-"cle": "vitesse",
-"dec": 2,
-"defaut": 1.0,
-"libelle": "Vitesse",
-"log": true,
-"maxi": 10.0,
-"mini": 0.1,
-"type": "curseur",
-"unite": "×",
-"valeur": 1.0
-},
-{
-"aide": "0 % : la constellation telle qu’on la voit, toutes les étoiles sur la sphère céleste ; 100 % : chaque étoile et chaque nuage à sa distance mesurée, vus de côté.",
-"cle": "depliement",
-"dec": 0,
-"defaut": 0,
-"libelle": "Dépliement (ciel → 3D)",
-"log": false,
-"maxi": 100,
-"mini": 0,
-"type": "curseur",
-"unite": "%",
-"valeur": 0.0
-},
-{
-"aide": "Toute la constellation, ou plongée vers la nébuleuse d’Orion (M42) ou la Tête de Cheval.",
-"cle": "cible",
-"defaut": "orion",
+"aide": "Unité des distances écrites à côté des étoiles : années-lumière ou parsecs (1 pc = 3,26 al).",
+"cle": "unite",
+"defaut": "al",
 "options": [
 [
-"Orion entier",
-"orion"
+"années-lumière",
+"al"
 ],
 [
-"la nébuleuse d’Orion (M42)",
-"m42"
-],
-[
-"la Tête de Cheval",
-"tete"
+"parsecs",
+"pc"
 ]
 ],
 "type": "choix"
 },
 {
-"aide": "Photographie posée sur le ciel dans les plongées : télescopes au sol de l’ESO (VST, VLT) ou télescope spatial Hubble (infrarouge pour la Tête de Cheval).",
-"cle": "image",
-"defaut": "sol",
-"options": [
-[
-"ESO (VST, VLT)",
-"sol"
-],
-[
-"Hubble",
-"hubble"
-]
-],
-"type": "choix"
-},
-{
-"aide": "Lignes de la figure (Stellarium, ciel « moderne ») : en 3D, elles relient des étoiles que rien n’associe.",
-"cle": "figure",
+"aide": "De la Terre à chaque étoile : vue de la Terre, chaque étoile est quelque part sur sa ligne de visée.",
+"cle": "lignes",
 "defaut": true,
-"libelle": "Figure de la constellation",
+"libelle": "Lignes de visée",
 "type": "coche"
 },
 {
-"aide": "Noms des étoiles principales et des nébuleuses (et distance en 3D).",
+"aide": "Nom de chaque étoile, de M42 et de la Tête de Cheval, avec sa distance.",
 "cle": "noms",
 "defaut": true,
-"libelle": "Noms",
+"libelle": "Noms et distances",
 "type": "coche"
 },
 {
-"aide": "Nuages moléculaires Orion A et B, anneau de λ Orionis, boucle de Barnard, M42 et la Tête de Cheval, à leurs distances publiées.",
+"aide": "Projection de chaque étoile sur la sphère céleste, où se dessine la figure d’Orion telle qu’on la voit.",
+"cle": "sphere",
+"defaut": true,
+"libelle": "Sphère céleste",
+"type": "coche"
+},
+{
+"aide": "Les traits de la figure (Stellarium, ciel « moderne ») entre les étoiles à leur distance : de côté, ils relient des étoiles que rien n’associe.",
+"cle": "figure",
+"defaut": true,
+"libelle": "Figure dans l’espace",
+"type": "coche"
+},
+{
+"aide": "La nébuleuse d’Orion (cloque creusée dans le nuage OMC-1, Trapèze, Voile) et IC 434 (front rouge éclairé par σ Ori, pilier de la Tête de Cheval, bord d’Orion B) à leur position exacte, taille agrandie pour être visibles.",
 "cle": "nebuleuses",
 "defaut": true,
-"libelle": "Nuages et nébuleuses",
+"libelle": "M42 et IC 434 en volume",
 "type": "coche"
 },
 {
-"aide": "Photographies de l’ESO et de l’ESA/Hubble (CC BY 4.0) posées sur le ciel à leur place exacte (chargées à la demande).",
-"cle": "images",
-"defaut": true,
-"libelle": "Images",
+"aide": "Squelettes publiés des nuages moléculaires géants Orion A et Orion B (Zucker et al. 2021).",
+"cle": "nuages",
+"defaut": false,
+"libelle": "Nuages Orion A et B",
 "type": "coche"
 },
 {
-"aide": "Incertitude de chaque distance le long de la ligne de visée ; en tirets, la mesure directe d’une étoile affichée à sa distance publiée.",
+"aide": "Incertitude de chaque distance mesurée, le long de la ligne de visée (Alnilam, Mintaka, Meissa et Hatysa, placées à la distance de leur groupe, n’en ont pas : leur mesure propre est dans les valeurs).",
 "cle": "barres",
 "defaut": true,
 "libelle": "Barres d’erreur",
-"type": "coche"
-},
-{
-"aide": "Renforce la saturation des couleurs vraies, pâles à l’œil (choix pédagogique, désactivé par défaut).",
-"cle": "accentuees",
-"defaut": false,
-"libelle": "Couleurs accentuées",
 "type": "coche"
 },
 {
@@ -21171,6 +21104,13 @@ true
 "cle": "brutes",
 "defaut": false,
 "libelle": "Distances mesurées brutes",
+"type": "coche"
+},
+{
+"aide": "Renforce la saturation des couleurs vraies, pâles à l’œil (choix pédagogique, désactivé par défaut).",
+"cle": "accentuees",
+"defaut": false,
+"libelle": "Couleurs accentuées",
 "type": "coche"
 }
 ]
@@ -27917,6 +27857,10 @@ true
 [
 "emission",
 true
+],
+[
+"echelle",
+"realiste"
 ]
 ],
 "en": {
@@ -27955,6 +27899,10 @@ true
 [
 "Absolute magnitude calibration",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Line scale",
+"teaching contrast: lines widened (0.8 nm) and deepened (ratio to the continuum cubed)"
 ]
 ]
 ],
@@ -27992,6 +27940,10 @@ true
 [
 "Absolute magnitude calibration",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Line scale",
+"realistic (computed depths and widths)"
 ]
 ]
 ],
@@ -28029,6 +27981,10 @@ true
 [
 "Absolute magnitude calibration",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Line scale",
+"teaching contrast: lines widened (0.8 nm) and deepened (ratio to the continuum cubed)"
 ]
 ]
 ]
@@ -28094,6 +28050,22 @@ true
 "defaut": false,
 "libelle": "Emission lines",
 "type": "coche"
+},
+{
+"aide": "Teaching contrast (default): lines widened to 0.8 nm and deepened (ratio to the continuum cubed) so that they can be seen, as on a demonstration spectrum; realistic scale: computed depths and widths, often barely visible (the Sun).",
+"cle": "echelle",
+"defaut": "pedagogique",
+"options": [
+[
+"teaching contrast",
+"pedagogique"
+],
+[
+"realistic scale",
+"realiste"
+]
+],
+"type": "choix"
 }
 ]
 },
@@ -28133,6 +28105,10 @@ true
 [
 "Étalonnage de la magnitude absolue",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Échelle des raies",
+"contraste pédagogique : raies élargies (0,8 nm) et approfondies (rapport au continu au cube)"
 ]
 ]
 ],
@@ -28170,6 +28146,10 @@ true
 [
 "Étalonnage de la magnitude absolue",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Échelle des raies",
+"réaliste (profondeurs et largeurs calculées)"
 ]
 ]
 ],
@@ -28207,6 +28187,10 @@ true
 [
 "Étalonnage de la magnitude absolue",
 "Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
+],
+[
+"Échelle des raies",
+"contraste pédagogique : raies élargies (0,8 nm) et approfondies (rapport au continu au cube)"
 ]
 ]
 ]
@@ -28272,6 +28256,22 @@ true
 "defaut": false,
 "libelle": "Raies en émission",
 "type": "coche"
+},
+{
+"aide": "Contraste pédagogique (par défaut) : raies élargies à 0,8 nm et approfondies (rapport au continu élevé au cube) pour qu’on les voie, comme sur un spectre de démonstration ; échelle réaliste : profondeurs et largeurs calculées, souvent à peine visibles (Soleil).",
+"cle": "echelle",
+"defaut": "pedagogique",
+"options": [
+[
+"contraste pédagogique",
+"pedagogique"
+],
+[
+"échelle réaliste",
+"realiste"
+]
+],
+"type": "choix"
 }
 ]
 },
@@ -28291,6 +28291,10 @@ true
 [
 "classe",
 "V"
+],
+[
+"echelle",
+"realiste"
 ],
 [
 "f_he_ii",
@@ -28327,6 +28331,10 @@ false
 "absorption"
 ],
 [
+"Line scale",
+"teaching contrast: lines widened (0.8 nm) and deepened (ratio to the continuum cubed)"
+],
+[
 "Type",
 "G2 V"
 ],
@@ -28356,6 +28364,10 @@ false
 "absorption"
 ],
 [
+"Line scale",
+"realistic (computed depths and widths)"
+],
+[
 "Type",
 "F2 V"
 ],
@@ -28383,6 +28395,10 @@ false
 [
 "Spectrum",
 "absorption"
+],
+[
+"Line scale",
+"teaching contrast: lines widened (0.8 nm) and deepened (ratio to the continuum cubed)"
 ],
 [
 "Type",
@@ -28462,6 +28478,22 @@ false
 "type": "choix"
 },
 {
+"aide": "Teaching contrast (default): lines widened to 0.8 nm and deepened (ratio to the continuum cubed) so that they can be seen, as on a demonstration spectrum; realistic scale: computed depths and widths, often barely visible (the Sun).",
+"cle": "echelle",
+"defaut": "pedagogique",
+"options": [
+[
+"teaching contrast",
+"pedagogique"
+],
+[
+"realistic scale",
+"realiste"
+]
+],
+"type": "choix"
+},
+{
 "aide": "Show the lines: ionized helium.",
 "cle": "f_he_ii",
 "defaut": true,
@@ -28515,6 +28547,10 @@ false
 "d’absorption"
 ],
 [
+"Échelle des raies",
+"contraste pédagogique : raies élargies (0,8 nm) et approfondies (rapport au continu au cube)"
+],
+[
 "Type",
 "G2 V"
 ],
@@ -28544,6 +28580,10 @@ false
 "d’absorption"
 ],
 [
+"Échelle des raies",
+"réaliste (profondeurs et largeurs calculées)"
+],
+[
 "Type",
 "F2 V"
 ],
@@ -28571,6 +28611,10 @@ false
 [
 "Spectre",
 "d’absorption"
+],
+[
+"Échelle des raies",
+"contraste pédagogique : raies élargies (0,8 nm) et approfondies (rapport au continu au cube)"
 ],
 [
 "Type",
@@ -28645,6 +28689,22 @@ false
 [
 "V (séquence principale)",
 "V"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Contraste pédagogique (par défaut) : raies élargies à 0,8 nm et approfondies (rapport au continu élevé au cube) pour qu’on les voie, comme sur un spectre de démonstration ; échelle réaliste : profondeurs et largeurs calculées, souvent à peine visibles (Soleil).",
+"cle": "echelle",
+"defaut": "pedagogique",
+"options": [
+[
+"contraste pédagogique",
+"pedagogique"
+],
+[
+"échelle réaliste",
+"realiste"
 ]
 ],
 "type": "choix"

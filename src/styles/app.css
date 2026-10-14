@@ -1371,10 +1371,201 @@ select option {
   }
 }
 
-@media (max-width: 420px) {
-  .nav a[data-page='catalogue'] {
-    display: none;
+/* ------------------------------------------------------------------ navigation à icônes, accueil des modules */
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav a svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+@media (max-width: 1180px) {
+  .nav a .nav-texte {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
+
+  .nav a {
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav {
+    gap: 0;
+  }
+
+  .nav a {
+    padding: 8px 7px;
+    min-width: 36px;
+  }
+
+  .marque img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+a.puce {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.section-accueil {
+  margin: 34px 0 0;
+}
+
+.section-accueil > h2,
+.titre-section h2 {
+  font-size: 1.3rem;
+  margin: 0 0 14px;
+}
+
+.titre-section {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.titre-section a {
+  font-weight: 560;
+}
+
+.grille-modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  min-height: 120px;
+}
+
+.carte-module.attente {
+  min-height: 88px;
+  box-shadow: none;
+  background: var(--surface-2);
+}
+
+.grille-modules.petite {
+  min-height: 0;
+}
+
+.carte-module {
+  position: relative;
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  row-gap: 6px;
+  align-items: start;
+  padding: 14px 16px 18px;
+  border-radius: var(--rayon);
+  border: 1px solid var(--bord);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--ombre);
+  overflow: hidden;
+  transition: transform var(--duree) var(--courbe), box-shadow var(--duree) var(--courbe), border-color var(--duree) var(--courbe);
+}
+
+.carte-module:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ombre-l);
+  border-color: var(--bord-fort);
+}
+
+.carte-module .numero {
+  grid-row: span 2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+:root[data-theme='clair'] .carte-module .numero {
+  color: #8a5a00;
+}
+
+.carte-module-titre {
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.carte-module .comptes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  color: var(--texte-2);
+  font-size: 0.82rem;
+}
+
+.carte-module .comptes b {
+  color: var(--texte);
+  font-variant-numeric: tabular-nums;
+}
+
+.carte-module.perso,
+.carte-module.ajouter {
+  grid-template-columns: 1fr;
+}
+
+.carte-module.ajouter {
+  align-content: center;
+  justify-items: start;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border-style: dashed;
+  box-shadow: none;
+  background: transparent;
+  color: var(--texte-2);
+}
+
+.carte-module.ajouter svg {
+  width: 20px;
+  height: 20px;
+}
+
+.carte-progres {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--surface-3);
+}
+
+.carte-progres span {
+  display: block;
+  height: 100%;
+  background: #4cc38a;
+}
+
+:root[data-theme='clair'] .carte-progres span {
+  background: #1f8f5a;
+}
+
+.reprise .bouton {
+  justify-self: start;
+}
+
+.reprise {
+  display: flex;
 }
 
 [hidden] {

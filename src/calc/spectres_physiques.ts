@@ -69,6 +69,31 @@ function wienX(): number {
 }
 export const WIEN_X = wienX();
 
+/**
+ * Interpolation cubique monotone et lisse (PCHIP de Fritsch–Carlson) d'une suite régulière ys (pas 1) en x : passe par
+ * les nœuds, sans dépassement ni cassure (dérivée continue).  Nœud absent (null) : interpolation linéaire de repli.
+ */
+export function pchip(ys: readonly (number | null)[], x: number): number | null {
+  const n = ys.length;
+  const xx = Math.min(Math.max(x, 0), n - 1);
+  const k = Math.min(Math.floor(xx), n - 2);
+  const s = xx - k;
+  const y0 = ys[k] ?? null;
+  const y1 = ys[k + 1] ?? null;
+  if (y0 === null || y1 === null) return s === 0 ? y0 : s === 1 ? y1 : null;
+  const d = y1 - y0;
+  const pente = (dp: number | null, dn: number): number => (dp === null ? dn : dp * dn <= 0 ? 0 : (2 * dp * dn) / (dp + dn));
+  const ym = k > 0 ? ys[k - 1] ?? null : null;
+  const yp = k + 2 < n ? ys[k + 2] ?? null : null;
+  const m0 = pente(ym === null ? null : y0 - ym, d);
+  const m1 = pente(yp === null ? null : yp - y1, d);
+  const h00 = 2 * s ** 3 - 3 * s ** 2 + 1;
+  const h10 = s ** 3 - 2 * s ** 2 + s;
+  const h01 = -2 * s ** 3 + 3 * s ** 2;
+  const h11 = s ** 3 - s ** 2;
+  return h00 * y0 + h10 * m0 + h01 * y1 + h11 * m1;
+}
+
 export class ModeleSpectres {
   readonly d: Donnees;
   readonly classes: string[];
@@ -76,8 +101,12 @@ export class ModeleSpectres {
   private readonly _raies = new Map<number, Donnees>();
   private readonly _bandes = new Map<number, Donnees>();
 
-  constructor(donnees: Donnees) {
+  /** intensités des familles calculées tous les 1/pas de type (outils/verif_anim/intensites_fines.py de Coupole) */
+  fines: { pas_par_type: number; intensites: Record<string, Record<string, number[]>> } | null = null;
+
+  constructor(donnees: Donnees, fines: Donnees = null) {
     this.d = donnees;
+    this.fines = fines;
     this.classes = donnees.classes;
     this.types = donnees.types;
     for (const r of donnees.raies) this._raies.set(r.id, r);
@@ -91,27 +120,38 @@ export class ModeleSpectres {
     return [i, j, tt - i];
   }
 
+  /** Étalonnage au type t : interpolation monotone lisse (PCHIP) entre les types tabulés, T_eff en logarithme. */
   etalonnage(t: number, classe: string): Etalonnage {
     const [i, j, w] = this.encadre(t);
-    const a = this.d.etalonnage[classe][i];
-    const b = this.d.etalonnage[classe][j];
+    const tab = this.d.etalonnage[classe];
+    const a = tab[i];
+    const b = tab[j];
+    const tt = Math.min(Math.max(t, this.types[0]!), this.types[this.types.length - 1]!);
     const out: Donnees = {};
     for (const k of ['teff', 'logg', 'bv', 'mv', 'rayon', 'logl']) {
-      const va = a[k] ?? null;
-      const vb = b[k] ?? null;
-      if (va === null || vb === null) out[k] = w === 0 ? va : w === 1 ? vb : null;
-      else if (k === 'teff') out[k] = 10 ** ((1 - w) * Math.log10(va) + w * Math.log10(vb));
-      else out[k] = (1 - w) * va + w * vb;
+      const ys = tab.map((e: Donnees) => {
+        const v = e[k] ?? null;
+        return v === null ? null : k === 'teff' ? Math.log10(v) : v;
+      });
+      const v = pchip(ys, tt);
+      out[k] = v === null ? null : k === 'teff' ? 10 ** v : v;
     }
     out.source = w < 0.5 ? a.source : b.source;
     out.drapeaux = w > 0 && w < 1 ? [...new Set([...a.drapeaux, ...b.drapeaux])].sort() : [...(w === 0 ? a : b).drapeaux];
     return out as Etalonnage;
   }
 
+  /** Intensités des familles (0–100) : grille fine (1/8 de type) interpolée par PCHIP ; sinon table par type entier. */
   intensites(t: number, classe: string): Record<string, number> {
+    const out: Record<string, number> = {};
+    if (this.fines) {
+      const tab = this.fines.intensites[classe]!;
+      const x = Math.min(Math.max(t, this.types[0]!), this.types[this.types.length - 1]!) * this.fines.pas_par_type;
+      for (const f of Object.keys(tab)) out[f] = Math.max(0, pchip(tab[f]!, x)!);
+      return out;
+    }
     const [i, j, w] = this.encadre(t);
     const tab = this.d.intensites_familles[classe];
-    const out: Record<string, number> = {};
     for (const f of Object.keys(tab)) out[f] = (1 - w) * tab[f][i] + w * tab[f][j];
     return out;
   }

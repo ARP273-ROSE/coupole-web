@@ -9,7 +9,7 @@ import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
 import { choisirTheme, type Theme } from '../noyau/dessin';
 import { annoncer, h, icone } from './dom';
 import { texteNombre, type Vue, vueControle } from './controles';
-import * as prefs from './prefs';
+import * as stockage from './stockage';
 import { adresseAnimation, remplacerAdresse } from './routeur';
 import { Scene } from './scene';
 import { FicheFlottante } from './fiche_flottante';
@@ -37,6 +37,7 @@ export async function pageAnimation(id: string, etatAdresse: EtatReglages): Prom
   if (!disponible(e)) return pageErreur(tr('web_pas_encore'));
   try {
     await chargerAnimations(langue());
+    await stockage.pret();
     const cls = await charger(e);
     return construire(e, cls, etatAdresse);
   } catch (err) {
@@ -49,7 +50,7 @@ function pageErreur(message: string): Page {
   const el = h(
     'div',
     { class: 'page' },
-    h('nav', { class: 'fil', 'aria-label': tr('web_retour') }, h('a', { href: '#/' }, icone('retour'), tr('web_retour'))),
+    h('nav', { class: 'fil', 'aria-label': tr('web_retour') }, h('a', { href: '#/animations' }, icone('retour'), tr('web_retour'))),
     h('p', { class: 'erreur', role: 'alert', text: message }),
   );
   return { el, titre: 'Coupole Web', detruire() {} };
@@ -57,7 +58,7 @@ function pageErreur(message: string): Page {
 
 function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdresse: EtatReglages): Page {
   choisirTheme(themeActuel());
-  const memoire = prefs.etatValide(prefs.lire('reglages:' + e.id, {}));
+  const memoire = stockage.reglagesAnimation(e.id);
   const depart = Object.keys(etatAdresse).length ? etatAdresse : memoire;
   const nom = tr('anim_nom_' + e.cle);
   const hors = HORS_CLASSACTION.get(e.id);
@@ -82,7 +83,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     h(
       'nav',
       { class: 'fil', 'aria-label': tr('web_retour') },
-      h('a', { href: '#/' }, icone('retour'), tr('web_retour')),
+      h('a', { href: '#/animations' }, icone('retour'), tr('web_retour')),
       h('span', { 'aria-hidden': 'true', text: '·' }),
       h('span', { text: tr('anim_theme_' + e.theme) }),
     ),
@@ -252,7 +253,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     clearTimeout(minuteur);
     minuteur = window.setTimeout(() => {
       const modifie = anim.etatModifie();
-      prefs.ecrire('reglages:' + e.id, modifie);
+      stockage.memoriserReglages(e.id, modifie as Record<string, number | boolean | string | null>);
       remplacerAdresse(adresseAnimation(e.id, modifie));
     }, 350);
   };

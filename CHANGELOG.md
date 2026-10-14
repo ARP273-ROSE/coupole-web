@@ -2,6 +2,43 @@
 
 *Français, puis [English](#english).*
 
+## 0.4.0 — 2026-10-14
+
+- **Navigation par modules** (comme ClassAction) : l’accueil présente les **22 modules** (et deux modules bonus),
+  « Mes modules », la reprise de la dernière question et les animations par thème. Une page de module a des onglets
+  **Questions** (Échauffement, Générales, Défis, Discussion, numérotées W1, G1…, avec leur état ✓ ✗ •), **Animations**,
+  **Fiches**, **Tables**, **Images** (ce module ou tous les modules) ; fil d’Ariane partout.
+- **517 questions** d’instruction par les pairs, d’après ClassAction (Apache 2.0), traduites et réécrites en données :
+  menus « Adapter la question » (variantes), nouveau tirage, figures vectorielles, choix A–H, **Valider** (tentative
+  enregistrée), **Montrer la réponse** (la bonne réponse clignote en orange puis reste orange), indice, explication,
+  éléments de réponse des questions de discussion, « Ce qui a changé par rapport à l’original », ressources liées
+  **★**, question précédente / suivante (W → G → C → D, en boucle), plein écran ; clavier A–H, Entrée, R, I, N, F,
+  ← →. Moteur des questions identique au bureau (empreintes de 8 000 instances).
+- **110 fiches, 14 tables, 109 schémas** écrits pour Coupole (valeurs recalculées et sourcées) : fiches en HTML et
+  MathML, schémas dessinés en SVG par un moteur qui lit leur description (mesure réelle des textes pour les marges,
+  contrôle de non-chevauchement), tables accessibles, photos libres avec **crédit et licence** sous chaque image.
+  Fenêtres de ressources flottantes (plusieurs à la fois, déplaçables, redimensionnables, Échap), **aperçu au survol**.
+- **Recherche globale FR/EN** : questions, animations, fiches, tables, images.
+- **Mes modules** : créer, copier (y compris un module de ClassAction), renommer, supprimer (avec annulation),
+  ajouter ou retirer n’importe quelle question ou ressource (bouton +), réordonner (flèches ou glisser).
+- **Sauvegarde de tout** dans le navigateur (IndexedDB, repli localStorage) : réglages de chaque animation, réponses,
+  scores et tentatives, progression par module, Mes modules, préférences ; format commun versionné avec migration,
+  **export / import JSON** lisible aussi par Coupole (bureau), **réinitialisation tout ou partie** (une animation, un
+  module, les réglages, les réponses, Mes modules, les préférences, tout) avec confirmation, copie téléchargée avant
+  l’effacement et « Annuler » ; page **Ma progression**.
+- **Orion en 3D refaite sur le modèle de la Grande Ourse 3D** : les étoiles principales (Bételgeuse, Bellatrix,
+  Meissa, la Ceinture, Saiph, Rigel, l’épée) à leur distance, la Terre, les lignes de visée, la figure sur la sphère
+  céleste ; boutons « De face » et « De côté » ; **M42 et IC 434 / Tête de Cheval en volume** (cloque de M42 creusée
+  dans OMC-1, Trapèze, Voile, Barre ; front d’IC 434, pilier de la Tête de Cheval, bord d’Orion B, NGC 2023, σ Ori),
+  taille agrandie ×12 et signalée, position exacte ; plus de dépliement ni de photographies ; étiquettes plus grandes,
+  sur cartouche contrasté ; scène fixe (aucun rendu au repos), test de performance ; notes des fiches traduites en
+  anglais (âges d’Orion A, B, λ Ori, boucle de Barnard…).
+- **Explorateur de spectres** : intensités des familles calculées tous les 1/8 de type (physique du modèle,
+  étalonnage interpolé de façon monotone et lisse, PCHIP), plus de paliers ni de cassures (He I, He II) ; **contraste
+  pédagogique** des raies (par défaut, dit à l’écran) ou **échelle réaliste** ; même réglage dans la Parallaxe
+  spectroscopique.
+- Première page : 100 Ko compressés ; contenus chargés à la demande et gardés hors ligne à la première ouverture.
+
 ## 0.3.0 — 2026-10-14
 
 - **Orion en 3D** (nouveau thème « Milieu interstellaire et formation des étoiles », entre Exoplanètes et Voie
@@ -86,6 +123,40 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.4.0 — 2026-10-14
+
+- **Module navigation** (as in ClassAction): the home page shows the **22 modules** (and two bonus modules), “My
+  modules”, resuming the last question, and animations by topic. A module page has **Questions** (Warm-up, General,
+  Challenge, Discussion, numbered W1, G1…, with their state ✓ ✗ •), **Animations**, **Outlines**, **Tables**,
+  **Images** tabs (this module or all modules); breadcrumb everywhere.
+- **517 peer-instruction questions**, after ClassAction (Apache 2.0), translated and rewritten as data: “Adapt
+  question” menus (variants), new draw, vector figures, choices A–H, **Check** (attempt recorded), **Show answer**
+  (the right answer flashes orange, then stays orange), hint, explanation, answer elements for discussion questions,
+  “What changed from the original”, related resources **★**, previous / next question (W → G → C → D, looping), full
+  screen; keys A–H, Enter, R, I, N, F, ← →. Question engine identical to the desktop (fingerprints of 8,000 instances).
+- **110 outlines, 14 tables, 109 diagrams** written for Coupole (recomputed, sourced values): outlines in HTML and
+  MathML, diagrams drawn in SVG by an engine that reads their description (real text measurement for margins,
+  overlap check), accessible tables, free photos with **credit and licence** under each image. Floating resource
+  windows (several at once, movable, resizable, Escape), **hover preview**.
+- **Global FR/EN search**: questions, animations, outlines, tables, images.
+- **My modules**: create, copy (including a ClassAction module), rename, delete (with undo), add or remove any
+  question or resource (+ button), reorder (arrows or drag).
+- **Everything saved** in the browser (IndexedDB, localStorage fallback): each animation’s settings, answers, scores
+  and attempts, progress per module, My modules, preferences; common versioned format with migration, **JSON export /
+  import** also read by Coupole (desktop), **reset all or part** (one animation, one module, settings, answers, My
+  modules, preferences, everything) with confirmation, a copy downloaded before erasing and “Undo”; **My progress**
+  page.
+- **Orion in 3D remade after the Big Dipper 3D**: the main stars (Betelgeuse, Bellatrix, Meissa, the Belt, Saiph,
+  Rigel, the sword) at their distances, the Earth, lines of sight, the figure on the celestial sphere; “Face-on” and
+  “From the side” buttons; **M42 and IC 434 / Horsehead in volume** (M42 blister hollowed into OMC-1, Trapezium, Veil,
+  Bar; IC 434 front, Horsehead pillar, edge of Orion B, NGC 2023, σ Ori), size enlarged ×12 and said so, exact
+  position; no more unfolding or photographs; larger labels on contrasted boxes; still scene (no rendering at rest),
+  performance test; data sheet notes translated into English (ages of Orion A, B, λ Ori, Barnard’s Loop…).
+- **Spectrum Explorer**: family intensities computed every 1/8 of a type (the model’s physics, calibration
+  interpolated monotonically and smoothly, PCHIP), no more plateaus or kinks (He I, He II); **teaching contrast** of
+  the lines (default, stated on screen) or **realistic scale**; same setting in the Spectroscopic Parallax.
+- First page: 100 KB compressed; contents loaded on demand and kept offline once opened.
 
 ### 0.3.0 — 2026-10-14
 
