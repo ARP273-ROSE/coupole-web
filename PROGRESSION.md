@@ -37,6 +37,38 @@ QT_QPA_PLATFORM=offscreen python3 outils/references_animations.py CHEMIN_DE_COUP
 
 À reprendre à l'identique dans l'application de bureau Coupole (le web sert de référence).
 
+### Palette (`PALETTES` dans `src/noyau/dessin.ts`, identique à Coupole)
+
+Thème sombre par défaut ; « auto » suit le système. Les dégradés des astres partent de ces couleurs.
+
+| clé | sombre | clair |
+|---|---|---|
+| `fond` | `#1B1F26` | `#FBFBF8` |
+| `texte` | `#D9DDE2` | `#2E333B` |
+| `doux` | `#A3ABB6` | `#646C77` |
+| `grille` | `#4A525E` | `#C9CED4` |
+| `sphere` | `#2A3240` | `#E6ECF2` |
+| `ciel` | `#2C4A6B` | `#BFD7EE` |
+| `sol` | `#3E5B3A` | `#A9C79B` |
+| `horizon` | `#7FA36F` | `#4E7A3E` |
+| `equateur` | `#6FA8DC` | `#2F6FAF` |
+| `ecliptique` | `#E8A85C` | `#C2701C` |
+| `meridien` | `#C9A0DC` | `#8A4FA6` |
+| `soleil` | `#FFD25A` | `#C08400` |
+| `lune` | `#D8D8D0` | `#8C8C84` |
+| `terre` | `#4F86C6` | `#2F6FAF` |
+| `mars` | `#E07050` | `#B8452C` |
+| `etoile` | `#FFFFFF` | `#2E333B` |
+| `accent1` | `#F2C14E` | `#B07A00` |
+| `accent2` | `#7CC4E8` | `#1F7AA6` |
+| `accent3` | `#F28C8C` | `#B5403C` |
+| `ombre` | `#000000` | `#000000` |
+| `nuit` | `#0E1218` | `#5A6270` |
+| `arc1` | `#A99BFF` | `#4B3FC9` |
+| `arc2` | `#FF8F87` | `#C0392B` |
+| `umbra` | `#05070A` | `#1B1F26` |
+| `penombre` | `#9AA6B6` | `#5A6270` |
+
 ### Corps célestes (`astre()` dans `src/noyau/dessin.ts`)
 - Le Soleil, la Lune, la Terre et Mars (clés de couleur `soleil`, `lune`, `terre`, `mars`) sont dessinés en sphères dès
   3,5 px de rayon ; en dessous, disque plein. Les autres couleurs (repères, points) restent des disques plats.
