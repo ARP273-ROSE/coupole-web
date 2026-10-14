@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr" data-theme="sombre">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Coupole Web — animations d'astronomie</title>
+    <meta name="description" content="92 animations interactives d'astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes… D'après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur." />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#14171C" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Coupole" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="evitement" href="#contenu">Aller au contenu</a>
+    <header class="entete" id="entete">
+      <a class="marque" href="#/" aria-label="Coupole Web — catalogue">
+        <img src="favicon.svg" alt="" width="34" height="34" />
+        <span class="marque-texte"><span class="marque-nom">Coupole</span><span class="marque-web">Web</span></span>
+      </a>
+      <nav class="nav" aria-label="Navigation principale" id="nav"></nav>
+      <div class="outils" id="outils"></div>
+    </header>
+    <main id="contenu" tabindex="-1">
+      <noscript><p class="noscript">Coupole Web a besoin de JavaScript pour animer le ciel. / Coupole Web needs JavaScript to animate the sky.</p></noscript>
+    </main>
+    <div class="annonces" id="annonces" role="status" aria-live="polite"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

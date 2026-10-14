@@ -1,0 +1,84 @@
+Coupole Web
+Copyright 2026 ARP273-ROSE
+
+Coupole Web est distribué sous licence Apache 2.0 (fichier LICENSE).
+Coupole Web is distributed under the Apache License 2.0 (LICENSE file).
+
+Animations d'après ClassAction / Animations after ClassAction
+-------------------------------------------------------------
+Les animations sont refaites en TypeScript d'après ClassAction, University of Nebraska-Lincoln Astronomy Education,
+Apache License 2.0, en reprenant la version de bureau de Coupole (module « Animations ») : mêmes formules, mêmes
+données, mêmes réglages et mêmes textes.
+The animations are remade in TypeScript after ClassAction, University of Nebraska-Lincoln Astronomy Education,
+Apache License 2.0, following the desktop version of Coupole (« Animations » module): same formulas, same data, same
+settings and same texts.
+
+    Copyright 2026 The Board of Regents of the University of Nebraska
+    Licensed under the Apache License, Version 2.0.
+    Sources : https://github.com/astroUNL/classaction-air-app
+              https://github.com/astroUNL/flash-animations
+              https://github.com/astroUNL/interactives-air-app
+
+Repris ou adaptés de ces sources / taken or adapted from these sources :
+  - le catalogue des 92 animations (identifiants, titres, descriptions anglaises : animations.xml) ;
+  - les comportements, réglages et paramètres des animations (lus dans le code ActionScript d'origine) ;
+  - le tracé des côtes du globe (shoreDemo/si100.xml, d'après les côtes GSHHS), dans
+    src/donnees/genere/cotes.json ;
+  - les positions d'étoiles des constellations de la comparaison des repères, la liste des villes et le tracé
+    simplifié de la ligne de changement de date du démonstrateur longitude/latitude ;
+  - la table des éclipses 2015-2044 (coquilles corrigées, zones traduites en français), dans
+    src/donnees/genere/eclipses.json ; les étoiles proches et brillantes du diagramme HR
+    (src/donnees/genere/etoiles.json) ; les étalonnages empiriques des propriétés stellaires (température selon le
+    type spectral, corrections bolométriques, séquences des classes de luminosité, intensités des raies, couleur
+    d'affichage), dans src/calc/hr.ts et les animations concernées ;
+  - les courbes de transmission des filtres U, B, V, R (d'après Landolt 1992, catalogue VizieR II/183A, comme
+    l'indique la source de l'original) et de l'atmosphère, le spectre solaire hors atmosphère (valeurs relatives,
+    origine non précisée par l'original) et les fonctions colorimétriques CIE 1931 corrigées par Judd (1951) et
+    Vos (1978), au pas de 5 nm, dans src/donnees/genere/spectres.json ;
+  - le spectre de la galaxie M32 (fichier E7_M32.TPL du catalogue VizieR III/219, « A Spectral Library of Galaxies,
+    Clusters and Stars », Santos J.F.C. Jr., Alloin D., Bica E., Bonatto C., IAU Symp. 207, 2002), repris de la
+    source de l'original (même fichier spectres.json) ;
+  - les paramètres des 46 binaires à éclipses et leurs courbes de lumière observées, d'après le Catalog and Atlas of
+    Eclipsing Binaries (CALEB, Eastern University), auquel renvoyait l'original : les courbes, dessinées en images
+    dans l'original, ont été numérisées par l'appli de bureau Coupole (src/donnees/genere/binaires.json) ;
+  - les intensités et longueurs d'onde des raies du spectre stellaire, la séquence de condensation de la nébuleuse
+    solaire et sa loi de température, la relation masse-luminosité et les polynômes de température de la séquence
+    principale, les réglages des simulateurs (télescope, CCD, pulsar, roue…).
+
+Données mises à jour par Coupole / data updated by Coupole (src/donnees/genere/lot3.json) :
+  - exoplanètes : NASA Exoplanet Archive (https://exoplanetarchive.ipac.caltech.edu), jeu de paramètres par défaut de
+    chaque planète, champs manquants pris dans la table composite pscomppars, excentricité manquante : orbite
+    circulaire ; consulté le 14 octobre 2026.  This research has made use of the NASA Exoplanet Archive, which is
+    operated by the California Institute of Technology, under contract with the National Aeronautics and Space
+    Administration under the Exoplanet Exploration Program ;
+  - planètes : NASA Planetary Fact Sheet (D. R. Williams, NSSDCA, NASA Goddard), consultée le 14 octobre 2026 ;
+  - masses des systèmes planétaires : éphéméride JPL DE440 (Park et al. 2021, AJ 161, 105) ; éléments orbitaux moyens :
+    « Keplerian Elements for Approximate Positions of the Major Planets », table 1 (E. M. Standish, JPL, 1800–2050) ;
+  - excès de masse atomique : AME 2020 (Chinese Physics C 45, 030002 et 030003, 2021) ; énergies moyennes des
+    neutrinos solaires : J. N. Bahcall ;
+  - courbe de rotation de la Voie lactée au-delà de 5 kpc : M. K. Eilers et al. 2019 (ApJ 871, 120), R☉ = 8,122 kpc
+    (GRAVITY Collaboration 2018) ;
+  - distances des supernovæ historiques : nébuleuse du Crabe ≈ 2,0 kpc (Trimble 1973), SN 1006 ≈ 2,2 kpc (Winkler,
+    Gupta et Long 2003).
+
+Positions des étoiles de l'horloge de la Grande Ourse et du lever héliaque : base SIMBAD, exploitée au CDS,
+Strasbourg, France / This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
+
+Modifications : code entièrement réécrit (TypeScript, Canvas 2D), interface bilingue français/anglais, calculs
+astronomiques remplacés par des formules de référence vérifiées (temps sidéral IAU 1982, obliquité IAU 2006, position
+du Soleil et équation du temps de Meeus, limites officielles des constellations, phases moyennes de la Lune,
+précession IAU 1976, constantes de l'UAI, du CODATA et du SI, lois de Planck et de Wien, hydrogène avec la masse
+réduite, Kepler en unités SI, éclipses par l'aire exacte de recouvrement) ; les films de l'original sont remplacés par
+des simulations.
+Changes: code fully rewritten (TypeScript, Canvas 2D), bilingual French/English interface, astronomical computations
+replaced by checked reference formulas; the original movies are replaced by simulations.
+
+Police / font
+-------------
+Inter (variable), Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter), SIL Open Font License 1.1
+(texte complet : public/fonts/OFL.txt).
+
+Logo
+----
+Le logo est celui de l'application de bureau Coupole (une coupole d'observatoire, trappe ouverte sur une étoile).
+The logo is the one of the Coupole desktop application.
