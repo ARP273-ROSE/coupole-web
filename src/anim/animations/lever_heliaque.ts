@@ -10,6 +10,7 @@ import { type Peintre, type Pt, Rect } from '../../noyau/peintre';
 import { pmod, pround, proundn } from '../../noyau/py';
 import * as scenes from '../../noyau/scenes';
 import { appliquerM, mv } from '../../noyau/vec';
+import { couleur_reelle, reelle } from '../etoiles_reelles';
 import { Animation, angle, type Bouton_souris, type Choix, type Coche, date_du_jour, heures_minutes, MOIS_JOURS, type Reglage } from '../base';
 
 const ANNEE = 2026;
@@ -64,6 +65,7 @@ function heliaques(ra_h: number, dec: number, lat: number, depression: number): 
 
 export class LeverHeliaque extends Animation {
   static override ID = 'heliacalrisingsim';
+  static override FICHES = true;
   static JOURS_PAR_S = 10.0;
 
   vue3d!: dessin.Vue3D;
@@ -243,7 +245,10 @@ export class LeverHeliaque extends Animation {
       pe.courbe(appliquerM(m, scenes.cercle_declinaison(de)), 'accent2', 1.0, 0.7);
       pe.courbe(appliquerM(m, dessin.cercle([0, 0, 1])), 'equateur', 1.2, 0.8);
       pe.point(soleil, 'soleil', 8.0, { repere_monde: true });
-      pe.point(etoile, 'etoile', 5.0, { bord: 'accent2', repere_monde: true });
+      const cle = this.etoile.currentData() as string;
+      const q = pe.point(etoile, (cle && couleur_reelle('heliacalrisingsim', cle)) || 'etoile', 5.0, { bord: 'accent2', repere_monde: true });
+      const f = cle ? reelle('heliacalrisingsim', cle) : null;
+      if (q && f) this.survolable(p, f.fiche, q[0], q[1], 7, 0);
     };
     const couleur = h_sol > 0 ? 'ciel' : h_sol < -this.depression.value() ? 'nuit' : 'grille';
     const rr = Math.min(r.w, r.h) * 0.4;

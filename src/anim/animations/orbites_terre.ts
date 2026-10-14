@@ -53,7 +53,7 @@ export class OrbitesTerre extends Animation {
       [tr('anim_earthorbitplot_rayon'), `${nombre(r / 1000, 0)} km`],
       [tr('anim_earthorbitplot_altitude'), `${nombre((r - R_MIN) / 1000, 0)} km`],
       [tr('anim_earthorbitplot_periode'), texte_periode(astro.periode_orbite_terre(r))],
-      [tr('anim_earthorbitplot_vitesse'), `${nombre(astro.vitesse_circulaire(r) / 1000, 3)} km/s`],
+      [tr('anim_earthorbitplot_vitesse'), `${nombre(astro.vitesse_circulaire(r) / 1000, 3)} km·s⁻¹`],
     ];
     if (this.choix_point.currentData() === 'lune') {
       const gm = astro.GM_TERRE * (1 + astro.MASSE_LUNE_KG / astro.MASSE_TERRE_KG);

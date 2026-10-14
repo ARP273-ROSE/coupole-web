@@ -31,7 +31,7 @@ export class BallonUnivers extends Animation {
 
   override construire(): void {
     this.a = this.curseur('rayon', A_MIN, A_MAX, A_MIN, { dec: 3 });
-    this.taux = this.curseur('taux', 0.02, 0.5, 0.1, { dec: 3, unite: '/s' });
+    this.taux = this.curseur('taux', 0.02, 0.5, 0.1, { dec: 3, unite: 's⁻¹' });
     this.c_distances = this.coche('distances', true);
     this.vue3d = this.vue(200.0, 25.0);
   }
@@ -56,7 +56,7 @@ export class BallonUnivers extends Animation {
     const h = this.taux.value() / this.a.value();
     return [
       [tr('anim_balloon_rayon_v'), nombre(this.a.value(), 3)],
-      [tr('anim_balloon_h'), `${nombre(h, 4)} /s`],
+      [tr('anim_balloon_h'), `${nombre(h, 4)} s⁻¹`],
       [tr('anim_balloon_age'), `${nombre(1 / h, 1)} s`],
       [tr('anim_balloon_plus_proche'), nombre([...d].sort((x, y) => x - y)[1]!, 3)],
     ];

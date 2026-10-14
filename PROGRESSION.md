@@ -7,9 +7,12 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 
 - Socle complet : catalogue, fiche, toile, réglages, adresse partageable, mémoire, thèmes, langues, PWA hors ligne,
   sécurité, tests, CI, déploiement GitHub Pages.
-- Animations disponibles : **93** — les 92 de ClassAction et la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D),
-  toutes vérifiées contre les références de Coupole (réglages et valeurs affichées, FR et EN), chacune avec son texte
-  « Ce qu’il faut voir ».
+- Animations disponibles : **94** — les 92 de ClassAction, la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D)
+  et Orion en 3D (0.3.0, propre à Coupole), toutes vérifiées contre les références de Coupole (réglages et valeurs
+  affichées, FR et EN, références régénérées en entier depuis Coupole 0.5.0), chacune avec son texte « Ce qu’il faut
+  voir ».
+- 0.3.0 : spectres sur bases physiques, Orion en 3D, fiche au survol générique, couleur vraie des étoiles, règle
+  typographique (unités SI, signe moins, délimiteurs extensibles) sur tous les textes affichés.
 - Lighthouse (mobile et bureau, catalogue, à propos, deux animations) : performances 97–100, accessibilité 100,
   bonnes pratiques 100, référencement 100.
 
@@ -24,12 +27,12 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
    (`tests/references/animations.json`), au caractère près, en français et en anglais, puis dessine l’animation dans
    quatre formats et deux thèmes, souris comprise.
 4. Ajouter le texte « Ce qu’il faut voir » (FR, EN) dans `src/i18n/a_voir.ts` ou `a_voir_suite.ts` (un test vérifie
-   que les 92 en ont un).
+   que les 94 en ont un).
 
 Régénérer les fichiers tirés de Coupole (quand Coupole change) :
 
 ```sh
-python3 outils/exporter_coupole.py CHEMIN_DE_COUPOLE            # textes, catalogue, données
+python3 outils/exporter_coupole.py CHEMIN_DE_COUPOLE            # textes, catalogue, données, images d'Orion, références communes
 python3 outils/references_calculs.py CHEMIN_DE_COUPOLE          # références des calculs
 QT_QPA_PLATFORM=offscreen python3 outils/references_animations.py CHEMIN_DE_COUPOLE   # (PyQt6 requis)
 ```
@@ -202,8 +205,8 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   17 kpc) ; largeur de bande = 2 × la largeur 1σ publiée. Norma et bras extérieur `arc2`, Scutum–Centaure `accent2`,
   Sagittaire–Carène `arc1`, Persée `equateur`, bras local `accent1`, bras de 3 kpc `accent3`. Cercle du rayon choisi en
   pointillé `accent3`.
-- Écart volontaire avec Coupole : les références (`tests/references/animations.json`, champ `_note`) ont été mises
-  à jour avec ces valeurs (R par défaut 8,21 kpc, vitesses du modèle, ligne de masse ajoutée).
+- Coupole 0.4.1 a repris ce modèle : les références de la Voie lactée sont de nouveau celles du bureau (régénérées en
+  0.3.0, clés `composantes` et `mesures`, textes `anim_milkywayrotationalvelocity_*`).
 
 ### Machine d'Anticythère (`src/calc/anticythere.ts`, `src/anim/animations/anticythere.ts`)
 - Données et calculs repris d'Anticythere3D 1.3.1 (même auteur) sans changement : dents, trains (fractions exactes),
@@ -245,10 +248,118 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   `anticythere_rendu.test.ts` (1 000 glissers aberrants, toutes vues, survol, manivelle), tests génériques des 93
   animations, Playwright 3 moteurs × 3 formats.
 
+### Spectres sur bases physiques (0.3.0 ; `src/calc/spectres_physiques.ts`, `src/anim/spectre_physique.ts`)
+- Moteur « spectres physiques » 1.0.0 copié tel quel (même API, nom pour nom, que `spectres_physiques.py` du bureau) et
+  ses données `modele_spectres.json` (1 Mo, 264 Ko compressés, morceau chargé avec ces deux animations seulement) ;
+  ses 100 cas de référence (5 classes × 20 types) reproduits à 10⁻⁹ (`tests/unit/spectres_physiques.test.ts`, et
+  `tests/test_anim_etoiles_reelles.py` au bureau).
+- Bande de spectre : 60 à 720 colonnes (une par pixel CSS), λ de 380 à 720 nm ; couleur de chaque colonne = couleur
+  CIE 1931 de λ (`couleur_lambda`) en lumière linéaire × continu de Planck à T_eff (normé à son maximum dans la bande)
+  × I/I_continu (raies et bandes des familles cochées) ; les raies sont élargies à 1,2 colonne au moins (résolution
+  gaussienne, largeur équivalente conservée) ; cache des deux dernières bandes. Émission : raies colorées sur fond
+  noir, opacité = profondeur / profondeur maximale (au moins 12 %), largeur = FWHM (1,6 px au moins).
+- Explorateur : courbes des six familles (et bande G du CH en tirets, couleur des molécules) pour la classe choisie,
+  par quart de type ; axe du bas en type spectral, axe du haut en température de la classe (40 000 K … 3 000 K, aux
+  types où la classe les atteint, sans chevauchement) ; légende dans la marge de droite si le graphe garde 240 px,
+  sinon en rangées au-dessus du graphe ; noms des 3, 5 ou 7 raies les plus fortes (largeur équivalente) au-dessus de la
+  bande (Hα…Hε, H8, H9, sinon l’espèce), sans chevauchement ; remarques sous la bande (`accent1`, « ⚠ »).
+- Cas signalés à l’écran et dans les valeurs : étalonnage borné ou interpolé (drapeaux du modèle), atmosphère
+  extrapolée (log g hors grille ATLAS9 ; T_eff < 3 500 K), table `spectres_atmosphere.json` tirée de
+  `etalonnage.json` du modèle.
+- Parallaxe spectroscopique : T_eff et M_V du nouvel étalonnage quand ils sont publiés (V partout, III pour O et G–M7,
+  I pour O) ; sinon M_V de l’ancien étalonnage (celui de l’original) et la valeur « Étalonnage de la magnitude
+  absolue : ancien étalonnage… ». Diagramme HR de 2 300 à 48 000 K : courbes des classes paramétrées par le type
+  (nouvel étalonnage en trait plein, ancien en pointillé, seulement dans le domaine de l’original), nom de la classe à
+  son extrémité froide (placeur), point de l’étoile en couleur vraie ; le doigt choisit le type de la classe dont la
+  T_eff est la plus proche.
+- Écart avec l’original (et avec les références d’avant 0.3.0) : intensités, températures (G2 V = 5 770 K au lieu de
+  5 830 K), magnitudes absolues, raies et couleurs changent ; les références des deux animations sont celles de
+  Coupole 0.5.0 (même moteur).
+
+### Orion en 3D (0.3.0 ; `src/calc/orion3d.ts`, `src/anim/animations/orion3d.ts`)
+- Données : `orion3d.json` (60 étoiles, figure Stellarium, primitives 3D, textures) préparé hors dépôt (SIMBAD,
+  Gaia DR3, Hipparcos 2007, articles ; vérification SageMath), matrice ICRS → galactique calculée par astropy à la
+  construction des données (`outils/donnees_etoiles_reelles.py` de Coupole) et revérifiée par SageMath depuis la
+  définition du repère galactique (écart 10⁻⁷).
+- Repère ICRS centré sur le Soleil (pc). Caméra en perspective autour d’un pivot ; vue du ciel : œil au Soleil, d’où
+  la projection gnomonique (nord en haut, est à gauche), demi-champ 18° (Orion), 0,55° (M42), 0,075° (Tête de
+  Cheval). Dépliement u (réglage 0–100 %) : chaque point glisse sur sa ligne de visée de la sphère R0 = 400 pc à sa
+  distance ; s = lissage(u) fait passer distance et focale (interpolation logarithmique) de la vue du ciel à la vue 3D
+  (pivot à 300 pc pour Orion entier, œil à 1 000 pc, 270 pc visibles ; M42 : 16 pc, 6 pc ; Tête de Cheval : 9 pc,
+  4,6 pc), lacet automatique 75° (Orion), 55° (M42), 35° (Tête de Cheval) et tangage 20° ; glisser = lacet et tangage
+  en plus (Vue3D), double-clic : retour. Changement de cible : transition de 2,2 s (lissée) ; boutons « Vue du ciel »,
+  « Vue 3D » : le dépliement va en 2,2 s, la lecture lancée par eux s’arrête seule ; en lecture demandée, la scène
+  tourne de 6° par seconde.
+- Rendu (de l’arrière vers l’avant) : fond `#04060C` dans les deux thèmes ; boucle de Barnard (arc de 14°, angles de
+  position −15° à 195°, sur la coquille de Foley et al. 2023 : milieu de la corde de la ligne de visée, trois passes
+  14/6/2 px, rouge Hα) ; bulle de λ Ori (lueur radiale) et son anneau, Orion A et B : tubes (squelettes Zucker et al.
+  2021), une polyligne par morceau visible, épaisseur 2 × rayon à la profondeur moyenne (halo × 2,6 à 35 %, cœur), qui
+  s’efface quand elle dépasserait 48 px (plongées) ; lueurs de M42 (rose et cœur cyan) et d’IC 434, effacées quand
+  l’image de l’objet est montrée ; images posées sur le ciel (plan perpendiculaire à la ligne de visée à la distance de
+  l’objet, transformation affine de trois coins, opacité 1 − 0,55 s, au moins 35 %, seulement au-delà de 24 px) ; M42
+  de près (dès 40 px et s > 0,05) : cinq anneaux du front en bol z(r) = 0,2 (r/R)² pc et Voile en tirets à 2 pc
+  devant ; lignes de visée du Soleil (12 % × s), figure (`#F2C14E` à 55 %), barres d’erreur (trait de 2,4 px ; pour
+  une distance d’affichage publiée, tirets vers la mesure brute et petit cercle) ; étoiles de la plus lointaine à la
+  plus proche, rayon `rayon_disque(V, 0, 5,5, 1,3, 8)` (× 1,25 dans les plongées), lueur (2,6 r, 22 %) dès 2,2 px,
+  couleur vraie (accentuée × 2,5 sur option) ; noms (et distance quand s > 0,5) par le placeur ; Soleil en 3D ;
+  échelle (100, 2 ou 1 pc) ; crédits des images en bas à gauche (cartouche) et en lien sous la scène ; légende
+  « couleur = température ».
+- Durée d’une image (Chromium, iPhone 15 émulé, NAS chargé, moyenne de 15) : ciel 0,8 ms (2,5 ms processeur ralenti
+  × 4), 3D 1,1 ms (2,7 ms), M42 en 3D 0,6 ms (1,6 ms), Tête de Cheval 0,4 ms (1,1 ms). Bureau (QPainter hors écran,
+  720 × 470, minimum de 8, charge 5–9) : ciel 5,5 ms, 3D 7,4 ms, plongée 1,7 ms.
+- Tests : géométrie et fiches identiques au bureau (`tests/references/orion3d_reference.json`, produit par
+  `outils/verif_anim/references_etoiles.py` de Coupole), données (|xyz| = d, directions, matrice orthonormée),
+  vue du ciel gnomonique, 1 000 glissers aberrants, boutons, couleurs ; Playwright 3 moteurs × 3 formats (ciel, fiche
+  au clavier jamais sur l’objet, vue 3D, durée de rendu, plongée vers M42 avec image et crédit).
+
+### Fiche au survol (0.3.0 ; `src/anim/fiches.ts`, `fiche_texte.ts`, `src/app/fiche_flottante.ts`)
+- Registre générique : `Animation.survolable(p, fiche, x, y, r, ordre)` dans `dessiner()` (coordonnées ramenées au
+  repère de la toile, valeurs non finies ignorées), `objet_sous(pos, marge)`, `objets_ordonnes()` ; la scène s’en
+  sert : souris (survol, marge 4 px), toucher sans glisser (marge 14 px ; à côté, la fiche se ferme), clavier (Tab et
+  Maj+Tab parcourent les objets du plus brillant au plus faible puis rendent le focus, flèches quand la fiche est
+  ouverte au clavier, Échap) ; la fiche suit son objet à chaque image et disparaît avec lui.
+- Contenu (`contenu_fiche`, identique au bureau) : titre (nom UAI), désignations (4), lignes libellé / valeur / source
+  (type et type spectral, V, M_V, distance pc et al avec incertitude « ± » ou « (−a/+b) », « mesure incertaine »,
+  distance affichée, autres mesures (4), T_eff, rayon, luminosité, taille, longueur, diamètre, arc, âge, étoiles
+  excitatrices) ; en anglais, le commentaire en français qui suit une référence est retiré ; résumé (nom, type,
+  distance, température) lu par la région `aria-live`.
+- Boîte : `.fiche-objet` (fond `surface` à 92 %, flou 6 px, bord, ombre, 0,74 rem, 300 px au plus), posée à côté de
+  l’objet du côté qui a le plus de place (droite/gauche puis dessous/dessus, chaque côté puis ramené dans la scène),
+  jamais sur l’objet quand un côté a la place (`placer_fiche`, identique au bureau, testé sur 300 cas) ; ne capte pas
+  la souris ; scène de moins de 560 × 480 px : fiche compacte (type, magnitude, distance, température, taille, âge ;
+  sources raccourcies à 44 caractères).
+- Fiches chargées à la demande (`fiches.json`, 321 fiches, 47 Ko compressés) ; étoiles réelles (fiche, T_eff, couleur,
+  distance) dans `etoiles_reelles.json` (19 Ko), statique.
+
+### Couleur vraie des étoiles (0.3.0 ; `src/calc/couleur_etoile.ts`, `src/anim/etoiles_reelles.ts`)
+- Table T → sRGB (1 000 à 50 000 K, 340 lignes, interpolation en log T) : corps noir → CIE 1931 2° → sRGB, composante
+  linéaire maximale 1, vérifiée par SageMath (21 étoiles, 0 écart) ; à un niveau près de `couleurs_reference.json`.
+  La même fonction pour toutes les étoiles (Orion, Grande Ourse, horloge, lever héliaque, repères, HR, parallaxe).
+- Grande Ourse 3D : couleur vraie, contour `grille`, distances des parallaxes adoptées par SIMBAD (barres −/+),
+  valeur « Distances : parallaxes adoptées par SIMBAD… » ; horloge et repères : contour `doux` en thème clair ;
+  diagramme HR : case « Couleur = température » (cochée par défaut) : disque de 3 px en couleur vraie de la
+  température du point, contour de la couleur du groupe ; Soleil et étoile comparés en couleur vraie.
+
+### Règle typographique (0.3.0 ; `src/noyau/typographie.ts`, `src/noyau/typo.ts`)
+- Formateur commun aux ressources et aux applis (`typographie.ts` : `unite`, `nombre`, `sci`, `normaliser`,
+  `controle` ; cas `typographie_cas.json`) ; règle des animations (`typo.ts` : unités à barre oblique → exposants,
+  « - » devant un chiffre → « − », `10^x` → exposant ; cas `typographie_reference.json`), appliquée en filet de
+  sécurité à tout texte de la toile (`texte`, `etiquette`) et aux valeurs affichées ; `nombre()` écrit « − ».
+- Sources corrigées (bureau et web) : km·s⁻¹, m·s⁻¹, m·s⁻², W·m⁻², g·cm⁻³, ph·s⁻¹, s⁻¹, a·s⁻¹, ″·a⁻¹, °·j⁻¹ (°·d⁻¹),
+  « ° par image » ; milliers des textes en espace fine insécable ; indices hors formule récrits (Mₚ sin i, « magnitude
+  absolue », « température effective »).
+- Formules : délimiteurs MathML `stretchy="true"` (symétriques) ; sur la toile, glyphe des parenthèses agrandi à la
+  hauteur du contenu ; racine qui couvre son contenu ; indice d’un mot entier (λ_max, f_obs, a_int) = un identificateur
+  droit.
+- Tests : tous les textes (valeurs, réglages, aides des 94 animations FR et EN, interface, catalogue, « Ce qu’il faut
+  voir », textes dessinés sur la toile) passent `controle` (hors formules ; « CC BY 4.0 » et « License 2.0 » exceptés)
+  et la règle des animations ; formules du demandeur (« d = 10^((m − M + 5)/5) », « t ≈ 10¹⁰ × (M/M☉)^(−2,5) »,
+  racine de « (1+β)/(1−β) »).
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,
-  Exoplanètes, Voie lactée, Cosmologie.
+  Exoplanètes, Milieu interstellaire et formation des étoiles, Voie lactée, Cosmologie.
 
 ## Journal
 
@@ -289,10 +400,23 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
       la réexportation complète des textes changerait d’autres libellés, voir « Reste à faire »), références de
       Coupole (`references_animations.py … antikythera`), « Ce qu’il faut voir », lien croisé, à propos, NOTICE.
 
+### 2026-10-14 — 0.3.0 : spectres physiques, Orion en 3D, fiches au survol, couleur vraie, typographie
+
+- [x] Moteur des spectres physiques (TS) et ses 100 cas de référence ; Explorateur de spectres et Parallaxe
+      spectroscopique refaits avec lui ; cas extrapolés et ancien étalonnage signalés.
+- [x] Orion en 3D (94ᵉ animation, nouveau thème « Milieu interstellaire et formation des étoiles ») ; images ESO et
+      ESA/Hubble chargées à la demande (`public/orion/`), crédits mot pour mot ; NOTICE.
+- [x] Fiche au survol générique (souris, doigt, clavier, `aria-live`), branchée sur six animations ; couleur vraie.
+- [x] Textes réexportés en entier depuis Coupole 0.5.0, références régénérées en entier (94 animations) : la Voie
+      lactée, le jour-nuit et les ombres d’éclipse prennent les clés et les textes du bureau (clés `web_…` retirées) ;
+      `anim_phasedemonstrator_glisser` (aide sur la toile) remplacé par l’aide sous la scène du bureau.
+- [x] Règle typographique sur toutes les animations ; formateur commun ; délimiteurs extensibles ; tests.
+- [x] WebKit : une scène observée avant sa mise en page pouvait rester 1 × 1 (redimension vérifiée jusqu’à la mise en
+      page).
+- [x] Tests : 827 unitaires ; Playwright 3 moteurs × 3 formats ; 0.3.0.
+
 ## Reste à faire
 
-- Rien d’obligatoire. Les textes de `src/i18n/genere/` n’ont pas été réexportés en entier depuis Coupole 0.4.1 (une
-  réexportation change quelques libellés de la Voie lactée et ajoute des clés propres au bureau) : à faire avec une
-  régénération des références de ces animations. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur
+- Rien d’obligatoire. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur
   téléphone dans quelques animations. Pistes : tirages aléatoires identiques à ceux de Python (Mersenne Twister) pour le CCD et le
   télescope (seules les valeurs non affichées en dépendent) ; bouton « Version web » dans Coupole.

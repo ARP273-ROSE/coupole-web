@@ -146,16 +146,16 @@ export class OmbresEclipse extends Animation {
     this.terre = null;
     this.lune = null;
     this.c_reel = this.coche('reel', true);
-    const options: [string, string][] = [['web_eclipse_libre', 'libre']];
+    const options: [string, string][] = [['anim_shadowsim_libre', 'libre']];
     const toutes: [Eclipse, string, boolean][] = [
       ...ECLIPSES_SOLEIL.map((e, i) => [e, 'S' + i, true] as [Eclipse, string, boolean]),
       ...ECLIPSES_LUNE.map((e, i) => [e, 'L' + i, false] as [Eclipse, string, boolean]),
     ];
     toutes.sort((a, b) => a[0][0] - b[0][0] || a[0][1] - b[0][1] || a[0][2] - b[0][2]);
     for (const [e, cle, sol] of toutes)
-      options.push([`${date_eclipse(e)} · ${tr(sol ? 'web_eclipse_soleil' : 'web_eclipse_lune')}, ${tr('anim_eclipsetable_t_' + e[3])}`, cle]);
-    this.rejouer = this.choix('web_rejouer', options, 'libre', 'web_eclipse_rejouer');
-    this.instant = this.curseur('web_instant', -1.0, 1.0, 0.0, { dec: 2, cle_texte: 'web_eclipse_instant' });
+      options.push([`${date_eclipse(e)} · ${tr(sol ? 'anim_shadowsim_soleil' : 'anim_shadowsim_lune_t')}, ${tr('anim_eclipsetable_t_' + e[3])}`, cle]);
+    this.rejouer = this.choix('rejouer', options, 'libre');
+    this.instant = this.curseur('instant', -1.0, 1.0, 0.0, { dec: 2 });
     this.instant.setVisible(false);
     this.rejouer.currentIndexChanged.connect(() => {
       this.instant.setVisible(this.rejouer.currentData() !== 'libre');
@@ -234,10 +234,10 @@ export class OmbresEclipse extends Animation {
     const rj = this.rejeu();
     if (rj) {
       out.push(
-        [tr('web_eclipse_table'), `${date_eclipse(rj.e)} · ${tr(rj.solaire ? 'web_eclipse_soleil' : 'web_eclipse_lune')}, ${tr('anim_eclipsetable_t_' + rj.e[3])}`],
+        [tr('anim_shadowsim_rejouee'), `${date_eclipse(rj.e)} · ${tr(rj.solaire ? 'anim_shadowsim_soleil' : 'anim_shadowsim_lune_t')}, ${tr('anim_eclipsetable_t_' + rj.e[3])}`],
         [tr('anim_eclipsetable_grandeur'), nombre(rj.e[5], 3)],
         [tr('anim_eclipsetable_duree'), format_duree(rj.e[6])],
-        [tr('web_eclipse_ecart'), `${nombre(Math.abs(rj.y_km), 0)} km ${tr(rj.y_km >= 0 ? 'anim_pc_n' : 'anim_pc_s')}`],
+        [tr('anim_shadowsim_ecart'), `${nombre(Math.abs(rj.y_km), 0)} km ${tr(rj.y_km >= 0 ? 'anim_pc_n' : 'anim_pc_s')}`],
       );
     }
     return out;
@@ -281,7 +281,7 @@ export class OmbresEclipse extends Animation {
 
   /** L'éclipse choisie dans la table, en proportions réelles ; l'instant fait avancer la Lune ou son ombre. */
   private rejouerEclipse(p: Peintre, r0: Rect, rj: Rejeu): void {
-    const r = dessin.cadre(p, r0, tr(rj.solaire ? 'web_eclipse_titre_soleil' : 'web_eclipse_titre_lune', { date: date_eclipse(rj.e) }));
+    const r = dessin.cadre(p, r0, tr(rj.solaire ? 'anim_shadowsim_titre_soleil' : 'anim_shadowsim_titre_lune', { date: date_eclipse(rj.e) }));
     const RL = astro.R_LUNE_KM,
       RT = astro.R_TERRE_KM;
     const demi_h = Math.max(rj.rp_km + (rj.solaire ? 0 : RL), RT) * 1.08 + Math.abs(rj.y_km);
@@ -335,7 +335,7 @@ export class OmbresEclipse extends Animation {
     }
     p.restore();
     dessin.police(p, 0.85);
-    dessin.texte(p, r.left + 4, r.bottom - 4, tr('web_eclipse_note'), 'doux', { centre: false });
+    dessin.texte(p, r.left + 4, r.bottom - 4, tr('anim_shadowsim_note'), 'doux', { centre: false });
     dessin.texte(p, r.right - 14, r.top + 12, tr('anim_pc_n') + ' ↑', 'doux');
     dessin.police(p, 1 / 0.85);
   }

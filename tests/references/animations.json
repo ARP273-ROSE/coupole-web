@@ -561,7 +561,7 @@ false
 ],
 [
 "Anomaly correction (pin and slot)",
-"-3.94°"
+"−3.94°"
 ],
 [
 "Ascending node",
@@ -1065,7 +1065,7 @@ false
 ],
 [
 "Correction d’anomalie (tenon-fente)",
-"-3,94°"
+"−3,94°"
 ],
 [
 "Nœud ascendant",
@@ -1522,7 +1522,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0.1000 /s"
+"0.1000 s⁻¹"
 ],
 [
 "1 / H",
@@ -1543,7 +1543,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0.0871 /s"
+"0.0871 s⁻¹"
 ],
 [
 "1 / H",
@@ -1564,7 +1564,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0.0650 /s"
+"0.0650 s⁻¹"
 ],
 [
 "1 / H",
@@ -1585,7 +1585,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0.0593 /s"
+"0.0593 s⁻¹"
 ],
 [
 "1 / H",
@@ -1606,7 +1606,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0.1000 /s"
+"0.1000 s⁻¹"
 ],
 [
 "1 / H",
@@ -1656,7 +1656,7 @@ false
 "maxi": 0.5,
 "mini": 0.02,
 "type": "curseur",
-"unite": "/s",
+"unite": "s⁻¹",
 "valeur": 0.1
 },
 {
@@ -1679,7 +1679,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0,1000 /s"
+"0,1000 s⁻¹"
 ],
 [
 "1 / H",
@@ -1700,7 +1700,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0,0871 /s"
+"0,0871 s⁻¹"
 ],
 [
 "1 / H",
@@ -1721,7 +1721,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0,0650 /s"
+"0,0650 s⁻¹"
 ],
 [
 "1 / H",
@@ -1742,7 +1742,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0,0593 /s"
+"0,0593 s⁻¹"
 ],
 [
 "1 / H",
@@ -1763,7 +1763,7 @@ false
 ],
 [
 "H = (da/dt) / a",
-"0,1000 /s"
+"0,1000 s⁻¹"
 ],
 [
 "1 / H",
@@ -1813,7 +1813,7 @@ false
 "maxi": 0.5,
 "mini": 0.02,
 "type": "curseur",
-"unite": "/s",
+"unite": "s⁻¹",
 "valeur": 0.1
 },
 {
@@ -2260,7 +2260,7 @@ true
 ],
 [
 "Power per m² (σT⁴)",
-"7.35 × 10⁷ W/m²"
+"7.35 × 10⁷ W·m⁻²"
 ],
 [
 "Power per m², relative to the Sun",
@@ -2281,7 +2281,7 @@ true
 ],
 [
 "Power per m² (σT⁴)",
-"1.39 × 10⁹ W/m²"
+"1.39 × 10⁹ W·m⁻²"
 ],
 [
 "Power per m², relative to the Sun",
@@ -2289,15 +2289,15 @@ true
 ],
 [
 "U − B",
-"-0.21"
+"−0.21"
 ],
 [
 "B − V",
-"-0.15"
+"−0.15"
 ],
 [
 "V − R",
-"-0.08"
+"−0.08"
 ]
 ]
 ],
@@ -2314,7 +2314,7 @@ true
 ],
 [
 "Power per m² (σT⁴)",
-"7.35 × 10⁷ W/m²"
+"7.35 × 10⁷ W·m⁻²"
 ],
 [
 "Power per m², relative to the Sun",
@@ -2436,7 +2436,7 @@ true
 ],
 [
 "Puissance par m² (σT⁴)",
-"7,35 × 10⁷ W/m²"
+"7,35 × 10⁷ W·m⁻²"
 ],
 [
 "Puissance par m², rapportée au Soleil",
@@ -2457,7 +2457,7 @@ true
 ],
 [
 "Puissance par m² (σT⁴)",
-"1,39 × 10⁹ W/m²"
+"1,39 × 10⁹ W·m⁻²"
 ],
 [
 "Puissance par m², rapportée au Soleil",
@@ -2465,15 +2465,15 @@ true
 ],
 [
 "U − B",
-"-0,21"
+"−0,21"
 ],
 [
 "B − V",
-"-0,15"
+"−0,15"
 ],
 [
 "V − R",
-"-0,08"
+"−0,08"
 ]
 ]
 ],
@@ -2490,7 +2490,7 @@ true
 ],
 [
 "Puissance par m² (σT⁴)",
-"7,35 × 10⁷ W/m²"
+"7,35 × 10⁷ W·m⁻²"
 ],
 [
 "Puissance par m², rapportée au Soleil",
@@ -2529,7 +2529,7 @@ true
 "type": "choix"
 },
 {
-"aide": "Température de la courbe choisie (3 000 à 25 000 K, échelle logarithmique).",
+"aide": "Température de la courbe choisie (3 000 à 25 000 K, échelle logarithmique).",
 "cle": "temperature",
 "dec": 0,
 "defaut": 6000.0,
@@ -2542,7 +2542,7 @@ true
 "valeur": 6000.0
 },
 {
-"aide": "Longueur d’onde au bord droit du graphe (1 000 à 5 000 nm).",
+"aide": "Longueur d’onde au bord droit du graphe (1 000 à 5 000 nm).",
 "cle": "lambda_max",
 "dec": 0,
 "defaut": 1000.0,
@@ -2622,31 +2622,35 @@ false
 [
 [
 "Dubhe",
-"123.6 ± 2.5 al"
+"122.9 (−2.2/+2.3) al"
 ],
 [
 "Merak",
-"79.4 ± 1.2 al"
+"84.5 (−2.4/+2.5) al"
 ],
 [
 "Phecda",
-"83.7 ± 1.5 al"
+"83.2 ± 0.8 al"
 ],
 [
 "Megrez",
-"81.4 ± 1.2 al"
+"80.9 ± 0.4 al"
 ],
 [
 "Alioth",
-"80.9 ± 1.2 al"
+"82.5 ± 0.4 al"
 ],
 [
 "Mizar",
-"78.2 ± 1.1 al"
+"81.1 ± 0.9 al"
 ],
 [
 "Alkaid",
-"100.7 ± 2.3 al"
+"103.9 ± 0.8 al"
+],
+[
+"Distances",
+"parallaxes adopted by SIMBAD (Hipparcos 2007, Gaia), retrieved on 14/10/2026"
 ]
 ]
 ],
@@ -2655,31 +2659,35 @@ false
 [
 [
 "Dubhe",
-"123.6 ± 2.5 al"
+"122.9 (−2.2/+2.3) al"
 ],
 [
 "Merak",
-"79.4 ± 1.2 al"
+"84.5 (−2.4/+2.5) al"
 ],
 [
 "Phecda",
-"83.7 ± 1.5 al"
+"83.2 ± 0.8 al"
 ],
 [
 "Megrez",
-"81.4 ± 1.2 al"
+"80.9 ± 0.4 al"
 ],
 [
 "Alioth",
-"80.9 ± 1.2 al"
+"82.5 ± 0.4 al"
 ],
 [
 "Mizar",
-"78.2 ± 1.1 al"
+"81.1 ± 0.9 al"
 ],
 [
 "Alkaid",
-"100.7 ± 2.3 al"
+"103.9 ± 0.8 al"
+],
+[
+"Distances",
+"parallaxes adopted by SIMBAD (Hipparcos 2007, Gaia), retrieved on 14/10/2026"
 ]
 ]
 ],
@@ -2688,31 +2696,35 @@ false
 [
 [
 "Dubhe",
-"123.6 ± 2.5 al"
+"122.9 (−2.2/+2.3) al"
 ],
 [
 "Merak",
-"79.4 ± 1.2 al"
+"84.5 (−2.4/+2.5) al"
 ],
 [
 "Phecda",
-"83.7 ± 1.5 al"
+"83.2 ± 0.8 al"
 ],
 [
 "Megrez",
-"81.4 ± 1.2 al"
+"80.9 ± 0.4 al"
 ],
 [
 "Alioth",
-"80.9 ± 1.2 al"
+"82.5 ± 0.4 al"
 ],
 [
 "Mizar",
-"78.2 ± 1.1 al"
+"81.1 ± 0.9 al"
 ],
 [
 "Alkaid",
-"100.7 ± 2.3 al"
+"103.9 ± 0.8 al"
+],
+[
+"Distances",
+"parallaxes adopted by SIMBAD (Hipparcos 2007, Gaia), retrieved on 14/10/2026"
 ]
 ]
 ]
@@ -2748,31 +2760,35 @@ false
 [
 [
 "Dubhe",
-"123,6 ± 2,5 al"
+"122,9 (−2,2/+2,3) al"
 ],
 [
 "Merak",
-"79,4 ± 1,2 al"
+"84,5 (−2,4/+2,5) al"
 ],
 [
 "Phecda",
-"83,7 ± 1,5 al"
+"83,2 ± 0,8 al"
 ],
 [
 "Megrez",
-"81,4 ± 1,2 al"
+"80,9 ± 0,4 al"
 ],
 [
 "Alioth",
-"80,9 ± 1,2 al"
+"82,5 ± 0,4 al"
 ],
 [
 "Mizar",
-"78,2 ± 1,1 al"
+"81,1 ± 0,9 al"
 ],
 [
 "Alkaid",
-"100,7 ± 2,3 al"
+"103,9 ± 0,8 al"
+],
+[
+"Distances",
+"parallaxes adoptées par SIMBAD (Hipparcos 2007, Gaia), consultées le 14/10/2026"
 ]
 ]
 ],
@@ -2781,31 +2797,35 @@ false
 [
 [
 "Dubhe",
-"123,6 ± 2,5 al"
+"122,9 (−2,2/+2,3) al"
 ],
 [
 "Merak",
-"79,4 ± 1,2 al"
+"84,5 (−2,4/+2,5) al"
 ],
 [
 "Phecda",
-"83,7 ± 1,5 al"
+"83,2 ± 0,8 al"
 ],
 [
 "Megrez",
-"81,4 ± 1,2 al"
+"80,9 ± 0,4 al"
 ],
 [
 "Alioth",
-"80,9 ± 1,2 al"
+"82,5 ± 0,4 al"
 ],
 [
 "Mizar",
-"78,2 ± 1,1 al"
+"81,1 ± 0,9 al"
 ],
 [
 "Alkaid",
-"100,7 ± 2,3 al"
+"103,9 ± 0,8 al"
+],
+[
+"Distances",
+"parallaxes adoptées par SIMBAD (Hipparcos 2007, Gaia), consultées le 14/10/2026"
 ]
 ]
 ],
@@ -2814,31 +2834,35 @@ false
 [
 [
 "Dubhe",
-"123,6 ± 2,5 al"
+"122,9 (−2,2/+2,3) al"
 ],
 [
 "Merak",
-"79,4 ± 1,2 al"
+"84,5 (−2,4/+2,5) al"
 ],
 [
 "Phecda",
-"83,7 ± 1,5 al"
+"83,2 ± 0,8 al"
 ],
 [
 "Megrez",
-"81,4 ± 1,2 al"
+"80,9 ± 0,4 al"
 ],
 [
 "Alioth",
-"80,9 ± 1,2 al"
+"82,5 ± 0,4 al"
 ],
 [
 "Mizar",
-"78,2 ± 1,1 al"
+"81,1 ± 0,9 al"
 ],
 [
 "Alkaid",
-"100,7 ± 2,3 al"
+"103,9 ± 0,8 al"
+],
+[
+"Distances",
+"parallaxes adoptées par SIMBAD (Hipparcos 2007, Gaia), consultées le 14/10/2026"
 ]
 ]
 ]
@@ -3010,7 +3034,7 @@ false
 "maxi": 5000.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "ph/s",
+"unite": "ph·s⁻¹",
 "valeur": 1500.0
 },
 {
@@ -3023,7 +3047,7 @@ false
 "maxi": 200.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "ph/s",
+"unite": "ph·s⁻¹",
 "valeur": 20.0
 }
 ]
@@ -3153,7 +3177,7 @@ false
 "maxi": 5000.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "ph/s",
+"unite": "ph·s⁻¹",
 "valeur": 1500.0
 },
 {
@@ -3166,7 +3190,7 @@ false
 "maxi": 200.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "ph/s",
+"unite": "ph·s⁻¹",
 "valeur": 20.0
 }
 ]
@@ -3192,11 +3216,11 @@ false
 ],
 [
 "Amplitude K (computed)",
-"12.46 m/s"
+"12.46 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-12.46 m/s"
+"−12.46 m·s⁻¹"
 ]
 ]
 ],
@@ -3209,11 +3233,11 @@ false
 ],
 [
 "Amplitude K (computed)",
-"12.46 m/s"
+"12.46 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-4.95 m/s"
+"−4.95 m·s⁻¹"
 ]
 ]
 ],
@@ -3226,15 +3250,15 @@ false
 ],
 [
 "Amplitude K (computed)",
-"56.14 m/s"
+"56.14 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-22.30 m/s"
+"−22.30 m·s⁻¹"
 ],
 [
 "Measured amplitude",
-"55.77 m/s"
+"55.77 m·s⁻¹"
 ]
 ]
 ],
@@ -3247,15 +3271,15 @@ false
 ],
 [
 "Amplitude K (computed)",
-"56.14 m/s"
+"56.14 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"38.43 m/s"
+"38.43 m·s⁻¹"
 ],
 [
 "Measured amplitude",
-"55.77 m/s"
+"55.77 m·s⁻¹"
 ]
 ]
 ],
@@ -3268,11 +3292,11 @@ false
 ],
 [
 "Amplitude K (computed)",
-"12.46 m/s"
+"12.46 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-12.46 m/s"
+"−12.46 m·s⁻¹"
 ]
 ]
 ]
@@ -3324,11 +3348,11 @@ false
 ],
 [
 "Amplitude K (calculée)",
-"12,46 m/s"
+"12,46 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-12,46 m/s"
+"−12,46 m·s⁻¹"
 ]
 ]
 ],
@@ -3341,11 +3365,11 @@ false
 ],
 [
 "Amplitude K (calculée)",
-"12,46 m/s"
+"12,46 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-4,95 m/s"
+"−4,95 m·s⁻¹"
 ]
 ]
 ],
@@ -3358,15 +3382,15 @@ false
 ],
 [
 "Amplitude K (calculée)",
-"56,14 m/s"
+"56,14 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-22,30 m/s"
+"−22,30 m·s⁻¹"
 ],
 [
 "Amplitude mesurée",
-"55,77 m/s"
+"55,77 m·s⁻¹"
 ]
 ]
 ],
@@ -3379,15 +3403,15 @@ false
 ],
 [
 "Amplitude K (calculée)",
-"56,14 m/s"
+"56,14 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"38,43 m/s"
+"38,43 m·s⁻¹"
 ],
 [
 "Amplitude mesurée",
-"55,77 m/s"
+"55,77 m·s⁻¹"
 ]
 ]
 ],
@@ -3400,11 +3424,11 @@ false
 ],
 [
 "Amplitude K (calculée)",
-"12,46 m/s"
+"12,46 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-12,46 m/s"
+"−12,46 m·s⁻¹"
 ]
 ]
 ]
@@ -3616,7 +3640,7 @@ true
 "maxi": 10.0,
 "mini": 0.1,
 "type": "curseur",
-"unite": "years/s",
+"unite": "a·s⁻¹",
 "valeur": 2.0
 },
 {
@@ -3802,7 +3826,7 @@ true
 "maxi": 10.0,
 "mini": 0.1,
 "type": "curseur",
-"unite": "ans/s",
+"unite": "a·s⁻¹",
 "valeur": 2.0
 },
 {
@@ -4166,11 +4190,11 @@ true
 ],
 [
 "Rise and set",
-"-49.0° → 49.0°"
+"−49.0° → 49.0°"
 ],
 [
 "Never rise",
-"-90.0° → -49.0°"
+"−90.0° → −49.0°"
 ]
 ]
 ],
@@ -4187,11 +4211,11 @@ true
 ],
 [
 "Rise and set",
-"-49.0° → 49.0°"
+"−49.0° → 49.0°"
 ],
 [
 "Never rise",
-"-90.0° → -49.0°"
+"−90.0° → −49.0°"
 ]
 ]
 ],
@@ -4204,11 +4228,11 @@ true
 ],
 [
 "Circumpolar",
-"-90.0° → -75.7°"
+"−90.0° → −75.7°"
 ],
 [
 "Rise and set",
-"-75.7° → 75.7°"
+"−75.7° → 75.7°"
 ],
 [
 "Never rise",
@@ -4225,11 +4249,11 @@ true
 ],
 [
 "Circumpolar",
-"-90.0° → -75.7°"
+"−90.0° → −75.7°"
 ],
 [
 "Rise and set",
-"-75.7° → 75.7°"
+"−75.7° → 75.7°"
 ],
 [
 "Never rise",
@@ -4250,11 +4274,11 @@ true
 ],
 [
 "Rise and set",
-"-49.0° → 49.0°"
+"−49.0° → 49.0°"
 ],
 [
 "Never rise",
-"-90.0° → -49.0°"
+"−90.0° → −49.0°"
 ]
 ]
 ]
@@ -4420,11 +4444,11 @@ true
 ],
 [
 "Se lèvent et se couchent",
-"-49,0° → 49,0°"
+"−49,0° → 49,0°"
 ],
 [
 "Jamais levées",
-"-90,0° → -49,0°"
+"−90,0° → −49,0°"
 ]
 ]
 ],
@@ -4441,11 +4465,11 @@ true
 ],
 [
 "Se lèvent et se couchent",
-"-49,0° → 49,0°"
+"−49,0° → 49,0°"
 ],
 [
 "Jamais levées",
-"-90,0° → -49,0°"
+"−90,0° → −49,0°"
 ]
 ]
 ],
@@ -4458,11 +4482,11 @@ true
 ],
 [
 "Circumpolaires",
-"-90,0° → -75,7°"
+"−90,0° → −75,7°"
 ],
 [
 "Se lèvent et se couchent",
-"-75,7° → 75,7°"
+"−75,7° → 75,7°"
 ],
 [
 "Jamais levées",
@@ -4479,11 +4503,11 @@ true
 ],
 [
 "Circumpolaires",
-"-90,0° → -75,7°"
+"−90,0° → −75,7°"
 ],
 [
 "Se lèvent et se couchent",
-"-75,7° → 75,7°"
+"−75,7° → 75,7°"
 ],
 [
 "Jamais levées",
@@ -4504,11 +4528,11 @@ true
 ],
 [
 "Se lèvent et se couchent",
-"-49,0° → 49,0°"
+"−49,0° → 49,0°"
 ],
 [
 "Jamais levées",
-"-90,0° → -49,0°"
+"−90,0° → −49,0°"
 ]
 ]
 ]
@@ -5642,7 +5666,7 @@ true
 ],
 [
 "Declination",
-"-22.8°"
+"−22.8°"
 ],
 [
 "Day length",
@@ -5667,7 +5691,7 @@ true
 ],
 [
 "Declination",
-"-12.1°"
+"−12.1°"
 ],
 [
 "Day length",
@@ -5833,7 +5857,7 @@ true
 ],
 [
 "Déclinaison",
-"-22,8°"
+"−22,8°"
 ],
 [
 "Durée du jour",
@@ -5858,7 +5882,7 @@ true
 ],
 [
 "Déclinaison",
-"-12,1°"
+"−12,1°"
 ],
 [
 "Durée du jour",
@@ -5991,6 +6015,22 @@ true
 [
 "crepuscule",
 true
+],
+[
+"projection",
+"globe"
+],
+[
+"bord",
+30
+],
+[
+"tournant",
+true
+],
+[
+"axe",
+false
 ]
 ],
 "en": {
@@ -6013,6 +6053,14 @@ true
 [
 "Sun’s altitude for the observer",
 "88.2°"
+],
+[
+"At the North Pole",
+"polar day (Sun 0.4° high)"
+],
+[
+"At the South Pole",
+"polar night (Sun at −0.4°)"
 ]
 ]
 ],
@@ -6034,6 +6082,14 @@ true
 [
 "Sun’s altitude for the observer",
 "69.6°"
+],
+[
+"At the North Pole",
+"polar day (Sun 0.4° high)"
+],
+[
+"At the South Pole",
+"polar night (Sun at −0.4°)"
 ]
 ]
 ],
@@ -6055,6 +6111,14 @@ true
 [
 "Sun’s altitude for the observer",
 "43.5°"
+],
+[
+"At the North Pole",
+"polar night (Sun at −8.3°)"
+],
+[
+"At the South Pole",
+"polar day (Sun 8.3° high)"
 ]
 ]
 ],
@@ -6075,7 +6139,15 @@ true
 ],
 [
 "Sun’s altitude for the observer",
-"-23.5°"
+"−23.5°"
+],
+[
+"At the North Pole",
+"polar night (Sun at −13.5°)"
+],
+[
+"At the South Pole",
+"polar day (Sun 13.5° high)"
 ]
 ]
 ],
@@ -6097,6 +6169,14 @@ true
 [
 "Sun’s altitude for the observer",
 "88.2°"
+],
+[
+"At the North Pole",
+"polar day (Sun 0.4° high)"
+],
+[
+"At the South Pole",
+"polar night (Sun at −0.4°)"
 ]
 ]
 ]
@@ -6189,6 +6269,60 @@ true
 "defaut": false,
 "libelle": "Twilights",
 "type": "coche"
+},
+{
+"aide": "Equirectangular map (latitude and longitude proportional), azimuthal equidistant centred on the North or South Pole, down to the equator (polar regions, polar night and day without distortion), or a 3D globe seen from space, rotated with the mouse.",
+"cle": "projection",
+"defaut": "globe",
+"options": [
+[
+"equirectangular",
+"equi"
+],
+[
+"North Pole",
+"nord"
+],
+[
+"South Pole",
+"sud"
+],
+[
+"3D globe (view from space)",
+"globe"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Edge of the polar view: the equator, or 30° beyond to see both tropics.",
+"cle": "bord",
+"defaut": 0,
+"options": [
+[
+"the equator",
+0
+],
+[
+"30° beyond (tropics)",
+30
+]
+],
+"type": "choix"
+},
+{
+"aide": "Polar view and globe: the map stays fixed (Greenwich meridian at the bottom, or at the top for the South Pole) and the terminator turns; otherwise the Earth turns under a fixed terminator (noon at the bottom).",
+"cle": "tournant",
+"defaut": false,
+"libelle": "Rotating terminator",
+"type": "coche"
+},
+{
+"aide": "Show the Earth’s rotation axis (hidden part dotted).",
+"cle": "axe",
+"defaut": true,
+"libelle": "Polar axis",
+"type": "coche"
 }
 ]
 },
@@ -6212,6 +6346,14 @@ true
 [
 "Hauteur du Soleil pour l’observateur",
 "88,2°"
+],
+[
+"Au pôle Nord",
+"jour polaire (Soleil à 0,4° de hauteur)"
+],
+[
+"Au pôle Sud",
+"nuit polaire (Soleil à −0,4°)"
 ]
 ]
 ],
@@ -6233,6 +6375,14 @@ true
 [
 "Hauteur du Soleil pour l’observateur",
 "69,6°"
+],
+[
+"Au pôle Nord",
+"jour polaire (Soleil à 0,4° de hauteur)"
+],
+[
+"Au pôle Sud",
+"nuit polaire (Soleil à −0,4°)"
 ]
 ]
 ],
@@ -6254,6 +6404,14 @@ true
 [
 "Hauteur du Soleil pour l’observateur",
 "43,5°"
+],
+[
+"Au pôle Nord",
+"nuit polaire (Soleil à −8,3°)"
+],
+[
+"Au pôle Sud",
+"jour polaire (Soleil à 8,3° de hauteur)"
 ]
 ]
 ],
@@ -6274,7 +6432,15 @@ true
 ],
 [
 "Hauteur du Soleil pour l’observateur",
-"-23,5°"
+"−23,5°"
+],
+[
+"Au pôle Nord",
+"nuit polaire (Soleil à −13,5°)"
+],
+[
+"Au pôle Sud",
+"jour polaire (Soleil à 13,5° de hauteur)"
 ]
 ]
 ],
@@ -6296,6 +6462,14 @@ true
 [
 "Hauteur du Soleil pour l’observateur",
 "88,2°"
+],
+[
+"Au pôle Nord",
+"jour polaire (Soleil à 0,4° de hauteur)"
+],
+[
+"Au pôle Sud",
+"nuit polaire (Soleil à −0,4°)"
 ]
 ]
 ]
@@ -6388,6 +6562,60 @@ true
 "defaut": false,
 "libelle": "Crépuscules",
 "type": "coche"
+},
+{
+"aide": "Carte équirectangulaire (latitude et longitude proportionnelles), ou azimutale équidistante centrée sur le pôle Nord ou le pôle Sud, jusqu’à l’équateur (régions polaires, nuit et jour polaires sans déformation), ou globe 3D vu de l’espace, à tourner à la souris.",
+"cle": "projection",
+"defaut": "globe",
+"options": [
+[
+"équirectangulaire",
+"equi"
+],
+[
+"pôle Nord",
+"nord"
+],
+[
+"pôle Sud",
+"sud"
+],
+[
+"globe 3D (vue de l’espace)",
+"globe"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Bord de la vue polaire : l’équateur, ou 30° au-delà pour voir les deux tropiques.",
+"cle": "bord",
+"defaut": 0,
+"options": [
+[
+"l’équateur",
+0
+],
+[
+"30° au-delà (tropiques)",
+30
+]
+],
+"type": "choix"
+},
+{
+"aide": "Vue polaire et globe : la carte reste fixe (méridien de Greenwich en bas, ou en haut au pôle Sud) et le terminateur tourne ; sinon la Terre tourne sous un terminateur fixe (midi en bas).",
+"cle": "tournant",
+"defaut": false,
+"libelle": "Terminateur tournant",
+"type": "coche"
+},
+{
+"aide": "Montrer l’axe de rotation de la Terre (partie cachée en pointillé).",
+"cle": "axe",
+"defaut": true,
+"libelle": "Axe des pôles",
+"type": "coche"
 }
 ]
 },
@@ -6432,7 +6660,7 @@ false
 ],
 [
 "Sun’s altitude",
-"-46.7°"
+"−46.7°"
 ],
 [
 "Hour angle of Dubhe",
@@ -6457,7 +6685,7 @@ false
 ],
 [
 "Sun’s altitude",
-"-36.5°"
+"−36.5°"
 ],
 [
 "Hour angle of Dubhe",
@@ -6532,7 +6760,7 @@ false
 ],
 [
 "Sun’s altitude",
-"-46.7°"
+"−46.7°"
 ],
 [
 "Hour angle of Dubhe",
@@ -6622,7 +6850,7 @@ false
 ],
 [
 "Hauteur du Soleil",
-"-46,7°"
+"−46,7°"
 ],
 [
 "Angle horaire de Dubhe",
@@ -6647,7 +6875,7 @@ false
 ],
 [
 "Hauteur du Soleil",
-"-36,5°"
+"−36,5°"
 ],
 [
 "Angle horaire de Dubhe",
@@ -6722,7 +6950,7 @@ false
 ],
 [
 "Hauteur du Soleil",
-"-46,7°"
+"−46,7°"
 ],
 [
 "Angle horaire de Dubhe",
@@ -7422,7 +7650,7 @@ true
 ],
 [
 "Speed",
-"3.075 km/s"
+"3.075 km·s⁻¹"
 ]
 ]
 ],
@@ -7443,7 +7671,7 @@ true
 ],
 [
 "Speed",
-"5.448 km/s"
+"5.448 km·s⁻¹"
 ],
 [
 "With the mass of the Moon",
@@ -7468,7 +7696,7 @@ true
 ],
 [
 "Speed",
-"3.075 km/s"
+"3.075 km·s⁻¹"
 ]
 ]
 ]
@@ -7547,7 +7775,7 @@ true
 ],
 [
 "Vitesse",
-"3,075 km/s"
+"3,075 km·s⁻¹"
 ]
 ]
 ],
@@ -7568,7 +7796,7 @@ true
 ],
 [
 "Vitesse",
-"5,448 km/s"
+"5,448 km·s⁻¹"
 ],
 [
 "Avec la masse de la Lune",
@@ -7593,14 +7821,14 @@ true
 ],
 [
 "Vitesse",
-"3,075 km/s"
+"3,075 km·s⁻¹"
 ]
 ]
 ]
 ],
 "reglages": [
 {
-"aide": "Distance du satellite au centre de la Terre (échelle logarithmique, de la surface à 450 000 km) ; on peut aussi cliquer ou glisser sur la courbe.",
+"aide": "Distance du satellite au centre de la Terre (échelle logarithmique, de la surface à 450 000 km) ; on peut aussi cliquer ou glisser sur la courbe.",
 "cle": "r",
 "dec": 0,
 "defaut": 42164.0,
@@ -9006,7 +9234,7 @@ true
 ],
 [
 "Declination",
-"-14.3°"
+"−14.3°"
 ],
 [
 "Right ascension",
@@ -9035,7 +9263,7 @@ true
 ],
 [
 "Declination",
-"-3.4°"
+"−3.4°"
 ],
 [
 "Right ascension",
@@ -9072,7 +9300,7 @@ true
 ],
 [
 "Sun’s altitude at noon",
-"-22.3°"
+"−22.3°"
 ],
 [
 "Day length",
@@ -9097,7 +9325,7 @@ true
 ],
 [
 "Sun’s altitude at noon",
-"-16.8°"
+"−16.8°"
 ],
 [
 "Day length",
@@ -9114,7 +9342,7 @@ true
 ],
 [
 "Declination",
-"-14.3°"
+"−14.3°"
 ],
 [
 "Right ascension",
@@ -9234,7 +9462,7 @@ true
 ],
 [
 "Déclinaison",
-"-14,3°"
+"−14,3°"
 ],
 [
 "Ascension droite",
@@ -9263,7 +9491,7 @@ true
 ],
 [
 "Déclinaison",
-"-3,4°"
+"−3,4°"
 ],
 [
 "Ascension droite",
@@ -9300,7 +9528,7 @@ true
 ],
 [
 "Hauteur du Soleil à midi",
-"-22,3°"
+"−22,3°"
 ],
 [
 "Durée du jour",
@@ -9325,7 +9553,7 @@ true
 ],
 [
 "Hauteur du Soleil à midi",
-"-16,8°"
+"−16,8°"
 ],
 [
 "Durée du jour",
@@ -9342,7 +9570,7 @@ true
 ],
 [
 "Déclinaison",
-"-14,3°"
+"−14,3°"
 ],
 [
 "Ascension droite",
@@ -10283,7 +10511,7 @@ true
 "15,6 %"
 ],
 [
-"Lumière transmise (200 à 1 100 nm)",
+"Lumière transmise (200 à 1 100 nm)",
 "9,0 %"
 ]
 ]
@@ -10296,7 +10524,7 @@ true
 "0,0 %"
 ],
 [
-"Lumière transmise (200 à 1 100 nm)",
+"Lumière transmise (200 à 1 100 nm)",
 "0,0 %"
 ]
 ]
@@ -10309,7 +10537,7 @@ true
 "15,6 %"
 ],
 [
-"Lumière transmise (200 à 1 100 nm)",
+"Lumière transmise (200 à 1 100 nm)",
 "9,0 %"
 ]
 ]
@@ -10337,7 +10565,7 @@ true
 "type": "choix"
 },
 {
-"aide": "Température du corps noir (2 000 à 30 000 K).",
+"aide": "Température du corps noir (2 000 à 30 000 K).",
 "cle": "temperature",
 "dec": 0,
 "defaut": 6000.0,
@@ -10557,7 +10785,7 @@ true
 ],
 "reglages": [
 {
-"aide": "Température de la nébuleuse (20 à 2 000 K) : on lit la distance au Soleil où elle régnait et l’état de chaque substance.",
+"aide": "Température de la nébuleuse (20 à 2 000 K) : on lit la distance au Soleil où elle régnait et l’état de chaque substance.",
 "cle": "temperature",
 "dec": 0,
 "defaut": 175.0,
@@ -10596,7 +10824,7 @@ true
 ],
 [
 "Declination of the Sun",
-"-12.7°"
+"−12.7°"
 ],
 [
 "Possible declination of the full moon",
@@ -10617,7 +10845,7 @@ true
 ],
 [
 "Declination of the Sun",
-"-6.2°"
+"−6.2°"
 ],
 [
 "Possible declination of the full moon",
@@ -10638,7 +10866,7 @@ true
 ],
 [
 "Declination of the Sun",
-"-7.7°"
+"−7.7°"
 ],
 [
 "Possible declination of the full moon",
@@ -10659,7 +10887,7 @@ true
 ],
 [
 "Declination of the Sun",
-"-14.0°"
+"−14.0°"
 ],
 [
 "Possible declination of the full moon",
@@ -10680,7 +10908,7 @@ true
 ],
 [
 "Declination of the Sun",
-"-12.7°"
+"−12.7°"
 ],
 [
 "Possible declination of the full moon",
@@ -10746,7 +10974,7 @@ true
 ],
 [
 "Déclinaison du Soleil",
-"-12,7°"
+"−12,7°"
 ],
 [
 "Déclinaison possible de la pleine lune",
@@ -10767,7 +10995,7 @@ true
 ],
 [
 "Déclinaison du Soleil",
-"-6,2°"
+"−6,2°"
 ],
 [
 "Déclinaison possible de la pleine lune",
@@ -10788,7 +11016,7 @@ true
 ],
 [
 "Déclinaison du Soleil",
-"-7,7°"
+"−7,7°"
 ],
 [
 "Déclinaison possible de la pleine lune",
@@ -10809,7 +11037,7 @@ true
 ],
 [
 "Déclinaison du Soleil",
-"-14,0°"
+"−14,0°"
 ],
 [
 "Déclinaison possible de la pleine lune",
@@ -10830,7 +11058,7 @@ true
 ],
 [
 "Déclinaison du Soleil",
-"-12,7°"
+"−12,7°"
 ],
 [
 "Déclinaison possible de la pleine lune",
@@ -11420,7 +11648,7 @@ false
 ],
 [
 "Speed (relativistic Doppler)",
-"0 km/s"
+"0 km·s⁻¹"
 ],
 [
 "Hα line observed at",
@@ -11441,7 +11669,7 @@ false
 ],
 [
 "Speed (relativistic Doppler)",
-"70 321 km/s"
+"70 321 km·s⁻¹"
 ],
 [
 "Hα line observed at",
@@ -11462,7 +11690,7 @@ false
 ],
 [
 "Speed (relativistic Doppler)",
-"0 km/s"
+"0 km·s⁻¹"
 ],
 [
 "Hα line observed at",
@@ -11516,7 +11744,7 @@ false
 ],
 [
 "Vitesse (Doppler relativiste)",
-"0 km/s"
+"0 km·s⁻¹"
 ],
 [
 "Raie Hα observée à",
@@ -11537,7 +11765,7 @@ false
 ],
 [
 "Vitesse (Doppler relativiste)",
-"70 321 km/s"
+"70 321 km·s⁻¹"
 ],
 [
 "Raie Hα observée à",
@@ -11558,7 +11786,7 @@ false
 ],
 [
 "Vitesse (Doppler relativiste)",
-"0 km/s"
+"0 km·s⁻¹"
 ],
 [
 "Raie Hα observée à",
@@ -11930,11 +12158,11 @@ false
 ],
 [
 "Acceleration of M₁ (F / M₁)",
-"9.82 m/s²"
+"9.82 m·s⁻²"
 ],
 [
 "Acceleration of M₂ (F / M₂)",
-"1.68 × 10⁻²⁵ m/s²"
+"1.68 × 10⁻²⁵ m·s⁻²"
 ]
 ]
 ],
@@ -11959,11 +12187,11 @@ false
 ],
 [
 "Acceleration of M₁ (F / M₁)",
-"3.96 × 10⁻²² m/s²"
+"3.96 × 10⁻²² m·s⁻²"
 ],
 [
 "Acceleration of M₂ (F / M₂)",
-"3.96 × 10⁻²² m/s²"
+"3.96 × 10⁻²² m·s⁻²"
 ]
 ]
 ],
@@ -11988,11 +12216,11 @@ false
 ],
 [
 "Acceleration of M₁ (F / M₁)",
-"9.82 m/s²"
+"9.82 m·s⁻²"
 ],
 [
 "Acceleration of M₂ (F / M₂)",
-"1.68 × 10⁻²⁵ m/s²"
+"1.68 × 10⁻²⁵ m·s⁻²"
 ]
 ]
 ]
@@ -12250,11 +12478,11 @@ false
 ],
 [
 "Accélération de M₁ (F / M₁)",
-"9,82 m/s²"
+"9,82 m·s⁻²"
 ],
 [
 "Accélération de M₂ (F / M₂)",
-"1,68 × 10⁻²⁵ m/s²"
+"1,68 × 10⁻²⁵ m·s⁻²"
 ]
 ]
 ],
@@ -12279,11 +12507,11 @@ false
 ],
 [
 "Accélération de M₁ (F / M₁)",
-"3,96 × 10⁻²² m/s²"
+"3,96 × 10⁻²² m·s⁻²"
 ],
 [
 "Accélération de M₂ (F / M₂)",
-"3,96 × 10⁻²² m/s²"
+"3,96 × 10⁻²² m·s⁻²"
 ]
 ]
 ],
@@ -12308,11 +12536,11 @@ false
 ],
 [
 "Accélération de M₁ (F / M₁)",
-"9,82 m/s²"
+"9,82 m·s⁻²"
 ],
 [
 "Accélération de M₂ (F / M₂)",
-"1,68 × 10⁻²⁵ m/s²"
+"1,68 × 10⁻²⁵ m·s⁻²"
 ]
 ]
 ]
@@ -12888,7 +13116,7 @@ false
 "valeur": 7.26
 },
 {
-"aide": "Rapport des masses de l’étoile et de la planète (1 à 20 ; l’original prenait 6,2 / 1,2). Le vrai rapport Soleil / Jupiter est d’environ 1 048.",
+"aide": "Rapport des masses de l’étoile et de la planète (1 à 20 ; l’original prenait 6,2 / 1,2). Le vrai rapport Soleil / Jupiter est d’environ 1 048.",
 "cle": "rapport",
 "dec": 2,
 "defaut": 5.166666666666667,
@@ -12962,7 +13190,7 @@ false
 ],
 [
 "Altitude of the star at dawn",
-"-59.9°"
+"−59.9°"
 ],
 [
 "Heliacal rising",
@@ -12983,7 +13211,7 @@ false
 ],
 [
 "Altitude of the star at dawn",
-"-63.4°"
+"−63.4°"
 ],
 [
 "Heliacal rising",
@@ -13046,7 +13274,7 @@ false
 ],
 [
 "Altitude of the star at dawn",
-"-59.9°"
+"−59.9°"
 ],
 [
 "Heliacal rising",
@@ -13211,7 +13439,7 @@ false
 ],
 [
 "Hauteur de l’étoile à l’aube",
-"-59,9°"
+"−59,9°"
 ],
 [
 "Lever héliaque",
@@ -13232,7 +13460,7 @@ false
 ],
 [
 "Hauteur de l’étoile à l’aube",
-"-63,4°"
+"−63,4°"
 ],
 [
 "Lever héliaque",
@@ -13295,7 +13523,7 @@ false
 ],
 [
 "Hauteur de l’étoile à l’aube",
-"-59,9°"
+"−59,9°"
 ],
 [
 "Lever héliaque",
@@ -13841,6 +14069,10 @@ true
 [
 "rayons",
 false
+],
+[
+"couleur_t",
+false
 ]
 ],
 "en": {
@@ -13984,6 +14216,13 @@ false
 "defaut": true,
 "libelle": "Equal radii",
 "type": "coche"
+},
+{
+"aide": "Each star takes the colour of a black body at its temperature (CIE 1931 → sRGB); its outline keeps the colour of its group. Unticked: group colour.",
+"cle": "couleur_t",
+"defaut": true,
+"libelle": "Colour = temperature",
+"type": "coche"
 }
 ]
 },
@@ -14055,7 +14294,7 @@ false
 ],
 "reglages": [
 {
-"aide": "Température de surface de l’étoile (2 300 à 40 000 K) ; on peut aussi cliquer ou glisser dans le diagramme.",
+"aide": "Température de surface de l’étoile (2 300 à 40 000 K) ; on peut aussi cliquer ou glisser dans le diagramme.",
 "cle": "temperature",
 "dec": 0,
 "defaut": 5800.0,
@@ -14123,10 +14362,17 @@ false
 "type": "coche"
 },
 {
-"aide": "Tracer les droites d’égal rayon (de 0,0001 à 1 000 R☉).",
+"aide": "Tracer les droites d’égal rayon (de 0,0001 à 1 000 R☉).",
 "cle": "rayons",
 "defaut": true,
 "libelle": "Rayons égaux",
+"type": "coche"
+},
+{
+"aide": "Chaque étoile prend la couleur d’un corps noir à sa température (CIE 1931 → sRGB) ; le contour garde la couleur de son groupe. Décoché : couleur du groupe.",
+"cle": "couleur_t",
+"defaut": true,
+"libelle": "Couleur = température",
 "type": "coche"
 }
 ]
@@ -14160,7 +14406,7 @@ false
 ],
 [
 "Level energy",
-"-13.598 eV"
+"−13.598 eV"
 ]
 ]
 ],
@@ -14177,7 +14423,7 @@ false
 ],
 [
 "Level energy",
-"-13.598 eV"
+"−13.598 eV"
 ]
 ]
 ],
@@ -14194,7 +14440,7 @@ false
 ],
 [
 "Level energy",
-"-13.598 eV"
+"−13.598 eV"
 ]
 ]
 ],
@@ -14211,7 +14457,7 @@ false
 ],
 [
 "Level energy",
-"-13.598 eV"
+"−13.598 eV"
 ]
 ]
 ],
@@ -14228,7 +14474,7 @@ false
 ],
 [
 "Level energy",
-"-13.598 eV"
+"−13.598 eV"
 ]
 ]
 ]
@@ -14333,7 +14579,7 @@ false
 ],
 [
 "Énergie du niveau",
-"-13,598 eV"
+"−13,598 eV"
 ]
 ]
 ],
@@ -14350,7 +14596,7 @@ false
 ],
 [
 "Énergie du niveau",
-"-13,598 eV"
+"−13,598 eV"
 ]
 ]
 ],
@@ -14367,7 +14613,7 @@ false
 ],
 [
 "Énergie du niveau",
-"-13,598 eV"
+"−13,598 eV"
 ]
 ]
 ],
@@ -14384,7 +14630,7 @@ false
 ],
 [
 "Énergie du niveau",
-"-13,598 eV"
+"−13,598 eV"
 ]
 ]
 ],
@@ -14401,7 +14647,7 @@ false
 ],
 [
 "Énergie du niveau",
-"-13,598 eV"
+"−13,598 eV"
 ]
 ]
 ]
@@ -14560,7 +14806,7 @@ true
 ],
 [
 "Speed (vis-viva)",
-"30.30 km/s"
+"30.30 km·s⁻¹"
 ],
 [
 "Time since perihelion",
@@ -14589,7 +14835,7 @@ true
 ],
 [
 "Speed (vis-viva)",
-"30.08 km/s"
+"30.08 km·s⁻¹"
 ],
 [
 "Time since perihelion",
@@ -14618,7 +14864,7 @@ true
 ],
 [
 "Speed (vis-viva)",
-"18.87 km/s"
+"18.87 km·s⁻¹"
 ],
 [
 "Time since perihelion",
@@ -14647,7 +14893,7 @@ true
 ],
 [
 "Speed (vis-viva)",
-"14.85 km/s"
+"14.85 km·s⁻¹"
 ],
 [
 "Time since perihelion",
@@ -14676,7 +14922,7 @@ true
 ],
 [
 "Speed (vis-viva)",
-"30.30 km/s"
+"30.30 km·s⁻¹"
 ],
 [
 "Time since perihelion",
@@ -14847,7 +15093,7 @@ true
 ],
 [
 "Vitesse (vis-viva)",
-"30,30 km/s"
+"30,30 km·s⁻¹"
 ],
 [
 "Temps depuis le périhélie",
@@ -14876,7 +15122,7 @@ true
 ],
 [
 "Vitesse (vis-viva)",
-"30,08 km/s"
+"30,08 km·s⁻¹"
 ],
 [
 "Temps depuis le périhélie",
@@ -14905,7 +15151,7 @@ true
 ],
 [
 "Vitesse (vis-viva)",
-"18,87 km/s"
+"18,87 km·s⁻¹"
 ],
 [
 "Temps depuis le périhélie",
@@ -14934,7 +15180,7 @@ true
 ],
 [
 "Vitesse (vis-viva)",
-"14,85 km/s"
+"14,85 km·s⁻¹"
 ],
 [
 "Temps depuis le périhélie",
@@ -14963,7 +15209,7 @@ true
 ],
 [
 "Vitesse (vis-viva)",
-"30,30 km/s"
+"30,30 km·s⁻¹"
 ],
 [
 "Temps depuis le périhélie",
@@ -15446,11 +15692,11 @@ true
 ],
 [
 "Rise and set",
-"-50.0° → 50.0°"
+"−50.0° → 50.0°"
 ],
 [
 "Never rise",
-"-90.0° → -50.0°"
+"−90.0° → −50.0°"
 ],
 [
 "Altitude of the celestial pole",
@@ -15463,11 +15709,11 @@ true
 [
 [
 "Circumpolar",
-"-90.0° → -56.5°"
+"−90.0° → −56.5°"
 ],
 [
 "Rise and set",
-"-56.5° → 56.5°"
+"−56.5° → 56.5°"
 ],
 [
 "Never rise",
@@ -15488,11 +15734,11 @@ true
 ],
 [
 "Rise and set",
-"-50.0° → 50.0°"
+"−50.0° → 50.0°"
 ],
 [
 "Never rise",
-"-90.0° → -50.0°"
+"−90.0° → −50.0°"
 ],
 [
 "Altitude of the celestial pole",
@@ -15535,11 +15781,11 @@ true
 ],
 [
 "Se lèvent et se couchent",
-"-50,0° → 50,0°"
+"−50,0° → 50,0°"
 ],
 [
 "Jamais levées",
-"-90,0° → -50,0°"
+"−90,0° → −50,0°"
 ],
 [
 "Hauteur du pôle céleste",
@@ -15552,11 +15798,11 @@ true
 [
 [
 "Circumpolaires",
-"-90,0° → -56,5°"
+"−90,0° → −56,5°"
 ],
 [
 "Se lèvent et se couchent",
-"-56,5° → 56,5°"
+"−56,5° → 56,5°"
 ],
 [
 "Jamais levées",
@@ -15577,11 +15823,11 @@ true
 ],
 [
 "Se lèvent et se couchent",
-"-50,0° → 50,0°"
+"−50,0° → 50,0°"
 ],
 [
 "Jamais levées",
-"-90,0° → -50,0°"
+"−90,0° → −50,0°"
 ],
 [
 "Hauteur du pôle céleste",
@@ -15970,7 +16216,7 @@ false
 [
 [
 "Received flux",
-"1.989 W/m²"
+"1.989 W·m⁻²"
 ],
 [
 "Fraction of the flux at 1 m",
@@ -15987,7 +16233,7 @@ false
 [
 [
 "Received flux",
-"5.931 W/m²"
+"5.931 W·m⁻²"
 ],
 [
 "Fraction of the flux at 1 m",
@@ -16004,7 +16250,7 @@ false
 [
 [
 "Received flux",
-"1.989 W/m²"
+"1.989 W·m⁻²"
 ],
 [
 "Fraction of the flux at 1 m",
@@ -16079,7 +16325,7 @@ false
 [
 [
 "Flux reçu",
-"1,989 W/m²"
+"1,989 W·m⁻²"
 ],
 [
 "Fraction du flux à 1 m",
@@ -16096,7 +16342,7 @@ false
 [
 [
 "Flux reçu",
-"5,931 W/m²"
+"5,931 W·m⁻²"
 ],
 [
 "Fraction du flux à 1 m",
@@ -16113,7 +16359,7 @@ false
 [
 [
 "Flux reçu",
-"1,989 W/m²"
+"1,989 W·m⁻²"
 ],
 [
 "Fraction du flux à 1 m",
@@ -16609,7 +16855,7 @@ true
 "maxi": 3000.0,
 "mini": 50.0,
 "type": "curseur",
-"unite": "years/s",
+"unite": "a·s⁻¹",
 "valeur": 600.0
 }
 ]
@@ -16792,7 +17038,7 @@ true
 "maxi": 3000.0,
 "mini": 50.0,
 "type": "curseur",
-"unite": "ans/s",
+"unite": "a·s⁻¹",
 "valeur": 600.0
 }
 ]
@@ -16891,11 +17137,11 @@ true
 ],
 [
 "Sun’s altitude",
-"-31.1°"
+"−31.1°"
 ],
 [
 "Moon’s altitude",
-"-28.1°"
+"−28.1°"
 ]
 ]
 ],
@@ -16924,7 +17170,7 @@ true
 ],
 [
 "Sun’s altitude",
-"-31.9°"
+"−31.9°"
 ],
 [
 "Moon’s altitude",
@@ -16961,7 +17207,7 @@ true
 ],
 [
 "Moon’s altitude",
-"-13.1°"
+"−13.1°"
 ]
 ]
 ],
@@ -17175,11 +17421,11 @@ true
 ],
 [
 "Hauteur du Soleil",
-"-31,1°"
+"−31,1°"
 ],
 [
 "Hauteur de la Lune",
-"-28,1°"
+"−28,1°"
 ]
 ]
 ],
@@ -17208,7 +17454,7 @@ true
 ],
 [
 "Hauteur du Soleil",
-"-31,9°"
+"−31,9°"
 ],
 [
 "Hauteur de la Lune",
@@ -17245,7 +17491,7 @@ true
 ],
 [
 "Hauteur de la Lune",
-"-13,1°"
+"−13,1°"
 ]
 ]
 ],
@@ -18300,7 +18546,7 @@ false
 ],
 [
 "Power per m² (σT⁴)",
-"4.59 × 10² W/m²"
+"4.59 × 10² W·m⁻²"
 ],
 [
 "Share radiated in the visible",
@@ -18321,7 +18567,7 @@ false
 ],
 [
 "Power per m² (σT⁴)",
-"2.44 × 10³ W/m²"
+"2.44 × 10³ W·m⁻²"
 ],
 [
 "Share radiated in the visible",
@@ -18342,7 +18588,7 @@ false
 ],
 [
 "Power per m² (σT⁴)",
-"2.26 × 10³ W/m²"
+"2.26 × 10³ W·m⁻²"
 ],
 [
 "Share radiated in the visible",
@@ -18363,7 +18609,7 @@ false
 ],
 [
 "Power per m² (σT⁴)",
-"7.88 × 10³ W/m²"
+"7.88 × 10³ W·m⁻²"
 ],
 [
 "Share radiated in the visible",
@@ -18384,7 +18630,7 @@ false
 ],
 [
 "Power per m² (σT⁴)",
-"4.59 × 10² W/m²"
+"4.59 × 10² W·m⁻²"
 ],
 [
 "Share radiated in the visible",
@@ -18444,7 +18690,7 @@ false
 ],
 [
 "Puissance par m² (σT⁴)",
-"4,59 × 10² W/m²"
+"4,59 × 10² W·m⁻²"
 ],
 [
 "Part rayonnée dans le visible",
@@ -18465,7 +18711,7 @@ false
 ],
 [
 "Puissance par m² (σT⁴)",
-"2,44 × 10³ W/m²"
+"2,44 × 10³ W·m⁻²"
 ],
 [
 "Part rayonnée dans le visible",
@@ -18486,7 +18732,7 @@ false
 ],
 [
 "Puissance par m² (σT⁴)",
-"2,26 × 10³ W/m²"
+"2,26 × 10³ W·m⁻²"
 ],
 [
 "Part rayonnée dans le visible",
@@ -18507,7 +18753,7 @@ false
 ],
 [
 "Puissance par m² (σT⁴)",
-"7,88 × 10³ W/m²"
+"7,88 × 10³ W·m⁻²"
 ],
 [
 "Part rayonnée dans le visible",
@@ -18528,7 +18774,7 @@ false
 ],
 [
 "Puissance par m² (σT⁴)",
-"4,59 × 10² W/m²"
+"4,59 × 10² W·m⁻²"
 ],
 [
 "Part rayonnée dans le visible",
@@ -18552,7 +18798,7 @@ false
 "valeur": 1.0
 },
 {
-"aide": "Température du clou (300 à 2 000 K). La lecture fait chauffer le clou jusqu’à la fusion du fer (1 811 K), puis le laisse refroidir.",
+"aide": "Température du clou (300 à 2 000 K). La lecture fait chauffer le clou jusqu’à la fusion du fer (1 811 K), puis le laisse refroidir.",
 "cle": "temperature",
 "dec": 0,
 "defaut": 300.0,
@@ -18565,7 +18811,7 @@ false
 "valeur": 300.0
 },
 {
-"aide": "Garder l’échelle verticale de la courbe à 1 811 K (on voit la courbe grandir avec la température) ; sinon, l’échelle suit la courbe.",
+"aide": "Garder l’échelle verticale de la courbe à 1 811 K (on voit la courbe grandir avec la température) ; sinon, l’échelle suit la courbe.",
 "cle": "echelle_fixe",
 "defaut": true,
 "libelle": "Échelle fixe",
@@ -18623,11 +18869,11 @@ true
 [
 [
 "Meridian altitude",
-"-62.3° (S)"
+"−62.3° (S)"
 ],
 [
 "Computation",
-"90° − 81.6° + (-70.7°) = -62.3°"
+"90° − 81.6° + (−70.7°) = −62.3°"
 ],
 [
 "Altitude of the celestial equator",
@@ -18752,11 +18998,11 @@ true
 [
 [
 "Hauteur au méridien",
-"-62,3° (S)"
+"−62,3° (S)"
 ],
 [
 "Calcul",
-"90° − 81,6° + (-70,7°) = -62,3°"
+"90° − 81,6° + (−70,7°) = −62,3°"
 ],
 [
 "Hauteur de l’équateur céleste",
@@ -18860,7 +19106,6 @@ true
 "lecture_au_depart": false
 },
 "milkywayrotationalvelocity": {
-"_note": "Écart volontaire de Coupole Web (14/10/2026) : modèle de masse de McMillan (2017) au lieu de la courbe de l'original prolongée par Eilers et al. ; R0 = 8,21 kpc ; ligne « masse dans la sphère (modèle) » ajoutée. Coupole reprendra ces valeurs (voir PROGRESSION.md, Choix graphiques).",
 "animee": false,
 "changements": [
 [
@@ -18869,6 +19114,14 @@ true
 ],
 [
 "kepler",
+false
+],
+[
+"composantes",
+false
+],
+[
+"mesures",
 false
 ]
 ],
@@ -18883,7 +19136,7 @@ false
 ],
 [
 "Rotation speed",
-"233.2 km/s"
+"233.2 km·s⁻¹"
 ],
 [
 "Mass inside (v² R / G)",
@@ -18908,7 +19161,7 @@ false
 ],
 [
 "Rotation speed",
-"233.2 km/s"
+"233.2 km·s⁻¹"
 ],
 [
 "Mass inside (v² R / G)",
@@ -18933,7 +19186,7 @@ false
 ],
 [
 "Rotation speed",
-"233.2 km/s"
+"233.2 km·s⁻¹"
 ],
 [
 "Mass inside (v² R / G)",
@@ -18965,10 +19218,24 @@ false
 "valeur": 8.21
 },
 {
-"aide": "Draw the speed one would get beyond if all the mass were inside the chosen circle (v ∝ 1/√R).",
+"aide": "Draw the speed one would get beyond if all the mass the model holds within the sphere of radius R were at the centre (v = √(G M / r), so v ∝ 1/√R).",
 "cle": "kepler",
 "defaut": true,
 "libelle": "Keplerian curve",
+"type": "coche"
+},
+{
+"aide": "Show the share of the bulge, the discs (stars and gas) and the dark-matter halo in the speed (v² = sum of the components’ v²).",
+"cle": "composantes",
+"defaut": true,
+"libelle": "Model components",
+"type": "coche"
+},
+{
+"aide": "Show the measurements with their error bars: Eilers et al. 2019 (red giant stars, 5 to 25 kpc) and the galkin compilation (gas, HII regions, masers…, 2 to 5 kpc).",
+"cle": "mesures",
+"defaut": true,
+"libelle": "Measurements",
 "type": "coche"
 }
 ]
@@ -18984,7 +19251,7 @@ false
 ],
 [
 "Vitesse de rotation",
-"233,2 km/s"
+"233,2 km·s⁻¹"
 ],
 [
 "Masse contenue (v² R / G)",
@@ -19009,7 +19276,7 @@ false
 ],
 [
 "Vitesse de rotation",
-"233,2 km/s"
+"233,2 km·s⁻¹"
 ],
 [
 "Masse contenue (v² R / G)",
@@ -19034,7 +19301,7 @@ false
 ],
 [
 "Vitesse de rotation",
-"233,2 km/s"
+"233,2 km·s⁻¹"
 ],
 [
 "Masse contenue (v² R / G)",
@@ -19066,10 +19333,24 @@ false
 "valeur": 8.21
 },
 {
-"aide": "Tracer la vitesse qu’on aurait au-delà si toute la masse était contenue dans le cercle choisi (v ∝ 1/√R).",
+"aide": "Tracer la vitesse qu’on aurait au-delà si toute la masse que le modèle contient dans la sphère de rayon R était au centre (v = √(G M / r), donc v ∝ 1/√R).",
 "cle": "kepler",
 "defaut": true,
 "libelle": "Courbe képlérienne",
+"type": "coche"
+},
+{
+"aide": "Montrer la part du bulbe, des disques (étoiles et gaz) et du halo de matière noire dans la vitesse (v² = somme des v² des composantes).",
+"cle": "composantes",
+"defaut": true,
+"libelle": "Composantes du modèle",
+"type": "coche"
+},
+{
+"aide": "Montrer les mesures avec leurs barres d’erreur : Eilers et al. 2019 (étoiles géantes rouges, 5 à 25 kpc) et la compilation galkin (gaz, régions HII, masers…, 2 à 5 kpc).",
+"cle": "mesures",
+"defaut": true,
+"libelle": "Mesures",
 "type": "coche"
 }
 ]
@@ -20270,6 +20551,632 @@ true
 },
 "lecture_au_depart": false
 },
+"orion3d": {
+"animee": true,
+"changements": [
+[
+"depliement",
+77.0
+],
+[
+"cible",
+"tete"
+],
+[
+"image",
+"hubble"
+],
+[
+"figure",
+false
+],
+[
+"noms",
+false
+],
+[
+"nebuleuses",
+false
+],
+[
+"images",
+false
+],
+[
+"barres",
+false
+],
+[
+"accentuees",
+true
+],
+[
+"brutes",
+true
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"View",
+"the sky seen from the Earth"
+],
+[
+"Looking at",
+"All of Orion"
+],
+[
+"Closest star of the figure",
+"Tabit : 8.1 pc (26 ly)"
+],
+[
+"Farthest star of the figure",
+"χ² Ori : 552 pc (1 802 ly)"
+],
+[
+"Belt",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
+],
+[
+"Scale",
+"everything is to scale except the size of the stars (by magnitude)"
+]
+]
+],
+[
+"pas",
+[
+[
+"View",
+"the sky seen from the Earth"
+],
+[
+"Looking at",
+"All of Orion"
+],
+[
+"Closest star of the figure",
+"Tabit : 8.1 pc (26 ly)"
+],
+[
+"Farthest star of the figure",
+"χ² Ori : 552 pc (1 802 ly)"
+],
+[
+"Belt",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
+],
+[
+"Scale",
+"everything is to scale except the size of the stars (by magnitude)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"View",
+"unfolding 77 %"
+],
+[
+"Looking at",
+"the Horsehead"
+],
+[
+"Closest star of the figure",
+"Tabit : 8.1 pc (26 ly)"
+],
+[
+"Farthest star of the figure",
+"Alnilam : 606 pc (1 977 ly)"
+],
+[
+"Belt",
+"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+],
+[
+"Distances",
+"raw direct measurements"
+],
+[
+"Scale",
+"everything is to scale except the size of the stars (by magnitude)"
+],
+[
+"Colours",
+"enhanced (saturation × 2.5)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"View",
+"unfolding 77 %"
+],
+[
+"Looking at",
+"the Horsehead"
+],
+[
+"Closest star of the figure",
+"Tabit : 8.1 pc (26 ly)"
+],
+[
+"Farthest star of the figure",
+"Alnilam : 606 pc (1 977 ly)"
+],
+[
+"Belt",
+"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+],
+[
+"Distances",
+"raw direct measurements"
+],
+[
+"Scale",
+"everything is to scale except the size of the stars (by magnitude)"
+],
+[
+"Colours",
+"enhanced (saturation × 2.5)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"View",
+"the sky seen from the Earth"
+],
+[
+"Looking at",
+"All of Orion"
+],
+[
+"Closest star of the figure",
+"Tabit : 8.1 pc (26 ly)"
+],
+[
+"Farthest star of the figure",
+"χ² Ori : 552 pc (1 802 ly)"
+],
+[
+"Belt",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"published (Alnilam, Mintaka, Meissa, Hatysa: distance of their group)"
+],
+[
+"Scale",
+"everything is to scale except the size of the stars (by magnitude)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "0 %: the constellation as we see it, every star on the celestial sphere; 100 %: every star and cloud at its measured distance, seen from the side.",
+"cle": "depliement",
+"dec": 0,
+"defaut": 0,
+"libelle": "Unfolding (sky → 3D)",
+"log": false,
+"maxi": 100,
+"mini": 0,
+"type": "curseur",
+"unite": "%",
+"valeur": 0.0
+},
+{
+"aide": "The whole constellation, or a dive towards the Orion Nebula (M42) or the Horsehead.",
+"cle": "cible",
+"defaut": "orion",
+"options": [
+[
+"All of Orion",
+"orion"
+],
+[
+"the Orion Nebula (M42)",
+"m42"
+],
+[
+"the Horsehead",
+"tete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Photograph laid on the sky in the dives: ESO ground-based telescopes (VST, VLT) or the Hubble Space Telescope (infrared for the Horsehead).",
+"cle": "image",
+"defaut": "sol",
+"options": [
+[
+"ESO (VST, VLT)",
+"sol"
+],
+[
+"Hubble",
+"hubble"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Lines of the figure (Stellarium, “modern” sky): in 3D they join stars that nothing links.",
+"cle": "figure",
+"defaut": true,
+"libelle": "Constellation figure",
+"type": "coche"
+},
+{
+"aide": "Names of the main stars and nebulae (and distance in 3D).",
+"cle": "noms",
+"defaut": true,
+"libelle": "Names",
+"type": "coche"
+},
+{
+"aide": "Orion A and B molecular clouds, λ Orionis ring, Barnard’s Loop, M42 and the Horsehead, at their published distances.",
+"cle": "nebuleuses",
+"defaut": true,
+"libelle": "Clouds and nebulae",
+"type": "coche"
+},
+{
+"aide": "ESO and ESA/Hubble photographs (CC BY 4.0) laid on the sky at their exact place (loaded on demand).",
+"cle": "images",
+"defaut": true,
+"libelle": "Images",
+"type": "coche"
+},
+{
+"aide": "Uncertainty of each distance along the line of sight; dashed, the direct measurement of a star shown at its published distance.",
+"cle": "barres",
+"defaut": true,
+"libelle": "Error bars",
+"type": "coche"
+},
+{
+"aide": "Boosts the saturation of the true colours, pale to the eye (teaching choice, off by default).",
+"cle": "accentuees",
+"defaut": false,
+"libelle": "Enhanced colours",
+"type": "coche"
+},
+{
+"aide": "Alnilam, Mintaka, Meissa and Hatysa at their own (very uncertain) parallax instead of the published distance of their star group.",
+"cle": "brutes",
+"defaut": false,
+"libelle": "Raw measured distances",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Vue",
+"le ciel vu de la Terre"
+],
+[
+"On regarde",
+"Orion entier"
+],
+[
+"Étoile de la figure la plus proche",
+"Tabit : 8,1 pc (26 al)"
+],
+[
+"Étoile de la figure la plus lointaine",
+"χ² Ori : 552 pc (1 802 al)"
+],
+[
+"Ceinture",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
+],
+[
+"Échelle",
+"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Vue",
+"le ciel vu de la Terre"
+],
+[
+"On regarde",
+"Orion entier"
+],
+[
+"Étoile de la figure la plus proche",
+"Tabit : 8,1 pc (26 al)"
+],
+[
+"Étoile de la figure la plus lointaine",
+"χ² Ori : 552 pc (1 802 al)"
+],
+[
+"Ceinture",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
+],
+[
+"Échelle",
+"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Vue",
+"dépliement 77 %"
+],
+[
+"On regarde",
+"la Tête de Cheval"
+],
+[
+"Étoile de la figure la plus proche",
+"Tabit : 8,1 pc (26 al)"
+],
+[
+"Étoile de la figure la plus lointaine",
+"Alnilam : 606 pc (1 977 al)"
+],
+[
+"Ceinture",
+"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+],
+[
+"Distances",
+"mesures directes brutes"
+],
+[
+"Échelle",
+"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+],
+[
+"Couleurs",
+"accentuées (saturation × 2,5)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Vue",
+"dépliement 77 %"
+],
+[
+"On regarde",
+"la Tête de Cheval"
+],
+[
+"Étoile de la figure la plus proche",
+"Tabit : 8,1 pc (26 al)"
+],
+[
+"Étoile de la figure la plus lointaine",
+"Alnilam : 606 pc (1 977 al)"
+],
+[
+"Ceinture",
+"Alnitak 387 pc · Alnilam 606 pc · Mintaka 212 pc"
+],
+[
+"Distances",
+"mesures directes brutes"
+],
+[
+"Échelle",
+"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+],
+[
+"Couleurs",
+"accentuées (saturation × 2,5)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Vue",
+"le ciel vu de la Terre"
+],
+[
+"On regarde",
+"Orion entier"
+],
+[
+"Étoile de la figure la plus proche",
+"Tabit : 8,1 pc (26 al)"
+],
+[
+"Étoile de la figure la plus lointaine",
+"χ² Ori : 552 pc (1 802 al)"
+],
+[
+"Ceinture",
+"Alnitak 387 pc · Alnilam 380 pc · Mintaka 380 pc"
+],
+[
+"Distances",
+"publiées (Alnilam, Mintaka, Meissa, Hatysa : distance de leur groupe)"
+],
+[
+"Échelle",
+"tout est à l’échelle, sauf la taille des étoiles (selon leur magnitude)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "0 % : la constellation telle qu’on la voit, toutes les étoiles sur la sphère céleste ; 100 % : chaque étoile et chaque nuage à sa distance mesurée, vus de côté.",
+"cle": "depliement",
+"dec": 0,
+"defaut": 0,
+"libelle": "Dépliement (ciel → 3D)",
+"log": false,
+"maxi": 100,
+"mini": 0,
+"type": "curseur",
+"unite": "%",
+"valeur": 0.0
+},
+{
+"aide": "Toute la constellation, ou plongée vers la nébuleuse d’Orion (M42) ou la Tête de Cheval.",
+"cle": "cible",
+"defaut": "orion",
+"options": [
+[
+"Orion entier",
+"orion"
+],
+[
+"la nébuleuse d’Orion (M42)",
+"m42"
+],
+[
+"la Tête de Cheval",
+"tete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Photographie posée sur le ciel dans les plongées : télescopes au sol de l’ESO (VST, VLT) ou télescope spatial Hubble (infrarouge pour la Tête de Cheval).",
+"cle": "image",
+"defaut": "sol",
+"options": [
+[
+"ESO (VST, VLT)",
+"sol"
+],
+[
+"Hubble",
+"hubble"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Lignes de la figure (Stellarium, ciel « moderne ») : en 3D, elles relient des étoiles que rien n’associe.",
+"cle": "figure",
+"defaut": true,
+"libelle": "Figure de la constellation",
+"type": "coche"
+},
+{
+"aide": "Noms des étoiles principales et des nébuleuses (et distance en 3D).",
+"cle": "noms",
+"defaut": true,
+"libelle": "Noms",
+"type": "coche"
+},
+{
+"aide": "Nuages moléculaires Orion A et B, anneau de λ Orionis, boucle de Barnard, M42 et la Tête de Cheval, à leurs distances publiées.",
+"cle": "nebuleuses",
+"defaut": true,
+"libelle": "Nuages et nébuleuses",
+"type": "coche"
+},
+{
+"aide": "Photographies de l’ESO et de l’ESA/Hubble (CC BY 4.0) posées sur le ciel à leur place exacte (chargées à la demande).",
+"cle": "images",
+"defaut": true,
+"libelle": "Images",
+"type": "coche"
+},
+{
+"aide": "Incertitude de chaque distance le long de la ligne de visée ; en tirets, la mesure directe d’une étoile affichée à sa distance publiée.",
+"cle": "barres",
+"defaut": true,
+"libelle": "Barres d’erreur",
+"type": "coche"
+},
+{
+"aide": "Renforce la saturation des couleurs vraies, pâles à l’œil (choix pédagogique, désactivé par défaut).",
+"cle": "accentuees",
+"defaut": false,
+"libelle": "Couleurs accentuées",
+"type": "coche"
+},
+{
+"aide": "Alnilam, Mintaka, Meissa et Hatysa à leur parallaxe propre (très incertaine) au lieu de la distance publiée de leur groupe d’étoiles.",
+"cle": "brutes",
+"defaut": false,
+"libelle": "Distances mesurées brutes",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "parallaxdiag": {
 "animee": false,
 "changements": [],
@@ -20923,7 +21830,7 @@ false
 ],
 [
 "Moon’s altitude",
-"-45.0°"
+"−45.0°"
 ]
 ]
 ],
@@ -21063,7 +21970,7 @@ false
 ],
 [
 "Hauteur de la Lune",
-"-45,0°"
+"−45,0°"
 ]
 ]
 ],
@@ -21850,7 +22757,7 @@ true
 ],
 [
 "Declination",
-"-70.9°"
+"−70.9°"
 ]
 ]
 ],
@@ -21970,7 +22877,7 @@ true
 ],
 [
 "Déclinaison",
-"-70,9°"
+"−70,9°"
 ]
 ]
 ],
@@ -22099,15 +23006,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"127.09 m/s"
+"127.09 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-127.09 m/s"
+"−127.09 m·s⁻¹"
 ],
 [
 "Real shift of Hα",
-"-0.2782 pm"
+"−0.2782 pm"
 ]
 ]
 ],
@@ -22120,15 +23027,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"127.09 m/s"
+"127.09 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-50.47 m/s"
+"−50.47 m·s⁻¹"
 ],
 [
 "Real shift of Hα",
-"-0.1105 pm"
+"−0.1105 pm"
 ]
 ]
 ],
@@ -22141,15 +23048,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"1.08 m/s"
+"1.08 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-0.43 m/s"
+"−0.43 m·s⁻¹"
 ],
 [
 "Real shift of Hα",
-"-0.0009 pm"
+"−0.0009 pm"
 ]
 ]
 ],
@@ -22162,11 +23069,11 @@ true
 ],
 [
 "Amplitude K (computed)",
-"1.08 m/s"
+"1.08 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"0.74 m/s"
+"0.74 m·s⁻¹"
 ],
 [
 "Real shift of Hα",
@@ -22183,15 +23090,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"127.09 m/s"
+"127.09 m·s⁻¹"
 ],
 [
 "Radial velocity of the star",
-"-127.09 m/s"
+"−127.09 m·s⁻¹"
 ],
 [
 "Real shift of Hα",
-"-0.2782 pm"
+"−0.2782 pm"
 ]
 ]
 ]
@@ -22275,15 +23182,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"127,09 m/s"
+"127,09 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-127,09 m/s"
+"−127,09 m·s⁻¹"
 ],
 [
 "Décalage réel de Hα",
-"-0,2782 pm"
+"−0,2782 pm"
 ]
 ]
 ],
@@ -22296,15 +23203,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"127,09 m/s"
+"127,09 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-50,47 m/s"
+"−50,47 m·s⁻¹"
 ],
 [
 "Décalage réel de Hα",
-"-0,1105 pm"
+"−0,1105 pm"
 ]
 ]
 ],
@@ -22317,15 +23224,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"1,08 m/s"
+"1,08 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-0,43 m/s"
+"−0,43 m·s⁻¹"
 ],
 [
 "Décalage réel de Hα",
-"-0,0009 pm"
+"−0,0009 pm"
 ]
 ]
 ],
@@ -22338,11 +23245,11 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"1,08 m/s"
+"1,08 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"0,74 m/s"
+"0,74 m·s⁻¹"
 ],
 [
 "Décalage réel de Hα",
@@ -22359,15 +23266,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"127,09 m/s"
+"127,09 m·s⁻¹"
 ],
 [
 "Vitesse radiale de l’étoile",
-"-127,09 m/s"
+"−127,09 m·s⁻¹"
 ],
 [
 "Décalage réel de Hα",
-"-0,2782 pm"
+"−0,2782 pm"
 ]
 ]
 ]
@@ -22493,10 +23400,10 @@ true
 ],
 [
 "Amplitude K (computed)",
-"28.42 m/s"
+"28.42 m·s⁻¹"
 ],
 [
-"M_p sin i (what the method measures)",
+"Mₚ sin i (what the method measures)",
 "1.000 M♃"
 ]
 ]
@@ -22510,10 +23417,10 @@ true
 ],
 [
 "Amplitude K (computed)",
-"28.42 m/s"
+"28.42 m·s⁻¹"
 ],
 [
-"M_p sin i (what the method measures)",
+"Mₚ sin i (what the method measures)",
 "1.000 M♃"
 ]
 ]
@@ -22527,15 +23434,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"0.05 m/s"
+"0.05 m·s⁻¹"
 ],
 [
-"M_p sin i (what the method measures)",
+"Mₚ sin i (what the method measures)",
 "0.002 M♃"
 ],
 [
 "Measured amplitude",
-"55.8 m/s"
+"55.8 m·s⁻¹"
 ]
 ]
 ],
@@ -22548,15 +23455,15 @@ true
 ],
 [
 "Amplitude K (computed)",
-"0.05 m/s"
+"0.05 m·s⁻¹"
 ],
 [
-"M_p sin i (what the method measures)",
+"Mₚ sin i (what the method measures)",
 "0.002 M♃"
 ],
 [
 "Measured amplitude",
-"55.8 m/s"
+"55.8 m·s⁻¹"
 ]
 ]
 ],
@@ -22569,10 +23476,10 @@ true
 ],
 [
 "Amplitude K (computed)",
-"28.42 m/s"
+"28.42 m·s⁻¹"
 ],
 [
-"M_p sin i (what the method measures)",
+"Mₚ sin i (what the method measures)",
 "1.000 M♃"
 ]
 ]
@@ -22685,7 +23592,7 @@ true
 "valeur": 0.0
 },
 {
-"aide": "Inclination of the orbit (90°: edge-on, 0°: face-on, no radial velocity). Only M_p sin i is measured.",
+"aide": "Inclination of the orbit (90°: edge-on, 0°: face-on, no radial velocity). Only Mₚ sin i is measured.",
 "cle": "i",
 "dec": 1,
 "defaut": 90.0,
@@ -22711,7 +23618,7 @@ true
 "valeur": 0.0
 },
 {
-"aide": "Standard deviation of the simulated measurement noise (m/s).",
+"aide": "Standard deviation of the simulated measurement noise (m·s⁻¹).",
 "cle": "bruit",
 "dec": 1,
 "defaut": 3.0,
@@ -22720,7 +23627,7 @@ true
 "maxi": 50.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 3.0
 },
 {
@@ -22749,10 +23656,10 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"28,42 m/s"
+"28,42 m·s⁻¹"
 ],
 [
-"M_p sin i (ce que mesure la méthode)",
+"Mₚ sin i (ce que mesure la méthode)",
 "1,000 M♃"
 ]
 ]
@@ -22766,10 +23673,10 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"28,42 m/s"
+"28,42 m·s⁻¹"
 ],
 [
-"M_p sin i (ce que mesure la méthode)",
+"Mₚ sin i (ce que mesure la méthode)",
 "1,000 M♃"
 ]
 ]
@@ -22783,15 +23690,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"0,05 m/s"
+"0,05 m·s⁻¹"
 ],
 [
-"M_p sin i (ce que mesure la méthode)",
+"Mₚ sin i (ce que mesure la méthode)",
 "0,002 M♃"
 ],
 [
 "Amplitude mesurée",
-"55,8 m/s"
+"55,8 m·s⁻¹"
 ]
 ]
 ],
@@ -22804,15 +23711,15 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"0,05 m/s"
+"0,05 m·s⁻¹"
 ],
 [
-"M_p sin i (ce que mesure la méthode)",
+"Mₚ sin i (ce que mesure la méthode)",
 "0,002 M♃"
 ],
 [
 "Amplitude mesurée",
-"55,8 m/s"
+"55,8 m·s⁻¹"
 ]
 ]
 ],
@@ -22825,10 +23732,10 @@ true
 ],
 [
 "Amplitude K (calculée)",
-"28,42 m/s"
+"28,42 m·s⁻¹"
 ],
 [
-"M_p sin i (ce que mesure la méthode)",
+"Mₚ sin i (ce que mesure la méthode)",
 "1,000 M♃"
 ]
 ]
@@ -22941,7 +23848,7 @@ true
 "valeur": 0.0
 },
 {
-"aide": "Inclinaison de l’orbite (90° : vue par la tranche, 0° : vue de face, aucune vitesse radiale). On ne mesure que M_p sin i.",
+"aide": "Inclinaison de l’orbite (90° : vue par la tranche, 0° : vue de face, aucune vitesse radiale). On ne mesure que Mₚ sin i.",
 "cle": "i",
 "dec": 1,
 "defaut": 90.0,
@@ -22967,7 +23874,7 @@ true
 "valeur": 0.0
 },
 {
-"aide": "Écart type du bruit des mesures simulées (m/s).",
+"aide": "Écart type du bruit des mesures simulées (m·s⁻¹).",
 "cle": "bruit",
 "dec": 1,
 "defaut": 3.0,
@@ -22976,7 +23883,7 @@ true
 "maxi": 50.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 3.0
 },
 {
@@ -23015,7 +23922,7 @@ false
 [
 [
 "Days since opposition",
-"-91"
+"−91"
 ],
 [
 "Geocentric longitude of Mars",
@@ -23023,11 +23930,11 @@ false
 ],
 [
 "Geocentric latitude of Mars",
-"-2.71°"
+"−2.71°"
 ],
 [
 "Apparent speed",
-"0.468 °/day"
+"0.468°·d⁻¹"
 ],
 [
 "Motion",
@@ -23044,7 +23951,7 @@ false
 [
 [
 "Days since opposition",
-"-26"
+"−26"
 ],
 [
 "Geocentric longitude of Mars",
@@ -23052,11 +23959,11 @@ false
 ],
 [
 "Geocentric latitude of Mars",
-"-4.30°"
+"−4.30°"
 ],
 [
 "Apparent speed",
-"-0.134 °/day"
+"−0.134°·d⁻¹"
 ],
 [
 "Motion",
@@ -23073,7 +23980,7 @@ false
 [
 [
 "Days since opposition",
-"-26"
+"−26"
 ],
 [
 "Geocentric longitude of Mars",
@@ -23085,7 +23992,7 @@ false
 ],
 [
 "Apparent speed",
-"-0.134 °/day"
+"−0.134°·d⁻¹"
 ],
 [
 "Motion",
@@ -23114,7 +24021,7 @@ false
 ],
 [
 "Apparent speed",
-"0.027 °/day"
+"0.027°·d⁻¹"
 ],
 [
 "Motion",
@@ -23131,7 +24038,7 @@ false
 [
 [
 "Days since opposition",
-"-91"
+"−91"
 ],
 [
 "Geocentric longitude of Mars",
@@ -23139,11 +24046,11 @@ false
 ],
 [
 "Geocentric latitude of Mars",
-"-2.71°"
+"−2.71°"
 ],
 [
 "Apparent speed",
-"0.468 °/day"
+"0.468°·d⁻¹"
 ],
 [
 "Motion",
@@ -23193,7 +24100,7 @@ false
 [
 [
 "Jours depuis l’opposition",
-"-91"
+"−91"
 ],
 [
 "Longitude géocentrique de Mars",
@@ -23201,11 +24108,11 @@ false
 ],
 [
 "Latitude géocentrique de Mars",
-"-2,71°"
+"−2,71°"
 ],
 [
 "Vitesse apparente",
-"0,468 °/jour"
+"0,468°·j⁻¹"
 ],
 [
 "Mouvement",
@@ -23222,7 +24129,7 @@ false
 [
 [
 "Jours depuis l’opposition",
-"-26"
+"−26"
 ],
 [
 "Longitude géocentrique de Mars",
@@ -23230,11 +24137,11 @@ false
 ],
 [
 "Latitude géocentrique de Mars",
-"-4,30°"
+"−4,30°"
 ],
 [
 "Vitesse apparente",
-"-0,134 °/jour"
+"−0,134°·j⁻¹"
 ],
 [
 "Mouvement",
@@ -23251,7 +24158,7 @@ false
 [
 [
 "Jours depuis l’opposition",
-"-26"
+"−26"
 ],
 [
 "Longitude géocentrique de Mars",
@@ -23263,7 +24170,7 @@ false
 ],
 [
 "Vitesse apparente",
-"-0,134 °/jour"
+"−0,134°·j⁻¹"
 ],
 [
 "Mouvement",
@@ -23292,7 +24199,7 @@ false
 ],
 [
 "Vitesse apparente",
-"0,027 °/jour"
+"0,027°·j⁻¹"
 ],
 [
 "Mouvement",
@@ -23309,7 +24216,7 @@ false
 [
 [
 "Jours depuis l’opposition",
-"-91"
+"−91"
 ],
 [
 "Longitude géocentrique de Mars",
@@ -23317,11 +24224,11 @@ false
 ],
 [
 "Latitude géocentrique de Mars",
-"-2,71°"
+"−2,71°"
 ],
 [
 "Vitesse apparente",
-"0,468 °/jour"
+"0,468°·j⁻¹"
 ],
 [
 "Mouvement",
@@ -23451,7 +24358,7 @@ false
 ],
 [
 "Declination",
-"-23.3°"
+"−23.3°"
 ],
 [
 "Sun’s ecliptic longitude",
@@ -23472,7 +24379,7 @@ false
 ],
 [
 "Declination",
-"-14.4°"
+"−14.4°"
 ],
 [
 "Sun’s ecliptic longitude",
@@ -23742,7 +24649,7 @@ false
 ],
 [
 "Déclinaison",
-"-23,3°"
+"−23,3°"
 ],
 [
 "Longitude écliptique du Soleil",
@@ -23763,7 +24670,7 @@ false
 ],
 [
 "Déclinaison",
-"-14,4°"
+"−14,4°"
 ],
 [
 "Longitude écliptique du Soleil",
@@ -23984,6 +24891,14 @@ false
 [
 "reel",
 false
+],
+[
+"rejouer",
+"L66"
+],
+[
+"instant",
+-0.01
 ]
 ],
 "en": {
@@ -24027,6 +24942,22 @@ false
 [
 "Solar eclipse",
 "none"
+],
+[
+"Replayed eclipse",
+"7 September 2044 · Moon, total"
+],
+[
+"Magnitude",
+"1.046"
+],
+[
+"Duration (central; Moon: umbra, totality)",
+"3 h 26 min (totality : 0 h 34 min)"
+],
+[
+"Distance from the shadow axis",
+"2 583 km N"
 ]
 ]
 ],
@@ -24067,6 +24998,563 @@ false
 "defaut": true,
 "libelle": "Real proportions",
 "type": "coche"
+},
+{
+"aide": "Replay an eclipse from the 2015–2044 table: the Moon crossing the Earth’s shadow, or the Moon’s shadow crossing the Earth, to true scale.",
+"cle": "rejouer",
+"defaut": "libre",
+"options": [
+[
+"— none (free placement) —",
+"libre"
+],
+[
+"20 March 2015 · Sun, total",
+"S0"
+],
+[
+"4 April 2015 · Moon, total",
+"L0"
+],
+[
+"13 September 2015 · Sun, partial",
+"S1"
+],
+[
+"28 September 2015 · Moon, total",
+"L1"
+],
+[
+"9 March 2016 · Sun, total",
+"S2"
+],
+[
+"23 March 2016 · Moon, penumbral",
+"L2"
+],
+[
+"1 September 2016 · Sun, annular",
+"S3"
+],
+[
+"16 September 2016 · Moon, penumbral",
+"L3"
+],
+[
+"11 February 2017 · Moon, penumbral",
+"L4"
+],
+[
+"26 February 2017 · Sun, annular",
+"S4"
+],
+[
+"7 August 2017 · Moon, partial",
+"L5"
+],
+[
+"21 August 2017 · Sun, total",
+"S5"
+],
+[
+"31 January 2018 · Moon, total",
+"L6"
+],
+[
+"15 February 2018 · Sun, partial",
+"S6"
+],
+[
+"13 July 2018 · Sun, partial",
+"S7"
+],
+[
+"27 July 2018 · Moon, total",
+"L7"
+],
+[
+"11 August 2018 · Sun, partial",
+"S8"
+],
+[
+"6 January 2019 · Sun, partial",
+"S9"
+],
+[
+"21 January 2019 · Moon, total",
+"L8"
+],
+[
+"2 July 2019 · Sun, total",
+"S10"
+],
+[
+"16 July 2019 · Moon, partial",
+"L9"
+],
+[
+"26 December 2019 · Sun, annular",
+"S11"
+],
+[
+"10 January 2020 · Moon, penumbral",
+"L10"
+],
+[
+"5 June 2020 · Moon, penumbral",
+"L11"
+],
+[
+"21 June 2020 · Sun, annular",
+"S12"
+],
+[
+"5 July 2020 · Moon, penumbral",
+"L12"
+],
+[
+"30 November 2020 · Moon, penumbral",
+"L13"
+],
+[
+"14 December 2020 · Sun, total",
+"S13"
+],
+[
+"26 May 2021 · Moon, total",
+"L14"
+],
+[
+"10 June 2021 · Sun, annular",
+"S14"
+],
+[
+"19 November 2021 · Moon, partial",
+"L15"
+],
+[
+"4 December 2021 · Sun, total",
+"S15"
+],
+[
+"30 April 2022 · Sun, partial",
+"S16"
+],
+[
+"16 May 2022 · Moon, total",
+"L16"
+],
+[
+"25 October 2022 · Sun, partial",
+"S17"
+],
+[
+"8 November 2022 · Moon, total",
+"L17"
+],
+[
+"20 April 2023 · Sun, hybrid",
+"S18"
+],
+[
+"5 May 2023 · Moon, penumbral",
+"L18"
+],
+[
+"14 October 2023 · Sun, annular",
+"S19"
+],
+[
+"28 October 2023 · Moon, partial",
+"L19"
+],
+[
+"25 March 2024 · Moon, penumbral",
+"L20"
+],
+[
+"8 April 2024 · Sun, total",
+"S20"
+],
+[
+"18 September 2024 · Moon, partial",
+"L21"
+],
+[
+"2 October 2024 · Sun, annular",
+"S21"
+],
+[
+"14 March 2025 · Moon, total",
+"L22"
+],
+[
+"29 March 2025 · Sun, partial",
+"S22"
+],
+[
+"7 September 2025 · Moon, total",
+"L23"
+],
+[
+"21 September 2025 · Sun, partial",
+"S23"
+],
+[
+"17 February 2026 · Sun, annular",
+"S24"
+],
+[
+"3 March 2026 · Moon, total",
+"L24"
+],
+[
+"12 August 2026 · Sun, total",
+"S25"
+],
+[
+"28 August 2026 · Moon, partial",
+"L25"
+],
+[
+"6 February 2027 · Sun, annular",
+"S26"
+],
+[
+"20 February 2027 · Moon, penumbral",
+"L26"
+],
+[
+"18 July 2027 · Moon, penumbral",
+"L27"
+],
+[
+"2 August 2027 · Sun, total",
+"S27"
+],
+[
+"17 August 2027 · Moon, penumbral",
+"L28"
+],
+[
+"12 January 2028 · Moon, partial",
+"L29"
+],
+[
+"26 January 2028 · Sun, annular",
+"S28"
+],
+[
+"6 July 2028 · Moon, partial",
+"L30"
+],
+[
+"22 July 2028 · Sun, total",
+"S29"
+],
+[
+"31 December 2028 · Moon, total",
+"L31"
+],
+[
+"14 January 2029 · Sun, partial",
+"S30"
+],
+[
+"12 June 2029 · Sun, partial",
+"S31"
+],
+[
+"26 June 2029 · Moon, total",
+"L32"
+],
+[
+"11 July 2029 · Sun, partial",
+"S32"
+],
+[
+"5 December 2029 · Sun, partial",
+"S33"
+],
+[
+"20 December 2029 · Moon, total",
+"L33"
+],
+[
+"1 June 2030 · Sun, annular",
+"S34"
+],
+[
+"15 June 2030 · Moon, partial",
+"L34"
+],
+[
+"25 November 2030 · Sun, total",
+"S35"
+],
+[
+"9 December 2030 · Moon, penumbral",
+"L35"
+],
+[
+"7 May 2031 · Moon, penumbral",
+"L36"
+],
+[
+"21 May 2031 · Sun, annular",
+"S36"
+],
+[
+"5 June 2031 · Moon, penumbral",
+"L37"
+],
+[
+"30 October 2031 · Moon, penumbral",
+"L38"
+],
+[
+"14 November 2031 · Sun, hybrid",
+"S37"
+],
+[
+"25 April 2032 · Moon, total",
+"L39"
+],
+[
+"9 May 2032 · Sun, annular",
+"S38"
+],
+[
+"18 October 2032 · Moon, total",
+"L40"
+],
+[
+"3 November 2032 · Sun, partial",
+"S39"
+],
+[
+"30 March 2033 · Sun, total",
+"S40"
+],
+[
+"14 April 2033 · Moon, total",
+"L41"
+],
+[
+"23 September 2033 · Sun, partial",
+"S41"
+],
+[
+"8 October 2033 · Moon, total",
+"L42"
+],
+[
+"20 March 2034 · Sun, total",
+"S42"
+],
+[
+"3 April 2034 · Moon, penumbral",
+"L43"
+],
+[
+"12 September 2034 · Sun, annular",
+"S43"
+],
+[
+"28 September 2034 · Moon, partial",
+"L44"
+],
+[
+"22 February 2035 · Moon, penumbral",
+"L45"
+],
+[
+"9 March 2035 · Sun, annular",
+"S44"
+],
+[
+"19 August 2035 · Moon, partial",
+"L46"
+],
+[
+"2 September 2035 · Sun, total",
+"S45"
+],
+[
+"11 February 2036 · Moon, total",
+"L47"
+],
+[
+"27 February 2036 · Sun, partial",
+"S46"
+],
+[
+"23 July 2036 · Sun, partial",
+"S47"
+],
+[
+"7 August 2036 · Moon, total",
+"L48"
+],
+[
+"21 August 2036 · Sun, partial",
+"S48"
+],
+[
+"16 January 2037 · Sun, partial",
+"S49"
+],
+[
+"31 January 2037 · Moon, total",
+"L49"
+],
+[
+"13 July 2037 · Sun, total",
+"S50"
+],
+[
+"27 July 2037 · Moon, partial",
+"L50"
+],
+[
+"5 January 2038 · Sun, annular",
+"S51"
+],
+[
+"21 January 2038 · Moon, penumbral",
+"L51"
+],
+[
+"17 June 2038 · Moon, penumbral",
+"L52"
+],
+[
+"2 July 2038 · Sun, annular",
+"S52"
+],
+[
+"16 July 2038 · Moon, penumbral",
+"L53"
+],
+[
+"11 December 2038 · Moon, penumbral",
+"L54"
+],
+[
+"26 December 2038 · Sun, total",
+"S53"
+],
+[
+"6 June 2039 · Moon, partial",
+"L55"
+],
+[
+"21 June 2039 · Sun, annular",
+"S54"
+],
+[
+"30 November 2039 · Moon, partial",
+"L56"
+],
+[
+"15 December 2039 · Sun, total",
+"S55"
+],
+[
+"11 May 2040 · Sun, partial",
+"S56"
+],
+[
+"26 May 2040 · Moon, total",
+"L57"
+],
+[
+"4 November 2040 · Sun, partial",
+"S57"
+],
+[
+"18 November 2040 · Moon, total",
+"L58"
+],
+[
+"30 April 2041 · Sun, total",
+"S58"
+],
+[
+"16 May 2041 · Moon, partial",
+"L59"
+],
+[
+"25 October 2041 · Sun, annular",
+"S59"
+],
+[
+"8 November 2041 · Moon, partial",
+"L60"
+],
+[
+"5 April 2042 · Moon, penumbral",
+"L61"
+],
+[
+"20 April 2042 · Sun, total",
+"S60"
+],
+[
+"29 September 2042 · Moon, penumbral",
+"L62"
+],
+[
+"14 October 2042 · Sun, annular",
+"S61"
+],
+[
+"25 March 2043 · Moon, total",
+"L63"
+],
+[
+"9 April 2043 · Sun, total",
+"S62"
+],
+[
+"19 September 2043 · Moon, total",
+"L64"
+],
+[
+"3 October 2043 · Sun, annular",
+"S63"
+],
+[
+"28 February 2044 · Sun, annular",
+"S64"
+],
+[
+"13 March 2044 · Moon, total",
+"L65"
+],
+[
+"23 August 2044 · Sun, total",
+"S65"
+],
+[
+"7 September 2044 · Moon, total",
+"L66"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Move the Moon (or its shadow) along its path, from the start to the end of the eclipse.",
+"cle": "instant",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Moment of the eclipse",
+"log": false,
+"maxi": 1.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
 }
 ]
 },
@@ -24111,6 +25599,22 @@ false
 [
 "Éclipse de Soleil",
 "aucune"
+],
+[
+"Éclipse rejouée",
+"7 septembre 2044 · Lune, totale"
+],
+[
+"Grandeur",
+"1,046"
+],
+[
+"Durée (centralité ; Lune : ombre, totalité)",
+"3 h 26 min (totalité : 0 h 34 min)"
+],
+[
+"Écart à l’axe de l’ombre",
+"2 583 km N"
 ]
 ]
 ],
@@ -24151,6 +25655,563 @@ false
 "defaut": true,
 "libelle": "Proportions réelles",
 "type": "coche"
+},
+{
+"aide": "Rejouer une éclipse de la table 2015–2044 : passage de la Lune dans l’ombre de la Terre, ou de l’ombre de la Lune sur la Terre, en proportions réelles.",
+"cle": "rejouer",
+"defaut": "libre",
+"options": [
+[
+"— aucune (placement libre) —",
+"libre"
+],
+[
+"20 mars 2015 · Soleil, totale",
+"S0"
+],
+[
+"4 avril 2015 · Lune, totale",
+"L0"
+],
+[
+"13 septembre 2015 · Soleil, partielle",
+"S1"
+],
+[
+"28 septembre 2015 · Lune, totale",
+"L1"
+],
+[
+"9 mars 2016 · Soleil, totale",
+"S2"
+],
+[
+"23 mars 2016 · Lune, par la pénombre",
+"L2"
+],
+[
+"1 septembre 2016 · Soleil, annulaire",
+"S3"
+],
+[
+"16 septembre 2016 · Lune, par la pénombre",
+"L3"
+],
+[
+"11 février 2017 · Lune, par la pénombre",
+"L4"
+],
+[
+"26 février 2017 · Soleil, annulaire",
+"S4"
+],
+[
+"7 août 2017 · Lune, partielle",
+"L5"
+],
+[
+"21 août 2017 · Soleil, totale",
+"S5"
+],
+[
+"31 janvier 2018 · Lune, totale",
+"L6"
+],
+[
+"15 février 2018 · Soleil, partielle",
+"S6"
+],
+[
+"13 juillet 2018 · Soleil, partielle",
+"S7"
+],
+[
+"27 juillet 2018 · Lune, totale",
+"L7"
+],
+[
+"11 août 2018 · Soleil, partielle",
+"S8"
+],
+[
+"6 janvier 2019 · Soleil, partielle",
+"S9"
+],
+[
+"21 janvier 2019 · Lune, totale",
+"L8"
+],
+[
+"2 juillet 2019 · Soleil, totale",
+"S10"
+],
+[
+"16 juillet 2019 · Lune, partielle",
+"L9"
+],
+[
+"26 décembre 2019 · Soleil, annulaire",
+"S11"
+],
+[
+"10 janvier 2020 · Lune, par la pénombre",
+"L10"
+],
+[
+"5 juin 2020 · Lune, par la pénombre",
+"L11"
+],
+[
+"21 juin 2020 · Soleil, annulaire",
+"S12"
+],
+[
+"5 juillet 2020 · Lune, par la pénombre",
+"L12"
+],
+[
+"30 novembre 2020 · Lune, par la pénombre",
+"L13"
+],
+[
+"14 décembre 2020 · Soleil, totale",
+"S13"
+],
+[
+"26 mai 2021 · Lune, totale",
+"L14"
+],
+[
+"10 juin 2021 · Soleil, annulaire",
+"S14"
+],
+[
+"19 novembre 2021 · Lune, partielle",
+"L15"
+],
+[
+"4 décembre 2021 · Soleil, totale",
+"S15"
+],
+[
+"30 avril 2022 · Soleil, partielle",
+"S16"
+],
+[
+"16 mai 2022 · Lune, totale",
+"L16"
+],
+[
+"25 octobre 2022 · Soleil, partielle",
+"S17"
+],
+[
+"8 novembre 2022 · Lune, totale",
+"L17"
+],
+[
+"20 avril 2023 · Soleil, hybride",
+"S18"
+],
+[
+"5 mai 2023 · Lune, par la pénombre",
+"L18"
+],
+[
+"14 octobre 2023 · Soleil, annulaire",
+"S19"
+],
+[
+"28 octobre 2023 · Lune, partielle",
+"L19"
+],
+[
+"25 mars 2024 · Lune, par la pénombre",
+"L20"
+],
+[
+"8 avril 2024 · Soleil, totale",
+"S20"
+],
+[
+"18 septembre 2024 · Lune, partielle",
+"L21"
+],
+[
+"2 octobre 2024 · Soleil, annulaire",
+"S21"
+],
+[
+"14 mars 2025 · Lune, totale",
+"L22"
+],
+[
+"29 mars 2025 · Soleil, partielle",
+"S22"
+],
+[
+"7 septembre 2025 · Lune, totale",
+"L23"
+],
+[
+"21 septembre 2025 · Soleil, partielle",
+"S23"
+],
+[
+"17 février 2026 · Soleil, annulaire",
+"S24"
+],
+[
+"3 mars 2026 · Lune, totale",
+"L24"
+],
+[
+"12 août 2026 · Soleil, totale",
+"S25"
+],
+[
+"28 août 2026 · Lune, partielle",
+"L25"
+],
+[
+"6 février 2027 · Soleil, annulaire",
+"S26"
+],
+[
+"20 février 2027 · Lune, par la pénombre",
+"L26"
+],
+[
+"18 juillet 2027 · Lune, par la pénombre",
+"L27"
+],
+[
+"2 août 2027 · Soleil, totale",
+"S27"
+],
+[
+"17 août 2027 · Lune, par la pénombre",
+"L28"
+],
+[
+"12 janvier 2028 · Lune, partielle",
+"L29"
+],
+[
+"26 janvier 2028 · Soleil, annulaire",
+"S28"
+],
+[
+"6 juillet 2028 · Lune, partielle",
+"L30"
+],
+[
+"22 juillet 2028 · Soleil, totale",
+"S29"
+],
+[
+"31 décembre 2028 · Lune, totale",
+"L31"
+],
+[
+"14 janvier 2029 · Soleil, partielle",
+"S30"
+],
+[
+"12 juin 2029 · Soleil, partielle",
+"S31"
+],
+[
+"26 juin 2029 · Lune, totale",
+"L32"
+],
+[
+"11 juillet 2029 · Soleil, partielle",
+"S32"
+],
+[
+"5 décembre 2029 · Soleil, partielle",
+"S33"
+],
+[
+"20 décembre 2029 · Lune, totale",
+"L33"
+],
+[
+"1 juin 2030 · Soleil, annulaire",
+"S34"
+],
+[
+"15 juin 2030 · Lune, partielle",
+"L34"
+],
+[
+"25 novembre 2030 · Soleil, totale",
+"S35"
+],
+[
+"9 décembre 2030 · Lune, par la pénombre",
+"L35"
+],
+[
+"7 mai 2031 · Lune, par la pénombre",
+"L36"
+],
+[
+"21 mai 2031 · Soleil, annulaire",
+"S36"
+],
+[
+"5 juin 2031 · Lune, par la pénombre",
+"L37"
+],
+[
+"30 octobre 2031 · Lune, par la pénombre",
+"L38"
+],
+[
+"14 novembre 2031 · Soleil, hybride",
+"S37"
+],
+[
+"25 avril 2032 · Lune, totale",
+"L39"
+],
+[
+"9 mai 2032 · Soleil, annulaire",
+"S38"
+],
+[
+"18 octobre 2032 · Lune, totale",
+"L40"
+],
+[
+"3 novembre 2032 · Soleil, partielle",
+"S39"
+],
+[
+"30 mars 2033 · Soleil, totale",
+"S40"
+],
+[
+"14 avril 2033 · Lune, totale",
+"L41"
+],
+[
+"23 septembre 2033 · Soleil, partielle",
+"S41"
+],
+[
+"8 octobre 2033 · Lune, totale",
+"L42"
+],
+[
+"20 mars 2034 · Soleil, totale",
+"S42"
+],
+[
+"3 avril 2034 · Lune, par la pénombre",
+"L43"
+],
+[
+"12 septembre 2034 · Soleil, annulaire",
+"S43"
+],
+[
+"28 septembre 2034 · Lune, partielle",
+"L44"
+],
+[
+"22 février 2035 · Lune, par la pénombre",
+"L45"
+],
+[
+"9 mars 2035 · Soleil, annulaire",
+"S44"
+],
+[
+"19 août 2035 · Lune, partielle",
+"L46"
+],
+[
+"2 septembre 2035 · Soleil, totale",
+"S45"
+],
+[
+"11 février 2036 · Lune, totale",
+"L47"
+],
+[
+"27 février 2036 · Soleil, partielle",
+"S46"
+],
+[
+"23 juillet 2036 · Soleil, partielle",
+"S47"
+],
+[
+"7 août 2036 · Lune, totale",
+"L48"
+],
+[
+"21 août 2036 · Soleil, partielle",
+"S48"
+],
+[
+"16 janvier 2037 · Soleil, partielle",
+"S49"
+],
+[
+"31 janvier 2037 · Lune, totale",
+"L49"
+],
+[
+"13 juillet 2037 · Soleil, totale",
+"S50"
+],
+[
+"27 juillet 2037 · Lune, partielle",
+"L50"
+],
+[
+"5 janvier 2038 · Soleil, annulaire",
+"S51"
+],
+[
+"21 janvier 2038 · Lune, par la pénombre",
+"L51"
+],
+[
+"17 juin 2038 · Lune, par la pénombre",
+"L52"
+],
+[
+"2 juillet 2038 · Soleil, annulaire",
+"S52"
+],
+[
+"16 juillet 2038 · Lune, par la pénombre",
+"L53"
+],
+[
+"11 décembre 2038 · Lune, par la pénombre",
+"L54"
+],
+[
+"26 décembre 2038 · Soleil, totale",
+"S53"
+],
+[
+"6 juin 2039 · Lune, partielle",
+"L55"
+],
+[
+"21 juin 2039 · Soleil, annulaire",
+"S54"
+],
+[
+"30 novembre 2039 · Lune, partielle",
+"L56"
+],
+[
+"15 décembre 2039 · Soleil, totale",
+"S55"
+],
+[
+"11 mai 2040 · Soleil, partielle",
+"S56"
+],
+[
+"26 mai 2040 · Lune, totale",
+"L57"
+],
+[
+"4 novembre 2040 · Soleil, partielle",
+"S57"
+],
+[
+"18 novembre 2040 · Lune, totale",
+"L58"
+],
+[
+"30 avril 2041 · Soleil, totale",
+"S58"
+],
+[
+"16 mai 2041 · Lune, partielle",
+"L59"
+],
+[
+"25 octobre 2041 · Soleil, annulaire",
+"S59"
+],
+[
+"8 novembre 2041 · Lune, partielle",
+"L60"
+],
+[
+"5 avril 2042 · Lune, par la pénombre",
+"L61"
+],
+[
+"20 avril 2042 · Soleil, totale",
+"S60"
+],
+[
+"29 septembre 2042 · Lune, par la pénombre",
+"L62"
+],
+[
+"14 octobre 2042 · Soleil, annulaire",
+"S61"
+],
+[
+"25 mars 2043 · Lune, totale",
+"L63"
+],
+[
+"9 avril 2043 · Soleil, totale",
+"S62"
+],
+[
+"19 septembre 2043 · Lune, totale",
+"L64"
+],
+[
+"3 octobre 2043 · Soleil, annulaire",
+"S63"
+],
+[
+"28 février 2044 · Soleil, annulaire",
+"S64"
+],
+[
+"13 mars 2044 · Lune, totale",
+"L65"
+],
+[
+"23 août 2044 · Soleil, totale",
+"S65"
+],
+[
+"7 septembre 2044 · Lune, totale",
+"L66"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Faire avancer la Lune (ou son ombre) le long de sa trajectoire, du début à la fin de l’éclipse.",
+"cle": "instant",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Instant de l’éclipse",
+"log": false,
+"maxi": 1.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
 }
 ]
 },
@@ -24533,7 +26594,7 @@ true
 ],
 [
 "Hour angle H = LST − α",
-"-2.00 h (-30.0°)"
+"−2.00 h (−30.0°)"
 ],
 [
 "Azimuth",
@@ -24558,7 +26619,7 @@ true
 ],
 [
 "Hour angle H = LST − α",
-"-0.52 h (-7.8°)"
+"−0.52 h (−7.8°)"
 ],
 [
 "Azimuth",
@@ -24633,7 +26694,7 @@ true
 ],
 [
 "Hour angle H = LST − α",
-"-2.00 h (-30.0°)"
+"−2.00 h (−30.0°)"
 ],
 [
 "Azimuth",
@@ -24736,7 +26797,7 @@ true
 ],
 [
 "Angle horaire H = TSL − α",
-"-2,00 h (-30,0°)"
+"−2,00 h (−30,0°)"
 ],
 [
 "Azimut",
@@ -24761,7 +26822,7 @@ true
 ],
 [
 "Angle horaire H = TSL − α",
-"-0,52 h (-7,8°)"
+"−0,52 h (−7,8°)"
 ],
 [
 "Azimut",
@@ -24836,7 +26897,7 @@ true
 ],
 [
 "Angle horaire H = TSL − α",
-"-2,00 h (-30,0°)"
+"−2,00 h (−30,0°)"
 ],
 [
 "Azimut",
@@ -24953,7 +27014,7 @@ true
 ],
 [
 "Relative error of the approximation",
-"-0.007 %"
+"−0.007 %"
 ]
 ]
 ],
@@ -24970,7 +27031,7 @@ true
 ],
 [
 "Relative error of the approximation",
-"-0.012 %"
+"−0.012 %"
 ]
 ]
 ],
@@ -24987,7 +27048,7 @@ true
 ],
 [
 "Relative error of the approximation",
-"-0.007 %"
+"−0.007 %"
 ]
 ]
 ]
@@ -25027,7 +27088,7 @@ true
 "creation",
 [
 [
-"Petits angles : 206 265″ × d / D",
+"Petits angles : 206 265″ × d / D",
 "8 250,6″"
 ],
 [
@@ -25036,7 +27097,7 @@ true
 ],
 [
 "Écart relatif de l’approximation",
-"-0,007 %"
+"−0,007 %"
 ]
 ]
 ],
@@ -25044,7 +27105,7 @@ true
 "reglages",
 [
 [
-"Petits angles : 206 265″ × d / D",
+"Petits angles : 206 265″ × d / D",
 "10 839,3″"
 ],
 [
@@ -25053,7 +27114,7 @@ true
 ],
 [
 "Écart relatif de l’approximation",
-"-0,012 %"
+"−0,012 %"
 ]
 ]
 ],
@@ -25061,7 +27122,7 @@ true
 "reinitialiser",
 [
 [
-"Petits angles : 206 265″ × d / D",
+"Petits angles : 206 265″ × d / D",
 "8 250,6″"
 ],
 [
@@ -25070,7 +27131,7 @@ true
 ],
 [
 "Écart relatif de l’approximation",
-"-0,007 %"
+"−0,007 %"
 ]
 ]
 ]
@@ -25869,19 +27930,19 @@ true
 ],
 [
 "Temperature",
-"5 836 K"
+"5 770 K"
 ],
 [
 "Luminosity (HR diagram)",
-"0.974 L☉"
+"1.023 L☉"
 ],
 [
 "Absolute magnitude M",
-"4.84"
+"4.80"
 ],
 [
 "Distance modulus m − M",
-"-3.84"
+"−3.80"
 ],
 [
 "Distance",
@@ -25889,7 +27950,11 @@ true
 ],
 [
 "Lines",
-"weak hydrogen, strong ionized metals, strong neutral metals"
+"very weak hydrogen, strong ionized metals, very weak neutral metals, moderate G band (CH)"
+],
+[
+"Absolute magnitude calibration",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ],
@@ -25902,27 +27967,31 @@ true
 ],
 [
 "Temperature",
-"25 862 K"
+"26 000 K"
 ],
 [
 "Luminosity (HR diagram)",
-"6 343 L☉"
+"13 490 L☉"
 ],
 [
 "Absolute magnitude M",
-"-2.21"
+"−3.00"
 ],
 [
 "Distance modulus m − M",
-"9.93"
+"10.72"
 ],
 [
 "Distance",
-"967.4 pc (3 155 ly)"
+"1 393 pc (4 544 ly)"
 ],
 [
 "Lines",
-"strong helium, weak hydrogen"
+"very weak ionized helium, very strong helium, moderate hydrogen, very weak ionized metals"
+],
+[
+"Absolute magnitude calibration",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ],
@@ -25935,19 +28004,19 @@ true
 ],
 [
 "Temperature",
-"5 836 K"
+"5 770 K"
 ],
 [
 "Luminosity (HR diagram)",
-"0.974 L☉"
+"1.023 L☉"
 ],
 [
 "Absolute magnitude M",
-"4.84"
+"4.80"
 ],
 [
 "Distance modulus m − M",
-"-3.84"
+"−3.80"
 ],
 [
 "Distance",
@@ -25955,7 +28024,11 @@ true
 ],
 [
 "Lines",
-"weak hydrogen, strong ionized metals, strong neutral metals"
+"very weak hydrogen, strong ionized metals, very weak neutral metals, moderate G band (CH)"
+],
+[
+"Absolute magnitude calibration",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ]
@@ -26035,19 +28108,19 @@ true
 ],
 [
 "Température",
-"5 836 K"
+"5 770 K"
 ],
 [
 "Luminosité (diagramme HR)",
-"0,974 L☉"
+"1,023 L☉"
 ],
 [
 "Magnitude absolue M",
-"4,84"
+"4,80"
 ],
 [
 "Module de distance m − M",
-"-3,84"
+"−3,80"
 ],
 [
 "Distance",
@@ -26055,7 +28128,11 @@ true
 ],
 [
 "Raies",
-"hydrogène faible, métaux ionisés fort, métaux neutres fort"
+"hydrogène très faible, métaux ionisés fort, métaux neutres très faible, bande G (CH) moyen"
+],
+[
+"Étalonnage de la magnitude absolue",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ],
@@ -26068,27 +28145,31 @@ true
 ],
 [
 "Température",
-"25 862 K"
+"26 000 K"
 ],
 [
 "Luminosité (diagramme HR)",
-"6 343 L☉"
+"13 490 L☉"
 ],
 [
 "Magnitude absolue M",
-"-2,21"
+"−3,00"
 ],
 [
 "Module de distance m − M",
-"9,93"
+"10,72"
 ],
 [
 "Distance",
-"967,4 pc (3 155 al)"
+"1 393 pc (4 544 al)"
 ],
 [
 "Raies",
-"hélium fort, hydrogène faible"
+"hélium ionisé très faible, hélium très fort, hydrogène moyen, métaux ionisés très faible"
+],
+[
+"Étalonnage de la magnitude absolue",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ],
@@ -26101,19 +28182,19 @@ true
 ],
 [
 "Température",
-"5 836 K"
+"5 770 K"
 ],
 [
 "Luminosité (diagramme HR)",
-"0,974 L☉"
+"1,023 L☉"
 ],
 [
 "Magnitude absolue M",
-"4,84"
+"4,80"
 ],
 [
 "Module de distance m − M",
-"-3,84"
+"−3,80"
 ],
 [
 "Distance",
@@ -26121,7 +28202,11 @@ true
 ],
 [
 "Raies",
-"hydrogène faible, métaux ionisés fort, métaux neutres fort"
+"hydrogène très faible, métaux ionisés fort, métaux neutres très faible, bande G (CH) moyen"
+],
+[
+"Étalonnage de la magnitude absolue",
+"Mamajek 2022.04.16 (Pecaut & Mamajek 2013)"
 ]
 ]
 ]
@@ -26247,11 +28332,19 @@ false
 ],
 [
 "Temperature",
-"5 830 K"
+"5 770 K"
+],
+[
+"Surface gravity log g",
+"4.43"
 ],
 [
 "Strong lines",
-"Ionized metals, Neutral metals"
+"Ionized metals"
+],
+[
+"Strongest lines",
+"Ca II 393.4 nm, Ca II 396.8 nm, Hα 656.3 nm"
 ]
 ]
 ],
@@ -26268,11 +28361,19 @@ false
 ],
 [
 "Temperature",
-"6 750 K"
+"6 820 K"
+],
+[
+"Surface gravity log g",
+"4.18"
 ],
 [
 "Strong lines",
-"Hydrogen, Ionized metals"
+"none"
+],
+[
+"Strongest lines",
+"none"
 ]
 ]
 ],
@@ -26289,11 +28390,19 @@ false
 ],
 [
 "Temperature",
-"5 830 K"
+"5 770 K"
+],
+[
+"Surface gravity log g",
+"4.43"
 ],
 [
 "Strong lines",
-"Ionized metals, Neutral metals"
+"Ionized metals"
+],
+[
+"Strongest lines",
+"Ca II 393.4 nm, Ca II 396.8 nm, Hα 656.3 nm"
 ]
 ]
 ]
@@ -26411,11 +28520,19 @@ false
 ],
 [
 "Température",
-"5 830 K"
+"5 770 K"
+],
+[
+"Gravité de surface log g",
+"4,43"
 ],
 [
 "Raies fortes",
-"Métaux ionisés, Métaux neutres"
+"Métaux ionisés"
+],
+[
+"Raies les plus intenses",
+"Ca II 393,4 nm, Ca II 396,8 nm, Hα 656,3 nm"
 ]
 ]
 ],
@@ -26432,11 +28549,19 @@ false
 ],
 [
 "Température",
-"6 750 K"
+"6 820 K"
+],
+[
+"Gravité de surface log g",
+"4,18"
 ],
 [
 "Raies fortes",
-"Hydrogène, Métaux ionisés"
+"aucun"
+],
+[
+"Raies les plus intenses",
+"aucun"
 ]
 ]
 ],
@@ -26453,11 +28578,19 @@ false
 ],
 [
 "Température",
-"5 830 K"
+"5 770 K"
+],
+[
+"Gravité de surface log g",
+"4,43"
 ],
 [
 "Raies fortes",
-"Métaux ionisés, Métaux neutres"
+"Métaux ionisés"
+],
+[
+"Raies les plus intenses",
+"Ca II 393,4 nm, Ca II 396,8 nm, Hα 656,3 nm"
 ]
 ]
 ]
@@ -26810,7 +28943,7 @@ false
 [
 [
 "m − M",
-"0.0 − (-2.6) = 2.6"
+"0.0 − (−2.6) = 2.6"
 ],
 [
 "Distance modulus",
@@ -26926,7 +29059,7 @@ false
 [
 [
 "m − M",
-"0,0 − (-2,6) = 2,6"
+"0,0 − (−2,6) = 2,6"
 ],
 [
 "Module de distance",
@@ -27004,7 +29137,7 @@ false
 "valeur": 5.0
 },
 {
-"aide": "Distance, de 1 à 1 000 parsecs (échelle logarithmique). On peut aussi glisser l’étoile.",
+"aide": "Distance, de 1 à 1 000 parsecs (échelle logarithmique). On peut aussi glisser l’étoile.",
 "cle": "d",
 "dec": 1,
 "defaut": 10.0,
@@ -27043,15 +29176,15 @@ false
 [
 [
 "Radial velocity c Δλ / λ₀",
-"100.50 km/s (receding)"
+"100.50 km·s⁻¹ (receding)"
 ],
 [
 "Transverse velocity 4.74 μ d",
-"474.05 km/s"
+"474.05 km·s⁻¹"
 ],
 [
 "Space velocity",
-"484.58 km/s"
+"484.58 km·s⁻¹"
 ],
 [
 "Angle with the line of sight",
@@ -27059,7 +29192,7 @@ false
 ],
 [
 "Radial velocity (relativistic formula)",
-"100.48 km/s"
+"100.48 km·s⁻¹"
 ]
 ]
 ],
@@ -27068,15 +29201,15 @@ false
 [
 [
 "Radial velocity c Δλ / λ₀",
-"251.70 km/s (receding)"
+"251.70 km·s⁻¹ (receding)"
 ],
 [
 "Transverse velocity 4.74 μ d",
-"283.86 km/s"
+"283.86 km·s⁻¹"
 ],
 [
 "Space velocity",
-"379.38 km/s"
+"379.38 km·s⁻¹"
 ],
 [
 "Angle with the line of sight",
@@ -27084,7 +29217,7 @@ false
 ],
 [
 "Radial velocity (relativistic formula)",
-"251.59 km/s"
+"251.59 km·s⁻¹"
 ]
 ]
 ],
@@ -27093,15 +29226,15 @@ false
 [
 [
 "Radial velocity c Δλ / λ₀",
-"100.50 km/s (receding)"
+"100.50 km·s⁻¹ (receding)"
 ],
 [
 "Transverse velocity 4.74 μ d",
-"474.05 km/s"
+"474.05 km·s⁻¹"
 ],
 [
 "Space velocity",
-"484.58 km/s"
+"484.58 km·s⁻¹"
 ],
 [
 "Angle with the line of sight",
@@ -27109,7 +29242,7 @@ false
 ],
 [
 "Radial velocity (relativistic formula)",
-"100.48 km/s"
+"100.48 km·s⁻¹"
 ]
 ]
 ]
@@ -27138,7 +29271,7 @@ false
 "maxi": 10.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "″/an",
+"unite": "″·a⁻¹",
 "valeur": 10.0
 },
 {
@@ -27163,15 +29296,15 @@ false
 [
 [
 "Vitesse radiale c Δλ / λ₀",
-"100,50 km/s (s’éloigne)"
+"100,50 km·s⁻¹ (s’éloigne)"
 ],
 [
 "Vitesse transverse 4,74 μ d",
-"474,05 km/s"
+"474,05 km·s⁻¹"
 ],
 [
 "Vitesse dans l’espace",
-"484,58 km/s"
+"484,58 km·s⁻¹"
 ],
 [
 "Angle avec la ligne de visée",
@@ -27179,7 +29312,7 @@ false
 ],
 [
 "Vitesse radiale (formule relativiste)",
-"100,48 km/s"
+"100,48 km·s⁻¹"
 ]
 ]
 ],
@@ -27188,15 +29321,15 @@ false
 [
 [
 "Vitesse radiale c Δλ / λ₀",
-"251,70 km/s (s’éloigne)"
+"251,70 km·s⁻¹ (s’éloigne)"
 ],
 [
 "Vitesse transverse 4,74 μ d",
-"283,86 km/s"
+"283,86 km·s⁻¹"
 ],
 [
 "Vitesse dans l’espace",
-"379,38 km/s"
+"379,38 km·s⁻¹"
 ],
 [
 "Angle avec la ligne de visée",
@@ -27204,7 +29337,7 @@ false
 ],
 [
 "Vitesse radiale (formule relativiste)",
-"251,59 km/s"
+"251,59 km·s⁻¹"
 ]
 ]
 ],
@@ -27213,15 +29346,15 @@ false
 [
 [
 "Vitesse radiale c Δλ / λ₀",
-"100,50 km/s (s’éloigne)"
+"100,50 km·s⁻¹ (s’éloigne)"
 ],
 [
 "Vitesse transverse 4,74 μ d",
-"474,05 km/s"
+"474,05 km·s⁻¹"
 ],
 [
 "Vitesse dans l’espace",
-"484,58 km/s"
+"484,58 km·s⁻¹"
 ],
 [
 "Angle avec la ligne de visée",
@@ -27229,7 +29362,7 @@ false
 ],
 [
 "Vitesse radiale (formule relativiste)",
-"100,48 km/s"
+"100,48 km·s⁻¹"
 ]
 ]
 ]
@@ -27258,7 +29391,7 @@ false
 "maxi": 10.0,
 "mini": 0.0,
 "type": "curseur",
-"unite": "″/an",
+"unite": "″·a⁻¹",
 "valeur": 10.0
 },
 {
@@ -27451,7 +29584,7 @@ true
 ],
 [
 "Altitude",
-"-20.8°"
+"−20.8°"
 ],
 [
 "Azimuth",
@@ -27475,11 +29608,11 @@ true
 ],
 [
 "Equation of time",
-"-4.8 min"
+"−4.8 min"
 ],
 [
 "Altitude at apparent noon",
-"-4.3° (12:05)"
+"−4.3° (12:05)"
 ],
 [
 "Day length",
@@ -27500,7 +29633,7 @@ true
 ],
 [
 "Altitude",
-"-16.2°"
+"−16.2°"
 ],
 [
 "Azimuth",
@@ -27516,7 +29649,7 @@ true
 ],
 [
 "Hour angle H = LST − α",
-"-157.1°"
+"−157.1°"
 ],
 [
 "Local sidereal time",
@@ -27848,7 +29981,7 @@ true
 ],
 [
 "Hauteur",
-"-20,8°"
+"−20,8°"
 ],
 [
 "Azimut",
@@ -27872,11 +30005,11 @@ true
 ],
 [
 "Équation du temps",
-"-4,8 min"
+"−4,8 min"
 ],
 [
 "Hauteur à midi vrai",
-"-4,3° (12 h 05)"
+"−4,3° (12 h 05)"
 ],
 [
 "Durée du jour",
@@ -27897,7 +30030,7 @@ true
 ],
 [
 "Hauteur",
-"-16,2°"
+"−16,2°"
 ],
 [
 "Azimut",
@@ -27913,7 +30046,7 @@ true
 ],
 [
 "Angle horaire H = TSL − α",
-"-157,1°"
+"−157,1°"
 ],
 [
 "Temps sidéral local",
@@ -30140,7 +32273,7 @@ false
 "valeur": 1.0
 },
 {
-"aide": "Durée d’un tour de la Terre par rapport aux étoiles (jour sidéral) : la vraie (23 h 56 min 4 s), ou ralentie (240 h, 1 200 h) comme dans l’original pour rendre le retard visible.",
+"aide": "Durée d’un tour de la Terre par rapport aux étoiles (jour sidéral) : la vraie (23 h 56 min 4 s), ou ralentie (240 h, 1 200 h) comme dans l’original pour rendre le retard visible.",
 "cle": "rotation",
 "defaut": 240.0,
 "options": [
@@ -30153,7 +32286,7 @@ false
 240.0
 ],
 [
-"1 200 h",
+"1 200 h",
 1200.0
 ]
 ],
@@ -30449,15 +32582,15 @@ false
 "defaut": "8",
 "options": [
 [
-"8 pouces (203 mm, F = 1 400 mm)",
+"8 pouces (203 mm, F = 1 400 mm)",
 "8"
 ],
 [
-"6 pouces (152 mm, F = 1 220 mm)",
+"6 pouces (152 mm, F = 1 220 mm)",
 "6"
 ],
 [
-"4 pouces (102 mm, F = 1 020 mm)",
+"4 pouces (102 mm, F = 1 020 mm)",
 "4"
 ]
 ],
@@ -30799,7 +32932,7 @@ false
 ],
 [
 "Level at the observer",
-"-19.3 cm"
+"−19.3 cm"
 ],
 [
 "Tidal range from the Moon alone",
@@ -30828,7 +32961,7 @@ false
 ],
 [
 "Level at the observer",
-"-3.0 cm"
+"−3.0 cm"
 ],
 [
 "Tidal range from the Moon alone",
@@ -30991,7 +33124,7 @@ false
 ],
 [
 "Niveau chez l’observateur",
-"-19,3 cm"
+"−19,3 cm"
 ],
 [
 "Marnage dû à la Lune seule",
@@ -31020,7 +33153,7 @@ false
 ],
 [
 "Niveau chez l’observateur",
-"-3,0 cm"
+"−3,0 cm"
 ],
 [
 "Marnage dû à la Lune seule",
@@ -31231,7 +33364,7 @@ false
 "maxi": 40.0,
 "mini": 15.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 30.0
 },
 {
@@ -31244,7 +33377,7 @@ false
 "maxi": 14.0,
 "mini": 4.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 10.0
 },
 {
@@ -31257,7 +33390,7 @@ false
 "maxi": 12.0,
 "mini": 1.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 5.0
 }
 ]
@@ -31361,7 +33494,7 @@ false
 "maxi": 40.0,
 "mini": 15.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 30.0
 },
 {
@@ -31374,7 +33507,7 @@ false
 "maxi": 14.0,
 "mini": 4.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 10.0
 },
 {
@@ -31387,7 +33520,7 @@ false
 "maxi": 12.0,
 "mini": 1.0,
 "type": "curseur",
-"unite": "m/s",
+"unite": "m·s⁻¹",
 "valeur": 5.0
 }
 ]
@@ -31433,7 +33566,7 @@ false
 ],
 [
 "Declination of the Sun",
-"-6.8°"
+"−6.8°"
 ],
 [
 "Altitude",
@@ -31462,7 +33595,7 @@ false
 ],
 [
 "Declination of the Sun",
-"-11.1°"
+"−11.1°"
 ],
 [
 "Altitude",
@@ -31549,7 +33682,7 @@ false
 ],
 [
 "Declination of the Sun",
-"-6.8°"
+"−6.8°"
 ],
 [
 "Altitude",
@@ -31650,7 +33783,7 @@ false
 ],
 [
 "Déclinaison du Soleil",
-"-6,8°"
+"−6,8°"
 ],
 [
 "Hauteur",
@@ -31679,7 +33812,7 @@ false
 ],
 [
 "Déclinaison du Soleil",
-"-11,1°"
+"−11,1°"
 ],
 [
 "Hauteur",
@@ -31766,7 +33899,7 @@ false
 ],
 [
 "Déclinaison du Soleil",
-"-6,8°"
+"−6,8°"
 ],
 [
 "Hauteur",
@@ -32991,11 +35124,11 @@ false
 [
 [
 "True rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent period",
@@ -33012,11 +35145,11 @@ false
 [
 [
 "True rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent period",
@@ -33033,11 +35166,11 @@ false
 [
 [
 "True rotation",
-"711.9° / frame"
+"711.9° per frame"
 ],
 [
 "Apparent rotation",
-"-8.1° / frame"
+"−8.1° per frame"
 ],
 [
 "Apparent period",
@@ -33054,11 +35187,11 @@ false
 [
 [
 "True rotation",
-"711.9° / frame"
+"711.9° per frame"
 ],
 [
 "Apparent rotation",
-"-8.1° / frame"
+"−8.1° per frame"
 ],
 [
 "Apparent period",
@@ -33075,11 +35208,11 @@ false
 [
 [
 "True rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent rotation",
-"24.0° / frame"
+"24.0° per frame"
 ],
 [
 "Apparent period",
@@ -33129,7 +35262,7 @@ false
 "maxi": 10.0,
 "mini": 0.1,
 "type": "curseur",
-"unite": "/s",
+"unite": "s⁻¹",
 "valeur": 3.0
 },
 {
@@ -33165,11 +35298,11 @@ false
 [
 [
 "Rotation vraie",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Rotation apparente",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Période apparente",
@@ -33186,11 +35319,11 @@ false
 [
 [
 "Rotation vraie",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Rotation apparente",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Période apparente",
@@ -33207,11 +35340,11 @@ false
 [
 [
 "Rotation vraie",
-"711,9° / image"
+"711,9° par image"
 ],
 [
 "Rotation apparente",
-"-8,1° / image"
+"−8,1° par image"
 ],
 [
 "Période apparente",
@@ -33228,11 +35361,11 @@ false
 [
 [
 "Rotation vraie",
-"711,9° / image"
+"711,9° par image"
 ],
 [
 "Rotation apparente",
-"-8,1° / image"
+"−8,1° par image"
 ],
 [
 "Période apparente",
@@ -33249,11 +35382,11 @@ false
 [
 [
 "Rotation vraie",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Rotation apparente",
-"24,0° / image"
+"24,0° par image"
 ],
 [
 "Période apparente",
@@ -33303,7 +35436,7 @@ false
 "maxi": 10.0,
 "mini": 0.1,
 "type": "curseur",
-"unite": "/s",
+"unite": "s⁻¹",
 "valeur": 3.0
 },
 {

@@ -57,8 +57,8 @@ export class CCD extends Animation {
 
   override construire(): void {
     this.pose = this.curseur('pose', 1.0, 60.0, 10.0, { dec: 0, unite: 's' });
-    this.etoile = this.curseur('etoile', 0.0, 5000.0, 1500.0, { dec: 0, unite: 'ph/s' });
-    this.ciel = this.curseur('ciel', 0.0, 200.0, 20.0, { dec: 0, unite: 'ph/s' });
+    this.etoile = this.curseur('etoile', 0.0, 5000.0, 1500.0, { dec: 0, unite: 'ph·s⁻¹' });
+    this.ciel = this.curseur('ciel', 0.0, 200.0, 20.0, { dec: 0, unite: 'ph·s⁻¹' });
     this.bouton('anim_buckets_poser', () => this.poser());
     this.bouton('anim_buckets_lire', () => this.lire());
     this.etat_initial();

@@ -124,7 +124,7 @@ export class Gravitation extends Animation {
     const c = calcul(m1, m2, r);
     return [
       ['M₁', `${scientifique(m1)} kg`], ['M₂', `${scientifique(m2)} kg`], ['R', `${scientifique(r)} m`],
-      [tr('anim_gravcalc_force'), `${scientifique(c.F)} N`], [tr('anim_gravcalc_a1'), `${scientifique(c.a1)} m/s²`], [tr('anim_gravcalc_a2'), `${scientifique(c.a2)} m/s²`],
+      [tr('anim_gravcalc_force'), `${scientifique(c.F)} N`], [tr('anim_gravcalc_a1'), `${scientifique(c.a1)} m·s⁻²`], [tr('anim_gravcalc_a2'), `${scientifique(c.a2)} m·s⁻²`],
     ];
   }
 
@@ -148,7 +148,7 @@ export class Gravitation extends Animation {
       const lg = a > 0 ? Math.max(0.0, Math.min(1.0, (Math.log10(a) + 40) / 80)) * (x2 - x1) * 0.42 : 0;
       if (lg > 3) dessin.fleche(p, x + sens * rr, yc, x + sens * (rr + lg), yc, dessin.stylo(cle, 2.4), 9);
       dessin.disque(p, x, yc, rr, cle);
-      dessin.texte(p, x, yc + rr + 14, `a = ${scientifique(a)} m/s²`, cle);
+      dessin.texte(p, x, yc + rr + 14, `a = ${scientifique(a)} m·s⁻²`, cle);
     }
     if (this.memoire.length) this.table(p, new Rect(rect.x + 10, rect.y + rect.h * 0.7, rect.w - 20, rect.h * 0.3 - 8));
   }

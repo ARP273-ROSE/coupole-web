@@ -61,11 +61,11 @@ export class CourbeVitesseRadiale extends Animation {
     const v = -s.K * Math.cos(2 * Math.PI * this.phase);
     const out: [string, string][] = [
       [tr('anim_c_periode'), texte_duree(s.P)],
-      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(s.K, 2)} m/s`],
-      [tr('anim_ca_extrasolarplanets_graph_v'), `${nombre(v, 2)} m/s`],
+      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(s.K, 2)} m·s⁻¹`],
+      [tr('anim_ca_extrasolarplanets_graph_v'), `${nombre(v, 2)} m·s⁻¹`],
     ];
     const kp = K_PUBLIEE[this.sys.currentData() as string];
-    if (kp) out.push([tr('anim_ca_extrasolarplanets_graph_k_mesuree'), `${nombre(kp, 2)} m/s`]);
+    if (kp) out.push([tr('anim_ca_extrasolarplanets_graph_k_mesuree'), `${nombre(kp, 2)} m·s⁻¹`]);
     return out;
   }
 
@@ -150,8 +150,8 @@ export class SpectreVitesseRadiale extends Animation {
     const g = this.grandeurs();
     return [
       [tr('anim_c_periode'), texte_duree(g.P)],
-      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(g.K, 2)} m/s`],
-      [tr('anim_ca_extrasolarplanets_graph_v'), `${nombre(g.v, 2)} m/s`],
+      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(g.K, 2)} m·s⁻¹`],
+      [tr('anim_ca_extrasolarplanets_graph_v'), `${nombre(g.v, 2)} m·s⁻¹`],
       [tr('anim_radialvelocitydemo_dl'), `${nombre((656.28e3 * g.v) / lumiere.C, 4)} pm`],
     ];
   }

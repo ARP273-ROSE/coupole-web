@@ -38,7 +38,7 @@ export function flux_observe(z: number): (lam: number) => number {
   };
 }
 
-/** Vitesse (km/s) donnant ce décalage par l'effet Doppler relativiste : v / c = ((1+z)² − 1) / ((1+z)² + 1). */
+/** Vitesse (km·s⁻¹) donnant ce décalage par l'effet Doppler relativiste : v / c = ((1+z)² − 1) / ((1+z)² + 1). */
 export function vitesse_relativiste(z: number): number {
   const s = (1 + z) ** 2;
   return ((lumiere.C / 1000) * (s - 1)) / (s + 1);
@@ -95,7 +95,7 @@ export class DecalageGalaxie extends Animation {
     const m = this.magnitudes();
     return [
       ['z', nombre(z, 3)],
-      [tr('anim_galacticredshift_v'), `${nombre(vitesse_relativiste(z), 0)} km/s`],
+      [tr('anim_galacticredshift_v'), `${nombre(vitesse_relativiste(z), 0)} km·s⁻¹`],
       [tr('anim_galacticredshift_halpha'), `${nombre(656.28 * (1 + z), 1)} nm`],
       ['B − V', nombre(m.B! - m.V!, 2)],
     ];

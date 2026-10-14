@@ -45,7 +45,7 @@ export class VitessesRadiales extends Animation {
     this.e = this.curseur('e', 0.0, 0.9, 0.0, { dec: 3 });
     this.i = this.curseur('i', 0.0, 90.0, 90.0, { dec: 1, unite: '°' });
     this.w = this.curseur('omega', 0.0, 360.0, 0.0, { dec: 1, unite: '°' });
-    this.bruit = this.curseur('bruit', 0.0, 50.0, 3.0, { dec: 1, unite: 'm/s' });
+    this.bruit = this.curseur('bruit', 0.0, 50.0, 3.0, { dec: 1, unite: 'm·s⁻¹' });
     this.n_mesures = this.curseur('mesures', 0.0, 200.0, 40.0, { dec: 0 });
     this.phase = 0.0;
     this.mesuresCache = null;
@@ -100,11 +100,11 @@ export class VitessesRadiales extends Animation {
     const s = this.systeme();
     const out: [string, string][] = [
       [tr('anim_c_periode'), texte_duree(s.P)],
-      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(s.K, 2)} m/s`],
+      [tr('anim_ca_extrasolarplanets_graph_k'), `${nombre(s.K, 2)} m·s⁻¹`],
       [tr('anim_radialvelocitysimulator_msini'), `${nombre(this.mp.value() * Math.sin((s.i * Math.PI) / 180), 3)} M♃`],
     ];
     const t = PREREGLAGES[this.prereglage.currentData() as string]!;
-    if (t.length === 9) out.push([tr('anim_ca_extrasolarplanets_graph_k_mesuree'), `${nombre(t[8] as number, 1)} m/s`]);
+    if (t.length === 9) out.push([tr('anim_ca_extrasolarplanets_graph_k_mesuree'), `${nombre(t[8] as number, 1)} m·s⁻¹`]);
     return out;
   }
 

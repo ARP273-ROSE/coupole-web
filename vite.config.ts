@@ -119,7 +119,8 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
     reportCompressedSize: true,
-    chunkSizeWarningLimit: 400,
+    // le modèle des spectres physiques (≈ 1 Mo de JSON, 260 Ko compressés) est un morceau chargé à la demande
+    chunkSizeWarningLimit: 1100,
   },
   server: { host: '0.0.0.0', port: 5173 },
   preview: { host: '0.0.0.0', port: 4173 },

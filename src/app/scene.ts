@@ -3,7 +3,8 @@
  * (requestAnimationFrame), boucle d'animation en lecture (suspendue d'elle-même quand l'onglet est caché),
  * pointeurs (souris, doigt, stylet) : glisser, pincer-zoomer, molette, appui long = clic droit ; clavier.
  */
-import type { Animation, Bouton_souris, Hote } from '../anim/base';
+import type { Animation, Bouton_souris, Hote, Survolable } from '../anim/base';
+import type { CibleFiche } from './fiche_flottante';
 import { titresPoses } from '../noyau/dessin';
 import { Peintre, Pt, Rect, reglerTaillePolice } from '../noyau/peintre';
 
@@ -15,7 +16,11 @@ export interface Observateur {
   valeurs?(): void;
   lecture?(): void;
   zoom?(k: number): void;
+  /** objet désigné (survol, toucher, clavier) : sa fiche, ou null pour la cacher */
+  fiche?(c: CibleFiche | null): void;
 }
+
+type Origine = 'souris' | 'toucher' | 'clavier';
 
 export class Scene implements Hote {
   canvas: HTMLCanvasElement;
@@ -41,6 +46,8 @@ export class Scene implements Hote {
   private titres: { x: number; y: number; w: number; h: number; complet: string; abrege: boolean }[] = [];
   private signatureTitres = '';
   private infobulle = false;
+  /** objet dont la fiche est montrée, et comment il a été désigné */
+  private designe: { fiche: string; origine: Origine } | null = null;
   private obs: ResizeObserver | null = null;
   private detruite = false;
   private surVisibilite = (): void => {
@@ -71,6 +78,19 @@ export class Scene implements Hote {
     anim.hote = this;
     this.zoomer(1, 0, 0, true);
     this.demander();
+    // WebKit : une boîte observée avant d'être dans la page n'est jamais signalée (toile restée 1 × 1) ; on attend
+    // qu'elle soit dans la page et mise en page, puis on l'observe de nouveau et on la mesure
+    let essais = 0;
+    const verifier = (): void => {
+      if (this.detruite) return;
+      const r = this.boite.getBoundingClientRect();
+      if (this.boite.isConnected && r.width > 1 && r.height > 1) {
+        this.obs?.unobserve(this.boite);
+        this.obs?.observe(this.boite);
+        this.redimensionner();
+      } else if (essais++ < 240) requestAnimationFrame(verifier);
+    };
+    requestAnimationFrame(verifier);
   }
 
   // ------------------------------------------------------------ Hote
@@ -96,6 +116,7 @@ export class Scene implements Hote {
     this.demande = false;
     const a = this.anim;
     if (!a || this.detruite) return;
+    if (this.w <= 1 || this.h <= 1) this.redimensionner();
     if (a.en_lecture && !document.hidden) {
       const dt = this.dernier ? (t - this.dernier) / 1000 : 0;
       this.dernier = t;
@@ -126,6 +147,7 @@ export class Scene implements Hote {
     a.peindre(this.peintre, new Rect(0, 0, this.w, this.h));
     this.mesurer(performance.now() - t0);
     this.majTitres();
+    this.suivreFiche();
     this.observateur.rendu?.();
   }
 
@@ -163,6 +185,50 @@ export class Scene implements Hote {
       const noms = [...new Set(this.titres.map((t) => t.complet))];
       this.canvas.setAttribute('aria-label', noms.length ? `${this.libelle} — ${noms.join(' ; ')}` : this.libelle);
     }
+  }
+
+  // ------------------------------------------------------------ fiche de l'objet désigné
+  private versEcran(o: Survolable): CibleFiche {
+    return { fiche: o.fiche, x: o.x * this.k + this.ox, y: o.y * this.k + this.oy, r: o.r * this.k };
+  }
+
+  /** Désigne un objet (ou aucun) et montre sa fiche. */
+  designer(o: Survolable | null, origine: Origine = 'souris'): void {
+    this.designe = o ? { fiche: o.fiche, origine } : null;
+    this.canvas.dataset.fiche = o ? o.fiche : '';
+    this.observateur.fiche?.(o ? this.versEcran(o) : null);
+  }
+
+  /** Après chaque image : la fiche suit son objet (qui a pu bouger), ou disparaît avec lui. */
+  private suivreFiche(): void {
+    const d = this.designe;
+    const a = this.anim;
+    if (!d || !a) return;
+    const o = a.survolables.find((u) => u.fiche === d.fiche);
+    if (!o) {
+      this.designer(null);
+      return;
+    }
+    this.observateur.fiche?.(this.versEcran(o));
+  }
+
+  /** Clavier : objet suivant (sens +1) ou précédent (−1) du plus brillant au plus faible ; faux au bout de la liste. */
+  private objetSuivant(sens: 1 | -1, boucler: boolean): boolean {
+    const a = this.anim;
+    if (!a) return false;
+    const liste = a.objets_ordonnes();
+    if (!liste.length) return false;
+    const i = this.designe ? liste.findIndex((o) => o.fiche === this.designe!.fiche) : -1;
+    let j = i < 0 ? (sens > 0 ? 0 : liste.length - 1) : i + sens;
+    if (j < 0 || j >= liste.length) {
+      if (!boucler) {
+        this.designer(null);
+        return false;
+      }
+      j = (j + liste.length) % liste.length;
+    }
+    this.designer(liste[j]!, 'clavier');
+    return true;
   }
 
   /** Infobulle du titre complet quand la souris survole un titre abrégé (rien ailleurs sur la toile). */
@@ -262,6 +328,12 @@ export class Scene implements Hote {
       }
     });
     c.addEventListener('keydown', (e) => this.clavier(e));
+    c.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse' && this.designe?.origine === 'souris') this.designer(null);
+    });
+    c.addEventListener('blur', () => {
+      if (this.designe?.origine === 'clavier') this.designer(null);
+    });
   }
 
   private bas(e: PointerEvent): void {
@@ -315,6 +387,10 @@ export class Scene implements Hote {
         this.survolTitre(p.x, p.y);
         const q = this.logique(p.x, p.y);
         if (this.anim.survoler(q)) this.demander();
+        const o = this.anim.objet_sous(q, 4);
+        if (o) {
+          if (this.designe?.fiche !== o.fiche) this.designer(o, 'souris');
+        } else if (this.designe?.origine === 'souris') this.designer(null);
       }
       return;
     }
@@ -362,7 +438,14 @@ export class Scene implements Hote {
     const g = this.glisse;
     if (g && g.id === e.pointerId) {
       this.glisse = null;
-      this.anim?.relacher(this.logique(g.x, g.y));
+      const q = this.logique(g.x, g.y);
+      this.anim?.relacher(q);
+      // toucher (ou clic) sans glisser : l'objet touché montre sa fiche ; à côté, la fiche se ferme
+      if (!g.bouge && this.anim && e.type === 'pointerup') {
+        const o = this.anim.objet_sous(q, e.pointerType === 'mouse' ? 4 : 14);
+        if (o) this.designer(o, e.pointerType === 'mouse' ? 'souris' : 'toucher');
+        else if (this.designe && this.designe.origine !== 'souris') this.designer(null);
+      }
       this.demander();
     }
   }
@@ -381,6 +464,21 @@ export class Scene implements Hote {
     if (!a) return;
     const pas = e.shiftKey ? 45 : 12;
     let fait = true;
+    // objets à fiche : Tab les parcourt (puis la toile rend le focus), les flèches aussi quand une fiche est ouverte
+    if (e.key === 'Tab' && !e.altKey && !e.ctrlKey && !e.metaKey && a.survolables.length) {
+      if (this.objetSuivant(e.shiftKey ? -1 : 1, false)) e.preventDefault();
+      return;
+    }
+    if (e.key === 'Escape' && this.designe) {
+      this.designer(null);
+      e.preventDefault();
+      return;
+    }
+    if (this.designe?.origine === 'clavier' && e.key.startsWith('Arrow')) {
+      this.objetSuivant(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1, true);
+      e.preventDefault();
+      return;
+    }
     switch (e.key) {
       case 'ArrowLeft':
       case 'ArrowRight':

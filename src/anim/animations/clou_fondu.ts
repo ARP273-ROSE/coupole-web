@@ -68,7 +68,7 @@ export class ClouFondu extends Animation {
     return [
       [tr('anim_meltednail_temperature_v'), `${nombre(t, 0)} K (${nombre(t - 273.15, 0)} °C)`],
       [tr('anim_c_pic_wien'), `${nombre(lumiere.pic_wien_m(t) * 1e9, 0)} nm`],
-      [tr('anim_c_exitance'), `${scientifique(lumiere.exitance(t))} W/m²`],
+      [tr('anim_c_exitance'), `${scientifique(lumiere.exitance(t))} W·m⁻²`],
       [tr('anim_meltednail_visible'), `${fv < 0.01 ? scientifique(fv) : nombre(fv, 2)} %`],
     ];
   }

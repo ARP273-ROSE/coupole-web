@@ -46,7 +46,7 @@ function interpoler(xs: readonly number[], ys: readonly number[], x: number): nu
   return ys[lo]! + t * (ys[hi]! - ys[lo]!);
 }
 
-/** Vitesse circulaire du modèle (km/s) à r kpc du centre ; `cle` : total ou une composante. */
+/** Vitesse circulaire du modèle (km·s⁻¹) à r kpc du centre ; `cle` : total ou une composante. */
 export function vitesse(r: number, cle: 'v' | 'bulbe' | 'disques' | 'halo' = 'v'): number {
   return interpoler(M.R, M[cle], r);
 }
@@ -100,8 +100,8 @@ export class RotationGalaxie extends Animation {
   override construire(): void {
     this.r = this.curseur('rayon', 0.5, R_MAX, R_SOLEIL_KPC, { dec: 2, unite: 'kpc' });
     this.c_kepler = this.coche('kepler', true);
-    this.c_composantes = this.coche('web_composantes', true, 'web_mw_composantes');
-    this.c_mesures = this.coche('web_mesures', true, 'web_mw_mesures');
+    this.c_composantes = this.coche('composantes', true);
+    this.c_mesures = this.coche('mesures', true);
     this.axes = null;
   }
 
@@ -110,9 +110,9 @@ export class RotationGalaxie extends Animation {
     const tour = (2 * Math.PI * r * KPC_M) / (vitesse(r) * 1000) / (astro.ANNEE_JULIENNE_J * 86400) / 1e6;
     return [
       [tr('anim_milkywayrotationalvelocity_r'), `${nombre(r, 2)} kpc (${nombre(r * 1000 * astro.PC_EN_AL, 0)} ${tr('anim_spectroparallax_al')})`],
-      [tr('anim_milkywayrotationalvelocity_v'), `${nombre(vitesse(r), 1)} km/s`],
+      [tr('anim_milkywayrotationalvelocity_v'), `${nombre(vitesse(r), 1)} km·s⁻¹`],
       [tr('anim_milkywayrotationalvelocity_m'), `${scientifique(masse(r))} M☉`],
-      [tr('web_mw_masse_sphere'), `${scientifique(masse_sphere(r))} M☉`],
+      [tr('anim_milkywayrotationalvelocity_masse_sphere'), `${scientifique(masse_sphere(r))} M☉`],
       [tr('anim_milkywayrotationalvelocity_tour'), `${nombre(tour, 0)} ${tr('anim_milkywayrotationalvelocity_ma')}`],
     ];
   }
@@ -133,7 +133,7 @@ export class RotationGalaxie extends Animation {
   override dessiner(p: Peintre, rect: Rect): void {
     const z = dessin.zones_principale(rect, 1, 0.56);
     this.courbe(p, dessin.cadre(p, z[0]!, tr('anim_milkywayrotationalvelocity_titre_courbe')));
-    this.galaxie(p, dessin.cadre(p, z[1]!, tr('web_mw_titre_galaxie')));
+    this.galaxie(p, dessin.cadre(p, z[1]!, tr('anim_milkywayrotationalvelocity_titre_galaxie')));
   }
 
   private courbe(p: Peintre, r: Rect): void {
@@ -172,9 +172,9 @@ export class RotationGalaxie extends Animation {
     // légende (pas sur les petits écrans : elle cacherait les courbes)
     if (ax.r.w < 420 || ax.r.h < 240) return;
     dessin.police(p, 0.8);
-    const leg: [string, string, boolean][] = [['accent1', tr('web_mw_modele'), true]];
-    if (this.c_composantes.isChecked()) leg.push(['accent3', tr('web_mw_bulbe'), true], ['equateur', tr('web_mw_disques'), true], ['arc1', tr('web_mw_halo'), true]);
-    if (this.c_mesures.isChecked()) leg.push(['texte', tr('web_mw_eilers'), false], ['accent2', tr('web_mw_galkin'), false]);
+    const leg: [string, string, boolean][] = [['accent1', tr('anim_milkywayrotationalvelocity_modele'), true]];
+    if (this.c_composantes.isChecked()) leg.push(['accent3', tr('anim_milkywayrotationalvelocity_bulbe'), true], ['equateur', tr('anim_milkywayrotationalvelocity_disques'), true], ['arc1', tr('anim_milkywayrotationalvelocity_halo'), true]);
+    if (this.c_mesures.isChecked()) leg.push(['texte', tr('anim_milkywayrotationalvelocity_eilers'), false], ['accent2', tr('anim_milkywayrotationalvelocity_galkin'), false]);
     let y = ax.r.bottom - 10 - 13 * (leg.length - 1);
     for (const [cle, nom, ligne] of leg) {
       const x = ax.r.left + ax.r.w * 0.45;
@@ -251,7 +251,7 @@ export class RotationGalaxie extends Animation {
       p.drawPolyline(mesure);
       p.setPen(dessin.stylo(coul[nom]!, 1.4, 0.95));
       p.drawPolyline(mesure);
-      etiquettes.push([mesure[Math.floor(mesure.length * 0.62)]!, coul[nom]!, tr('web_mw_bras_' + nom)]);
+      etiquettes.push([mesure[Math.floor(mesure.length * 0.62)]!, coul[nom]!, tr('anim_milkywayrotationalvelocity_bras_' + nom)]);
     }
     // centre, Soleil, cercle du rayon choisi
     dessin.disque(p, cx, cy, 3, 'texte');
@@ -267,7 +267,7 @@ export class RotationGalaxie extends Animation {
     for (const [q, cle, nom] of etiquettes) dessin.etiquette(p, q.x, q.y, nom, cle, 4);
     dessin.etiquette(p, s.x, s.y, tr('anim_milkywayrotationalvelocity_soleil'), 'soleil', 7);
     const b = ecran(-BARRE_DEMI * 0.8 * Math.sin((BARRE_ANGLE * Math.PI) / 180), -BARRE_DEMI * 0.8 * Math.cos((BARRE_ANGLE * Math.PI) / 180));
-    dessin.etiquette(p, b.x, b.y, tr('web_mw_barre'), 'doux', 4);
+    dessin.etiquette(p, b.x, b.y, tr('anim_milkywayrotationalvelocity_barre'), 'doux', 4);
     for (let a = 10; a <= 25; a += 5) dessin.texte(p, cx + a * k * Math.cos(-0.6), cy - a * k * Math.sin(-0.6) + 10, `${a} kpc`, 'doux');
     dessin.police(p, 1 / 0.8);
   }

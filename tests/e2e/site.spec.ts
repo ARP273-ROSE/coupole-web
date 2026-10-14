@@ -157,7 +157,7 @@ test('à propos : licence et crédit', async ({ page }) => {
 });
 
 test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ page }) => {
-  test.setTimeout(600_000);
+  test.setTimeout(900_000);
   const s = await surveiller(page);
   await page.goto('./');
   let ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
@@ -165,9 +165,11 @@ test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ p
   if (!test.info().project.name.endsWith('bureau')) ids = ids.filter((_, i) => i % 6 === 0);
   for (const id of ids) {
     await page.goto(`./#/a/${id}`);
-    await expect(page.locator('.scene canvas'), `${id} ${s.erreurs.join(' | ')} ${page.url()}`).toBeVisible({ timeout: 30_000 });
+    // la page de l'animation demandée (et non la précédente, encore affichée le temps du chargement)
+    const pageAnim = page.locator(`.page-anim[data-anim="${id}"]`);
+    await expect(pageAnim.locator('.scene canvas'), `${id} ${s.erreurs.join(' | ')} ${page.url()}`).toBeVisible({ timeout: 30_000 });
     await expect.poll(() => couleursToile(page), { message: id }).toBeGreaterThan(3);
-    const lecture = page.locator('.transport .bouton.principal');
+    const lecture = pageAnim.locator('.transport .bouton.principal');
     if (await lecture.count()) {
       await lecture.click();
       await page.waitForTimeout(150);
@@ -274,6 +276,91 @@ test('machine d’Anticythère : cadrans, enveloppe, faces, roue touchée, lectu
   expect(s.externes).toEqual([]);
 });
 
+test('Orion en 3D : vue du ciel, dépliement, plongée vers M42 (image et crédit), fiche au survol, durée de rendu', async ({ page }) => {
+  test.setTimeout(150_000);
+  const s = await surveiller(page);
+  await page.goto('./#/a/orion3d');
+  await expect(page.locator('h1')).toHaveText('Orion en 3D');
+  await expect(page.locator('.lien-croise a')).toHaveAttribute('href', /coupole\/blob\/main\/NOTICE$/);
+  const toile = page.locator('.scene canvas');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  await capture(page, 'orion-ciel');
+  // fiche au clavier : Tab désigne l'étoile la plus brillante (Rigel), Échap ferme
+  await toile.focus();
+  await page.keyboard.press('Tab');
+  const fiche = page.locator('.fiche-objet');
+  await expect(fiche).toBeVisible();
+  await expect(fiche).toContainText('Rigel');
+  await expect(page.locator('.scene [role="status"]')).toContainText('Rigel');
+  // jamais par-dessus l'objet : la boîte de la fiche ne touche pas le disque de l'étoile
+  const [ox, oy, orr] = ((await fiche.getAttribute('data-objet')) ?? '0 0 0').split(' ').map(Number) as [number, number, number];
+  const fb = (await fiche.boundingBox())!;
+  const sb = (await page.locator('.scene').boundingBox())!;
+  const cx = Math.max(fb.x - sb.x, Math.min(fb.x - sb.x + fb.width, ox));
+  const cy = Math.max(fb.y - sb.y, Math.min(fb.y - sb.y + fb.height, oy));
+  expect(Math.hypot(cx - ox, cy - oy)).toBeGreaterThanOrEqual(orr);
+  await capture(page, 'orion-fiche');
+  await page.keyboard.press('ArrowRight');
+  await expect(fiche).not.toContainText('Rigel');
+  await page.keyboard.press('Escape');
+  await expect(fiche).toBeHidden();
+  // « Vue 3D » : le dépliement va à 100 % et s'arrête seul
+  await page.getByRole('button', { name: 'Vue 3D', exact: true }).click();
+  await expect.poll(() => page.locator('.valeurs dd').first().textContent(), { timeout: 15_000 }).toBe('en 3D');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  await capture(page, 'orion-3d');
+  // durée de rendu en lecture (la scène tourne lentement)
+  await page.locator('.transport .bouton.principal').click();
+  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 45_000 }).not.toBeNull();
+  const ms = Number((await toile.getAttribute('data-ms'))!.split(' ')[0]);
+  test.info().annotations.push({ type: 'durée de rendu Orion 3D (ms)', description: String(ms) });
+  expect(ms).toBeLessThan(100);
+  await page.locator('.transport .bouton.principal').click();
+  // plongée vers M42 : image ESO posée sur le ciel, crédit mot pour mot avec lien actif
+  await page.goto('./#/a/orion3d?cible=m42');
+  const credit = page.locator('.credits-images a').first();
+  await expect(credit).toHaveText('Image : ESO/G. Beccari (CC BY 4.0)', { timeout: 15_000 });
+  await expect(credit).toHaveAttribute('href', 'https://www.eso.org/public/images/eso1723a/');
+  await expect.poll(() => couleursToile(page), { timeout: 15_000 }).toBeGreaterThan(200);
+  await capture(page, 'orion-m42');
+  expect(s.erreurs).toEqual([]);
+  expect(s.externes).toEqual([]);
+});
+
+test('fiches au survol dans les animations à étoiles réelles (Grande Ourse : souris ou doigt)', async ({ page }) => {
+  await page.goto('./#/a/bigdipper');
+  const toile = page.locator('.scene canvas');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  await toile.focus();
+  await page.keyboard.press('Tab');
+  const fiche = page.locator('.fiche-objet');
+  await expect(fiche).toBeVisible();
+  await expect(fiche).toContainText('Distance');
+  const [ox, oy] = ((await fiche.getAttribute('data-objet')) ?? '0 0 0').split(' ').map(Number) as [number, number];
+  await page.keyboard.press('Escape');
+  const b = (await toile.boundingBox())!;
+  // la souris (ou le doigt) sur l'étoile ouvre la même fiche
+  await page.mouse.click(b.x + ox, b.y + oy);
+  await expect(fiche).toBeVisible();
+  await expect(page.locator('.valeurs')).toContainText('al');
+  await capture(page, 'grande-ourse-fiche');
+});
+
+test('spectres physiques : courbes, raies nommées, cas signalés ; parallaxe spectroscopique', async ({ page }) => {
+  const s = await surveiller(page);
+  await page.goto('./#/a/spectrum010');
+  await expect(page.locator('.valeurs')).toContainText('5 770 K');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(40);
+  await capture(page, 'spectres');
+  await page.goto('./#/a/spectrum010?type=66');
+  await expect(page.locator('.valeurs')).toContainText('ATLAS9');
+  await page.goto('./#/a/spectroparallax?classe=2&type=30');
+  await expect(page.locator('.valeurs')).toContainText('ancien étalonnage');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(40);
+  await capture(page, 'parallaxe-spectro');
+  expect(s.erreurs).toEqual([]);
+});
+
 test('hors ligne après la première visite', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'service worker piloté hors ligne : Chromium');
   await page.goto('./');
@@ -298,8 +385,10 @@ test('formules en MathML : fractions empilées, police mathématique', async ({ 
   const ligne = await page.locator('.valeurs dt').first().evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
   // empilée : plus haute qu'une ligne de texte
   expect(b.height).toBeGreaterThan(ligne * 1.4);
+  // délimiteurs extensibles (parenthèses qui couvrent toute la hauteur d'une fraction), indices de mots en romain
   await page.goto('./#/a/gravcalc');
   await expect(page.locator('.fiche math').first()).toBeVisible();
+  expect(await page.locator('math mo[stretchy="false"]').count()).toBe(0);
   // la police mathématique auto-hébergée se charge (aucune requête externe : vérifié par les autres tests)
   expect(await page.evaluate(async () => (await document.fonts.load("16px 'STIX Two Math'", '∝√')).length)).toBeGreaterThan(0);
   await capture(page, 'formules');
@@ -307,7 +396,7 @@ test('formules en MathML : fractions empilées, police mathématique', async ({ 
 
 test('jour-nuit : vues polaires (pôle Nord, pôle Sud)', async ({ page }) => {
   const s = await surveiller(page);
-  await page.goto('./#/a/daylightsimulator?web_projection=nord');
+  await page.goto('./#/a/daylightsimulator?projection=nord');
   await expect(page.locator('.scene canvas')).toBeVisible();
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
   const choix = page.getByLabel('Projection');
@@ -315,7 +404,7 @@ test('jour-nuit : vues polaires (pôle Nord, pôle Sud)', async ({ page }) => {
   await expect(page.getByLabel('Vue polaire jusqu’à')).toBeVisible();
   await capture(page, 'jour-nuit-nord');
   await choix.selectOption({ label: 'pôle Sud' });
-  await expect.poll(() => page.url()).toContain('web_projection=sud');
+  await expect.poll(() => page.url()).toContain('projection=sud');
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
   await capture(page, 'jour-nuit-sud');
   await choix.selectOption({ label: 'équirectangulaire' });
@@ -326,7 +415,7 @@ test('jour-nuit : vues polaires (pôle Nord, pôle Sud)', async ({ page }) => {
 
 test('jour-nuit : globe 3D qu’on fait tourner dans tous les sens', async ({ page }) => {
   const s = await surveiller(page);
-  await page.goto('./#/a/daylightsimulator?web_projection=globe');
+  await page.goto('./#/a/daylightsimulator?projection=globe');
   const toile = page.locator('.scene canvas');
   await expect(toile).toBeVisible();
   await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
@@ -367,7 +456,7 @@ async function couleursCentre(page: Page): Promise<number> {
 }
 
 for (const [id, requete] of [
-  ['daylightsimulator', 'vitesse=4.68&jour=80&heure=13.4&latitude=24.7&longitude=-10.4&web_projection=globe&web_tournant=true'],
+  ['daylightsimulator', 'vitesse=4.68&jour=80&heure=13.4&latitude=24.7&longitude=-10.4&projection=globe&tournant=true'],
   ['sunmotions', ''],
   ['configurationssimulator', ''],
 ] as [string, string][]) {

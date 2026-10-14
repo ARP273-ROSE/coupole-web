@@ -99,6 +99,9 @@ function jetons(s: string): Jeton[] {
           else if (d === ')' && --n === 0) break;
           if (!(d === '(' && n === 1)) v += d;
         }
+      } else if (c === '_' && /[A-Za-zα-ωΑ-Ω]/.test(car[i] ?? '') && /[A-Za-zα-ωΑ-Ω]/.test(car[i + 1] ?? '')) {
+        // indice d'un mot entier (λ_max, f_obs, a_int) : un seul identificateur, en romain
+        while (i < car.length && /[A-Za-zα-ωΑ-Ω]/.test(car[i]!)) v += car[i++];
       } else v = car[i++] ?? '';
       pousser({ k: c === '^' ? 'sup' : 'sub', v });
       continue;
@@ -285,6 +288,8 @@ function sansParen(n: Noeud): Noeud {
 function sousFormule(s: string): Noeud {
   if (/^[−+]?[0-9]+$/.test(s)) return { t: 'nb', v: s };
   if (s.length === 1 && !/[0-9]/.test(s)) return s === '*' ? { t: 'op', v: '∗' } : { t: 'id', v: s };
+  // un mot (max, obs, int…) : un identificateur droit, pas un produit de lettres en italique
+  if (/^[A-Za-zα-ωΑ-Ω]{2,}$/.test(s)) return { t: 'id', v: s };
   return analyser(s);
 }
 
@@ -336,7 +341,7 @@ function versMathML(n: Noeud): Element {
     case 'racine':
       return el('msqrt', [versMathML(n.e)]);
     case 'paren':
-      return el('mrow', [el('mo', [n.o], { stretchy: 'false' }), versMathML(n.e), el('mo', [n.f], { stretchy: 'false' })]);
+      return el('mrow', [el('mo', [n.o], { stretchy: 'true', symmetric: 'true' }), versMathML(n.e), el('mo', [n.f], { stretchy: 'true', symmetric: 'true' })]);
   }
 }
 
@@ -510,6 +515,12 @@ function boite(p: Peintre, n: Noeud, t: number): Boite {
       };
     }
   }
+}
+
+/** Dimensions d'une formule sur la toile (largeur, montée, descente en pixels), pour la taille de police courante. */
+export function dimensionsFormule(p: Peintre, s: string): { w: number; asc: number; desc: number } {
+  const b = boite(p, analyser(s), p.font().taille * 1.08);
+  return { w: b.w, asc: b.asc, desc: b.desc };
 }
 
 /** Largeur d'une formule sur la toile (pixels), pour la taille de police courante. */

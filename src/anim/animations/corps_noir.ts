@@ -110,7 +110,7 @@ export class CorpsNoir extends Animation {
     const out: [string, string][] = [
       [tr('anim_bbexplorer_temperature_v'), `${nombre(t, 0)} K`],
       [tr('anim_c_pic_wien'), `${nombre(lumiere.pic_wien_m(t) * 1e9, 1)} nm`],
-      [tr('anim_c_exitance'), `${scientifique(lumiere.exitance(t))} W/m²`],
+      [tr('anim_c_exitance'), `${scientifique(lumiere.exitance(t))} W·m⁻²`],
       [tr('anim_bbexplorer_rapport_soleil'), `× ${nombre((t / 5772.0) ** 4, 2)}`],
     ];
     if (this.c_filtres.isChecked()) out.push(['U − B', nombre(m.U! - m.B!, 2)], ['B − V', nombre(m.B! - m.V!, 2)], ['V − R', nombre(m.V! - m.R!, 2)]);

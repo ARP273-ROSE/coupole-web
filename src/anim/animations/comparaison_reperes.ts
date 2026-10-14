@@ -10,6 +10,7 @@ import type { Peintre, Rect } from '../../noyau/peintre';
 import { alea, linspace, pmod } from '../../noyau/py';
 import * as scenes from '../../noyau/scenes';
 import { mul, type Pts, type V3 } from '../../noyau/vec';
+import { couleur_reelle, reelle } from '../etoiles_reelles';
 import { Animation, angle, type Choix, type Coche, heures_minutes, type Reglage } from '../base';
 
 const CONSTELLATIONS: Record<string, [[number, number][], [number, number][]]> = {
@@ -32,6 +33,7 @@ type Conv = (pts: Pts) => Pts;
 
 export class ComparaisonReperes extends Animation {
   static override ID = 'celhorcomp';
+  static override FICHES = true;
   static HEURES_PAR_S = 1.0;
 
   celeste!: dessin.Vue3D;
@@ -176,12 +178,15 @@ export class ComparaisonReperes extends Animation {
   }
 
   private dessinEtoiles(pe: dessin.Peintre3D, objets: [string, [number, number][], [number, number][]][], conv: Conv, lon_trainee: number): void {
-    for (const [, etoiles, traits] of objets) {
+    for (const [nom, etoiles, traits] of objets) {
       const pts = etoiles.map(([a, d]) => astro.vecteur_equatorial(a, d));
       for (const [i, j] of traits) pe.courbe(conv(dessin.arc(pts[i]!, pts[j]!, 12)), 'accent1', 1.4, 0.8);
       etoiles.forEach(([a, d], k) => {
         if (lon_trainee > 0) pe.courbe(conv(scenes.arc_equateur(a, a + lon_trainee, d, 30)), 'etoile', 1.0, 0.45);
-        pe.point(conv([pts[k]!])[0]!, 'etoile', 3.0);
+        // étoiles réelles des constellations : couleur vraie et fiche ; étoiles « libres » (au hasard) : couleur du thème
+        const f = nom !== 'libres' ? reelle('celhorcomp', `${nom}_${k}`) : null;
+        const q = pe.point(conv([pts[k]!])[0]!, (f && couleur_reelle('celhorcomp', `${nom}_${k}`)) || 'etoile', 3.0, { bord: f && dessin.theme() === 'clair' ? 'doux' : null });
+        if (q && q[2] && f) this.survolable(pe.p, f.fiche, q[0], q[1], 6, k);
       });
     }
   }

@@ -26,7 +26,13 @@ const MOTIF = new RegExp(`\\$([^$]+)\\$|(${FORMULES.map(ECHAPPE).join('|')})`, '
 
 /** Morceaux d'un texte : chaînes et éléments <math>. */
 export function enrichir(s: string): (string | Element)[] {
-  const out: (string | Element)[] = [];
+  return decouper(s).map(([genre, t]) => (genre === 'formule' ? mathml(t) : t));
+}
+
+/** Découpe un texte en morceaux [« texte » | « formule », contenu] (sans DOM ; tests de la règle typographique). */
+export function decouper(s: string, valeur = false): ['texte' | 'formule', string][] {
+  if (valeur && estFormule(s)) return [['formule', s]];
+  const out: ['texte' | 'formule', string][] = [];
   let i = 0;
   MOTIF.lastIndex = 0;
   for (let m = MOTIF.exec(s); m; m = MOTIF.exec(s)) {
@@ -44,11 +50,11 @@ export function enrichir(s: string): (string | Element)[] {
       fin++;
       f = `(${f})`;
     }
-    if (debut > i) out.push(s.slice(i, debut));
-    out.push(mathml(f));
+    if (debut > i) out.push(['texte', s.slice(i, debut)]);
+    out.push(['formule', f]);
     i = fin;
   }
-  if (i < s.length) out.push(s.slice(i));
+  if (i < s.length) out.push(['texte', s.slice(i)]);
   return out;
 }
 

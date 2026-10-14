@@ -22,7 +22,7 @@ export class VitesseEtoile extends Animation {
 
   override construire(): void {
     this.lam = this.curseur('lambda', 655.0, 657.0, 656.5, { dec: 3, unite: 'nm' });
-    this.mu = this.curseur('mu', 0.0, 10.0, 10.0, { dec: 2, unite: '″/an' });
+    this.mu = this.curseur('mu', 0.0, 10.0, 10.0, { dec: 2, unite: '″·a⁻¹' });
     this.d = this.curseur('distance', 1.0, 10.0, 10.0, { dec: 2, unite: 'pc' });
     this.zone = null;
   }
@@ -36,11 +36,11 @@ export class VitesseEtoile extends Animation {
   override valeurs(): [string, string][] {
     const v = this.vitesses();
     return [
-      [tr('anim_stellarvel_vr'), `${nombre(v.vr, 2)} km/s (${tr(v.vr > 0 ? 'anim_stellarvel_eloigne' : 'anim_stellarvel_approche')})`],
-      [tr('anim_stellarvel_vt'), `${nombre(v.vt, 2)} km/s`],
-      [tr('anim_stellarvel_v'), `${nombre(v.v, 2)} km/s`],
+      [tr('anim_stellarvel_vr'), `${nombre(v.vr, 2)} km·s⁻¹ (${tr(v.vr > 0 ? 'anim_stellarvel_eloigne' : 'anim_stellarvel_approche')})`],
+      [tr('anim_stellarvel_vt'), `${nombre(v.vt, 2)} km·s⁻¹`],
+      [tr('anim_stellarvel_v'), `${nombre(v.v, 2)} km·s⁻¹`],
       [tr('anim_stellarvel_angle'), angle(v.angle, 1)],
-      [tr('anim_stellarvel_relativiste'), `${nombre(v.vr_rel, 2)} km/s`],
+      [tr('anim_stellarvel_relativiste'), `${nombre(v.vr_rel, 2)} km·s⁻¹`],
     ];
   }
 

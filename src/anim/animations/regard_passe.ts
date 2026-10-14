@@ -41,7 +41,7 @@ export class RegardPasse extends Animation {
     this.exemple.activated.connect(() => this.choisirExemple());
     this.distance = this.curseur('distance', 100.0, 9000.0, 3000.0, { dec: 0, unite: tr('anim_spectroparallax_al') });
     this.explosion = this.curseur('explosion', AN_MIN, 9000.0, 1200.0, { dec: 0 });
-    this.vitesse_ans = this.curseur('vitesse_ans', 50.0, 3000.0, 600.0, { dec: 0, unite: tr('anim_c_ans') + '/s', log: true });
+    this.vitesse_ans = this.curseur('vitesse_ans', 50.0, 3000.0, 600.0, { dec: 0, unite: 'a·s⁻¹', log: true });
     this.etat_initial();
   }
 

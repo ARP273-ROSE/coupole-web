@@ -343,6 +343,18 @@ export interface Hote {
 const HOTE_VIDE: Hote = { rafraichir() {}, lectureChangee() {} };
 
 export type Bouton_souris = 'gauche' | 'droit' | 'milieu';
+
+/**
+ * Objet de la scène qui a une fiche (étoile, nébuleuse) : position et rayon de prise en pixels de la toile (avant le
+ * zoom de la scène), ordre de parcours au clavier (du plus brillant au plus faible : la magnitude convient).
+ */
+export interface Survolable {
+  fiche: string;
+  x: number;
+  y: number;
+  r: number;
+  ordre: number;
+}
 export type Rappel_glisse = (pos: Pt) => void;
 
 /** Réglages à appliquer à la création (adresse partagée ou mémoire du navigateur). */
@@ -362,6 +374,8 @@ export abstract class Animation {
   static ID = '';
   static ANIMEE = true;
   static LECTURE_AU_DEPART = false;
+  /** l'animation enregistre des objets à fiche (survol, toucher, clavier) : l'aide le dit */
+  static FICHES = false;
 
   hote: Hote = HOTE_VIDE;
   controles: Controle[] = [];
@@ -439,6 +453,60 @@ export abstract class Animation {
   /** Souris qui survole la toile sans bouton enfoncé : vrai s'il faut redessiner (rien par défaut). */
   survoler(_pos: Pt): boolean {
     return false;
+  }
+
+  // ------------------------------------------------------------ objets à fiche (survol, toucher, clavier)
+  /** objets à fiche de la dernière image (remplie par dessiner() avec survolable()) */
+  survolables: Survolable[] = [];
+  private __inverse: DOMMatrix | null = null;
+
+  /**
+   * À appeler dans dessiner() pour chaque objet qui a une fiche : (x, y) et r dans le repère courant du peintre
+   * (ramenés au repère de la toile s'il est translaté ou mis à l'échelle).  Ignoré si une valeur n'est pas finie.
+   */
+  survolable(p: Peintre, fiche: string, x: number, y: number, r: number, ordre = 0): void {
+    if (!fiche || !Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(r)) return;
+    let X = x;
+    let Y = y;
+    let R = r;
+    const m = (p.ctx as { getTransform?: () => DOMMatrix }).getTransform?.();
+    if (m && this.__inverse) {
+      const a = this.__inverse;
+      const gx = m.a * x + m.c * y + m.e;
+      const gy = m.b * x + m.d * y + m.f;
+      X = a.a * gx + a.c * gy + a.e;
+      Y = a.b * gx + a.d * gy + a.f;
+      R = r * Math.sqrt(Math.abs(m.a * m.d - m.b * m.c) * Math.abs(a.a * a.d - a.b * a.c));
+    }
+    if (!Number.isFinite(X) || !Number.isFinite(Y)) return;
+    this.survolables.push({ fiche, x: X, y: Y, r: Math.max(2, R), ordre: Number.isFinite(ordre) ? ordre : 0 });
+  }
+
+  /** Objet à fiche le plus proche sous le point (marge en pixels autour du rayon de prise), ou null. */
+  objet_sous(pos: Pt, marge = 4): Survolable | null {
+    let meilleur: Survolable | null = null;
+    let dmin = Infinity;
+    for (const o of this.survolables) {
+      const d = Math.hypot(o.x - pos.x, o.y - pos.y) - o.r;
+      if (d <= marge && d < dmin) {
+        dmin = d;
+        meilleur = o;
+      }
+    }
+    return meilleur;
+  }
+
+  /** Objets à fiche dans l'ordre du clavier (sans doublon de fiche). */
+  objets_ordonnes(): Survolable[] {
+    const vus = new Set<string>();
+    return [...this.survolables]
+      .sort((a, b) => a.ordre - b.ordre)
+      .filter((o) => (vus.has(o.fiche) ? false : (vus.add(o.fiche), true)));
+  }
+
+  /** Crédits des images affichées en ce moment : [texte, adresse] (vide par défaut). */
+  credits_visibles(): [string, string][] {
+    return [];
   }
 
   /** Aide propre à la version web, ajoutée à l'aide de la page (vide par défaut). */
@@ -614,6 +682,13 @@ export abstract class Animation {
     p.fillRect(r, c('fond'));
     debutImage(p, r);
     this._vues = [];
+    this.survolables = [];
+    const m = (p.ctx as { getTransform?: () => DOMMatrix }).getTransform?.();
+    try {
+      this.__inverse = m && typeof (m as DOMMatrix).inverse === 'function' ? (m as DOMMatrix).inverse() : m ? inverser(m) : null;
+    } catch {
+      this.__inverse = null;
+    }
     p.save();
     try {
       this.dessiner(p, r);
@@ -621,6 +696,17 @@ export abstract class Animation {
       p.restore();
     }
   }
+}
+
+/** Inverse d'une matrice affine 2D (a b c d e f), sans DOMMatrix (tests hors navigateur). */
+function inverser(m: { a: number; b: number; c: number; d: number; e: number; f: number }): DOMMatrix {
+  const det = m.a * m.d - m.b * m.c;
+  if (!det) throw new Error('matrice non inversible');
+  const a = m.d / det,
+    b = -m.b / det,
+    c = -m.c / det,
+    d = m.a / det;
+  return { a, b, c, d, e: -(a * m.e + c * m.f), f: -(b * m.e + d * m.f) } as DOMMatrix;
 }
 
 export type ClasseAnimation = (new (etat?: EtatReglages, hote?: Hote) => Animation) & typeof Animation;

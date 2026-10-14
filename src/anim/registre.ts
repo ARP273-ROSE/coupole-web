@@ -1,6 +1,6 @@
 /**
- * Catalogue des 93 animations : les 92 de ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0)
- * et la machine d'Anticythère (adaptée d'Anticythere3D, du même auteur) ; et
+ * Catalogue des 94 animations : les 92 de ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0),
+ * la machine d’Anticythère (adaptée d’Anticythere3D, du même auteur) et « Orion en 3D » (propre à Coupole) ; et
  * chargement à la demande : chaque fichier de src/anim/animations/ devient un morceau JavaScript séparé, téléchargé
  * à l'ouverture de l'animation (ou de sa vignette).
  */
@@ -32,7 +32,7 @@ const C = CATALOGUE as unknown as {
  */
 const ORDRE_THEMES = [
   'intro', 'coordsmotion', 'lunarcycles', 'ancientastro', 'renaissance', 'solar', 'solarsystemdebris',
-  'sunsolarenergy', 'light', 'telescopes', 'stellarprops', 'binaryvariablestars', 'extrasolarplanets', 'milkyway',
+  'sunsolarenergy', 'light', 'telescopes', 'stellarprops', 'binaryvariablestars', 'extrasolarplanets', 'ismstarformation', 'milkyway',
   'cosmology',
 ];
 export const THEMES: readonly string[] = [

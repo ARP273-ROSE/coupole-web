@@ -1,7 +1,8 @@
 /**
  * HR Explorer (NAAP) : le diagramme de Hertzsprung-Russell.  On déplace une étoile (température, luminosité) : son
  * rayon suit R / R☉ = √(L / L☉) / (T / T☉)², comparé au Soleil.  Droites d'égal rayon, classes de luminosité, et les
- * étoiles les plus proches ou les plus brillantes du ciel (données de l'original).  T☉ = 5 772 K.
+ * étoiles les plus proches ou les plus brillantes du ciel (données de l'original), en couleur vraie (corps noir →
+ * CIE 1931 → sRGB) avec leur fiche au survol.  T☉ = 5 772 K.
  */
 import ETOILES from '../../donnees/genere/etoiles.json';
 import * as hr from '../../calc/hr';
@@ -9,7 +10,14 @@ import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import { Couleur, type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { Animation, type Bouton_souris, type Choix, type Coche, nombre, type Reglage } from '../base';
-import { etiquetteLum } from './parallaxe_spectro';
+import { exposant } from './gravitation';
+import { couleur_etoile } from '../../calc/couleur_etoile';
+import { reelle } from '../etoiles_reelles';
+
+/** Étiquette de luminosité d'une graduation (10^ll L☉) : nombre jusqu'à 100, puissance de 10 au-delà. */
+export function etiquetteLum(ll: number): string {
+  return ll < 3 ? nombre(10.0 ** ll, Math.max(0, -ll)) : `10${exposant(ll)}`;
+}
 
 type Etoile = [string, number, number, string];
 const E = ETOILES as unknown as { proches: Etoile[]; brillantes: Etoile[]; communes: Etoile[] };
@@ -21,6 +29,7 @@ const RAYONS = [1e-4, 1e-3, 1e-2, 0.1, 1.0, 10.0, 100.0, 1000.0];
 export class DiagrammeHR extends Animation {
   static override ID = 'hrexplorer';
   static override ANIMEE = false;
+  static override FICHES = true;
 
   t!: Reglage;
   l!: Reglage;
@@ -28,6 +37,7 @@ export class DiagrammeHR extends Animation {
   c_sp!: Coche;
   c_classes!: Coche;
   c_rayons!: Coche;
+  c_couleur!: Coche;
   private graphe: [Rect, number, number, number, number] | null = null;
 
   override construire(): void {
@@ -37,6 +47,7 @@ export class DiagrammeHR extends Animation {
     this.c_sp = this.coche('sequence', true);
     this.c_classes = this.coche('classes', false);
     this.c_rayons = this.coche('rayons', true);
+    this.c_couleur = this.coche('couleur_t', true);
     this.graphe = null;
   }
 
@@ -105,18 +116,23 @@ export class DiagrammeHR extends Animation {
       p.drawPolyline(pts);
     }
     const g = this.groupe.currentData() as string;
-    const couches: [Etoile[], string][] = ({
+    const couches: [Etoile[], string, string][] = ({
       aucune: [],
-      proches: [[E.proches, 'accent2'], [E.communes, 'accent3']],
-      brillantes: [[E.brillantes, 'accent1'], [E.communes, 'accent3']],
-      les_deux: [[E.proches, 'accent2'], [E.brillantes, 'accent1'], [E.communes, 'accent3']],
-      communes: [[E.communes, 'accent3']],
-    } as Record<string, [Etoile[], string][]>)[g]!;
-    for (const [etoiles, cle] of couches) {
-      for (const [, t, mv] of etoiles) {
+      proches: [[E.proches, 'accent2', 'proches'], [E.communes, 'accent3', 'communes']],
+      brillantes: [[E.brillantes, 'accent1', 'brillantes'], [E.communes, 'accent3', 'communes']],
+      les_deux: [[E.proches, 'accent2', 'proches'], [E.brillantes, 'accent1', 'brillantes'], [E.communes, 'accent3', 'communes']],
+      communes: [[E.communes, 'accent3', 'communes']],
+    } as Record<string, [Etoile[], string, string][]>)[g]!;
+    const vraie = this.c_couleur.isChecked();
+    for (const [etoiles, cle, groupe] of couches) {
+      for (const [nom, t, mv] of etoiles) {
         const [lt, ll] = hr.position_hr(t, mv);
         const q = xy(lt, ll);
-        dessin.disque(p, q.x, q.y, 2.6, cle);
+        // couleur = température (corps noir → CIE 1931) avec le contour du groupe, ou couleur du groupe
+        if (vraie) dessin.disque(p, q.x, q.y, 3.0, new Couleur(...couleur_etoile(10 ** lt)), cle);
+        else dessin.disque(p, q.x, q.y, 2.6, cle);
+        const f = reelle('hrexplorer:' + groupe, nom);
+        if (f && q.x >= x0 && q.x <= x1 && q.y >= y0 && q.y <= y1) this.survolable(p, f.fiche, q.x, q.y, 4, mv);
       }
     }
     p.restore();
@@ -150,8 +166,8 @@ export class DiagrammeHR extends Animation {
       re = Math.max(1.5, k * rr);
     const xs = r.x + r.w * 0.26,
       xe = r.x + r.w * 0.72;
-    dessin.disque(p, xs, cy, rs, new Couleur(...hr.couleur_rvb(hr.T_SOLEIL)));
-    dessin.disque(p, xe, cy, re, new Couleur(...hr.couleur_rvb(this.t.value())));
+    dessin.disque(p, xs, cy, rs, new Couleur(...couleur_etoile(hr.T_SOLEIL)), 'grille');
+    dessin.disque(p, xe, cy, re, new Couleur(...couleur_etoile(this.t.value())), 'grille');
     dessin.texte(p, xs, r.bottom - 26, tr('anim_stellarlum_soleil'), 'doux');
     dessin.texte(p, xe, r.bottom - 26, `${nombre(rr, rr < 0.1 ? 4 : 2)} R☉`, 'texte');
     if (k * 1.0 < 1.5 || k * rr < 1.5) dessin.texte(p, r.cx, r.bottom - 8, tr('anim_hrexplorer_hors_echelle'), 'doux');

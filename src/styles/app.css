@@ -1402,3 +1402,75 @@ math {
   line-height: 1.4;
   color: var(--texte-2);
 }
+
+/* ------------------------------------------------------------------ fiche au survol (objets de la scène) */
+.fiche-objet {
+  position: absolute;
+  z-index: 3;
+  max-width: 300px;
+  padding: 8px 10px 9px;
+  border-radius: var(--rayon-s);
+  border: 1px solid var(--bord-fort);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  color: var(--texte);
+  font-size: 0.74rem;
+  line-height: 1.35;
+  pointer-events: none;
+}
+.fiche-objet {
+  overflow: hidden;
+}
+.fiche-objet[hidden] {
+  display: none;
+}
+.fiche-objet .fo-titre {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 650;
+  font-size: 0.86rem;
+}
+.fiche-objet .fo-pastille {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+.fiche-objet .fo-sous-titre {
+  margin-top: 1px;
+  color: var(--texte-3);
+  font-size: 0.7rem;
+}
+.fiche-objet dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  margin: 6px 0 0;
+}
+.fiche-objet dt {
+  color: var(--texte-2);
+}
+.fiche-objet dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.fiche-objet dd small {
+  display: block;
+  color: var(--texte-3);
+  font-size: 0.64rem;
+  line-height: 1.25;
+}
+.fiche-objet dd.alerte {
+  color: var(--accent);
+}
+.credits-images {
+  margin: 4px 4px 0;
+  font-size: 0.72rem;
+  color: var(--texte-3);
+}
+.credits-images a {
+  color: var(--texte-2);
+}

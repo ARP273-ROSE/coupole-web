@@ -303,10 +303,10 @@ export class JourNuit extends Animation {
     this.lon = this.curseur('longitude', -180.0, 180.0, 0.0, { dec: 1, unite: '°', cle_texte: 'anim_c_longitude' });
     this.c_crepuscule = this.coche('crepuscule', false);
     // version web : vues polaires
-    this.projection = this.choix('web_projection', [['web_proj_equi', 'equi'], ['web_proj_nord', 'nord'], ['web_proj_sud', 'sud'], ['web_proj_globe', 'globe']], 'globe', 'web_projection');
-    this.bord = this.choix('web_bord', [['web_bord_0', 0], ['web_bord_30', 30]], 0, 'web_bord');
-    this.c_tournant = this.coche('web_tournant', false, 'web_tournant');
-    this.c_axe = this.coche('web_axe', true, 'web_axe');
+    this.projection = this.choix('projection', [['anim_daylightsimulator_proj_equi', 'equi'], ['anim_daylightsimulator_proj_nord', 'nord'], ['anim_daylightsimulator_proj_sud', 'sud'], ['anim_daylightsimulator_proj_globe', 'globe']], 'globe');
+    this.bord = this.choix('bord', [['anim_daylightsimulator_bord_0', 0], ['anim_daylightsimulator_bord_30', 30]], 0);
+    this.c_tournant = this.coche('tournant', false);
+    this.c_axe = this.coche('axe', true);
     const majVisibles = (): void => {
       const pr = this.projection.currentData();
       this.bord.setVisible(pr === 'nord' || pr === 'sud');
@@ -354,6 +354,11 @@ export class JourNuit extends Animation {
       [tr('anim_daylightsimulator_subsolaire'), `${decimal(dec, tr('anim_pc_n'), tr('anim_pc_s'))}, ${decimal(lon_ss, tr('anim_pc_e'), tr('anim_pc_o'))}`],
       [tr('anim_sunmotions_heure_vraie'), heures_minutes(h_obs)],
       [tr('anim_daylightsimulator_h_soleil'), angle(alt)],
+      // au pôle Nord, le Soleil est à δ de hauteur toute la journée (−δ au pôle Sud)
+      ...([['anim_daylightsimulator_pole_n', dec], ['anim_daylightsimulator_pole_s', -dec]] as [string, number][]).map(([nom, h]) => {
+        const cle = Math.abs(h) < 0.05 ? 'anim_daylightsimulator_pole_horizon' : h > 0 ? 'anim_daylightsimulator_jour_polaire' : 'anim_daylightsimulator_nuit_polaire';
+        return [tr(nom), tr(cle, { h: angle(h) })] as [string, string];
+      }),
     ];
   }
 
@@ -759,7 +764,7 @@ export class JourNuit extends Animation {
       const a = new Pt(cx + ux * (rr + 10), cy + uy * (rr + 10)),
         b = new Pt(cx + ux * (rr + 34), cy + uy * (rr + 34));
       dessin.fleche(p, a.x, a.y, b.x, b.y, dessin.stylo('soleil', 2.2), 8);
-      dessin.texte(p, cx + ux * (rr + 48), cy + uy * (rr + 48), tr('web_globe_soleil'), 'soleil', { fond: true });
+      dessin.texte(p, cx + ux * (rr + 48), cy + uy * (rr + 48), tr('anim_daylightsimulator_vers_soleil'), 'soleil', { fond: true });
     }
     dessin.police(p, 1.1, true);
     dessin.texte(p, rect.x + 12, rect.y + 18, date_du_jour(this.jour.value()) + ', ' + heures_minutes(this.heure.value()) + ' TU', 'texte', { centre: false });

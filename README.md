@@ -12,10 +12,16 @@ Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupol
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
 distances des étoiles, lumière et spectres, exoplanètes, étoiles doubles… Refaites d’après **ClassAction**
 (University of Nebraska-Lincoln Astronomy Education, licence Apache 2.0), avec **les mêmes formules, les mêmes données,
-les mêmes réglages et les mêmes textes** que l’application de bureau Coupole. Les **92 animations** sont disponibles, plus une
-93ᵉ : la **machine d’Anticythère en 3D** (manivelle au doigt ou à la souris, cadrans gravés en grec, machine ouverte ou
+les mêmes réglages et les mêmes textes** que l’application de bureau Coupole. Les **92 animations** sont disponibles, plus
+deux : la **machine d’Anticythère en 3D** (manivelle au doigt ou à la souris, cadrans gravés en grec, machine ouverte ou
 éclatée, rapports exacts des engrenages), adaptée d’[Anticythere3D](https://github.com/ARP273-ROSE/Anticythere3D), du
-même auteur.
+même auteur, et **Orion en 3D** (la constellation dépliée à ses vraies distances, nuages moléculaires, nébuleuse d’Orion
+en « blister », Tête de Cheval, plongée avec les images de l’ESO et de Hubble). Les spectres stellaires sont calculés
+(Saha–Boltzmann sur des atmosphères modèles, 133 raies NIST, bandes moléculaires) ; les étoiles réelles ont leur
+couleur vraie et une **fiche au survol** (souris, doigt ou clavier : type, magnitudes, distance avec son incertitude,
+température, sources).
+
+- **Typographie soignée** : unités SI (km·s⁻¹, W·m⁻²), signe moins, espaces fines, formules à délimiteurs extensibles.
 
 - **Partout** : Chrome, Safari, Firefox, Edge ; ordinateur, tablette, téléphone ; de 320 px au 4K, portrait ou
   paysage.
@@ -42,7 +48,7 @@ du Python de Coupole. Deux jeux de références, produits par l’application de
 
 - `tests/references/calculs.json` : plus de 4 000 appels de fonctions (et des arrondis de Python), que les tests
   TypeScript doivent retrouver à 10⁻⁹ près (relatif) ;
-- `tests/references/animations.json` : pour chacune des 93 animations, ses réglages (bornes, défauts, décimales,
+- `tests/references/animations.json` : pour chacune des 94 animations, ses réglages (bornes, défauts, décimales,
   unités, libellés, options) et les valeurs qu’elle affiche, au caractère près, en français et en anglais, dans un
   scénario fixe (création, pas d’animation, changement de tous les réglages, réinitialisation).
 
@@ -67,7 +73,8 @@ TypeScript, Playwright, types de Node), aucune à l’exécution.
 
 Licence Apache 2.0 (`LICENSE`). D’après ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0) ;
 machine d’Anticythère adaptée d’Anticythere3D (même auteur), d’après Freeth et al. (Nature 2006, 2008 ; Scientific
-Reports 2021) ; données et sources citées dans `NOTICE`. Polices Inter et STIX Two Math (SIL Open Font License 1.1) ; côtes Natural Earth (domaine public).
+Reports 2021) ; Orion en 3D : SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, articles cités, images ESO et
+ESA/Hubble (CC BY 4.0, crédits affichés) ; données et sources citées dans `NOTICE`. Polices Inter et STIX Two Math (SIL Open Font License 1.1) ; côtes Natural Earth (domaine public).
 
 ---
 
@@ -77,9 +84,15 @@ The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), i
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar
 distances, light and spectra, exoplanets, binary stars… Remade after **ClassAction** (University of Nebraska-Lincoln
 Astronomy Education, Apache 2.0 license), with **the same formulas, the same data, the same settings and the same
-texts** as the Coupole desktop application. All **92 animations** are available, plus a 93rd: the **Antikythera
+texts** as the Coupole desktop application. All **92 animations** are available, plus two: the **Antikythera
 Mechanism in 3D** (crank turned with a finger or the mouse, dials engraved in Greek, open or exploded machine, exact
-gear ratios), adapted from [Anticythere3D](https://github.com/ARP273-ROSE/Anticythere3D), by the same author.
+gear ratios), adapted from [Anticythere3D](https://github.com/ARP273-ROSE/Anticythere3D), by the same author, and
+**Orion in 3D** (the constellation unfolded to its true distances, molecular clouds, the Orion Nebula as a “blister”,
+the Horsehead, a dive with ESO and Hubble images). Stellar spectra are computed (Saha–Boltzmann on model atmospheres,
+133 NIST lines, molecular bands); real stars have their true colour and a **hover data sheet** (mouse, finger or
+keyboard: type, magnitudes, distance with its uncertainty, temperature, sources).
+
+- **Careful typography**: SI units (km·s⁻¹, W·m⁻²), minus sign, thin spaces, formulas with stretchy delimiters.
 
 - **Everywhere**: Chrome, Safari, Firefox, Edge; desktop, tablet, phone; from 320 px to 4K, portrait or landscape.
 - **Smooth**: Canvas 2D drawing, sharp on high-density screens, only when something moves; paused when the tab is
@@ -98,7 +111,7 @@ gear ratios), adapted from [Anticythere3D](https://github.com/ARP273-ROSE/Anticy
 
 The computations are transposed from Coupole’s Python. Two reference sets, produced by the desktop application
 itself, check them: `tests/references/calculs.json` (more than 4,000 function calls, matched to 10⁻⁹ relative) and
-`tests/references/animations.json` (for each of the 93 animations, its settings and the values it displays, character
+`tests/references/animations.json` (for each of the 94 animations, its settings and the values it displays, character
 for character, in French and English, through a fixed scenario).
 
 ## Develop
@@ -117,5 +130,6 @@ Playwright, Node types), none at run time.
 
 Apache License 2.0 (`LICENSE`). After ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0);
 Antikythera Mechanism adapted from Anticythere3D (same author), after Freeth et al. (Nature 2006, 2008; Scientific
-Reports 2021);
+Reports 2021); Orion in 3D: SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, cited papers, ESO and ESA/Hubble
+images (CC BY 4.0, credits shown);
 data and sources cited in `NOTICE`. Inter and STIX Two Math fonts (SIL Open Font License 1.1); Natural Earth coastlines (public domain).

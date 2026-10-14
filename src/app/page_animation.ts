@@ -12,7 +12,9 @@ import { texteNombre, type Vue, vueControle } from './controles';
 import * as prefs from './prefs';
 import { adresseAnimation, remplacerAdresse } from './routeur';
 import { Scene } from './scene';
+import { FicheFlottante } from './fiche_flottante';
 import { enrichir, remplir } from './texte_riche';
+import { typo } from '../noyau/typo';
 
 export interface Page {
   el: HTMLElement;
@@ -67,6 +69,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   const scene = h('div', { class: 'scene' }, zoomInfo);
   const transport = h('div', { class: 'transport', role: 'toolbar', 'aria-label': nom });
   const sousScene = h('p', { class: 'aide-scene' });
+  const credits = h('p', { class: 'credits-images', hidden: true });
   const reglages = h('div', { class: 'reglages' });
   const valeurs = h('dl', { class: 'valeurs' });
   const blocReglages = h('section', { class: 'bloc', 'aria-labelledby': 'titre-reglages' }, h('h2', { id: 'titre-reglages', text: tr('web_reglages') }), reglages);
@@ -75,7 +78,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   const descId = 'desc-anim';
   const el = h(
     'div',
-    { class: 'page page-anim' },
+    { class: 'page page-anim', 'data-anim': e.id },
     h(
       'nav',
       { class: 'fil', 'aria-label': tr('web_retour') },
@@ -89,7 +92,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     h(
       'div',
       { class: 'anim' },
-      h('div', { class: 'scene-boite' }, scene, transport, sousScene),
+      h('div', { class: 'scene-boite' }, scene, transport, sousScene, credits),
       h('div', { class: 'panneau' }, blocReglages, blocValeurs, fiche),
     ),
   );
@@ -115,14 +118,32 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     }
     v.forEach(([a, b], i) => {
       const [dt, dd] = lignes[i]!;
-      remplir(dt, a);
-      remplir(dd, b, true);
+      remplir(dt, typo(a));
+      remplir(dd, typo(b), true);
     });
     blocValeurs.hidden = v.length === 0;
+  };
+  const carte = new FicheFlottante(scene);
+  // crédits des images posées dans la scène (texte mot pour mot, lien actif), mis à jour quand ils changent
+  let signatureCredits = '';
+  const majCredits = (): void => {
+    const cr = anim.credits_visibles();
+    const sig = JSON.stringify(cr);
+    if (sig === signatureCredits) return;
+    signatureCredits = sig;
+    credits.replaceChildren(
+      ...cr.flatMap(([texte, lien], i) => [
+        i ? ' · ' : '',
+        h('a', { href: lien, rel: 'noopener noreferrer', target: '_blank', text: texte }),
+      ]),
+    );
+    credits.hidden = cr.length === 0;
   };
   const toile = new Scene(scene, {
     valeurs: majValeurs,
     lecture: majLecture,
+    rendu: majCredits,
+    fiche: (c) => (c ? carte.suivre(c) : carte.cacher()),
     zoom: (k) => {
       zoomInfo.classList.toggle('visible', k > 1.001);
       zoomTexte.textContent = `${tr('web_zoom')} ${texteNombre(k, 1)}×`;
@@ -289,6 +310,7 @@ function aideInteraction(a: Animation, cle: string): string {
   else if (a.nb_vues > 0) parties.push(tr(deplace ? 'web_aide_tourner_deplacer' : 'web_aide_tourner'));
   else if (deplace) parties.push(tr('web_aide_deplacer'));
   if (a.aide_supplementaire()) parties.push(a.aide_supplementaire());
+  if ((a.constructor as typeof Animation).FICHES) parties.push(tr('anim_aide_fiche'));
   parties.push(tr('web_aide_zoom'), tr(a.nb_vues > 0 ? 'web_aide_clavier_tourner' : 'web_aide_clavier'));
   return parties.join(' ');
 }

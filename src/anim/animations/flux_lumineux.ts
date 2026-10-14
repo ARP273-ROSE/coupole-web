@@ -34,7 +34,7 @@ export class FluxLumineux extends Animation {
       d = this.d.value();
     const f = hr.flux(w, d);
     return [
-      [tr('anim_lightdetector_flux'), `${nombre(f, 3)} W/m²`],
+      [tr('anim_lightdetector_flux'), `${nombre(f, 3)} W·m⁻²`],
       [tr('anim_lightdetector_rapport'), `1 / ${nombre(d, 2)}² = 1 / ${nombre(d * d, 2)}`],
       [tr('anim_lightdetector_aire'), `${nombre(4 * Math.PI * d * d, 2)} m²`],
     ];
@@ -92,6 +92,6 @@ export class FluxLumineux extends Animation {
     p.drawRect(new Rect(gx, gy, gl, 12));
     const t = Math.max(0.0, Math.min(1.0, (Math.log10(f) + 2) / (Math.log10(50) + 2)));
     p.fillRect(new Rect(gx, gy, gl * t, 12), dessin.c('accent1'));
-    dessin.texte(p, gx + gl / 2, gy + 26, `F = P / 4π d² = ${nombre(f, 3)} W/m²`, 'texte');
+    dessin.texte(p, gx + gl / 2, gy + 26, `F = P / 4π d² = ${nombre(f, 3)} W·m⁻²`, 'texte');
   }
 }

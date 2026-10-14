@@ -1,7 +1,7 @@
 {
   "name": "Coupole Web — animations d'astronomie",
   "short_name": "Coupole",
-  "description": "93 animations interactives d'astronomie, d'après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.",
+  "description": "94 animations interactives d'astronomie, d'après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.",
   "id": "./",
   "start_url": "./#/",
   "scope": "./",

@@ -9,6 +9,7 @@ import * as dessin from '../../noyau/dessin';
 import { cheminPolygone, type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { linspace, pmod } from '../../noyau/py';
 import { Animation, angle, type Coche, date_du_jour, heures_minutes, jour_de_date, type Reglage } from '../base';
+import { couleur_reelle, reelle } from '../etoiles_reelles';
 
 const ANNEE = 2026;
 export const ETOILES: Record<string, [number, number, number]> = {
@@ -58,6 +59,7 @@ export function stereo(h: number, dec: number): [number, number] {
 export class HorlogeGrandeOurse extends Animation {
   static override ID = 'dipperclock';
   static HEURES_PAR_S = 1.0;
+  static override FICHES = true;
 
   jour!: Reglage;
   heure!: Reglage;
@@ -128,7 +130,13 @@ export class HorlogeGrandeOurse extends Animation {
             b = fig[i + 1];
           if (a && b && vis[a] && vis[b]) p.drawLineP(vis[a]!, vis[b]!);
         }
-      for (const [n, pt] of Object.entries(vis)) dessin.disque(p, pt.x, pt.y, Math.max(1.5, 4.2 - 0.6 * c.etoiles[n]![2]), 'etoile', null, nuit);
+      for (const [n, pt] of Object.entries(vis)) {
+        // couleur vraie (corps noir à T_eff) ; un fin contour la garde visible sur un ciel clair
+        const r = Math.max(1.5, 4.2 - 0.6 * c.etoiles[n]![2]);
+        dessin.disque(p, pt.x, pt.y, r, couleur_reelle('dipperclock', n) ?? 'etoile', dessin.theme() === 'clair' ? 'doux' : null, nuit);
+        const f = reelle('dipperclock', n);
+        if (f) this.survolable(p, f.fiche, pt.x, pt.y, Math.max(5, r + 2), c.etoiles[n]![2]);
+      }
       if (this.c_noms.isChecked()) {
         dessin.police(p, 0.85);
         for (const [cle, etoile] of Object.entries(ETIQUETTES))

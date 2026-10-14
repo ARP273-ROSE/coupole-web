@@ -2,6 +2,41 @@
 
 *Français, puis [English](#english).*
 
+## 0.3.0 — 2026-10-14
+
+- **Orion en 3D** (nouveau thème « Milieu interstellaire et formation des étoiles », entre Exoplanètes et Voie
+  lactée) : la constellation telle qu’on la voit, puis dépliée progressivement en trois dimensions, chaque étoile à
+  sa distance mesurée (de Tabit, 8 pc, à la Ceinture, vers 380–400 pc) avec sa barre d’erreur ; nuages moléculaires
+  Orion A et B (squelettes 3D de Zucker et al. 2021, épine de Großschedl et al. 2018), anneau de λ Orionis, boucle de
+  Barnard sur la coquille d’Orion (Foley et al. 2023), nébuleuse d’Orion en « blister » (front d’ionisation en bol,
+  Voile, Trapèze : Wen & O’Dell 1995, O’Dell et al. 2009) et Tête de Cheval ; plongée vers M42 et la Tête de Cheval
+  avec les images de l’ESO et de l’ESA/Hubble posées sur le ciel à leur place exacte (CC BY 4.0, crédit affiché sur la
+  scène et en lien sous la scène, images chargées à la demande). Distances publiées par défaut pour Alnilam, Mintaka,
+  Meissa et Hatysa (mesure propre peu fiable), option « distances mesurées brutes » ; Trapèze à 388 ± 5 pc (VLBA),
+  Gaia DR3 (402 pc) et Menten et al. 2007 (414 pc) dans la fiche ; option « couleurs accentuées » (désactivée par
+  défaut). Tout est à l’échelle, sauf la taille des étoiles.
+- **Fiche au survol, générique** : survoler (souris), toucher (doigt) ou atteindre au clavier (Tab, flèches, Échap)
+  une étoile ou une nébuleuse ouvre une petite fiche, jamais posée sur l’objet, lue par les lecteurs d’écran (région
+  « aria-live ») : noms et désignations, type, magnitudes, distance (pc et al, incertitude, mesure peu fiable,
+  autres mesures), température, rayon et luminosité publiés ; la source de chaque valeur. Branchée sur Orion en 3D, la
+  Grande Ourse 3D, l’horloge de la Grande Ourse, le lever héliaque, la comparaison des repères et le diagramme HR
+  (321 fiches, SIMBAD, Gaia DR3, Hipparcos 2007, articles).
+- **Couleur vraie des étoiles** (corps noir à T_eff → CIE 1931 → sRGB, vérifiée par SageMath) dans ces animations ;
+  diagramme HR : case « couleur = température » ; Grande Ourse 3D : distances mises à jour (parallaxes adoptées par
+  SIMBAD : Merak 84,5 al au lieu de 79,4, Alkaid 103,9 au lieu de 100,7…).
+- **Spectres sur bases physiques** (Explorateur de spectres, Parallaxe spectroscopique) : intensités des familles de
+  raies calculées par Saha–Boltzmann sur des atmosphères ATLAS9, courbes lisses par classe (V, III, I) avec le type
+  spectral en bas et la température en haut, 133 raies NIST (les plus fortes nommées), bandes TiO et CH dégradées
+  vers le rouge, continu de Planck coloré (CIE 1931) ; G2 V = 5 770 K (Mamajek 2022) ; la classe change le spectre.
+  Cas extrapolés (atmosphère hors grille, étalonnage borné ou interpolé) et magnitude absolue de l’ancien étalonnage
+  signalés à l’écran ; légende qui passe au-dessus du graphe quand la place manque.
+- **Règle typographique partout** : unités SI à exposants (km·s⁻¹, m·s⁻², W·m⁻², g·cm⁻³), signe moins « − », espaces
+  fines des milliers, puissances de dix en exposant, formules à délimiteurs extensibles, indices de mots en romain
+  (λ_max, a_int) ; formateur commun au bureau et aux ressources ; test sur tous les textes affichés.
+- **Textes réexportés en entier depuis Coupole** et références régénérées : la Voie lactée, le simulateur jour-nuit
+  (deux lignes « au pôle Nord / Sud ») et le simulateur des ombres reprennent les clés et les textes du bureau.
+- **Mesures** : voir PROGRESSION.md.
+
 ## 0.2.0 — 2026-10-14
 
 - **La machine d’Anticythère en 3D** (thème « Astronomie antique ») : une 93ᵉ animation, qui s’ajoute aux 92
@@ -51,6 +86,40 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.3.0 — 2026-10-14
+
+- **Orion in 3D** (new topic “Interstellar Medium and Star Formation”, between Extrasolar Planets and Milky Way): the
+  constellation as we see it, then gradually unfolded in three dimensions, every star at its measured distance (from
+  Tabit, 8 pc, to the Belt, around 380–400 pc) with its error bar; Orion A and B molecular clouds (3D skeletons of
+  Zucker et al. 2021, spine of Großschedl et al. 2018), λ Orionis ring, Barnard’s Loop on the Orion shell (Foley et
+  al. 2023), the Orion Nebula as a “blister” (bowl-shaped ionisation front, Veil, Trapezium: Wen & O’Dell 1995,
+  O’Dell et al. 2009) and the Horsehead; dive towards M42 and the Horsehead with ESO and ESA/Hubble images laid on the
+  sky at their exact place (CC BY 4.0, credit shown on the scene and as a link below it, images loaded on demand).
+  Published distances by default for Alnilam, Mintaka, Meissa and Hatysa (unreliable own measurement), “raw measured
+  distances” option; Trapezium at 388 ± 5 pc (VLBA), Gaia DR3 (402 pc) and Menten et al. 2007 (414 pc) in the data
+  sheet; “enhanced colours” option (off by default). Everything is to scale except the size of the stars.
+- **Generic hover data sheet**: hovering (mouse), touching (finger) or reaching with the keyboard (Tab, arrows,
+  Escape) a star or a nebula opens a small sheet, never laid over the object, read by screen readers (“aria-live”
+  region): names and designations, type, magnitudes, distance (pc and ly, uncertainty, unreliable measurement, other
+  measurements), temperature, published radius and luminosity; the source of each value. Wired to Orion in 3D, Big
+  Dipper 3D, the Big Dipper clock, heliacal rising, coordinate systems comparison and the HR diagram (321 sheets,
+  SIMBAD, Gaia DR3, Hipparcos 2007, papers).
+- **True star colours** (black body at T_eff → CIE 1931 → sRGB, checked with SageMath) in these animations; HR
+  diagram: “colour = temperature” box; Big Dipper 3D: updated distances (SIMBAD adopted parallaxes: Merak 84.5 ly
+  instead of 79.4, Alkaid 103.9 instead of 100.7…).
+- **Physically based spectra** (Spectrum Explorer, Spectroscopic Parallax): line-family strengths computed with
+  Saha–Boltzmann on ATLAS9 atmospheres, smooth curves per class (V, III, I) with the spectral type at the bottom and the
+  temperature at the top, 133 NIST lines (the strongest named), TiO and CH bands degraded to the red, coloured Planck
+  continuum (CIE 1931); G2 V = 5,770 K (Mamajek 2022); the class changes the spectrum. Extrapolated cases (atmosphere
+  outside the grid, clamped or interpolated calibration) and the former absolute-magnitude calibration flagged on
+  screen; legend moved above the graph when space is short.
+- **Typography rule everywhere**: SI units with exponents (km·s⁻¹, m·s⁻², W·m⁻², g·cm⁻³), “−” minus sign, thin
+  thousands spaces, powers of ten as superscripts, formulas with stretchy delimiters, word subscripts upright (λ_max,
+  a_int); formatter shared with the desktop application and the resources; test on every displayed text.
+- **Texts fully re-exported from Coupole** and references regenerated: the Milky Way, the day-night simulator (two
+  “at the North / South Pole” lines) and the eclipse shadows simulator use the desktop keys and texts.
+- **Measurements**: see PROGRESSION.md.
 
 ### 0.2.0 — 2026-10-14
 

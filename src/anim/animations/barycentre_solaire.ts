@@ -27,7 +27,7 @@ export class BarycentreSolaire extends Animation {
 
   override construire(): void {
     this.annee = this.curseur('annee', 1800.0, 2050.0, 2026.0, { dec: 1 });
-    this.vitesse_ans = this.curseur('ans_par_s', 0.1, 10.0, 2.0, { dec: 1, unite: tr('anim_c_ans') + '/s', log: true });
+    this.vitesse_ans = this.curseur('ans_par_s', 0.1, 10.0, 2.0, { dec: 1, unite: 'a·s⁻¹', log: true });
     this.cases = {};
     for (const n of PLANETES) this.cases[n] = this.coche('p_' + n, n === 'jupiter' || n === 'saturne');
     this.trainee = [];

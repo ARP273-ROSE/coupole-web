@@ -37,9 +37,9 @@ export class OndesDensite extends Animation {
   route = 0.0;
 
   override construire(): void {
-    this.v = this.curseur('vitesse', 15.0, 40.0, 30.0, { dec: 1, unite: 'm/s' });
-    this.v_lente = this.curseur('lente', 4.0, 14.0, 10.0, { dec: 1, unite: 'm/s' });
-    this.v_tracteur = this.curseur('v_tracteur', 1.0, 12.0, 5.0, { dec: 1, unite: 'm/s' });
+    this.v = this.curseur('vitesse', 15.0, 40.0, 30.0, { dec: 1, unite: 'm·s⁻¹' });
+    this.v_lente = this.curseur('lente', 4.0, 14.0, 10.0, { dec: 1, unite: 'm·s⁻¹' });
+    this.v_tracteur = this.curseur('v_tracteur', 1.0, 12.0, 5.0, { dec: 1, unite: 'm·s⁻¹' });
     this.etat_initial();
   }
 

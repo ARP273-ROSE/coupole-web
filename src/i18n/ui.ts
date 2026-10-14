@@ -2,8 +2,8 @@
 export const UI: Record<string, [string, string]> = {
   web_titre_site: ['Coupole Web — animations d’astronomie', 'Coupole Web — astronomy animations'],
   web_description: [
-    '93 animations interactives d’astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes, machine d’Anticythère… D’après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.',
-    '93 interactive astronomy animations in the browser: celestial sphere, seasons, lunar phases, orbits, spectra, exoplanets, Antikythera Mechanism… After ClassAction (University of Nebraska-Lincoln). Offline, no tracker.',
+    '94 animations interactives d’astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes, machine d’Anticythère, Orion en 3D… D’après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.',
+    '94 interactive astronomy animations in the browser: celestial sphere, seasons, lunar phases, orbits, spectra, exoplanets, Antikythera Mechanism, Orion in 3D… After ClassAction (University of Nebraska-Lincoln). Offline, no tracker.',
   ],
   web_evitement: ['Aller au contenu', 'Skip to content'],
   web_nav: ['Navigation principale', 'Main navigation'],
@@ -72,8 +72,8 @@ export const UI: Record<string, [string, string]> = {
   // ------------------------------------------------------------ à propos
   web_apropos_titre: ['À propos de Coupole Web', 'About Coupole Web'],
   web_apropos_intro: [
-    'Coupole Web est la version navigateur des animations d’astronomie de Coupole, une application libre de bureau pour Windows, macOS et Linux. Les 92 animations du catalogue ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau ; s’y ajoute une 93ᵉ, la machine d’Anticythère en 3D, adaptée d’Anticythere3D, du même auteur.',
-    'Coupole Web is the browser version of the astronomy animations of Coupole, a free desktop application for Windows, macOS and Linux. The 92 animations of the ClassAction catalogue are remade with the same formulas, the same data, the same settings and the same texts as the desktop application; a 93rd is added, the Antikythera Mechanism in 3D, adapted from Anticythere3D, by the same author.',
+    'Coupole Web est la version navigateur des animations d’astronomie de Coupole, une application libre de bureau pour Windows, macOS et Linux. Les 92 animations du catalogue ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau ; s’y ajoutent la machine d’Anticythère en 3D, adaptée d’Anticythere3D, du même auteur, et Orion en 3D, propre à Coupole (distances SIMBAD, Gaia DR3 et Hipparcos, nuages et nébuleuses à leurs distances publiées, images de l’ESO et de l’ESA/Hubble sous licence CC BY 4.0).',
+    'Coupole Web is the browser version of the astronomy animations of Coupole, a free desktop application for Windows, macOS and Linux. The 92 animations of the ClassAction catalogue are remade with the same formulas, the same data, the same settings and the same texts as the desktop application; added to them are the Antikythera Mechanism in 3D, adapted from Anticythere3D, by the same author, and Orion in 3D, Coupole’s own (SIMBAD, Gaia DR3 and Hipparcos distances, clouds and nebulae at their published distances, ESO and ESA/Hubble images under the CC BY 4.0 licence).',
   ],
   web_apropos_origine_t: ['D’après ClassAction', 'After ClassAction'],
   web_apropos_origine: [
@@ -108,71 +108,13 @@ export const UI: Record<string, [string, string]> = {
   web_apropos_version: ['Version {v}', 'Version {v}'],
 
   // rejouer les éclipses de la table (simulateur des ombres d'éclipse)
-  web_eclipse_rejouer: ['Rejouer une éclipse', 'Replay an eclipse'],
-  web_eclipse_rejouer_aide: [
-    'Rejouer une éclipse de la table 2015–2044 : passage de la Lune dans l’ombre de la Terre, ou de l’ombre de la Lune sur la Terre, en proportions réelles.',
-    'Replay an eclipse from the 2015–2044 table: the Moon crossing the Earth’s shadow, or the Moon’s shadow crossing the Earth, to true scale.',
-  ],
-  web_eclipse_libre: ['— aucune (placement libre) —', '— none (free placement) —'],
-  web_eclipse_soleil: ['Soleil', 'Sun'],
-  web_eclipse_lune: ['Lune', 'Moon'],
-  web_eclipse_instant: ['Instant de l’éclipse', 'Moment of the eclipse'],
-  web_eclipse_instant_aide: ['Faire avancer la Lune (ou son ombre) le long de sa trajectoire, du début à la fin de l’éclipse.', 'Move the Moon (or its shadow) along its path, from the start to the end of the eclipse.'],
-  web_eclipse_table: ['Éclipse rejouée', 'Replayed eclipse'],
-  web_eclipse_ecart: ['Écart à l’axe de l’ombre', 'Distance from the shadow axis'],
-  web_eclipse_titre_lune: ['Éclipse de Lune du {date} : la Lune traverse l’ombre de la Terre (proportions réelles, nord en haut)', 'Lunar eclipse of {date}: the Moon crosses the Earth’s shadow (true scale, north up)'],
-  web_eclipse_titre_soleil: ['Éclipse de Soleil du {date} : l’ombre de la Lune balaie la Terre (proportions réelles, nord en haut)', 'Solar eclipse of {date}: the Moon’s shadow sweeps the Earth (true scale, north up)'],
-  web_eclipse_note: ['Trajectoire approchée (éléments moyens, Meeus).', 'Approximate path (mean elements, Meeus).'],
 
   // simulateur jour-nuit : vues polaires
-  web_projection: ['Projection', 'Projection'],
-  web_projection_aide: [
-    'Carte équirectangulaire, ou vue polaire (azimutale équidistante centrée sur le pôle Nord ou Sud).',
-    'Equirectangular map, or polar view (azimuthal equidistant, centred on the North or South Pole).',
-  ],
-  web_proj_equi: ['équirectangulaire', 'equirectangular'],
-  web_proj_nord: ['pôle Nord', 'North Pole'],
-  web_proj_sud: ['pôle Sud', 'South Pole'],
-  web_bord: ['Vue polaire jusqu’à', 'Polar view down to'],
-  web_bord_aide: ['Bord de la vue polaire : l’équateur, ou 30° au-delà pour voir les deux tropiques.', 'Edge of the polar view: the equator, or 30° beyond to see both tropics.'],
-  web_bord_0: ['l’équateur', 'the equator'],
-  web_bord_30: ['30° au-delà (tropiques)', '30° beyond (tropics)'],
-  web_tournant: ['Terminateur tournant', 'Rotating terminator'],
-  web_tournant_aide: [
-    'Vue polaire : la carte reste fixe (méridien de Greenwich en bas, ou en haut au pôle Sud) et le terminateur tourne ; sinon la Terre tourne sous un terminateur fixe (midi en bas).',
-    'Polar view: the map stays fixed (Greenwich meridian at the bottom, or at the top for the South Pole) and the terminator turns; otherwise the Earth turns under a fixed terminator (noon at the bottom).',
-  ],
 
-  web_proj_globe: ['globe 3D (vue de l’espace)', '3D globe (seen from space)'],
-  web_axe: ['Axe des pôles', 'Polar axis'],
-  web_axe_aide: ['Montrer l’axe de rotation de la Terre (partie cachée en pointillé).', 'Show the Earth’s rotation axis (hidden part dotted).'],
-  web_globe_soleil: ['vers le Soleil', 'to the Sun'],
   web_aide_globe: [
     'Globe 3D : glisser le fait tourner dans tous les sens (le point sous le doigt suit le doigt). Double-clic : revenir au point subsolaire. Clic droit ou appui long : placer l’observateur.',
     '3D globe: dragging turns it in any direction (the point under the finger follows it). Double-click: back to the subsolar point. Right click or long press: place the observer.',
   ],
 
   // courbe de rotation de la Voie lactée
-  web_mw_composantes: ['Composantes du modèle', 'Model components'],
-  web_mw_composantes_aide: ['Montrer la part du bulbe, des disques (étoiles et gaz) et du halo de matière noire dans la vitesse (v² = somme des v² des composantes).', 'Show the share of the bulge, the discs (stars and gas) and the dark-matter halo in the speed (v² = sum of the components’ v²).'],
-  web_mw_mesures: ['Mesures', 'Measurements'],
-  web_mw_mesures_aide: ['Montrer les mesures avec leurs barres d’erreur : Eilers et al. 2019 (étoiles géantes rouges, 5 à 25 kpc) et la compilation galkin (gaz, régions HII, masers…, 2 à 5 kpc).', 'Show the measurements with their error bars: Eilers et al. 2019 (red giant stars, 5 to 25 kpc) and the galkin compilation (gas, HII regions, masers…, 2 to 5 kpc).'],
-  web_mw_masse_sphere: ['Masse dans la sphère de rayon R (modèle)', 'Mass within the sphere of radius R (model)'],
-  web_mw_modele: ['modèle de McMillan (2017)', 'McMillan (2017) model'],
-  web_mw_bulbe: ['bulbe', 'bulge'],
-  web_mw_disques: ['disques', 'discs'],
-  web_mw_halo: ['halo de matière noire', 'dark-matter halo'],
-  web_mw_eilers: ['Eilers et al. 2019', 'Eilers et al. 2019'],
-  web_mw_galkin: ['compilation galkin', 'galkin compilation'],
-  web_mw_barre: ['barre', 'bar'],
-  web_mw_rotation: ['sens de rotation', 'direction of rotation'],
-  web_mw_cg: ['centre', 'centre'],
-  web_mw_titre_galaxie: ['La Galaxie vue du pôle Nord galactique (bras : Reid et al. 2019)', 'The Galaxy seen from the North Galactic Pole (arms: Reid et al. 2019)'],
-  web_mw_bras_norma: ['Norma', 'Norma'],
-  web_mw_bras_outer: ['bras extérieur', 'Outer arm'],
-  web_mw_bras_sctcen: ['Scutum–Centaure', 'Scutum–Centaurus'],
-  web_mw_bras_sgrcar: ['Sagittaire–Carène', 'Sagittarius–Carina'],
-  web_mw_bras_perseus: ['Persée', 'Perseus'],
-  web_mw_bras_local: ['bras local', 'Local arm'],
-  web_mw_bras_3kpc: ['bras de 3 kpc', '3-kpc arm'],
 };

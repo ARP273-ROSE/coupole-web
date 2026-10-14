@@ -15,7 +15,7 @@ export function nombre(x: number | null | undefined, dec = 1): string {
   for (let i = e.length; i > 0; i -= 3) groupes.unshift(e.slice(Math.max(0, i - 3), i));
   s = groupes.join(ESPACE_FINE) + (f !== undefined ? '.' + f : '');
   // « -0,0 » → « 0,0 »
-  if (neg && Number(s.replaceAll(ESPACE_FINE, '')) !== 0) s = '-' + s;
+  if (neg && Number(s.replaceAll(ESPACE_FINE, '')) !== 0) s = '\u2212' + s;
   return langue() === 'fr' ? s.replace('.', ',') : s;
 }
 

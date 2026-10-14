@@ -112,7 +112,7 @@ export class OrbiteKepler extends Animation {
       [tr('anim_kepler_b'), `${nombre(a * Math.sqrt(1 - e * e), 3)} ua`],
       [tr('anim_kepler_peri_aphe'), `${nombre(a * (1 - e), 3)} / ${nombre(a * (1 + e), 3)} ua`],
       [tr('anim_kepler_r'), `${nombre(o.r, 3)} ua`],
-      [tr('anim_kepler_v'), `${nombre(o.v, 2)} km/s`],
+      [tr('anim_kepler_v'), `${nombre(o.v, 2)} km·s⁻¹`],
       [tr('anim_kepler_temps'), `${nombre(this.f * p, 3)} ${tr('anim_u_annees')}`],
     ];
     if (this.aires.length) {

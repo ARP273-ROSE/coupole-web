@@ -6,6 +6,7 @@
  * céleste x = point vernal, y = 6 h, z = pôle nord.  Le point de vue est donné par son azimut (compté comme l'azimut
  * astronomique, depuis +x vers −y) et sa hauteur au-dessus du plan xy.
  */
+import { typo } from './typo';
 import { Couleur, type Degrade, type Peintre, Pt, Rect, type Stylo } from './peintre';
 import { dessinerFormule } from './formule';
 import { linspace } from './py';
@@ -190,6 +191,8 @@ function placerBoite(p: Peintre, x0: number, y0: number, w: number, h: number, a
 
 /** Texte centré (ou aligné à gauche si centre: false) au point (x, y) ; `fond` : petit cartouche sous le texte. */
 export function texte(p: Peintre, x: number, y: number, s: string, cle: CouleurOuCle = 'texte', o: OptionsTexte = {}): void {
+  // règle typographique (unités SI, signe moins, puissances de dix) : filet de sécurité pour tout texte de la toile
+  s = typo(s);
   const centre = o.centre ?? true;
   const alpha = o.alpha ?? null;
   const fond = o.fond ?? false;
@@ -269,6 +272,7 @@ export function formule(p: Peintre, x: number, y: number, s: string, cle: Couleu
 
 /** Étiquette d'un objet en (x, y) : à côté de lui (en haut à droite si la place est libre), jamais par-dessus une autre. */
 export function etiquette(p: Peintre, x: number, y: number, s: string, cle: CouleurOuCle = 'texte', ecart = 8, alpha: number | null = null): void {
+  s = typo(s);
   const fm = p.fontMetrics();
   const w = fm.horizontalAdvance(s) + 6,
     h = fm.height() + 2;

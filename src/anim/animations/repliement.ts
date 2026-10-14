@@ -33,7 +33,7 @@ export class Repliement extends Animation {
 
   override construire(): void {
     this.periode = this.curseur('periode', 1.0, 10.0, 5.0, { dec: 2, unite: 's' });
-    this.cadence = this.curseur('cadence', 0.1, 10.0, 3.0, { dec: 2, unite: '/s' });
+    this.cadence = this.curseur('cadence', 0.1, 10.0, 3.0, { dec: 2, unite: 's⁻¹' });
     this.rayons = this.choix('rayons', [1, 2, 4, 8].map((n) => [`anim_wagonwheel_r_${n}`, n] as [string, number]), 1);
     this.etat_initial();
   }
@@ -55,8 +55,8 @@ export class Repliement extends Animation {
     const d = pas_apparent(this.periode.value(), this.cadence.value(), n);
     const sens = !Number.isFinite(pa) ? tr('anim_wagonwheel_immobile') : pa > 0 ? tr('anim_wagonwheel_avant') : tr('anim_wagonwheel_arriere');
     return [
-      [tr('anim_wagonwheel_vrai'), `${nombre(360.0 / (this.periode.value() * this.cadence.value()), 1)}° / ${tr('anim_wagonwheel_image')}`],
-      [tr('anim_wagonwheel_apparent'), `${nombre(d, 1)}° / ${tr('anim_wagonwheel_image')}`],
+      [tr('anim_wagonwheel_vrai'), `${nombre(360.0 / (this.periode.value() * this.cadence.value()), 1)}${tr('anim_wagonwheel_par_image')}`],
+      [tr('anim_wagonwheel_apparent'), `${nombre(d, 1)}${tr('anim_wagonwheel_par_image')}`],
       [tr('anim_wagonwheel_p_apparente'), Number.isFinite(pa) ? `${nombre(Math.abs(pa), 2)} s` : '∞'],
       [tr('anim_wagonwheel_sens'), sens],
     ];
