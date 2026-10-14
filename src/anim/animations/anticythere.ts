@@ -429,6 +429,29 @@ function image_cadran(face: 'avant' | 'calendrier' | 'arriere', cote: number, lg
   return im;
 }
 
+/**
+ * Image d'un cadran sans bloquer la page : si la résolution voulue n'est pas prête, la meilleure déjà construite (à
+ * défaut, 256 px, rapide) sert tout de suite et la bonne est construite juste après, dans une tâche à part, puis la
+ * scène est redessinée (pas de longue tâche à l'ouverture).
+ */
+const en_construction = new Set<string>();
+function image_cadran_progressive(face: 'avant' | 'calendrier' | 'arriere', cote: number, lg: string, redessiner: () => void): Image | null {
+  const pret = images.get(`${face}:${cote}:${lg}`);
+  if (pret || cote <= 256 || typeof setTimeout === 'undefined') return pret ?? image_cadran(face, cote, lg);
+  let mieux: Image | null = null;
+  for (const [k, im] of images) if (k.startsWith(face + ':') && k.endsWith(':' + lg) && im.cote < cote && (!mieux || im.cote > mieux.cote)) mieux = im;
+  const cle = `${face}:${cote}:${lg}`;
+  if (!en_construction.has(cle)) {
+    en_construction.add(cle);
+    setTimeout(() => {
+      en_construction.delete(cle);
+      image_cadran(face, cote, lg);
+      redessiner();
+    }, 0);
+  }
+  return mieux ?? image_cadran(face, 256, lg);
+}
+
 // ==================================================================== la scène
 interface Piece {
   cle: number;
@@ -1001,7 +1024,7 @@ export class Anticythere extends Animation {
     c.scale(miroir ? -1 : 1, -1);
     const voulu = env * px_mm;
     const cote = Math.min(2048, Math.max(256, 2 ** Math.ceil(Math.log2(Math.max(1, voulu)))));
-    const im = image_cadran(face, cote, langue());
+    const im = image_cadran_progressive(face, cote, langue(), () => this.rafraichir());
     if (im) c.drawImage(im.img as CanvasImageSource, -env / 2, -env / 2, env, env);
     else {
       const k = env / 600;

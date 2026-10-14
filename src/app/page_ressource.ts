@@ -1,6 +1,6 @@
 /** Page d'une ressource (fiche, table, image) : adresse partageable `#/r/<genre>/<id>`, modules qui la contiennent. */
 import { tr } from '../i18n/i18n';
-import { h, icone } from './dom';
+import { h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { libelleGenre, menuAjouter } from './composants';
 import type { Page } from './page_apropos';
@@ -26,5 +26,5 @@ export async function pageRessource(genre: string, id: string): Promise<Page> {
 }
 
 function erreur(): Page {
-  return { el: h('div', { class: 'page' }, h('p', { class: 'erreur', role: 'alert', text: tr('web_ressource_indisponible') })), titre: 'Coupole Web', detruire() {} };
+  return { el: pageIntrouvable(tr('web_ressource_inconnue'), tr), titre: `${tr('web_introuvable')} — Coupole Web`, detruire() {} };
 }

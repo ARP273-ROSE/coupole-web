@@ -1,5 +1,4 @@
 /** Page « À propos » : origine, licence, crédits, vie privée, liens. */
-import { disponibles } from '../anim/registre';
 import { tr } from '../i18n/i18n';
 import { h } from './dom';
 
@@ -27,7 +26,6 @@ export function pageApropos(): Page {
       { class: 'prose' },
       h('h1', { text: tr('web_apropos_titre') }),
       h('p', { text: tr('web_apropos_intro') }),
-      h('p', { text: tr('web_chapeau_texte', { n: disponibles().length }) }),
       h('h2', { text: tr('web_apropos_usage_t') }),
       h('ul', {}, ...[1, 2, 3, 4].map((i) => h('li', { text: tr('web_apropos_usage_' + i) }))),
       h('h2', { text: tr('web_apropos_modules_t') }),

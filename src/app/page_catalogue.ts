@@ -119,7 +119,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
     h(
       'header',
       { class: 'chapeau' },
-      h('h1', {}, tr('web_chapeau_1') + ' ', h('span', { class: 'accent', text: tr('web_chapeau_2') })),
+      h('h1', {}, tr('web_catalogue_titre_1') + ' ', h('span', { class: 'accent', text: tr('web_catalogue_titre_2') })),
       h('p', { class: 'sous-titre', text: tr('web_chapeau_texte', { n: entrees.length }) }),
       recherche,
       puces,

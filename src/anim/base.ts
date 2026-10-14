@@ -125,9 +125,16 @@ export class Reglage extends Controle {
     return this.mini + t * (this.maxi - this.mini);
   }
 
-  /** Le curseur a bougé (position 0…PAS). */
+  /**
+   * Le curseur a bougé (position 0…PAS) : la valeur est celle du champ (arrondie à ses décimales), pour que l'état
+   * affiché, la mémoire et l'adresse partageable soient exactement le même état.
+   */
   depuisCurseur(pos: number): void {
-    this.appliquer(this.val(pos));
+    let v = arrondiChamp(this.val(pos), this.dec);
+    const ici = this.pos(this.v);
+    // un pas du curseur plus fin que le champ (flèche du clavier, petit glisser) avance quand même d'une unité du champ
+    if (v === this.valeurChamp() && pos !== ici) v = arrondiChamp(this.valeurChamp() + Math.sign(pos - ici) * 10 ** -this.dec, this.dec);
+    this.appliquer(v);
   }
 
   /** Le champ a été saisi : la valeur est arrondie à ses décimales, comme un QDoubleSpinBox. */
@@ -535,7 +542,9 @@ export abstract class Animation {
     const ct = this.__texte(cle, o.cle_texte);
     const r = new Reglage(cle, o.groupe ?? 'flux', tr(ct), mini, maxi, defaut, o.dec ?? 1, o.unite ?? '', o.log ?? false, tr(o.cle_aide || ct + '_aide'));
     const m = this.__depart(cle);
-    if (typeof m === 'number' && Number.isFinite(m)) r.setValue(arrondiChamp(Math.max(mini, Math.min(maxi, m)), r.dec));
+    // valeur reprise de l'adresse ou de la mémoire : telle quelle (elle peut être plus précise que le champ quand un
+    // préréglage l'a fixée, ex. la période de Mercure), pour retrouver exactement l'état partagé
+    if (typeof m === 'number' && Number.isFinite(m)) r.setValue(Math.max(mini, Math.min(maxi, m)));
     this.defauts.set(cle, [r, defaut]);
     if (o.rafraichir ?? true) r.valueChanged.connect(() => this.reglage_change());
     this.controles.push(r);
@@ -629,7 +638,8 @@ export abstract class Animation {
   etatReglages(): EtatReglages {
     const out: EtatReglages = {};
     for (const [cle, [w]] of this.defauts) {
-      if (w instanceof Reglage) out[cle] = w.valeurChamp();
+      // valeur du champ, ou valeur exacte (12 chiffres) si un préréglage l'a fixée plus finement que le champ
+      if (w instanceof Reglage) out[cle] = w.value() === w.valeurChamp() ? w.valeurChamp() : Number(w.value().toPrecision(12));
       else if (w instanceof Coche) out[cle] = w.isChecked();
       else if (w instanceof Choix) out[cle] = w.currentData();
     }

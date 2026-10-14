@@ -1665,3 +1665,209 @@ math {
 .credits-images a {
   color: var(--texte-2);
 }
+
+/* ------------------------------------------------------------------ passe finale (0.5.0) */
+/* le focus posé par programme sur la zone principale (changement de page) ne se dessine pas */
+#contenu:focus {
+  outline: none;
+}
+
+/* apparition sobre de chaque page (désactivée par prefers-reduced-motion, plus haut) */
+#contenu > .page {
+  animation: apparaitre 180ms var(--courbe);
+}
+
+@keyframes apparaitre {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* chargement : petit anneau qui tourne (immobile si le mouvement est réduit) */
+.chargement {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--texte-2);
+  margin: 24px 0;
+}
+
+.chargement::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--bord-fort);
+  border-top-color: var(--accent);
+  animation: tourner 800ms linear infinite;
+}
+
+@keyframes tourner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* états : introuvable, hors ligne, vide */
+.etat-message {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  max-width: 520px;
+  margin: 8vh auto 0;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: var(--rayon-l);
+  border: 1px solid var(--bord);
+  background: var(--surface);
+  box-shadow: var(--ombre);
+}
+
+.etat-message h1 {
+  margin: 6px 0 0;
+  font-size: 1.5rem;
+}
+
+.etat-message p {
+  margin: 0;
+  color: var(--texte-2);
+}
+
+.etat-icone {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--accent);
+}
+
+.etat-icone svg {
+  width: 28px;
+  height: 28px;
+}
+
+.etat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.vide {
+  padding: 28px 20px;
+  border-radius: var(--rayon);
+  border: 1px dashed var(--bord-fort);
+  text-align: center;
+  list-style: none;
+}
+
+/* barre de navigation en bas sur téléphone : libellés visibles, pouce, plus de débordement à 320 px */
+@media (max-width: 640px) {
+  .entete {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in srgb, var(--fond) 92%, transparent);
+  }
+
+  .marque-texte {
+    display: inline-flex;
+    font-size: 1.05rem;
+  }
+
+  .nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    margin: 0;
+    gap: 2px;
+    justify-content: space-around;
+    padding: 6px max(4px, env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-right));
+    background: var(--verre);
+    -webkit-backdrop-filter: saturate(150%) blur(14px);
+    backdrop-filter: saturate(150%) blur(14px);
+    border-top: 1px solid var(--bord);
+  }
+
+  .nav a {
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px 1px;
+    min-height: 52px;
+    border-radius: 12px;
+    font-size: 0.66rem;
+    letter-spacing: -0.005em;
+    font-weight: 600;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .nav a .nav-texte {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+
+  .nav a svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav a[aria-current='page'] {
+    color: var(--accent);
+    background: var(--surface-2);
+  }
+
+  :root[data-theme='clair'] .nav a[aria-current='page'] {
+    color: #8a5a00;
+  }
+
+  body {
+    padding-bottom: calc(66px + env(safe-area-inset-bottom));
+  }
+
+  .annonces {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 360px) {
+  .marque-web {
+    display: none;
+  }
+}
+
+@media print {
+  .nav {
+    display: none;
+  }
+}
+
+/* très grands écrans : l'en-tête s'aligne sur la colonne du contenu, texte un peu plus grand */
+@media (min-width: 1600px) {
+  .entete {
+    padding-inline: max(var(--marge), calc((100vw - var(--largeur)) / 2 + var(--marge)));
+  }
+}
+
+@media (min-width: 3000px) {
+  html,
+  body {
+    font-size: 21px;
+  }
+
+  :root {
+    --largeur: 2400px;
+  }
+}

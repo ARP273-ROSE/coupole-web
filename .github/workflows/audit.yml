@@ -1,0 +1,38 @@
+name: Audit complet
+
+# Balayage exhaustif (517 questions, chaque réglage des 94 animations, toutes les ressources), trop long pour chaque
+# envoi : à la demande et chaque semaine.  Un format par moteur : Chromium bureau, Firefox tablette, WebKit téléphone.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit complet (3 moteurs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.0-noble
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - name: Balayage exhaustif
+        run: npx playwright test tests/e2e/audit.spec.ts --project=chromium-bureau --project=firefox-tablette --project=webkit-telephone
+        env:
+          HOME: /root
+          AUDIT_COMPLET: '1'
+      - name: Rapports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: audit-complet
+          path: test-results/
+          retention-days: 14

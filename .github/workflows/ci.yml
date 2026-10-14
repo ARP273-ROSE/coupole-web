@@ -31,6 +31,10 @@ jobs:
         run: npm audit --audit-level=low
       - run: npm run typecheck
       - run: npm test
+      - name: Confidentialité (garde-fou à empreintes salées, dépôt public)
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check 'pytest>=8,<9'
+          python3 -m pytest -q -p no:cacheprovider tests/test_confidentialite.py
       - run: npm run build
       - name: Budget (première page < 150 Ko, une animation par fichier)
         run: node outils/budget.mjs

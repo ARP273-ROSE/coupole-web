@@ -1094,3 +1094,40 @@ mark.valeur {
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------ passe finale (0.5.0) */
+/* fiche, table, image : une colonne de lecture centrée, en-tête aligné sur le contenu */
+.page.page-ressource {
+  max-width: calc(80ch + 2 * var(--marge));
+}
+
+.page-ressource .ressource-page {
+  max-width: none;
+}
+
+.page-ressource .photo img {
+  width: 100%;
+  height: auto;
+}
+
+/* figures des questions : jamais plus larges qu'il ne faut sur grand écran */
+.figure-question svg {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.page-recherche .compte {
+  margin: 10px 2px 18px;
+}
+
+@media (max-width: 640px) {
+  .fenetre.fenetre-bas {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    height: min(62dvh, 520px) !important;
+  }
+
+  .table-progression th:last-child,
+  .table-progression td:last-child {
+    display: none;
+  }
+}

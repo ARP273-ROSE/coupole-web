@@ -8,6 +8,14 @@
 
 *Français — [English below](#english)*
 
+<p>
+  <img src="docs/captures/accueil.webp" alt="Accueil : les 22 modules (thème sombre)" width="49%" />
+  <img src="docs/captures/question.webp" alt="Une question avec sa figure et ses ressources liées (thème clair)" width="49%" />
+  <img src="docs/captures/anticythere.webp" alt="La machine d’Anticythère en 3D" width="49%" />
+  <img src="docs/captures/orion.webp" alt="Orion en 3D : les étoiles à leur distance" width="49%" />
+</p>
+<p align="center"><img src="docs/captures/telephone.webp" alt="Un module sur téléphone, barre de navigation en bas" width="260" /></p>
+
 **22 modules d’astronomie** comme dans ClassAction : **517 questions** à discuter en groupe (variantes, figures,
 réponse qui clignote, indice, explication, ressources liées ★), **94 animations**, **110 fiches**, **14 tables** et des
 images libres (crédit et licence affichés), une **recherche** FR/EN dans tout, **Mes modules** (vos propres séquences)
@@ -35,7 +43,9 @@ température, sources).
 - **Tactile et clavier** : glisser (tourner une sphère, déplacer un astre), pincer ou molette pour zoomer, appui long
   pour le clic droit ; flèches, `+`, `−`, `0`, espace.
 - **Accessible** : libellés et aides lus par les lecteurs d’écran, focus visible, contrastes AA, mouvement réduit
-  respecté.
+  respecté ; vérifié par axe-core (WCAG 2.2 AA) sur chaque type de page, dans les deux thèmes.
+- **Léger** : première page de 103 Ko compressés ; Lighthouse 95 à 100 en performances (mobile et bureau), 100 en
+  accessibilité, bonnes pratiques et référencement.
 - **Bilingue** : français et anglais (langue du navigateur détectée, bascule en un clic) ; thème sombre doux par
   défaut, clair ou automatique.
 - **Partageable** : l’adresse de la page garde l’animation et ses réglages ; les réglages sont aussi mémorisés dans le
@@ -65,15 +75,16 @@ régénèrent textes, données et références à partir d’un dépôt de Coupo
 ```sh
 npm ci
 npm run dev          # serveur de développement
-npm test             # tests unitaires (Vitest) : calculs, animations, confidentialité
+npm test             # tests unitaires (Vitest) : calculs, animations, contenus
+python3 -m pytest tests/test_confidentialite.py   # garde-fou de confidentialité (empreintes salées)
 npm run build        # site statique dans dist/
 python3 outils/importer_contenu.py DOSSIER   # contenus des modules (questions, fiches, tables, images) → public/contenu/
 node outils/budget.mjs   # budget : première page < 150 Ko compressés, une animation par fichier
 npm run test:e2e     # bout en bout (Playwright) : Chromium, Firefox, WebKit × téléphone, tablette, bureau
 ```
 
-Pile : Vite, TypeScript strict, Canvas 2D, aucun cadriciel ; cinq dépendances de développement (Vite, Vitest,
-TypeScript, Playwright, types de Node), aucune à l’exécution.
+Pile : Vite, TypeScript strict, Canvas 2D, aucun cadriciel ; six dépendances de développement (Vite, Vitest,
+TypeScript, Playwright, axe-core, types de Node), aucune à l’exécution.
 
 ## Licence et crédits
 
@@ -85,6 +96,8 @@ ClassAction (Apache 2.0), fiches, tables et schémas écrits pour Coupole, photo
 ---
 
 ## English
+
+*Screenshots: see above (home, a question, the Antikythera Mechanism, Orion in 3D, a module on a phone).*
 
 **22 astronomy modules** as in ClassAction: **517 questions** to discuss in groups (variants, figures, flashing
 answer, hint, explanation, related resources ★), **94 animations**, **110 outlines**, **14 tables** and free images
@@ -110,7 +123,10 @@ keyboard: type, magnitudes, distance with its uncertainty, temperature, sources)
   hidden; each animation loaded on demand.
 - **Touch and keyboard**: drag (rotate a sphere, move a body), pinch or wheel to zoom, long press for right click;
   arrows, `+`, `−`, `0`, space.
-- **Accessible**: labels and help read by screen readers, visible focus, AA contrast, reduced motion honoured.
+- **Accessible**: labels and help read by screen readers, visible focus, AA contrast, reduced motion honoured;
+  checked with axe-core (WCAG 2.2 AA) on every page type, in both themes.
+- **Light**: 103 kB compressed first page; Lighthouse 95–100 for performance (mobile and desktop), 100 for
+  accessibility, best practices and SEO.
 - **Bilingual**: French and English (browser language detected, one-click switch); soft dark theme by default, light
   or automatic.
 - **Shareable**: the page address keeps the animation and its settings; settings are also remembered in the browser.
@@ -134,8 +150,8 @@ npm run build            # static site in dist/
 npm run test:e2e         # end-to-end (Playwright): Chromium, Firefox, WebKit × phone, tablet, desktop
 ```
 
-Stack: Vite, strict TypeScript, Canvas 2D, no framework; five development dependencies (Vite, Vitest, TypeScript,
-Playwright, Node types), none at run time.
+Stack: Vite, strict TypeScript, Canvas 2D, no framework; six development dependencies (Vite, Vitest, TypeScript,
+Playwright, axe-core, Node types), none at run time.
 
 ## License and credits
 

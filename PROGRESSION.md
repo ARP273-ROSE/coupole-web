@@ -13,12 +13,15 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
   voir ».
 - 0.3.0 : spectres sur bases physiques, Orion en 3D, fiche au survol générique, couleur vraie des étoiles, règle
   typographique (unités SI, signe moins, délimiteurs extensibles) sur tous les textes affichés.
+- 0.5.0 : passe finale (barre de navigation en bas sur téléphone, contraste automatique des figures, états
+  introuvable / hors ligne, audit de bout en bout exhaustif, axe-core, garde-fou de confidentialité à empreintes salées).
 - 0.4.0 : navigation par les 22 modules de ClassAction (+ 2 bonus), 517 questions, 110 fiches, 14 tables, 109
   schémas, 58 images ; recherche globale FR/EN ; Mes modules ; sauvegarde de tout (IndexedDB, export/import commun
   avec le bureau, réinitialisation tout ou partie) ; Orion en 3D refaite sur le modèle de la Grande Ourse 3D avec M42
   et IC 434 en volume ; intensités des spectres sur grille fine (PCHIP) et contraste pédagogique.
-- Lighthouse (mobile et bureau, catalogue, à propos, deux animations) : performances 97–100, accessibilité 100,
-  bonnes pratiques 100, référencement 100.
+- Lighthouse 13 (0.5.0 ; mobile / bureau) : accueil 99/100, module 97/100, question 97/100, Anticythère 95/100,
+  Orion en 3D 96/100 en performances ; accessibilité, bonnes pratiques, référencement 100 partout. Première page
+  102,5 Ko compressés (limite 150).
 
 ## Méthode de transposition
 
@@ -436,6 +439,17 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - Bande de spectre : « contraste pédagogique » par défaut (raies élargies à 0,8 nm, résidu élevé au cube), dit sous
   la bande et dans les valeurs ; « échelle réaliste » en option ; aussi dans la Parallaxe spectroscopique.
 
+### Interface (0.5.0)
+- Téléphone (≤ 640 px) : navigation en barre fixe en bas (icône 22 px + libellé 0,66 rem, élément actif `accent`
+  sur `surface-2`), en-tête opaque à 92 % ; au-delà, navigation en haut (libellés masqués sous 1 180 px).
+- Grand écran (≥ 1 600 px) : en-tête aligné sur la colonne du contenu ; ≥ 3 000 px : texte 21 px, colonne 2 400 px.
+- Pages de lecture (fiche, table, image) : colonne de 80 ch centrée. Figures des questions : 760 px au plus.
+- États : carte centrée (icône ronde `accent` sur `surface-2`, titre, texte, actions) pour « Introuvable » et « Hors
+  ligne » ; listes vides en cadre pointillé ; chargement = anneau `accent` qui tourne (0,8 s).
+- Mouvement : apparition des pages 180 ms (opacité + 4 px) ; tout est coupé sous `prefers-reduced-motion`.
+- Figures des questions : un texte sur une surface de contraste < 3:1 prend la couleur `avant` (sombre ou clair) la
+  plus contrastée ; texte de la bonne réponse : liseré (`paint-order: stroke`) de la couleur la plus contrastée.
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,
@@ -505,6 +519,72 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - [x] Explorateur de spectres : grille fine, PCHIP, contraste pédagogique.
 - [x] Tests : unitaires (contenus, typographie de tous les textes, schémas, moteur, sauvegarde), Playwright (modules,
       questions, fenêtres, Mes modules, progression, Orion, repos des 94 animations), 3 moteurs × 3 formats.
+
+### 2026-10-14 — 0.5.0 : passe finale (design, audit complet, accessibilité, confidentialité)
+
+Design (captures avant/après de chaque type de page, 320 px, 390 px, 1440 px, 4K, deux thèmes) :
+- [x] Téléphone (≤ 640 px) : barre de navigation en bas, libellés visibles (mesurés sans troncature à 320 px FR/EN) ;
+      l'en-tête débordait à 320 px (bouton de thème hors écran).
+- [x] Figures des questions : contraste automatique des textes (≥ 3:1 sur la surface dessous, `CONTRASTE_MIN`),
+      liseré pour la bonne réponse orange ; test unitaire sur toutes les variantes des 517 questions, deux thèmes,
+      réponse montrée ou non. Défaut trouvé : « Échelle » (ovales sombres) illisible en thème clair.
+      À reprendre au bureau (`classe/figure_qt.py`) : même règle.
+- [x] Fiches, tables, images : colonne de lecture centrée (80 ch), « + » aligné ; figures des questions ≤ 760 px ;
+      tableau de progression sans colonne « barre » sur téléphone ; 4K : en-tête aligné sur le contenu, texte 21 px.
+- [x] États : « Introuvable » / « Hors ligne » (selon `navigator.onLine`) avec actions, listes vides encadrées,
+      indicateur de chargement, apparition des pages 180 ms (mouvement réduit respecté), plus de cadre de focus sur
+      `main` après un changement de page.
+- [x] Catalogue : titre propre ; singuliers (« 1 table », « 1 résultat ») par une règle générique de `tr` (clé `_1`) ;
+      icône « Exporter ou importer » ; marque « accueil » ; À propos à jour.
+Fonctionnel (tests `tests/e2e/audit.spec.ts`, Chromium bureau, Firefox tablette, WebKit téléphone) :
+- [x] 517 questions : toutes les options de chaque menu, réponse, indice, explication, validation, score dans Ma
+      progression ; 94 animations : chaque réglage, toile non vide, adresse partageable rechargée = mêmes valeurs ;
+      fiches, tables, images (crédit sous chaque photo) ; sauvegarde export → tout effacer → import = identique ;
+      langue changée en cours de route ; hors ligne ; aucune image au repos hors animations.
+- [x] Défauts corrigés : adresse partageable infidèle pour 41 animations (le curseur gardait une valeur plus fine que
+      le champ ; les préréglages fixent des valeurs plus fines que le champ) → curseur arrondi aux décimales du champ
+      (`Reglage.depuisCurseur`), valeur exacte (12 chiffres) dans l'adresse et la mémoire quand elle diffère du champ,
+      reprise telle quelle ; réglage changé moins de 0,35 s avant de quitter l'animation perdu ; l'adresse d'une
+      animation quittée pouvait écraser celle de la page suivante (minuteur de 0,35 s). Le temps (lecture, boutons
+      « +1 jour »…) n'est pas un réglage et ne passe pas dans l'adresse (comme au bureau).
+      À reprendre au bureau : arrondi du curseur aux décimales du champ (même règle).
+Accessibilité (`tests/e2e/accessibilite.spec.ts`) :
+- [x] axe-core (WCAG 2.2 A/AA, contraste) sur 15 types de page × 2 thèmes × 9 projets : 0 violation ; clavier
+      (évitement, focus visible sur 40 arrêts, question au clavier, réglages) ; rôles et `aria-live`.
+Performances :
+- [x] Lighthouse mobile ≥ 95 sur les animations lourdes (Anticythère 86 → 95, Orion 94 → 96) : cadrans d'Anticythère
+      construits progressivement (256 px tout de suite, la bonne résolution dans une tâche suivante : longue tâche
+      434 → 150 ms au processeur ×4) ; page, textes et code d'une animation ouverte directement chargés en parallèle
+      dès le démarrage ; titre affiché tout de suite (squelette de même mise en page).
+Sécurité et confidentialité :
+- [x] CSP stricte (méta, aucun `unsafe-inline`), SRI, actions épinglées par SHA, `npm audit` : 0 ;
+      garde-fou de confidentialité remplacé par le gabarit commun à empreintes salées (`tests/test_confidentialite.py`,
+      exécuté en CI) ; NOTICE : crédits des 13 photos des images et des 3 photos des questions présents.
+Contenus :
+- [x] Banque de questions recopiée après contre-expertise (8 modules) ; empreintes de parité recalculées.
+
+### Retours de l'utilisateur (14/10) — vérifiés un par un pour 0.5.0
+
+Retours sur les animations (`retours_anim_14oct`) :
+- [x] Général : planètes, Lune, Soleil, Terre en sphères (dégradé, terminateur, limbe, halo), palette commune.
+- [x] 1. Longitude / latitude : la Terre suit le glisser (test `vue.test.ts`, capture).
+- [x] 2. Saisons, « Vue de la Terre » : rayons découpés au panneau.
+- [x] 3. Cartes : Natural Earth 1:50m, projections (équirectangulaire, polaires, globe 3D).
+- [x] 4. Grande Ourse 3D : étiquettes sans chevauchement (placeur + test).
+- [x] 5. Ombres d'éclipse : Soleil entier ; 133 éclipses rejouables.
+- [x] 6. Audit des 92 animations (puis 94) : unitaire (étiquettes, titres) + balayage de chaque réglage (0.5.0).
+- [x] 7. Formules : MathML + STIX Two Math (fractions, exposants, délimiteurs extensibles).
+- [x] 8. Aide propre à chaque animation, discrète, sous la scène ; aucune infobulle sur la toile.
+- [x] 9. Sphères en 3D.
+- [x] 10. Lanceur de marteau et étiquetage anti-collision générique + test.
+- [x] 11. Ordre pédagogique des thèmes.
+- [x] 12. Spectres : physique (Saha–Boltzmann), raies NIST et bandes, Planck, 5 772 K, légende dans le graphe.
+File d'attente :
+- [x] 1. Spectres physiques. - [x] 2. Orion en 3D. - [x] 4. Couleur vraie des étoiles. - [x] 5. Fiche au survol.
+- [x] 6. Parité ClassAction (questions, fiches, tables, images, modules, Mes modules).
+- [x] 7. Jour-nuit : globe 3D par défaut. - [x] 8. Sauvegarde de tout (+ aller-retour vérifié en 0.5.0).
+- [ ] 3. Page privée de comparaison avec l'original (Ruffle) : hors de ce dépôt public (page NAS), à proposer.
+- [x] Consigne finale « moderne, léger, fonctionnel, tout tester » : cette passe.
 
 ## Reste à faire
 

@@ -8,7 +8,7 @@
 import * as S from '../contenu/sauvegarde';
 import { PAR_ID } from '../anim/registre';
 import { langue, tr } from '../i18n/i18n';
-import { annoncer, h, icone } from './dom';
+import { annoncer, h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { barreScore, confirmer, demanderTexte, elementRessource, onglets, titreDe, titresRessources, type GenreR, menuAjouter } from './composants';
 import type { Page } from './page_apropos';
@@ -64,7 +64,7 @@ export async function pageModule(cle: string, onglet: string, perso: boolean): P
   const mm = perso ? S.trouverModule(s, cle) ?? null : null;
   const m = perso ? null : await contenu.module(cle);
   if ((perso && !mm) || (!perso && !m)) {
-    return { el: h('div', { class: 'page' }, h('p', { class: 'erreur', role: 'alert', text: tr('web_module_inconnu') }), h('p', {}, h('a', { href: '#/', text: tr('web_retour_accueil') }))), titre: 'Coupole Web', detruire() {} };
+    return { el: pageIntrouvable(tr('web_module_inconnu'), tr), titre: `${tr('web_introuvable')} — Coupole Web`, detruire() {} };
   }
   const titre = mm ? mm.nom : contenu.bi(m!.titre);
   const base = perso ? `#/mm/${cle}` : `#/m/${cle}`;

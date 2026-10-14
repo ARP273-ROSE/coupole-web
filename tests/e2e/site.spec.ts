@@ -71,7 +71,7 @@ test.beforeEach(async ({ page }) => {
 test('catalogue : cartes, recherche, filtre par thème, vignettes', async ({ page }) => {
   const s = await surveiller(page);
   await page.goto('./#/animations');
-  await expect(page.locator('h1')).toContainText('Le ciel');
+  await expect(page.locator('h1')).toContainText('Animations');
   const cartes = page.locator('a.carte');
   const n = await cartes.count();
   expect(n).toBeGreaterThanOrEqual(1);

@@ -3,14 +3,15 @@
  * proposée).  Tout est servi par le site lui-même : aucune requête vers un autre domaine.
  */
 import './styles/app.css';
-import { chargerCatalogue, choisirLangue, type Langue, langue, langueDuNavigateur, LANGUES, tr } from './i18n/i18n';
-import { annoncer, h, icone } from './app/dom';
+import { chargerAnimations, chargerCatalogue, choisirLangue, type Langue, langue, langueDuNavigateur, LANGUES, tr } from './i18n/i18n';
+import { annoncer, h, icone, pageIntrouvable } from './app/dom';
 import { type Page, pageApropos } from './app/page_apropos';
 import { pageCatalogue } from './app/page_catalogue';
 import { pageAccueil } from './app/page_accueil';
 import * as prefs from './app/prefs';
 import * as stockage from './app/stockage';
 import { lireRoute, type Route } from './app/routeur';
+import { charger, PAR_ID } from './anim/registre';
 
 type ChoixTheme = 'auto' | 'sombre' | 'clair';
 
@@ -117,7 +118,14 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
   const n = ++jeton;
   let nouvelle: Page;
   if (route.page === 'animation') {
-    if (!page) contenu.replaceChildren(h('p', { class: 'page', text: tr('web_chargement') }));
+    // ouverture directe : le titre s'affiche tout de suite (même mise en page), l'animation suit
+    const e = PAR_ID.get(route.id);
+    if (!page)
+      contenu.replaceChildren(
+        h('div', { class: 'page page-anim' },
+          h('nav', { class: 'fil', 'aria-label': tr('web_retour') }, h('a', { href: '#/animations' }, icone('retour'), tr('web_retour')), ...(e ? [h('span', { 'aria-hidden': 'true', text: '·' }), h('span', { text: tr('anim_theme_' + e.theme) })] : [])),
+          e ? h('div', { class: 'titre-anim' }, h('h1', { text: tr('anim_nom_' + e.cle) })) : null,
+          h('p', { class: 'chargement', role: 'status', text: tr('web_chargement') })));
     const m = await import('./app/page_animation');
     nouvelle = await m.pageAnimation(route.id, route.etat);
   } else if (route.page === 'apropos') nouvelle = pageApropos();
@@ -126,12 +134,12 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
     await stockage.pret();
     nouvelle = pageAccueil();
   } else {
-    if (!page) contenu.replaceChildren(h('p', { class: 'page', text: tr('web_chargement') }));
+    if (!page) contenu.replaceChildren(h('div', { class: 'page' }, h('p', { class: 'chargement', role: 'status', text: tr('web_chargement') })));
     try {
       nouvelle = await pageModules(route);
     } catch (err) {
       console.error(err);
-      nouvelle = { el: h('div', { class: 'page' }, h('p', { class: 'erreur', role: 'alert', text: tr('web_ressource_indisponible') })), titre: 'Coupole Web', detruire() {} };
+      nouvelle = { el: pageIntrouvable(tr('web_ressource_indisponible'), tr), titre: 'Coupole Web', detruire() {} };
     }
   }
   if (n !== jeton) {
@@ -217,6 +225,14 @@ function enregistrerServiceWorker(): void {
 // ------------------------------------------------------------------ démarrage
 async function demarrer(): Promise<void> {
   void stockage.pret();
+  // ouverture directe d'une animation : sa page, ses textes et son code se chargent en même temps que l'interface
+  const r0 = lireRoute();
+  if (r0.page === 'animation') {
+    void import('./app/page_animation');
+    void chargerAnimations(langueDepart()).catch(() => {});
+    const e = PAR_ID.get(r0.id);
+    if (e) void charger(e).catch(() => {});
+  }
   const l = langueDepart();
   await chargerCatalogue(l);
   // l'autre langue sert à la recherche (noms et descriptions FR et EN)

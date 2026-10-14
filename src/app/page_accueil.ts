@@ -30,7 +30,8 @@ export function listeModules(): Promise<M[]> {
 }
 
 function compte(n: number, cle: string): HTMLElement | null {
-  return n ? h('span', { class: 'compte-r', title: tr(cle + '_n', { n }) }, h('b', { text: String(n) }), ' ', tr(cle + '_court')) : null;
+  const un = n === 1 ? '_1' : '';
+  return n ? h('span', { class: 'compte-r', title: tr(cle + '_n' + un, { n }) }, h('b', { text: String(n) }), ' ', tr(cle + '_court' + un)) : null;
 }
 
 function carteModule(m: M, i: number | null, s: Sauvegarde): HTMLElement {

@@ -72,7 +72,7 @@ export async function pageMesModules(nouveau: boolean): Promise<Page> {
     h('nav', { class: 'fil', 'aria-label': tr('web_fil') }, h('a', { href: '#/' }, icone('retour'), tr('web_accueil'))),
     h('h1', { text: tr('web_mes_modules') }),
     h('p', { class: 'sous-titre', text: tr('web_mes_modules_texte') }),
-    h('div', { class: 'actions-module' }, creer, h('a', { class: 'bouton discret', href: '#/progression' }, icone('partager'), tr('web_exporter_importer'))),
+    h('div', { class: 'actions-module' }, creer, h('a', { class: 'bouton discret', href: '#/progression' }, icone('echange'), tr('web_exporter_importer'))),
     liste,
   );
   if (nouveau) setTimeout(() => creer.click(), 50);

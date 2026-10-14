@@ -66,7 +66,41 @@ export const ICONES = {
   drapeau: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
   telecharger: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
   importer: '<path d="M12 15V4M7 9l5-5 5 5M5 20h14"/>',
+  echange: '<path d="M7 4v13M3 13l4 4 4-4"/><path d="M17 20V7M13 11l4-4 4 4"/>',
+  boussole: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+  nuage: '<path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5z"/><path d="M4 4l16 16"/>',
 } as const;
+
+/** Bloc d'état (introuvable, hors ligne, vide) : icône, titre, texte, actions ; annoncé aux lecteurs d'écran. */
+export function blocEtat(o: { titre: string; texte: string; icone?: keyof typeof ICONES; alerte?: boolean; actions?: { libelle: string; href: string; principal?: boolean }[] }): HTMLElement {
+  return h(
+    'div',
+    { class: 'etat-message', role: o.alerte ? 'alert' : null },
+    h('span', { class: 'etat-icone' }, icone(o.icone ?? 'boussole')),
+    h('h1', { text: o.titre }),
+    h('p', { text: o.texte }),
+    o.actions?.length ? h('div', { class: 'etat-actions' }, o.actions.map((a) => h('a', { class: 'bouton' + (a.principal ? ' principal' : ''), href: a.href, text: a.libelle }))) : null,
+  );
+}
+
+/** Page « introuvable » ou « hors ligne » (selon la connexion) avec un retour à l'accueil et à la recherche. */
+export function pageIntrouvable(texte: string, tr: (c: string) => string): HTMLElement {
+  const hl = typeof navigator !== 'undefined' && navigator.onLine === false;
+  return h(
+    'div',
+    { class: 'page' },
+    blocEtat({
+      alerte: true,
+      icone: hl ? 'nuage' : 'boussole',
+      titre: tr(hl ? 'web_hors_ligne_titre' : 'web_introuvable'),
+      texte: hl ? tr('web_hors_ligne_texte') : texte,
+      actions: [
+        { libelle: tr('web_retour_accueil'), href: '#/', principal: true },
+        { libelle: tr('web_nav_catalogue'), href: '#/animations' },
+      ],
+    }),
+  );
+}
 
 /** Annonce passagère en bas de l'écran (lue par les lecteurs d'écran). */
 export function annoncer(texte: string, action?: { libelle: string; faire: () => void }, duree = 4500): () => void {

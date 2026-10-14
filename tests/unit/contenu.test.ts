@@ -180,3 +180,34 @@ describe('fiches, tables, images, schémas', () => {
     }
   });
 });
+
+describe('figures des questions : lisibilité dans les deux thèmes', () => {
+  it('chaque texte contraste (≥ 3:1) avec la surface sur laquelle il est écrit, toutes variantes, FR', async () => {
+    const { figureSvg, contraste, CONTRASTE_MIN } = await import('../../src/contenu/figure_svg');
+    const jetons = lire('q', 'couleurs.json').jetons;
+    const fautes: string[] = [];
+    let n = 0;
+    for (const q of QUESTIONS.values()) {
+      for (const v of variantes(q).slice(0, 12)) {
+        const inst = instancier(q, { parametres: v, langue: 'fr', macros: MACROS, graine: '1' }) as any;
+        const figs = [inst.figure, inst.figure_indice, ...(inst.choix ?? []).map((c: any) => c.figure)].filter(Boolean);
+        for (const fig of figs) {
+          for (const theme of ['sombre', 'clair'] as const) {
+            for (const reponse of [false, true]) {
+              figureSvg(fig, {
+                theme, jetons, reponse, indice: true, bonnes: inst.bonnes,
+                controle: (t, c, f) => {
+                  n++;
+                  const k = contraste(c, f);
+                  if (k !== null && k < CONTRASTE_MIN && t.trim()) fautes.push(`${q.id} ${theme}${reponse ? ' réponse' : ''} « ${t.slice(0, 30)} » ${c} sur ${f} (${k.toFixed(2)})`);
+                },
+              });
+            }
+          }
+        }
+      }
+    }
+    expect(n).toBeGreaterThan(2000);
+    expect([...new Set(fautes)].slice(0, 40)).toEqual([]);
+  }, 120_000);
+});

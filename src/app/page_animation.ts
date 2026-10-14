@@ -7,7 +7,7 @@ import { charger, disponible, type Entree, HORS_CLASSACTION, PAR_ID } from '../a
 import { aVoir } from '../i18n/a_voir';
 import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
 import { choisirTheme, type Theme } from '../noyau/dessin';
-import { annoncer, h, icone } from './dom';
+import { annoncer, h, icone, pageIntrouvable } from './dom';
 import { texteNombre, type Vue, vueControle } from './controles';
 import * as stockage from './stockage';
 import { adresseAnimation, remplacerAdresse } from './routeur';
@@ -36,9 +36,8 @@ export async function pageAnimation(id: string, etatAdresse: EtatReglages): Prom
   if (!e) return pageErreur(tr('web_inconnue'));
   if (!disponible(e)) return pageErreur(tr('web_pas_encore'));
   try {
-    await chargerAnimations(langue());
-    await stockage.pret();
-    const cls = await charger(e);
+    // textes, mémoire et code de l'animation : en parallèle
+    const [, , cls] = await Promise.all([chargerAnimations(langue()), stockage.pret(), charger(e)]);
     return construire(e, cls, etatAdresse);
   } catch (err) {
     console.error(err);
@@ -47,13 +46,7 @@ export async function pageAnimation(id: string, etatAdresse: EtatReglages): Prom
 }
 
 function pageErreur(message: string): Page {
-  const el = h(
-    'div',
-    { class: 'page' },
-    h('nav', { class: 'fil', 'aria-label': tr('web_retour') }, h('a', { href: '#/animations' }, icone('retour'), tr('web_retour'))),
-    h('p', { class: 'erreur', role: 'alert', text: message }),
-  );
-  return { el, titre: 'Coupole Web', detruire() {} };
+  return { el: pageIntrouvable(message, tr), titre: `${tr('web_introuvable')} — Coupole Web`, detruire() {} };
 }
 
 function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdresse: EtatReglages): Page {
@@ -249,12 +242,20 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
 
   // ------------------------------------------------------------ mémoire et adresse partageable
   let minuteur = 0;
+  let enAttente = false;
+  const ecrireReglages = (): Record<string, number | boolean | string | null> => {
+    enAttente = false;
+    const modifie = anim.etatModifie() as Record<string, number | boolean | string | null>;
+    stockage.memoriserReglages(e.id, modifie);
+    return modifie;
+  };
   const memoriser = (): void => {
     clearTimeout(minuteur);
+    enAttente = true;
     minuteur = window.setTimeout(() => {
-      const modifie = anim.etatModifie();
-      stockage.memoriserReglages(e.id, modifie as Record<string, number | boolean | string | null>);
-      remplacerAdresse(adresseAnimation(e.id, modifie));
+      const r = ecrireReglages();
+      // l'adresse n'est réécrite que si l'on est encore sur cette animation (sinon on écraserait la page suivante)
+      if (location.hash.split('?')[0] === `#/a/${encodeURIComponent(e.id)}`) remplacerAdresse(adresseAnimation(e.id, r));
     }, 350);
   };
   for (const ctl of anim.controles) vues.push({ el, detacher: ctl.observer(memoriser) });
@@ -274,6 +275,8 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     focus: c,
     detruire() {
       clearTimeout(minuteur);
+      // un réglage changé juste avant de quitter la page est gardé quand même
+      if (enAttente) ecrireReglages();
       anim.arreter();
       toile.detruire();
       for (const v of vues) v.detacher();

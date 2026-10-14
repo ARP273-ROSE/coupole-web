@@ -2,6 +2,42 @@
 
 *Français, puis [English](#english).*
 
+## 0.5.0 — 2026-10-14
+
+Passe finale : design, audit complet, accessibilité, confidentialité.
+
+- **Téléphone : barre de navigation en bas** (Modules, Catalogue, Mes modules, Progression, À propos), libellés
+  visibles, à portée du pouce ; plus aucun débordement de l’en-tête à 320 px. Très grands écrans : l’en-tête s’aligne
+  sur la colonne du contenu, texte un peu plus grand en 4K.
+- **Fiches, tables et images** dans une colonne de lecture centrée, en-tête aligné sur le contenu ; figures des
+  questions limitées en largeur sur grand écran ; tableau « Ma progression » allégé sur téléphone.
+- **Figures des questions lisibles dans les deux thèmes** : un texte posé sur une surface sombre (ou claire) prend
+  automatiquement la couleur de texte la plus contrastée (au moins 3:1, vérifié pour toutes les variantes des 517
+  questions, thèmes sombre et clair, réponse montrée ou non) ; la bonne réponse orange reçoit un liseré quand le fond
+  est trop proche (ex. « Échelle » en thème clair, illisible jusque-là).
+- **États soignés** : page « Introuvable » ou « Hors ligne » (selon la connexion) avec retour à l’accueil, au lieu
+  d’un simple message ; listes vides encadrées ; indicateur de chargement ; apparition sobre des pages (désactivée si
+  le mouvement est réduit) ; plus de cadre de focus parasite autour de la page après un changement de page.
+- **Catalogue** : titre propre (« Animations interactives ») ; accueil : « 1 table », « 1 image » au singulier (et
+  « 1 résultat », « 1 réglage », « 1 élément »).
+- **Adresses partageables fidèles** (défauts trouvés par le nouveau balayage : 41 animations sur 94 ne redonnaient pas
+  exactement les mêmes valeurs) : un curseur prend la valeur affichée dans son champ (plus de valeur cachée plus fine
+  que l’affichage ; une flèche du clavier avance toujours d’au moins une unité du champ), une valeur fixée plus finement par un préréglage (période de Mercure, système d’exoplanète) passe
+  telle quelle dans l’adresse et la mémoire ; l’adresse d’une animation quittée n’écrase plus celle de la page
+  suivante ; un réglage changé juste avant de quitter la page est gardé (il était perdu dans les 0,35 s).
+- **Ouverture plus rapide d’une animation** : page, textes et code chargés en parallèle, titre affiché tout de suite ;
+  cadrans de la machine d’Anticythère construits progressivement (plus de longue tâche à l’ouverture). Lighthouse
+  mobile : Anticythère 86 → 95, Orion en 3D 94 → 96 ; accueil 99, module et question 97 ; bureau 100.
+- Icône « Exporter ou importer » cohérente ; lien de la marque nommé « accueil » ; « À propos » présente les modules.
+- **Contenus** : corrections de la banque de questions recopiées (8 modules : Renaissance, propriétés stellaires,
+  évolution, galaxies, Soleil, exoplanètes, planètes géantes, petits corps).
+- **Audit** : nouveaux tests de bout en bout — les 517 questions (toutes les options de chaque menu, réponse, indice,
+  explication, validation, score enregistré), chaque réglage des 94 animations et l’adresse partageable, toutes les
+  fiches, tables et images, sauvegarde export → réinitialisation → import identique, langue changée en cours de route,
+  hors ligne, aucun rendu au repos ; **axe-core** (WCAG 2.2 AA, contraste compris) sur chaque type de page dans les
+  deux thèmes et navigation au clavier, sur Chromium, Firefox et WebKit.
+- **Confidentialité** : garde-fou à empreintes salées commun aux dépôts publics (exécuté en intégration continue).
+
 ## 0.4.0 — 2026-10-14
 
 - **Navigation par modules** (comme ClassAction) : l’accueil présente les **22 modules** (et deux modules bonus),
@@ -123,6 +159,43 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.5.0 — 2026-10-14
+
+Final pass: design, full audit, accessibility, privacy.
+
+- **Phone: bottom navigation bar** (Modules, Catalogue, My modules, Progress, About) with visible labels, within thumb
+  reach; the header no longer overflows at 320 px. Very large screens: the header lines up with the content column,
+  slightly larger text in 4K.
+- **Outlines, tables and images** in a centred reading column with the header aligned on the content; question
+  figures capped in width on large screens; lighter “My progress” table on phones.
+- **Question figures readable in both themes**: text placed on a dark (or light) surface automatically takes the most
+  contrasting text colour (at least 3:1, checked for every variant of the 517 questions, dark and light themes, answer
+  shown or not); the orange correct answer gets an outline when the background is too close (e.g. “Scale” in the light
+  theme, unreadable until now).
+- **Polished states**: “Not found” or “Offline” page (depending on the connection) with a way back home instead of a
+  bare message; framed empty lists; loading indicator; subtle page entrance (off when reduced motion is requested); no
+  more stray focus frame around the page after navigating.
+- **Catalogue**: its own title (“Interactive animations”); home: “1 table”, “1 image” in the singular (and “1 result”,
+  “1 setting”, “1 item”).
+- **Faithful shareable addresses** (defects found by the new sweep: 41 of the 94 animations did not give back exactly
+  the same values): a slider takes the value shown in its field (no hidden value finer than the display; an arrow key
+  always moves by at least one unit of the field), a value set
+  more finely by a preset (Mercury’s period, an exoplanet system) goes as is into the address and the memory; the
+  address of an animation being left no longer overwrites the next page’s; a setting changed just before leaving the
+  page is kept (it was lost within 0.35 s).
+- **Faster opening of an animation**: page, texts and code loaded in parallel, title shown at once; Antikythera dials
+  built progressively (no long task on opening). Lighthouse mobile: Antikythera 86 → 95, Orion in 3D 94 → 96; home 99,
+  module and question 97; desktop 100.
+- Consistent “Export or import” icon; brand link named “home”; “About” presents the modules.
+- **Content**: question bank corrections copied in (8 modules: Renaissance, stellar properties, evolution, galaxies,
+  Sun, exoplanets, giant planets, small bodies).
+- **Audit**: new end-to-end tests — all 517 questions (every option of every menu, answer, hint, explanation,
+  validation, saved score), every setting of the 94 animations and the shareable address, every outline, table and
+  image, backup export → reset → import identical, language switched midway, offline, no rendering at rest;
+  **axe-core** (WCAG 2.2 AA, contrast included) on every page type in both themes and keyboard navigation, on
+  Chromium, Firefox and WebKit.
+- **Privacy**: salted-hash safeguard shared by the public repositories (run in continuous integration).
 
 ### 0.4.0 — 2026-10-14
 

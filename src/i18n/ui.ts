@@ -1,6 +1,6 @@
 /** Textes de l'interface web (ceux des animations viennent de Coupole). [français, anglais] */
 export const UI: Record<string, [string, string]> = {
-  web_titre_site: ['Coupole Web — animations d’astronomie', 'Coupole Web — astronomy animations'],
+  web_titre_site: ['Coupole Web — modules d’astronomie', 'Coupole Web — astronomy modules'],
   web_description: [
     '94 animations interactives d’astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes, machine d’Anticythère, Orion en 3D… D’après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.',
     '94 interactive astronomy animations in the browser: celestial sphere, seasons, lunar phases, orbits, spectra, exoplanets, Antikythera Mechanism, Orion in 3D… After ClassAction (University of Nebraska-Lincoln). Offline, no tracker.',
@@ -9,12 +9,21 @@ export const UI: Record<string, [string, string]> = {
   web_nav: ['Navigation principale', 'Main navigation'],
   web_nav_catalogue: ['Catalogue', 'Catalogue'],
   web_nav_apropos: ['À propos', 'About'],
-  web_marque_aide: ['Coupole Web — catalogue', 'Coupole Web — catalogue'],
+  web_marque_aide: ['Coupole Web — accueil', 'Coupole Web — home'],
+  web_introuvable: ['Introuvable', 'Not found'],
+  web_hors_ligne_titre: ['Hors ligne', 'Offline'],
+  web_hors_ligne_texte: [
+    'Ce contenu n’a pas encore été ouvert sur cet appareil : il sera disponible hors ligne après une première visite connectée.',
+    'This content has not been opened on this device yet: it will be available offline after a first visit while connected.',
+  ],
+  web_ressource_inconnue: ['Cette fiche, table ou image n’existe pas (ou plus).', 'This sheet, table or image does not exist (any more).'],
   web_langue: ['Langue', 'Language'],
   web_theme: ['Thème', 'Theme'],
   web_theme_auto: ['Thème : automatique (selon l’appareil)', 'Theme: automatic (follows the device)'],
   web_theme_sombre: ['Thème : sombre', 'Theme: dark'],
   web_theme_clair: ['Thème : clair', 'Theme: light'],
+  web_catalogue_titre_1: ['Animations', 'Interactive'],
+  web_catalogue_titre_2: ['interactives', 'animations'],
   web_chapeau_1: ['Le ciel,', 'The sky,'],
   web_chapeau_2: ['en mouvement', 'in motion'],
   web_chapeau_texte: [
@@ -72,8 +81,8 @@ export const UI: Record<string, [string, string]> = {
   // ------------------------------------------------------------ à propos
   web_apropos_titre: ['À propos de Coupole Web', 'About Coupole Web'],
   web_apropos_intro: [
-    'Coupole Web est la version navigateur des animations d’astronomie de Coupole, une application libre de bureau pour Windows, macOS et Linux. Les 92 animations du catalogue ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau ; s’y ajoutent la machine d’Anticythère en 3D, adaptée d’Anticythere3D, du même auteur, et Orion en 3D, propre à Coupole (distances SIMBAD, Gaia DR3 et Hipparcos, nuages et nébuleuses à leurs distances publiées, images de l’ESO et de l’ESA/Hubble sous licence CC BY 4.0).',
-    'Coupole Web is the browser version of the astronomy animations of Coupole, a free desktop application for Windows, macOS and Linux. The 92 animations of the ClassAction catalogue are remade with the same formulas, the same data, the same settings and the same texts as the desktop application; added to them are the Antikythera Mechanism in 3D, adapted from Anticythere3D, by the same author, and Orion in 3D, Coupole’s own (SIMBAD, Gaia DR3 and Hipparcos distances, clouds and nebulae at their published distances, ESO and ESA/Hubble images under the CC BY 4.0 licence).',
+    'Coupole Web est la version navigateur de Coupole, une application libre de bureau pour Windows, macOS et Linux : 22 modules d’astronomie d’après ClassAction (517 questions à discuter en groupe, 110 fiches, 14 tables, des images libres) et 94 animations interactives. Les 92 animations de ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau ; s’y ajoutent la machine d’Anticythère en 3D, adaptée d’Anticythere3D, du même auteur, et Orion en 3D, propre à Coupole (distances SIMBAD, Gaia DR3 et Hipparcos, nébuleuses à leurs distances publiées).',
+    'Coupole Web is the browser version of Coupole, a free desktop application for Windows, macOS and Linux: 22 astronomy modules after ClassAction (517 questions to discuss in groups, 110 outlines, 14 tables, freely licensed images) and 94 interactive animations. The 92 ClassAction animations are remade with the same formulas, the same data, the same settings and the same texts as the desktop application; added to them are the Antikythera Mechanism in 3D, adapted from Anticythere3D, by the same author, and Orion in 3D, Coupole’s own (SIMBAD, Gaia DR3 and Hipparcos distances, nebulae at their published distances).',
   ],
   web_apropos_origine_t: ['D’après ClassAction', 'After ClassAction'],
   web_apropos_origine: [

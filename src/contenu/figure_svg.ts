@@ -24,6 +24,8 @@ export interface OptionsFigure {
   images?: Record<string, { fichier: string; alt?: { fr: string; en: string } }>;
   base?: string; // préfixe des adresses d'images
   id?: string;
+  /** Pour les tests : appelé pour chaque texte avec sa couleur finale et la surface dessous. */
+  controle?: (texte: string, couleur: string, fond: string) => void;
 }
 
 const f3 = (x: number): string => {
@@ -33,6 +35,40 @@ const f3 = (x: number): string => {
 const esc = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 let nClip = 0;
+
+// ------------------------------------------------------------------ contraste des textes sur les surfaces
+type Mat = [number, number, number, number, number, number]; // x' = a x + c y + e ; y' = b x + d y + f
+const ID: Mat = [1, 0, 0, 1, 0, 0];
+const mul = (m: Mat, n: Mat): Mat => [m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1], m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3], m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5]];
+const appl = (m: Mat, x: number, y: number): [number, number] => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
+const inv = (m: Mat): Mat | null => {
+  const d = m[0] * m[3] - m[1] * m[2];
+  if (!Number.isFinite(d) || Math.abs(d) < 1e-12) return null;
+  return [m[3] / d, -m[1] / d, -m[2] / d, m[0] / d, (m[2] * m[5] - m[3] * m[4]) / d, (m[1] * m[4] - m[0] * m[5]) / d];
+};
+const rotm = (deg: number): Mat => {
+  const a = (deg * Math.PI) / 180;
+  return [Math.cos(a), Math.sin(a), -Math.sin(a), Math.cos(a), 0, 0];
+};
+function luminance(c: string): number | null {
+  const m = /^#([0-9a-f]{6})$/i.exec(c.trim());
+  if (!m) return null;
+  const n = parseInt(m[1]!, 16);
+  const v = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((x) => {
+    const s = x / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * v[0]! + 0.7152 * v[1]! + 0.0722 * v[2]!;
+}
+/** Rapport de contraste WCAG entre deux couleurs #rrggbb (null si l'une n'est pas lisible). */
+export function contraste(a: string, b: string): number | null {
+  const la = luminance(a);
+  const lb = luminance(b);
+  if (la === null || lb === null) return null;
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+/** Seuil sous lequel un texte de figure passe à la couleur de texte du thème opposé (WCAG, grands textes). */
+export const CONTRASTE_MIN = 3;
 
 /** La figure contient-elle une carte ou un globe (côtes à charger) ? */
 export function aDesCotes(fig: Elt): boolean {
@@ -48,6 +84,40 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
   const defs: string[] = [];
   const prefixe = o.id ?? 'fq' + ++nClip;
   let n = 0;
+  let mat: Mat = ID;
+  const surfaces: { dedans: (x: number, y: number) => boolean; m: Mat | null; couleur: string }[] = [];
+  const surface = (e: Elt, couleur: string, dedans: (x: number, y: number) => boolean): void => {
+    if (couleur === 'none' || ('opacite' in e && Number(e.opacite) < 0.5)) return;
+    surfaces.push({ dedans, m: inv(mat), couleur });
+  };
+  /** Couleur de la surface visible sous le point (x, y) du repère courant (fond de la figure à défaut). */
+  const fondSous = (x: number, y: number): string => {
+    const [gx, gy] = appl(mat, x, y);
+    for (let i = surfaces.length - 1; i >= 0; i--) {
+      const s = surfaces[i]!;
+      if (!s.m) continue;
+      const [lx, ly] = appl(s.m, gx, gy);
+      if (s.dedans(lx, ly)) return s.couleur;
+    }
+    return coul(fig.fond ?? 'fond');
+  };
+  /** Texte lisible : si le contraste avec la surface dessous est trop faible, couleur de texte la plus lisible. */
+  const lisible = (couleur: string, x: number, y: number): string => {
+    const f = fondSous(x, y);
+    const c = contraste(couleur, f);
+    if (c === null || c >= CONTRASTE_MIN) return couleur;
+    const cands = [o.jetons.avant?.sombre ?? '#f2f2f2', o.jetons.avant?.clair ?? '#1a1a1a'];
+    let meilleur = couleur;
+    let cm = c;
+    for (const k of cands) {
+      const ck = contraste(k, f) ?? 0;
+      if (ck > cm) {
+        cm = ck;
+        meilleur = k;
+      }
+    }
+    return meilleur;
+  };
   const coul = (c: unknown): string => {
     if (c === null || c === undefined || c === 'aucune') return 'none';
     const s = String(c);
@@ -107,13 +177,32 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
       case 'polyligne':
       case 'polygone': {
         const pts = (e.points as number[][]).map(([x, y]) => `${f3(x!)},${f3(y!)}`).join(' ');
+        if (t === 'polygone' && 'remplissage' in e) {
+          const P = e.points as number[][];
+          surface(e, coul(e.remplissage), (x, y) => {
+            let dans = false;
+            for (let i = 0, j = P.length - 1; i < P.length; j = i++) {
+              const [xi, yi] = P[i] as [number, number];
+              const [xj, yj] = P[j] as [number, number];
+              if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) dans = !dans;
+            }
+            return dans;
+          });
+        }
         return t === 'polyligne' ? `<polyline${cls} points="${pts}" ${style(e)}/>` : `<polygon${cls} points="${pts}" ${style(e, !('remplissage' in e))}/>`;
       }
       case 'rect':
+        if ('remplissage' in e) surface(e, coul(e.remplissage), (x, y) => x >= Math.min(e.x, e.x + e.l) && x <= Math.max(e.x, e.x + e.l) && y >= Math.min(e.y, e.y + e.h) && y <= Math.max(e.y, e.y + e.h));
         return `<rect${cls} x="${f3(e.x)}" y="${f3(e.y)}" width="${f3(e.l)}" height="${f3(e.h)}" rx="${f3(e.rayon ?? 0)}" ${style(e, !('remplissage' in e))}/>`;
       case 'cercle':
+        if ('remplissage' in e) surface(e, coul(e.remplissage), (x, y) => (x - e.cx) ** 2 + (y - e.cy) ** 2 <= e.r ** 2);
         return `<circle${cls} cx="${f3(e.cx)}" cy="${f3(e.cy)}" r="${f3(e.r)}" ${style(e, !('remplissage' in e))}/>`;
       case 'ellipse':
+        if ('remplissage' in e)
+          surface(e, coul(e.remplissage), (x, y) => {
+            const [u, v] = appl(rotm(e.rotation ?? 0), x - e.cx, y - e.cy);
+            return (u / (e.rx || 1e-9)) ** 2 + (v / (e.ry || 1e-9)) ** 2 <= 1;
+          });
         return `<ellipse${cls} cx="${f3(e.cx)}" cy="${f3(e.cy)}" rx="${f3(e.rx)}" ry="${f3(e.ry)}" transform="rotate(${f3(-(e.rotation ?? 0))} ${f3(e.cx)} ${f3(e.cy)})" ${style(e, !('remplissage' in e))}/>`;
       case 'arc': {
         const { cx, cy, r } = e;
@@ -143,7 +232,20 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
         else if (base === 'milieu') dy0 = taille * 0.35 - ((nl - 1) * taille * 1.2) / 2;
         else if (base === 'bas') dy0 = -(nl - 1) * taille * 1.2 - taille * 0.2;
         const rot = e.rotation ?? 0;
-        const couleur = coul(e.couleur ?? 'avant');
+        // point central approximatif du texte (pour la surface dessous)
+        const largEst = Math.max(...lignes.map((l) => l.replace(/\*\*|\$/g, '').length)) * taille * 0.55;
+        const cxT = e.x + (anc === 'start' ? largEst / 2 : anc === 'end' ? -largEst / 2 : 0);
+        const cyT = e.y + dy0 - taille * 0.35 + ((nl - 1) * taille * 1.2) / 2;
+        const couleur = cls ? coul(e.couleur ?? 'avant') : lisible(coul(e.couleur ?? 'avant'), cxT, cyT);
+        // texte de la réponse (orange imposé) sur une surface peu contrastée : liseré de la couleur la plus lisible
+        let halo = '';
+        let fondT = fondSous(cxT, cyT);
+        if (cls && (contraste(couleur, fondT) ?? 99) < CONTRASTE_MIN) {
+          const cands = [o.jetons.avant?.sombre ?? '#f2f2f2', o.jetons.avant?.clair ?? '#1a1a1a'];
+          fondT = cands.reduce((a, b) => ((contraste(couleur, b) ?? 0) > (contraste(couleur, a) ?? 0) ? b : a));
+          halo = ` stroke="${fondT}" stroke-width="${f3(Math.max(2.5, taille * 0.22))}" stroke-linejoin="round" paint-order="stroke"`;
+        }
+        o.controle?.(String(e.texte ?? ''), couleur, fondT);
         if (lignes.some((l) => /\$[^$]+\$/.test(l))) {
           // ligne(s) avec formule : HTML + MathML dans un foreignObject, posé selon l'ancre et la ligne de base
           const larg = e.largeur ?? Math.max(...lignes.map((l) => l.length)) * taille * 0.62 + taille;
@@ -154,7 +256,7 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
           const tr = rot ? ` transform="rotate(${f3(-rot)} ${f3(e.x)} ${f3(e.y)})"` : '';
           return `<foreignObject${cls} x="${f3(x0)}" y="${f3(y0)}" width="${f3(larg)}" height="${f3(haut)}"${tr} data-riche="${esc(lignes.join('\n'))}" data-ancre="${anc}" data-taille="${f3(taille)}" data-couleur="${couleur}" data-valeur="${coul('valeur')}"${e.gras ? ' data-gras="1"' : ''}${e.italique ? ' data-italique="1"' : ''}></foreignObject>`;
         }
-        let attrs = `x="${f3(e.x)}" y="${f3(e.y)}" font-size="${f3(taille)}" text-anchor="${anc}" fill="${couleur}"`;
+        let attrs = `x="${f3(e.x)}" y="${f3(e.y)}" font-size="${f3(taille)}" text-anchor="${anc}" fill="${couleur}"${halo}`;
         if (e.gras) attrs += ' font-weight="bold"';
         if (e.italique) attrs += ' font-style="italic"';
         if (rot) attrs += ` transform="rotate(${f3(-rot)} ${f3(e.x)} ${f3(e.y)})"`;
@@ -163,6 +265,7 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
       }
       case 'carte': {
         const { x: x0, y: y0, l, h } = e;
+        surface(e, coul(e.remplissage ?? 'mer'), (x, y) => x >= x0 && x <= x0 + l && y >= y0 && y <= y0 + h);
         const lo0 = e.lon_min ?? -180;
         const lo1 = e.lon_max ?? 180;
         const la0 = e.lat_min ?? -90;
@@ -178,6 +281,7 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
       }
       case 'globe': {
         const { cx, cy, r } = e;
+        surface(e, coul('mer'), (x, y) => (x - cx) ** 2 + (y - cy) ** 2 <= r ** 2);
         const l0 = e.lon0 ?? 0;
         const p0 = e.lat0 ?? 0;
         const rad = Math.PI / 180;
@@ -211,7 +315,14 @@ export function figureSvg(fig: Elt, o: OptionsFigure, libelle = ''): string {
         if ('echelle' in e) tr.push(`scale(${f3(e.echelle)})`);
         let attrs = tr.length ? ` transform="${tr.join(' ')}"` : '';
         if ('opacite' in e) attrs += ` opacity="${f3(e.opacite)}"`;
+        const avant = mat;
+        let local: Mat = ID;
+        if (e.translation) local = mul(local, [1, 0, 0, 1, Number(e.translation[0]), Number(e.translation[1])]);
+        if ('rotation' in e) local = mul(local, rotm(-e.rotation));
+        if ('echelle' in e) local = mul(local, [Number(e.echelle), 0, 0, Number(e.echelle), 0, 0]);
+        mat = mul(mat, local);
         let inner = (e.elements ?? []).map(elt).join('');
+        mat = avant;
         if (e.decoupe) {
           const id = `${prefixe}-c${++n}`;
           const [x, y, l, h] = e.decoupe;

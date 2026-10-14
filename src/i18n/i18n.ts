@@ -43,7 +43,9 @@ export function ajouter(l: Langue, dico: Record<string, string>): void {
 }
 
 export function tr(cle: string, valeurs?: Record<string, string | number>): string {
-  const t = textes[courante][cle] ?? textes.en[cle] ?? cle;
+  // singulier : clé « …_1 » quand n vaut 1 et qu'elle existe
+  const c1 = valeurs && valeurs.n === 1 && (cle + '_1' in textes[courante] || cle + '_1' in textes.en) ? cle + '_1' : cle;
+  const t = textes[courante][c1] ?? textes.en[c1] ?? cle;
   return valeurs ? format(t, valeurs) : t;
 }
 

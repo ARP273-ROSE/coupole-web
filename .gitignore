@@ -7,3 +7,5 @@ rapports/
 .DS_Store
 .vite/
 coverage/
+__pycache__/
+.pytest_cache/

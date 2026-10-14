@@ -10,7 +10,7 @@ import * as S from '../contenu/sauvegarde';
 import { instancier, variantes } from '../contenu/moteur_questions';
 import { PAR_ID } from '../anim/registre';
 import { langue, tr } from '../i18n/i18n';
-import { ajouter, annoncer, h, icone } from './dom';
+import { ajouter, annoncer, h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { elementRessource, menuAjouter, texteQuestion, titresRessources } from './composants';
 import { ordreQuestions, questionsDe } from './page_module';
@@ -29,7 +29,7 @@ export async function pageQuestion(cle: string, qid: string, perso: boolean, par
   const m = perso ? null : await contenu.module(cle);
   const q = await contenu.question(qid);
   if (!q || (perso && !mm) || (!perso && !m)) {
-    return { el: h('div', { class: 'page' }, h('p', { class: 'erreur', role: 'alert', text: tr('web_question_inconnue') }), h('p', {}, h('a', { href: '#/', text: tr('web_retour_accueil') }))), titre: 'Coupole Web', detruire() {} };
+    return { el: pageIntrouvable(tr('web_question_inconnue'), tr), titre: `${tr('web_introuvable')} — Coupole Web`, detruire() {} };
   }
   const [mac, liens, titres] = await Promise.all([contenu.macros(), contenu.liees(qid), titresRessources()]);
   const base = perso ? `#/mm/${cle}` : `#/m/${cle}`;
