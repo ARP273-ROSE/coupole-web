@@ -376,17 +376,17 @@ export abstract class Animation {
     if (hote) this.hote = hote;
   }
 
-  get classe(): typeof Animation {
+  get __classe(): typeof Animation {
     return this.constructor as typeof Animation;
   }
 
   get ID(): string {
-    return this.classe.ID;
+    return this.__classe.ID;
   }
 
   /** Construit les contrôles (à appeler une fois, juste après le constructeur). */
   initialiser(): this {
-    const cls = this.classe;
+    const cls = this.__classe;
     if (cls.ANIMEE) {
       this.b_lecture = new Bouton('lecture', 'barre', tr('anim_lecture'), () => this.basculer_lecture(), tr('anim_lecture_aide'), true);
       this.controles.push(this.b_lecture);
@@ -564,7 +564,7 @@ export abstract class Animation {
 
   /** Un battement de la boucle d'animation : dt en secondes réelles (borné à 0,2 s). */
   battement(dt: number): void {
-    const v = this.classe.ANIMEE && this.vitesse ? this.vitesse.value() : 1.0;
+    const v = this.__classe.ANIMEE && this.vitesse ? this.vitesse.value() : 1.0;
     this.avancer(Math.min(0.2, dt) * v);
     this.rafraichir();
   }
