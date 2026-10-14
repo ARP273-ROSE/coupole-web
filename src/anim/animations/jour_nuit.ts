@@ -303,7 +303,7 @@ export class JourNuit extends Animation {
     this.lon = this.curseur('longitude', -180.0, 180.0, 0.0, { dec: 1, unite: '°', cle_texte: 'anim_c_longitude' });
     this.c_crepuscule = this.coche('crepuscule', false);
     // version web : vues polaires
-    this.projection = this.choix('web_projection', [['web_proj_equi', 'equi'], ['web_proj_nord', 'nord'], ['web_proj_sud', 'sud'], ['web_proj_globe', 'globe']], 'equi', 'web_projection');
+    this.projection = this.choix('web_projection', [['web_proj_equi', 'equi'], ['web_proj_nord', 'nord'], ['web_proj_sud', 'sud'], ['web_proj_globe', 'globe']], 'globe', 'web_projection');
     this.bord = this.choix('web_bord', [['web_bord_0', 0], ['web_bord_30', 30]], 0, 'web_bord');
     this.c_tournant = this.coche('web_tournant', false, 'web_tournant');
     this.c_axe = this.coche('web_axe', true, 'web_axe');
