@@ -18,9 +18,42 @@ const GAZ: Record<string, number[]> = {
 };
 const NUAGE: [number, number, number] = [0.0, 0.0, 1.0];
 const AMPOULE: [number, number, number] = [3.2, 0.0, 0.55];
-const R_TELESCOPE = 4.6;
+/** Rayon du cercle où se déplace le télescope : hors du halo de l'ampoule (3,2 + 2,2 × 0,55 = 4,41), tube compris. */
+export const R_TELESCOPE = 5.6;
+/** Longueur du tube du télescope et rayon du halo de l'ampoule (unités de la scène). */
+export const L_TUBE = 0.9;
+export const R_HALO = 2.2 * AMPOULE[2];
+export { AMPOULE, NUAGE };
 
-export function vue(angle_deg: number, cible: string): { nuage: boolean; ampoule: boolean } {
+/** Distance s (≥ 0) le long de la visée (origine t, direction unitaire d) où elle entre dans le disque, ou null. */
+function entree([ox, oy, r]: [number, number, number], tx: number, ty: number, dx: number, dy: number): number | null {
+  const fx = tx - ox,
+    fy = ty - oy;
+  const b = fx * dx + fy * dy;
+  const disc = b * b - (fx * fx + fy * fy - r * r);
+  if (disc <= 0) return null;
+  const q = Math.sqrt(disc);
+  if (-b + q <= 0) return null; // tout le disque est derrière le télescope
+  return Math.max(0, -b - q);
+}
+
+export interface Vue {
+  /** le gaz est vu : traversé AVANT l'ampoule (ou sans ampoule sur la visée) */
+  nuage: boolean;
+  /** l'ampoule est sur la visée */
+  ampoule: boolean;
+  /** distances d'entrée le long de la visée (null : pas traversé) */
+  s_nuage: number | null;
+  s_ampoule: number | null;
+}
+
+/**
+ * Ce que voit le télescope placé à l'angle donné sur le cercle (autour du nuage) et visant `cible` ('nuage' ou
+ * 'ampoule').  L'ordre le long de la visée compte : l'ampoule est opaque, elle cache tout ce qui est derrière elle.
+ * Absorption seulement si la visée traverse le gaz PUIS l'ampoule (télescope → nuage → ampoule) ; l'ampoule devant
+ * le nuage donne un spectre continu.
+ */
+export function vue(angle_deg: number, cible: string): Vue {
   const a = (angle_deg * Math.PI) / 180;
   const tx = R_TELESCOPE * Math.cos(a),
     ty = R_TELESCOPE * Math.sin(a);
@@ -30,15 +63,12 @@ export function vue(angle_deg: number, cible: string): { nuage: boolean; ampoule
   const n = Math.hypot(dx, dy);
   dx /= n;
   dy /= n;
-  const traverse = ([ox, oy, r]: [number, number, number]): boolean => {
-    const s = (ox - tx) * dx + (oy - ty) * dy;
-    if (s <= 0) return false;
-    return Math.hypot(tx + s * dx - ox, ty + s * dy - oy) < r;
-  };
-  return { nuage: traverse(NUAGE), ampoule: traverse(AMPOULE) };
+  const sa = entree(AMPOULE, tx, ty, dx, dy);
+  const sn = entree(NUAGE, tx, ty, dx, dy);
+  return { nuage: sn !== null && (sa === null || sn < sa), ampoule: sa !== null, s_nuage: sn, s_ampoule: sa };
 }
 
-export function type_de_spectre(v: { nuage: boolean; ampoule: boolean }): string {
+export function type_de_spectre(v: Pick<Vue, 'nuage' | 'ampoule'>): string {
   if (v.ampoule && v.nuage) return 'absorption';
   if (v.ampoule) return 'continu';
   if (v.nuage) return 'emission';
@@ -92,8 +122,9 @@ export class Kirchhoff extends Animation {
   override dessiner(p: Peintre, rect: Rect): void {
     const haut = new Rect(rect.x, rect.y, rect.w, rect.h * 0.68);
     const r = dessin.cadre(p, haut, tr('anim_threeviewsspectra_titre_scene'));
-    const k = Math.min(r.w / 11.0, r.h / 10.5);
-    const cx = r.cx - 0.9 * k,
+    // le cercle du télescope (rayon 5,6) et son étiquette tiennent dans le panneau
+    const k = Math.min(r.w / 13.4, r.h / 12.6);
+    const cx = r.cx,
       cy = r.cy;
     this.scene = [cx, cy, k];
     p.setPen(dessin.stylo('grille', 1.0, null, true));
@@ -101,7 +132,8 @@ export class Kirchhoff extends Animation {
     p.drawEllipse(cx, cy, R_TELESCOPE * k, R_TELESCOPE * k);
     const ax_ = cx + AMPOULE[0] * k,
       ay_ = cy - AMPOULE[1] * k;
-    for (const [f, a] of [[2.2, 0.08], [1.6, 0.15]] as [number, number][]) dessin.disque(p, ax_, ay_, AMPOULE[2] * k * f, 'soleil', null, a);
+    for (const [f, a] of [[R_HALO / AMPOULE[2], 0.08], [1.6, 0.15]] as [number, number][]) dessin.disque(p, ax_, ay_, AMPOULE[2] * k * f, 'soleil', null, a);
+    dessin.reserver(p, ax_, ay_, R_HALO * k, true);
     dessin.disque(p, ax_, ay_, AMPOULE[2] * k, 'soleil', 'texte');
     dessin.texte(p, ax_, ay_ + AMPOULE[2] * k + 14, tr('anim_threeviewsspectra_ampoule'), 'doux');
     dessin.disque(p, cx, cy, NUAGE[2] * k, 'equateur', null, 0.28);
@@ -118,16 +150,32 @@ export class Kirchhoff extends Animation {
     const d = Math.hypot(gx - tx, gy - ty);
     const ux = (gx - tx) / d,
       uy = (gy - ty) / d;
+    // la visée s'arrête sur l'ampoule, opaque : ce qui est derrière elle n'est pas vu
+    const v = vue(this.angle.value(), this.cible.currentData() as string);
+    const portee = v.s_ampoule !== null ? v.s_ampoule * k : 12 * k;
     p.setPen(dessin.stylo('accent1', 1.0, 0.7, true));
-    p.drawLine(tx, ty, tx + ux * 12 * k, ty + uy * 12 * k);
+    p.drawLine(tx, ty, tx + ux * portee, ty + uy * portee);
     const nx = -uy,
       ny = ux;
     const w = 0.28 * k,
-      l = 0.9 * k;
+      l = L_TUBE * k;
     p.setPen(dessin.stylo('texte', 1.2));
     p.setBrush(dessin.c('accent2', 0.8));
     p.drawPolygon([new Pt(tx + nx * w, ty + ny * w), new Pt(tx + ux * l + nx * w * 1.3, ty + uy * l + ny * w * 1.3), new Pt(tx + ux * l - nx * w * 1.3, ty + uy * l - ny * w * 1.3), new Pt(tx - nx * w, ty - ny * w)]);
-    dessin.texte(p, tx - ux * 18, ty - uy * 18, tr('anim_threeviewsspectra_telescope'), 'texte', { fond: true });
+    // étiquette du télescope : à l'extérieur du cercle, placée sans chevauchement (le tube est réservé)
+    dessin.reserver(p, tx + ux * l * 0.5, ty + uy * l * 0.5, Math.min(24, l * 0.6));
+    const nom = tr('anim_threeviewsspectra_telescope');
+    const fm = p.fontMetrics();
+    const demi = 0.5 * (fm.horizontalAdvance(nom) + 6);
+    const recul = 12 + demi * Math.abs(ux) + 0.5 * (fm.height() + 2) * Math.abs(uy);
+    let lx = tx - ux * recul,
+      ly = ty - uy * recul;
+    // dehors, l'étiquette sortirait du panneau : elle passe au-dessus (ou au-dessous) du télescope
+    if (lx - demi < r.x || lx + demi > r.right) {
+      lx = Math.max(r.x + demi, Math.min(r.right - demi, tx));
+      ly = ty + (ty > cy ? 1 : -1) * (0.6 * k + 4 + 0.5 * fm.height());
+    }
+    dessin.texte(p, lx, ly, nom, 'texte', { fond: true });
     const bas = new Rect(rect.x, haut.bottom, rect.w, rect.h - haut.h);
     const rb = dessin.cadre(p, bas, tr('anim_threeviewsspectra_titre_spectre'));
     const bande = new Rect(rb.x + 8, rb.y + 2, rb.w - 16, Math.max(16.0, rb.h - 18));

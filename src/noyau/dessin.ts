@@ -132,9 +132,12 @@ function commun(a: Boite, b: Boite): number {
   return w > 0 && h > 0 ? w * h : 0;
 }
 
-/** Un petit objet (astre, point…) que les étiquettes évitent ; les grands disques ne sont pas réservés. */
-export function reserver(p: Peintre, x: number, y: number, r: number): void {
-  if (!(r > 0) || r > 24) return;
+/**
+ * Un petit objet (astre, point…) que les étiquettes évitent ; les grands disques ne sont pas réservés, sauf si
+ * `toujours` (halo qu'une étiquette ne doit pas couvrir).
+ */
+export function reserver(p: Peintre, x: number, y: number, r: number, toujours = false): void {
+  if (!(r > 0) || (r > 24 && !toujours)) return;
   const m = matrice(p);
   if (m.tourne) return;
   const k = Math.abs(m.a);
