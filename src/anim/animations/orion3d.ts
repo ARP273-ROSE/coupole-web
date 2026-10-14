@@ -264,14 +264,19 @@ export class Orion3D extends Animation {
     const face = Math.max(0, -O.dot(this.vue3d.d, CENTRE_SCENE));
     const voile = 1 - 0.65 * face * face;
     ctx.save();
+    // changements d'état du contexte seulement quand ils servent (ils coûtent plus que le dessin d'un sprite)
+    let mode = '';
+    let alpha = -1;
     for (const i of ordre) {
       const q = ps.liste[i]!;
       const x = ecr.xs[i]!;
       const y = ecr.ys[i]!;
       if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
       const rp = Math.max(1.2, q.r * k);
-      ctx.globalCompositeOperation = q.genre === 'gaz' ? 'lighter' : 'source-over';
-      ctx.globalAlpha = q.alpha * voile;
+      const m = q.genre === 'gaz' ? 'lighter' : 'source-over';
+      if (m !== mode) ctx.globalCompositeOperation = mode = m;
+      const a = q.alpha * voile;
+      if (a !== alpha) ctx.globalAlpha = alpha = a;
       const im = sprite(q.rvb);
       if (im) ctx.drawImage(im, x - rp, y - rp, 2 * rp, 2 * rp);
       else {

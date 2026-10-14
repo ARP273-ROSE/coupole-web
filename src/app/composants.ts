@@ -115,13 +115,17 @@ export function elementRessource(genre: GenreR, id: string, titre: string, o: Op
   if (genre === 'animation' || genre === 'question') action = h('a', { class: 'ressource-lien', href: o.lien ?? (genre === 'animation' ? `#/a/${encodeURIComponent(id)}` : '#/') }, ...contenuLien);
   else {
     action = h('button', { type: 'button', class: 'ressource-lien', 'aria-haspopup': 'dialog' }, ...contenuLien);
-    action.addEventListener('click', () => ouvrirRessource(genre, id, titre));
+    action.addEventListener('click', () => {
+      cacherBulle();
+      ouvrirRessource(genre, id, titre);
+    });
     action.setAttribute('aria-describedby', 'bulle-apercu');
   }
   action.addEventListener('pointerenter', (ev) => {
     if ((ev as PointerEvent).pointerType === 'mouse') montrerBulle(action, genre, id);
   });
   action.addEventListener('pointerleave', cacherBulle);
+  action.addEventListener('pointerdown', cacherBulle);
   action.addEventListener('focus', () => montrerBulle(action, genre, id));
   action.addEventListener('blur', cacherBulle);
   li.append(action);
