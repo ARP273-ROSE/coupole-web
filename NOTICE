@@ -54,8 +54,16 @@ Données mises à jour par Coupole / data updated by Coupole (src/donnees/genere
     « Keplerian Elements for Approximate Positions of the Major Planets », table 1 (E. M. Standish, JPL, 1800–2050) ;
   - excès de masse atomique : AME 2020 (Chinese Physics C 45, 030002 et 030003, 2021) ; énergies moyennes des
     neutrinos solaires : J. N. Bahcall ;
-  - courbe de rotation de la Voie lactée au-delà de 5 kpc : M. K. Eilers et al. 2019 (ApJ 871, 120), R☉ = 8,122 kpc
-    (GRAVITY Collaboration 2018) ;
+  - courbe de rotation de la Voie lactée (src/donnees/genere/voie_lactee.json, outils/voie_lactee.py) :
+    modèle de masse de P. J. McMillan 2017 (arXiv:1608.00971), meilleur ajustement, calculé avec galpy
+    (J. Bovy 2015, ApJS 216, 29 ; licence BSD-3, galpy/potential/McMillan17.py, R0 = 8,21 kpc, v0 = 233,1 km/s) ;
+    mesures de M. K. Eilers et al. 2019 (ApJ 871, 120), table 1, lue dans la source de arXiv:1810.09466 ;
+    compilation galkin de M. Pato et F. Iocco 2017 (SoftwareX 6, 54 ; https://github.com/galkintool/galkin),
+    recalculée pour R0 = 8,21 kpc et v0 = 233,1 km/s, regroupée par intervalles de 0,25 kpc ; vérifications :
+    outils/voie_lactee_verif.sage ;
+  - bras spiraux de la Galaxie vue de face : M. J. Reid et al. 2019 (arXiv:1910.03357), table 2 (spirales
+    log-périodiques) ; barre longue : C. Wegg, O. Gerhard et M. Portail 2015 (arXiv:1504.01401),
+    demi-longueur 5,0 kpc, angle 28 à 33° (épaisseur de la barre dessinée : schématique) ;
   - distances des supernovæ historiques : nébuleuse du Crabe ≈ 2,0 kpc (Trimble 1973), SN 1006 ≈ 2,2 kpc (Winkler,
     Gupta et Long 2003).
 

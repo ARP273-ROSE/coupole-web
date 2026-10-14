@@ -161,6 +161,31 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   Terre à la distance de la Lune, ou ombre de la Lune sur la Terre) ; écart à l'axe y = D sin(5,145°) sin F (argument
   de latitude moyen, Meeus), ramené dans le domaine compatible avec le type de la table ; curseur « instant ».
 
+### Courbe de rotation de la Voie lactée
+- Courbe : modèle de masse de McMillan (2017, arXiv:1608.00971 ; bulbe, disques d'étoiles mince et épais, gaz HI et
+  H2, halo NFW), calculé avec galpy (`McMillan17`) dans le plan, de 0,05 à 25 kpc tous les 0,05 kpc, total et par
+  composante (bulbe `accent3`, disques `equateur`, halo `arc1`, en tirets ; total `accent1`, 2,6 px), interpolation
+  linéaire ; R0 = 8,21 kpc et v0 = 233,1 km/s du modèle (v_c(R0) calculée : 233,2 km/s). Plus de cassure : la courbe
+  est lisse et physique. Vérifications SageMath (`outils/voie_lactee_verif.sage`) : vitesse du halo NFW et masse du
+  bulbe retrouvées à 1,3 × 10⁻⁴ et 5 × 10⁻⁵ près.
+- Mesures avec barres d'erreur : Eilers et al. (2019), table 1 (5,27 à 24,82 kpc, erreurs asymétriques), points
+  `texte` ; compilation galkin (Pato & Iocco 2017) recalculée pour R0 = 8,21 kpc, v0 = 233,1 km/s, de 2 à 5,25 kpc par
+  intervalles de 0,25 kpc (moyenne pondérée, barre = dispersion), points `accent2`.
+- Courbe képlérienne : v = √(G M(<R) / r) pour r ≥ R, M(<R) = masse du modèle dans la sphère de rayon R (galpy,
+  tous les 0,5 kpc, interpolée en log) ; elle part donc un peu sous la courbe (le disque n'est pas sphérique).
+- Valeurs : masse « dynamique » v²R/G (comme Coupole) et, en plus, masse du modèle dans la sphère de rayon R.
+- Galaxie vue du pôle Nord galactique, à l'échelle (disque de 25 kpc, anneaux tous les 5 kpc), Soleil en haut à
+  R0 = 8,21 kpc, l = 90° à droite, rotation horaire (flèche au Soleil) ; lueur du disque exponentielle ; barre longue
+  de Wegg et al. (2015) : demi-longueur 5,0 kpc, à 30,5° de la ligne Soleil–centre (milieu de 28–33°), extrémité
+  proche du côté l > 0, épaisseur schématique (rapport 0,3) ; bras de Reid et al. (2019), table 2 : spirales
+  log-périodiques ln(R/R_kink) = −(β − β_kink) tan ψ (ψ< avant le coude, ψ> après), β compté depuis la direction du
+  Soleil vers l = 90°, tracées en trait plein sur la plage d'azimut des mesures et prolongées en estompé (entre 2,8 et
+  17 kpc) ; largeur de bande = 2 × la largeur 1σ publiée. Norma et bras extérieur `arc2`, Scutum–Centaure `accent2`,
+  Sagittaire–Carène `arc1`, Persée `equateur`, bras local `accent1`, bras de 3 kpc `accent3`. Cercle du rayon choisi en
+  pointillé `accent3`.
+- Écart volontaire avec Coupole : les références (`tests/references/animations.json`, champ `_note`) ont été mises
+  à jour avec ces valeurs (R par défaut 8,21 kpc, vitesses du modèle, ligne de masse ajoutée).
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,

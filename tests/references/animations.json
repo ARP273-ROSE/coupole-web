@@ -17834,6 +17834,7 @@ true
 "lecture_au_depart": false
 },
 "milkywayrotationalvelocity": {
+"_note": "Écart volontaire de Coupole Web (14/10/2026) : modèle de masse de McMillan (2017) au lieu de la courbe de l'original prolongée par Eilers et al. ; R0 = 8,21 kpc ; ligne « masse dans la sphère (modèle) » ajoutée. Coupole reprendra ces valeurs (voir PROGRESSION.md, Choix graphiques).",
 "animee": false,
 "changements": [
 [
@@ -17852,19 +17853,23 @@ false
 [
 [
 "Radius",
-"8.12 kpc (26 484 ly)"
+"8.21 kpc (26 777 ly)"
 ],
 [
 "Rotation speed",
-"229.0 km/s"
+"233.2 km/s"
 ],
 [
 "Mass inside (v² R / G)",
-"9.90 × 10¹⁰ M☉"
+"1.04 × 10¹¹ M☉"
+],
+[
+"Mass within the sphere of radius R (model)",
+"9.35 × 10¹⁰ M☉"
 ],
 [
 "Time for one turn",
-"218 million years"
+"216 million years"
 ]
 ]
 ],
@@ -17877,15 +17882,19 @@ false
 ],
 [
 "Rotation speed",
-"228.5 km/s"
+"233.2 km/s"
 ],
 [
 "Mass inside (v² R / G)",
-"1.02 × 10¹¹ M☉"
+"1.06 × 10¹¹ M☉"
+],
+[
+"Mass within the sphere of radius R (model)",
+"9.57 × 10¹⁰ M☉"
 ],
 [
 "Time for one turn",
-"226 million years"
+"221 million years"
 ]
 ]
 ],
@@ -17894,19 +17903,23 @@ false
 [
 [
 "Radius",
-"8.12 kpc (26 490 ly)"
+"8.21 kpc (26 777 ly)"
 ],
 [
 "Rotation speed",
-"229.0 km/s"
+"233.2 km/s"
 ],
 [
 "Mass inside (v² R / G)",
-"9.90 × 10¹⁰ M☉"
+"1.04 × 10¹¹ M☉"
+],
+[
+"Mass within the sphere of radius R (model)",
+"9.35 × 10¹⁰ M☉"
 ],
 [
 "Time for one turn",
-"218 million years"
+"216 million years"
 ]
 ]
 ]
@@ -17916,14 +17929,14 @@ false
 "aide": "Radius of the circle considered (0.5 to 25 kpc); one can also click or drag on the curve.",
 "cle": "rayon",
 "dec": 2,
-"defaut": 8.122,
+"defaut": 8.21,
 "libelle": "Distance from the center",
 "log": false,
 "maxi": 25.0,
 "mini": 0.5,
 "type": "curseur",
 "unite": "kpc",
-"valeur": 8.12
+"valeur": 8.21
 },
 {
 "aide": "Draw the speed one would get beyond if all the mass were inside the chosen circle (v ∝ 1/√R).",
@@ -17941,19 +17954,23 @@ false
 [
 [
 "Rayon",
-"8,12 kpc (26 484 al)"
+"8,21 kpc (26 777 al)"
 ],
 [
 "Vitesse de rotation",
-"229,0 km/s"
+"233,2 km/s"
 ],
 [
 "Masse contenue (v² R / G)",
-"9,90 × 10¹⁰ M☉"
+"1,04 × 10¹¹ M☉"
+],
+[
+"Masse dans la sphère de rayon R (modèle)",
+"9,35 × 10¹⁰ M☉"
 ],
 [
 "Durée d’un tour",
-"218 millions d’années"
+"216 millions d’années"
 ]
 ]
 ],
@@ -17966,15 +17983,19 @@ false
 ],
 [
 "Vitesse de rotation",
-"228,5 km/s"
+"233,2 km/s"
 ],
 [
 "Masse contenue (v² R / G)",
-"1,02 × 10¹¹ M☉"
+"1,06 × 10¹¹ M☉"
+],
+[
+"Masse dans la sphère de rayon R (modèle)",
+"9,57 × 10¹⁰ M☉"
 ],
 [
 "Durée d’un tour",
-"226 millions d’années"
+"221 millions d’années"
 ]
 ]
 ],
@@ -17983,19 +18004,23 @@ false
 [
 [
 "Rayon",
-"8,12 kpc (26 490 al)"
+"8,21 kpc (26 777 al)"
 ],
 [
 "Vitesse de rotation",
-"229,0 km/s"
+"233,2 km/s"
 ],
 [
 "Masse contenue (v² R / G)",
-"9,90 × 10¹⁰ M☉"
+"1,04 × 10¹¹ M☉"
+],
+[
+"Masse dans la sphère de rayon R (modèle)",
+"9,35 × 10¹⁰ M☉"
 ],
 [
 "Durée d’un tour",
-"218 millions d’années"
+"216 millions d’années"
 ]
 ]
 ]
@@ -18005,14 +18030,14 @@ false
 "aide": "Rayon du cercle considéré (0,5 à 25 kpc) ; on peut aussi cliquer ou glisser sur la courbe.",
 "cle": "rayon",
 "dec": 2,
-"defaut": 8.122,
+"defaut": 8.21,
 "libelle": "Distance au centre",
 "log": false,
 "maxi": 25.0,
 "mini": 0.5,
 "type": "curseur",
 "unite": "kpc",
-"valeur": 8.12
+"valeur": 8.21
 },
 {
 "aide": "Tracer la vitesse qu’on aurait au-delà si toute la masse était contenue dans le cercle choisi (v ∝ 1/√R).",

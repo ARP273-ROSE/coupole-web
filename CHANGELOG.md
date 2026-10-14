@@ -10,7 +10,9 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 - Rendu : astres en sphères ombrées (terminateur, limbe assombri, halo du Soleil), étiquettes placées sans
   chevauchement, formules typographiées (MathML, police STIX Two Math), côtes Natural Earth 1:50m ; le glisser suit le
   doigt ; aide propre à chaque animation ; éclipses de la table rejouables dans le simulateur des ombres ; vues polaires (pôle Nord, pôle Sud)
-  et globe 3D qu’on fait tourner dans tous les sens dans le simulateur jour-nuit, terminateur et crépuscules exacts.
+  et globe 3D qu’on fait tourner dans tous les sens dans le simulateur jour-nuit, terminateur et crépuscules exacts ;
+  courbe de rotation de la Voie lactée d'après le modèle de McMillan (2017) avec les mesures d'Eilers et al. (2019) et
+  la compilation galkin, Galaxie vue de face avec barre et bras de Reid et al. (2019).
 - Socle : Vite, TypeScript strict, Canvas 2D sans cadriciel ; transposition fidèle du module « Animations » de
   Coupole (même peintre que QPainter, mêmes projections de sphère, mêmes réglages à valeur exacte).
 - Calculs transposés du Python de Coupole et vérifiés contre ses valeurs (plus de 4 000 cas, 10⁻⁹ relatif) ; chaque
@@ -38,7 +40,9 @@ First version of Coupole Web, the browser version of Coupole’s astronomy anima
 - Rendering: celestial bodies as shaded spheres (terminator, limb darkening, Sun halo), labels placed without overlap,
   typeset formulas (MathML, STIX Two Math font), Natural Earth 1:50m coastlines; dragging follows the finger;
   per-animation help; eclipses of the table can be replayed in the shadow simulator; polar views (North Pole, South Pole)
-  and a 3D globe that turns in any direction in the daylight simulator, with exact terminator and twilights.
+  and a 3D globe that turns in any direction in the daylight simulator, with exact terminator and twilights;
+  Milky Way rotation curve from the McMillan (2017) model with the Eilers et al. (2019) measurements and the galkin
+  compilation, face-on Galaxy with bar and arms from Reid et al. (2019).
 - Foundation: Vite, strict TypeScript, Canvas 2D without framework; faithful transposition of Coupole’s
   « Animations » module (a QPainter-like painter, the same sphere projections, the same exact-value settings).
 - Computations transposed from Coupole’s Python and checked against its values (more than 4,000 cases, 10⁻⁹
