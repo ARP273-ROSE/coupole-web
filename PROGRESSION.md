@@ -147,6 +147,13 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   subsolaire (135 % → base → 60 %), voile nuit progressif vers l'antipode du Soleil (jusqu'à 30 %), axe des pôles en
   option (partie derrière le globe en pointillé, N marqué), point subsolaire, flèche « vers le Soleil » au bord.
 - Coût de calcul mesuré par un test : moins de 5 ms par image.
+- Garde-fous (bogue « globe devenu un disque bleu vide » en glissant pendant la lecture) : chaque glisser est validé
+  (entrées finies, rayon > 0) et le résultat doit être une vraie rotation (finie, orthonormée, déterminant +1),
+  sinon il est ignoré ; une orientation invalide est remplacée par celle du départ avant le dessin ; une seule lancée
+  d'inertie à la fois ; les vues 3D (`Vue3D.regler`) ignorent un angle non fini ; un réglage n'accepte jamais une valeur
+  non finie (rien de tel dans l'adresse ni dans le navigateur). Tests : 1 000 glissers aléatoires en lecture avec
+  élan et entrées aberrantes, 60 glissers en lecture dans chacune des 92 animations, et glissers rapides en lecture
+  dans Chromium, Firefox et WebKit (globe, sphère, orbites) : image jamais vide.
 
 ### Simulateur des ombres d'éclipse
 - Le Soleil est entier (centre à r + 8 px du bord).

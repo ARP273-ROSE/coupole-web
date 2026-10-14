@@ -454,6 +454,8 @@ export class Vue3D {
   }
 
   regler(az: number, alt: number): void {
+    // garde-fou : jamais d'angle non fini (un glisser aberrant ne doit pas vider la scène)
+    if (!Number.isFinite(az) || !Number.isFinite(alt)) return;
     this.az = ((az % 360) + 360) % 360;
     this.alt = Math.max(this.alt_min, Math.min(this.alt_max, alt));
     const a = this.az * DEG,

@@ -144,7 +144,7 @@ export function rotation(k: readonly number[], t: number): M3 {
 function orthonormer(m: M3): M3 {
   const n = (v: number[]): number[] => {
     const l = Math.hypot(v[0]!, v[1]!, v[2]!);
-    return v.map((x) => x / l);
+    return l > 1e-12 && Number.isFinite(l) ? v.map((x) => x / l) : [NaN, NaN, NaN];
   };
   const a = n([m[0], m[1], m[2]]);
   let b = [m[3], m[4], m[5]];
@@ -159,11 +159,27 @@ function orthonormer(m: M3): M3 {
  * l'écran perpendiculaire au glisser, d'angle |d| / r : le point sous le doigt suit le doigt.
  */
 export function tourner_globe(m: M3, dx: number, dy: number, r: number): M3 {
+  const base = rotation_valide(m) ? m : ORIENTATION_DEPART();
   const d = Math.hypot(dx, dy);
-  if (d < 1e-9) return m;
+  if (!Number.isFinite(d) || !(r > 0) || d < 1e-9) return base;
   // y écran vers le bas, Y de vue vers le haut : déplacement de vue u = (dx, −dy) ; axe k = Z × u
   const k = [dy / d, dx / d, 0];
-  return orthonormer(produit(rotation(k, d / r), m));
+  const n = orthonormer(produit(rotation(k, d / r), base));
+  return rotation_valide(n) ? n : base;
+}
+
+/** Orientation de départ du globe : 25° N, 50° à l'ouest (du point subsolaire sans « terminateur tournant »). */
+export const ORIENTATION_DEPART = (): M3 => orientation(25, -50);
+
+/** Vraie matrice de rotation : finie, lignes unitaires et orthogonales, déterminant +1 (à 1e-6 près). */
+export function rotation_valide(m: readonly number[]): boolean {
+  if (m.length !== 9 || !m.every(Number.isFinite)) return false;
+  const l = (i: number): number[] => [m[3 * i]!, m[3 * i + 1]!, m[3 * i + 2]!];
+  const dot = (a: number[], b: number[]): number => a[0]! * b[0]! + a[1]! * b[1]! + a[2]! * b[2]!;
+  const [a, b, c] = [l(0), l(1), l(2)];
+  const det = dot(a, [b[1]! * c[2]! - b[2]! * c[1]!, b[2]! * c[0]! - b[0]! * c[2]!, b[0]! * c[1]! - b[1]! * c[0]!]);
+  return Math.abs(dot(a, a) - 1) < 1e-6 && Math.abs(dot(b, b) - 1) < 1e-6 && Math.abs(dot(c, c) - 1) < 1e-6 &&
+    Math.abs(dot(a, b)) < 1e-6 && Math.abs(dot(a, c)) < 1e-6 && Math.abs(dot(b, c)) < 1e-6 && Math.abs(det - 1) < 1e-6;
 }
 
 /**
@@ -270,7 +286,8 @@ export class JourNuit extends Animation {
   c_tournant!: Coche;
   c_axe!: Coche;
   /** orientation du globe (repère terrestre tourné → vue) */
-  globe: M3 = orientation(25, -50);
+  globe: M3 = ORIENTATION_DEPART();
+  private elan = 0;
   private inertie: [number, number] = [0, 0];
   private dernier = 0;
   private carte: Rect | null = null;
@@ -348,11 +365,13 @@ export class JourNuit extends Animation {
         return true;
       }
       this.inertie = [0, 0];
+      this.elan++;
       let avant = pos;
       this._glisse = (q) => {
         const dx = q.x - avant.x,
           dy = q.y - avant.y;
         avant = q;
+        if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
         this.globe = tourner_globe(this.globe, dx, dy, this.disque![2]);
         this.inertie = [dx, dy];
         this.dernier = Date.now();
@@ -387,11 +406,13 @@ export class JourNuit extends Animation {
     // inertie légère : le globe continue un peu sur sa lancée, puis s'arrête
     if (this.projection.currentData() !== 'globe' || Date.now() - this.dernier > 80) return;
     let [vx, vy] = this.inertie;
-    if (Math.hypot(vx, vy) < 1.5 || typeof requestAnimationFrame === 'undefined') return;
+    if (!(Math.hypot(vx, vy) >= 1.5) || typeof requestAnimationFrame === 'undefined') return;
+    // une seule lancée à la fois : une nouvelle annule la précédente
+    const jeton = ++this.elan;
     const pas = (): void => {
       vx *= 0.9;
       vy *= 0.9;
-      if (Math.hypot(vx, vy) < 0.3 || !this.disque || this._glisse !== null) return;
+      if (jeton !== this.elan || Math.hypot(vx, vy) < 0.3 || !this.disque || this._glisse !== null) return;
       this.globe = tourner_globe(this.globe, vx, vy, this.disque[2]);
       this.rafraichir();
       requestAnimationFrame(pas);
@@ -413,6 +434,9 @@ export class JourNuit extends Animation {
 
   /** Rotation propre de la Terre : sans « terminateur tournant », le Soleil reste fixe dans la vue. */
   private vueGlobe(lon_ss: number): M3 {
+    // garde-fou : une orientation invalide (non finie, non orthonormée) est remplacée par celle du départ
+    if (!rotation_valide(this.globe)) this.globe = ORIENTATION_DEPART();
+    if (!Number.isFinite(lon_ss)) return this.globe;
     return this.c_tournant.isChecked() ? this.globe : produit(this.globe, rotation([0, 0, 1], -lon_ss / R));
   }
 
@@ -601,6 +625,7 @@ export class JourNuit extends Animation {
     const [dec, lon_ss] = subsolaire(this.jourDecimal());
     const m = this.vueGlobe(lon_ss);
     const vue = (la: number, lo: number): [number, number, number] => appliquer(m, globe_xyz(la, lo));
+    if (!vue(dec, lon_ss).every(Number.isFinite)) return;
     const ecran = (q: readonly [number, number]): Pt => new Pt(cx + q[0] * rr, cy - q[1] * rr);
     const ctx = p.ctx;
     const s = vue(dec, lon_ss);

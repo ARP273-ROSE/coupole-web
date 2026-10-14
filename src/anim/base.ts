@@ -152,6 +152,8 @@ export class Reglage extends Controle {
   }
 
   setValue(v: number): void {
+    // une valeur non finie n'est jamais retenue (ni affichée, ni mémorisée dans l'adresse ou le navigateur)
+    if (!Number.isFinite(v)) return;
     this.appliquer(v);
   }
 

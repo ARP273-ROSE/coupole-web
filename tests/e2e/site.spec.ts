@@ -251,3 +251,54 @@ test('jour-nuit : globe 3D qu’on fait tourner dans tous les sens', async ({ pa
   expect(s.erreurs).toEqual([]);
   expect(s.externes).toEqual([]);
 });
+
+/** Couleurs distinctes au cœur de la toile (une image vide, ou un disque uni, en a très peu). */
+async function couleursCentre(page: Page): Promise<number> {
+  return page.evaluate(() => {
+    const c = document.querySelector('.scene canvas') as HTMLCanvasElement;
+    const d = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data;
+    const vus = new Set<number>();
+    const r = Math.min(c.width, c.height) * 0.3;
+    for (let i = 0; i < 30; i++)
+      for (let j = 0; j < 30; j++) {
+        const x = Math.round(c.width / 2 + ((i - 15) / 15) * r),
+          y = Math.round(c.height / 2 + ((j - 15) / 15) * r);
+        const k = (y * c.width + x) * 4;
+        vus.add((d[k]! << 16) | (d[k + 1]! << 8) | d[k + 2]!);
+      }
+    return vus.size;
+  });
+}
+
+for (const [id, requete] of [
+  ['daylightsimulator', 'vitesse=4.68&jour=80&heure=13.4&latitude=24.7&longitude=-10.4&web_projection=globe&web_tournant=true'],
+  ['sunmotions', ''],
+  ['configurationssimulator', ''],
+] as [string, string][]) {
+  test(`glisser vite pendant la lecture ne vide jamais la scène : ${id}`, async ({ page }) => {
+    test.setTimeout(120_000);
+    const s = await surveiller(page);
+    await page.goto(`./#/a/${id}${requete ? '?' + requete : ''}`);
+    const toile = page.locator('.scene canvas');
+    await expect(toile).toBeVisible();
+    const lecture = page.locator('.transport .bouton.principal');
+    if ((await lecture.getAttribute('aria-pressed')) !== 'true') await lecture.click();
+    const b = (await toile.boundingBox())!;
+    const cx = b.x + b.width / 2,
+      cy = b.y + b.height / 2;
+    let graine = 7;
+    const u = (): number => ((graine = (graine * 16807) % 2147483647) / 2147483647);
+    for (let i = 0; i < 40; i++) {
+      const x0 = cx + (u() - 0.5) * b.width * 0.4,
+        y0 = cy + (u() - 0.5) * b.height * 0.4;
+      await page.mouse.move(x0, y0);
+      await page.mouse.down();
+      await page.mouse.move(x0 + (u() - 0.5) * 300, y0 + (u() - 0.5) * 300, { steps: 1 + (i % 3) });
+      await page.mouse.up();
+    }
+    await page.waitForTimeout(600);
+    await expect.poll(() => couleursCentre(page)).toBeGreaterThan(12);
+    await capture(page, `glisser-lecture-${id}`);
+    expect(s.erreurs).toEqual([]);
+  });
+}
