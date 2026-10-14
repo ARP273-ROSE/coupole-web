@@ -6,7 +6,7 @@ Usage : python3 outils/exporter_coupole.py CHEMIN_DU_DEPOT_COUPOLE
 Écrit (fichiers suivis par git, à régénérer quand Coupole change) :
   src/i18n/genere/{catalogue,anim}.{fr,en}.json   textes FR/EN (mêmes clés que Coupole)
   src/donnees/genere/catalogue.json               les 92 animations (id, thème, titre et fichier d'origine), lots
-  src/donnees/genere/*.json                       données des animations (côtes, spectres, binaires, étoiles…)
+  src/donnees/genere/*.json                       données des animations (spectres, binaires, étoiles… ; côtes : cotes_natural_earth.py)
 
 Seules les bibliothèques standard sont nécessaires ; les modules importés de Coupole sont ceux sans Qt."""
 from __future__ import annotations
@@ -63,7 +63,7 @@ def main(coupole: Path) -> None:
 
     # ------------------------------------------------------------ données
     g = ICI / 'src' / 'donnees' / 'genere'
-    ecrire(g / 'cotes.json', lire_gz(anim / 'donnees' / 'cotes.json.gz'))
+    # côtes : Natural Earth, par outils/cotes_natural_earth.py
     ecrire(g / 'spectres.json', lire_gz(anim / 'donnees' / 'spectres.json.gz'))
     ecrire(g / 'binaires.json', lire_gz(anim / 'donnees' / 'binaires.json.gz'))
     ecrire(g / 'etoiles.json', {'proches': donnees_etoiles.PROCHES, 'brillantes': donnees_etoiles.BRILLANTES,

@@ -134,10 +134,10 @@ export class Gravitation extends Animation {
     const cx = rect.cx;
     const y = rect.y + rect.h * 0.18;
     dessin.police(p, 1.25);
-    dessin.texte(p, cx, y, 'F = G M₁ M₂ / R²');
-    dessin.texte(p, cx, y + 34, `= (${scientifique(astro.G_SI)}) (${scientifique(m1)}) (${scientifique(m2)}) / (${scientifique(r)})²`, 'doux');
+    dessin.formule(p, cx, y, 'F = G M₁ M₂ / R²');
+    dessin.formule(p, cx, y + 44, `= (${scientifique(astro.G_SI)}) (${scientifique(m1)}) (${scientifique(m2)}) / (${scientifique(r)})²`, 'doux');
     dessin.police(p, 1.25, true);
-    dessin.texte(p, cx, y + 70, `= ${scientifique(c.F)} N`, 'accent1');
+    dessin.texte(p, cx, y + 86, `= ${scientifique(c.F)} N`, 'accent1');
     dessin.police(p, 1 / 1.25 / 1.25);
     const yc = rect.y + rect.h * 0.55;
     const x1 = rect.x + rect.w * 0.25,

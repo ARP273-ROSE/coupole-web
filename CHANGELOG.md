@@ -7,6 +7,9 @@
 Première version de Coupole Web, la version navigateur des animations d’astronomie de Coupole.
 
 - Les 92 animations de ClassAction, chacune avec sa fiche et son texte « Ce qu’il faut voir ».
+- Rendu : astres en sphères ombrées (terminateur, limbe assombri, halo du Soleil), étiquettes placées sans
+  chevauchement, formules typographiées (MathML, police STIX Two Math), côtes Natural Earth 1:50m ; le glisser suit le
+  doigt ; aide propre à chaque animation ; éclipses de la table rejouables dans le simulateur des ombres.
 - Socle : Vite, TypeScript strict, Canvas 2D sans cadriciel ; transposition fidèle du module « Animations » de
   Coupole (même peintre que QPainter, mêmes projections de sphère, mêmes réglages à valeur exacte).
 - Calculs transposés du Python de Coupole et vérifiés contre ses valeurs (plus de 4 000 cas, 10⁻⁹ relatif) ; chaque
@@ -31,6 +34,9 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 First version of Coupole Web, the browser version of Coupole’s astronomy animations.
 
 - All 92 ClassAction animations, each with its page and its « What to look for » text.
+- Rendering: celestial bodies as shaded spheres (terminator, limb darkening, Sun halo), labels placed without overlap,
+  typeset formulas (MathML, STIX Two Math font), Natural Earth 1:50m coastlines; dragging follows the finger;
+  per-animation help; eclipses of the table can be replayed in the shadow simulator.
 - Foundation: Vite, strict TypeScript, Canvas 2D without framework; faithful transposition of Coupole’s
   « Animations » module (a QPainter-like painter, the same sphere projections, the same exact-value settings).
 - Computations transposed from Coupole’s Python and checked against its values (more than 4,000 cases, 10⁻⁹

@@ -79,7 +79,10 @@ export class ProprietesPlanetes extends Animation {
         y1 = ax.py(v);
       p.fillRect(new Rect(x0, Math.min(y0, y1), x1 - x0, Math.abs(y1 - y0)), dessin.c(COULEURS[pl[8]]!, 0.8));
       dessin.police(p, 0.85);
-      dessin.texte(p, (x0 + x1) / 2, ax.r.bottom + 11, tr('anim_planete_' + pl[0]), 'texte');
+      // noms en quinconce quand la place manque (téléphone)
+      const nom = tr('anim_planete_' + pl[0]);
+      const serre = p.fontMetrics().horizontalAdvance(nom) > ax.px(k + 1) - ax.px(k) - 2;
+      dessin.texte(p, (x0 + x1) / 2, ax.r.bottom + 11 + (serre && k % 2 ? 11 : 0), nom, 'texte');
       dessin.texte(p, (x0 + x1) / 2, Math.min(y0, y1) - 8, nombre(v, prop === 'satellites' ? 0 : Math.abs(v) < 10 ? 2 : 0), 'doux');
       dessin.police(p, 1 / 0.85);
     });

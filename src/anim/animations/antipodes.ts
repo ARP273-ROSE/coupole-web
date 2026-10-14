@@ -9,7 +9,7 @@ import { type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { pround } from '../../noyau/py';
 import { Animation, type Bouton_souris, type Choix, type Coche, type Reglage } from '../base';
 import { cotesCarte } from './jour_nuit';
-import { cotes, decimal, globe_xyz } from './longitude_latitude';
+import { chargerCotes, cotes, decimal, globe_xyz } from './longitude_latitude';
 
 export function antipode(lat: number, lon: number): [number, number] {
   return [-lat, lon <= 0 ? lon + 180.0 : lon - 180.0];
@@ -27,6 +27,7 @@ export class Antipodes extends Animation {
   private carte: Rect | null = null;
 
   override construire(): void {
+    this.attendre(chargerCotes());
     this.globe = this.vue(30.0, 20.0);
     this.lat = this.curseur('latitude', -90.0, 90.0, 48.85, { dec: 2, unite: '°', cle_texte: 'anim_c_latitude' });
     this.lon = this.curseur('longitude', -180.0, 180.0, 2.35, { dec: 2, unite: '°', cle_texte: 'anim_c_longitude' });
@@ -82,7 +83,7 @@ export class Antipodes extends Animation {
     const rr = Math.min(r.w, r.h) * 0.42;
     const pe = new dessin.Peintre3D(p, this.globe, r.cx, r.cy, rr);
     pe.contour('grille', 'terre', 0.25);
-    for (const poly of cotes()) if (poly.length >= 5) pe.courbe(poly, 'doux', 1.0, 0.9, { arriere: 'cache', ferme: true });
+    for (const poly of cotes()) pe.courbe(poly, 'doux', 1.0, 0.9, { arriere: 'cache' });
     const la = this.lat.value(),
       lo = this.lon.value();
     const [a1, a2] = antipode(la, lo);

@@ -10,7 +10,7 @@ import * as dessin from '../../noyau/dessin';
 import { type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { Animation, type Bouton_souris, type Coche, MOIS_JOURS, nombre } from '../base';
 
-type Eclipse = [number, number, number, string, number, number, string, string];
+export type Eclipse = [number, number, number, string, number, number, string, string];
 const E = ECLIPSES as unknown as {
   soleil: Eclipse[];
   lune: Eclipse[];
@@ -20,6 +20,9 @@ const E = ECLIPSES as unknown as {
 };
 const SOLEIL = E.soleil,
   LUNE = E.lune;
+/** Éclipses de la table : [année, mois, jour, type, saros, grandeur, durée, zones]. */
+export const ECLIPSES_SOLEIL: readonly Eclipse[] = SOLEIL;
+export const ECLIPSES_LUNE: readonly Eclipse[] = LUNE;
 
 const AN0 = 2015,
   AN1 = 2045;

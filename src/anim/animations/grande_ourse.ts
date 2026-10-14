@@ -62,14 +62,23 @@ export class GrandeOurse extends Animation {
       }
       for (const [i, j] of TRAITS) pe.courbe(dessin.arc(pts[i]!, pts[j]!, 10), 'accent1', 1.6, 1.0, plat);
     }
+    // étiquettes placées sans chevauchement : on réserve d'abord la place de toutes les étoiles
+    const reels = ETOILES.map(([, , , dist], k) => mul(pts[k]!, dist / RAYON_AL));
+    for (const v of [...reels, ...(this.c_sphere.isChecked() ? pts : []), [0, 0, 0]]) {
+      const e = pe.ecran(v);
+      dessin.reserver(p, e.xs[0]!, e.ys[0]!, 6);
+    }
+    const noms: [number, number, string][] = [];
     ETOILES.forEach(([nom, , , dist, err], k) => {
       const v = pts[k]!;
-      const reel = mul(v, dist / RAYON_AL);
       if (this.c_lignes.isChecked()) pe.segment([0, 0, 0], v, 'doux', 0.8, 0.35);
       pe.segment(mul(v, (dist - err) / RAYON_AL), mul(v, (dist + err) / RAYON_AL), 'accent2', 3.0);
-      pe.point(reel, 'etoile', 4.5, { bord: 'soleil', toujours: true, etiquette: this.c_noms.isChecked() ? `${nom} (${nombre(dist, 0)} al)` : null });
+      const q = pe.point(reels[k]!, 'etoile', 4.5, { bord: 'soleil', toujours: true });
+      if (q && this.c_noms.isChecked()) noms.push([q[0], q[1], `${nom} (${nombre(dist, 0)} al)`]);
       if (this.c_sphere.isChecked()) pe.point(v, 'accent1', 3.0, { toujours: true });
     });
-    pe.point([0, 0, 0], 'terre', 6.0, { toujours: true, etiquette: tr('anim_shadowsim_terre') });
+    const t = pe.point([0, 0, 0], 'terre', 6.0, { toujours: true });
+    for (const [x, y, s] of noms) dessin.etiquette(p, x, y, s, 'texte', 8);
+    if (t) dessin.etiquette(p, t[0], t[1], tr('anim_shadowsim_terre'), 'texte', 9);
   }
 }

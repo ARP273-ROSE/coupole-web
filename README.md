@@ -63,7 +63,7 @@ TypeScript, Playwright, types de Node), aucune à l’exécution.
 ## Licence et crédits
 
 Licence Apache 2.0 (`LICENSE`). D’après ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0) ;
-données et sources citées dans `NOTICE`. Police Inter (SIL Open Font License 1.1).
+données et sources citées dans `NOTICE`. Polices Inter et STIX Two Math (SIL Open Font License 1.1) ; côtes Natural Earth (domaine public).
 
 ---
 
@@ -110,4 +110,4 @@ Playwright, Node types), none at run time.
 ## License and credits
 
 Apache License 2.0 (`LICENSE`). After ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0);
-data and sources cited in `NOTICE`. Inter font (SIL Open Font License 1.1).
+data and sources cited in `NOTICE`. Inter and STIX Two Math fonts (SIL Open Font License 1.1); Natural Earth coastlines (public domain).

@@ -193,3 +193,18 @@ test('hors ligne après la première visite', async ({ page, context, browserNam
   await expect(page.locator('.valeurs dd').first()).toHaveText('40,80° N');
   await context.setOffline(false);
 });
+
+test('formules en MathML : fractions empilées, police mathématique', async ({ page }) => {
+  await page.goto('./#/a/synodiccalculator');
+  const frac = page.locator('.valeurs math mfrac').first();
+  await expect(frac).toBeVisible();
+  const b = (await frac.boundingBox())!;
+  const ligne = await page.locator('.valeurs dt').first().evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
+  // empilée : plus haute qu'une ligne de texte
+  expect(b.height).toBeGreaterThan(ligne * 1.4);
+  await page.goto('./#/a/gravcalc');
+  await expect(page.locator('.fiche math').first()).toBeVisible();
+  // la police mathématique auto-hébergée se charge (aucune requête externe : vérifié par les autres tests)
+  expect(await page.evaluate(async () => (await document.fonts.load("16px 'STIX Two Math'", '∝√')).length)).toBeGreaterThan(0);
+  await capture(page, 'formules');
+});

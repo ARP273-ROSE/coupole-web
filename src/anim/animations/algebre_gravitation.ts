@@ -90,12 +90,12 @@ export class AlgebreGravitation extends Animation {
     dessin.texte(p, x1, cy - r1 - 12, `M₁ × ${texte_fraction(a)}`, 'accent3');
     dessin.texte(p, x2, cy - r2 - 12, `M₂ × ${texte_fraction(b)}`, 'accent2');
     const y = rect.y + rect.h * 0.8;
-    dessin.police(p, 1.5, true);
-    dessin.texte(p, cx, y, `F × (${texte_fraction(a)} × ${texte_fraction(b)}) / ${texte_fraction(c)}² = F × ${texte_fraction(f)}`);
+    dessin.police(p, 1.5);
+    dessin.formule(p, cx, y - 8, `F × (${texte_fraction(a)} × ${texte_fraction(b)}) / ${c[1] === 1 ? texte_fraction(c) : `(${texte_fraction(c)})`}² = F × ${texte_fraction(f)}`);
     dessin.police(p, 1 / 1.5);
-    dessin.texte(p, cx, y + 26, 'F = G M₁ M₂ / d²', 'doux');
+    dessin.formule(p, cx, y + 34, 'F = G M₁ M₂ / d²', 'doux');
     p.setPen(dessin.stylo('grille', 1.0));
     p.setBrush(null);
-    p.drawRoundedRect(new Rect(rect.x + 10, y - 26, rect.w - 20, 66), 8, 8);
+    p.drawRoundedRect(new Rect(rect.x + 10, y - 40, rect.w - 20, 96), 8, 8);
   }
 }

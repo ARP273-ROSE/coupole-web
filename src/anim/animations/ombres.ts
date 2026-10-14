@@ -4,14 +4,78 @@
  * Un encart donne les proportions réelles d'une éclipse centrale de Lune (méthode d'Aristarque).
  */
 import * as astro from '../../calc/astro';
-import { tr } from '../../i18n/i18n';
+import { langue, tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import { type Peintre, Pt, Rect } from '../../noyau/peintre';
-import { Animation, type Bouton_souris, type Coche, duree_hm, nombre } from '../base';
+import { Animation, type Bouton_souris, type Choix, type Coche, duree_hm, nombre, type Reglage } from '../base';
+import { ECLIPSES_LUNE, ECLIPSES_SOLEIL, type Eclipse, format_duree, verifier } from './table_eclipses';
 
 const R_SOLEIL = 60.0,
   R_TERRE = 22.0,
   R_LUNE = 9.0;
+/** Marge à gauche du Soleil : il est dessiné en entier. */
+const MARGE_SOLEIL = 8.0;
+const INCLINAISON_LUNE = 5.145;
+
+/** Date d'une éclipse de la table, dans la langue courante. */
+function date_eclipse(e: Eclipse): string {
+  const d = new Date(Date.UTC(e[0], e[1] - 1, e[2]));
+  return d.toLocaleDateString(langue() === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+
+export interface Rejeu {
+  solaire: boolean;
+  e: Eclipse;
+  /** écart (km) entre le centre de la Lune (ou l'axe de son ombre) et l'axe de l'ombre (ou le centre de la Terre), nord > 0 */
+  y_km: number;
+  /** pente de la trajectoire (vers le nord si > 0) */
+  pente: number;
+  ru_km: number;
+  rp_km: number;
+  /** demi-longueur du trajet montré (km) */
+  demi_km: number;
+}
+
+/**
+ * Géométrie d'une éclipse de la table, en proportions réelles.  L'écart à l'axe vient de l'argument de latitude moyen
+ * de la Lune (Meeus) : y = D sin(5,145°) sin F ; il est ramené dans le domaine compatible avec le type de la table
+ * (les éléments moyens ne sont qu'approchés).
+ */
+export function rejeu(cle: string): Rejeu | null {
+  const solaire = cle[0] === 'S';
+  const e = (solaire ? ECLIPSES_SOLEIL : ECLIPSES_LUNE)[Number(cle.slice(1))];
+  if (!e) return null;
+  const v = verifier(e, solaire);
+  const sinF = Math.sin((v.F * Math.PI) / 180);
+  let y = astro.D_LUNE_KM * Math.sin((INCLINAISON_LUNE * Math.PI) / 180) * sinF;
+  const cosF = Math.cos((v.F * Math.PI) / 180);
+  const pente = Math.tan((INCLINAISON_LUNE * Math.PI) / 180) * (cosF >= 0 ? 1 : -1) * 0.92;
+  const RL = astro.R_LUNE_KM,
+    RT = astro.R_TERRE_KM;
+  let ru: number, rp: number;
+  const borne = (a: number, b: number): void => {
+    const s = y >= 0 ? 1 : -1;
+    y = s * Math.max(a, Math.min(b, Math.abs(y)));
+  };
+  const type = e[3];
+  if (!solaire) {
+    const o = astro.eclipse_de_lune();
+    ru = o.rayon_ombre_km!;
+    rp = o.rayon_penombre_km!;
+    if (type === 'total') borne(0, (ru - RL) * 0.9);
+    else if (type === 'partial') borne(ru - RL + 150, ru + RL - 150);
+    else borne(ru + RL + 150, rp + RL - 150);
+    return { solaire, e, y_km: y, pente, ru_km: ru, rp_km: rp, demi_km: (rp + RL) * 1.08 };
+  }
+  const c = astro.cones_ombre(astro.R_SOLEIL_KM, RL, astro.UA_KM);
+  const x = astro.D_LUNE_KM - RT;
+  rp = c.rayon_penombre(x);
+  // l'ombre (totale) ou l'anti-ombre (annulaire) : son rayon dépend de la distance de la Lune, qui varie de ±5 %
+  ru = type === 'total' ? 70 : type === 'hybrid' ? 15 : -90;
+  if (type === 'partial') borne(RT + 200, RT + rp - 200);
+  else borne(0, RT * 0.95);
+  return { solaire, e, y_km: y, pente, ru_km: ru, rp_km: rp, demi_km: (RT + rp) * 1.12 };
+}
 
 /** Points des cônes d'ombre et de pénombre d'un disque (ox, oy, r_objet) éclairé par (sx, sy, r_source). */
 export function geometrie(sx: number, sy: number, ox: number, oy: number, r_source: number, r_objet: number, loin = 3000.0) {
@@ -74,13 +138,35 @@ export class OmbresEclipse extends Animation {
   terre: [number, number] | null = null;
   lune: [number, number] | null = null;
   c_reel!: Coche;
+  rejouer!: Choix;
+  instant!: Reglage;
   private rect: Rect | null = null;
 
   override construire(): void {
     this.terre = null;
     this.lune = null;
     this.c_reel = this.coche('reel', true);
+    const options: [string, string][] = [['web_eclipse_libre', 'libre']];
+    const toutes: [Eclipse, string, boolean][] = [
+      ...ECLIPSES_SOLEIL.map((e, i) => [e, 'S' + i, true] as [Eclipse, string, boolean]),
+      ...ECLIPSES_LUNE.map((e, i) => [e, 'L' + i, false] as [Eclipse, string, boolean]),
+    ];
+    toutes.sort((a, b) => a[0][0] - b[0][0] || a[0][1] - b[0][1] || a[0][2] - b[0][2]);
+    for (const [e, cle, sol] of toutes)
+      options.push([`${date_eclipse(e)} · ${tr(sol ? 'web_eclipse_soleil' : 'web_eclipse_lune')}, ${tr('anim_eclipsetable_t_' + e[3])}`, cle]);
+    this.rejouer = this.choix('web_rejouer', options, 'libre', 'web_eclipse_rejouer');
+    this.instant = this.curseur('web_instant', -1.0, 1.0, 0.0, { dec: 2, cle_texte: 'web_eclipse_instant' });
+    this.instant.setVisible(false);
+    this.rejouer.currentIndexChanged.connect(() => {
+      this.instant.setVisible(this.rejouer.currentData() !== 'libre');
+      this.instant.setValue(0.0);
+    });
     this.rect = null;
+  }
+
+  rejeu(): Rejeu | null {
+    const k = this.rejouer.currentData() as string;
+    return k === 'libre' ? null : rejeu(k);
   }
 
   override etat_initial(): void {
@@ -114,7 +200,7 @@ export class OmbresEclipse extends Animation {
     const r = this.rect!;
     let x = (pos.x - r.x) / r.w;
     let y = (pos.y - r.y) / r.h;
-    const sx = (r.x + R_SOLEIL * 0.4 - r.x) / r.w;
+    const sx = (R_SOLEIL + MARGE_SOLEIL) / r.w;
     x = Math.max(sx + (R_SOLEIL + 30) / r.w, Math.min(0.98, x));
     y = Math.max(0.02, Math.min(0.98, y));
     this[nom] = [x, y];
@@ -124,7 +210,7 @@ export class OmbresEclipse extends Animation {
     const r = this.rect;
     if (r === null) return ['', ''];
     const [t, lu] = this.positions(r);
-    const sx = r.x + R_SOLEIL * 0.4,
+    const sx = r.x + R_SOLEIL + MARGE_SOLEIL,
       sy = r.cy;
     const lunaire = type_eclipse(sx, sy, t.x, t.y, R_TERRE, lu.x, lu.y, R_LUNE);
     const solaire = type_eclipse(sx, sy, lu.x, lu.y, R_LUNE, t.x, t.y, R_TERRE);
@@ -145,15 +231,25 @@ export class OmbresEclipse extends Animation {
         [tr('anim_shadowsim_totalite'), duree_hm(e.totalite_h!)],
         [tr('anim_shadowsim_phase_ombre'), duree_hm(e.ombre_totale_h!)],
       );
+    const rj = this.rejeu();
+    if (rj) {
+      out.push(
+        [tr('web_eclipse_table'), `${date_eclipse(rj.e)} · ${tr(rj.solaire ? 'web_eclipse_soleil' : 'web_eclipse_lune')}, ${tr('anim_eclipsetable_t_' + rj.e[3])}`],
+        [tr('anim_eclipsetable_grandeur'), nombre(rj.e[5], 3)],
+        [tr('anim_eclipsetable_duree'), format_duree(rj.e[6])],
+        [tr('web_eclipse_ecart'), `${nombre(Math.abs(rj.y_km), 0)} km ${tr(rj.y_km >= 0 ? 'anim_pc_n' : 'anim_pc_s')}`],
+      );
+    }
     return out;
   }
 
   override dessiner(p: Peintre, rect: Rect): void {
-    const reel = this.c_reel.isChecked();
+    const rj = this.rejeu();
+    const reel = this.c_reel.isChecked() || rj !== null;
     const principal = new Rect(rect.x, rect.y, rect.w, rect.h * (reel ? 0.72 : 1.0));
     this.rect = principal;
     const [t, lu] = this.positions(principal);
-    const sx = principal.x + R_SOLEIL * 0.4,
+    const sx = principal.x + R_SOLEIL + MARGE_SOLEIL,
       sy = principal.cy;
     p.save();
     p.setClipRect(principal);
@@ -178,7 +274,70 @@ export class OmbresEclipse extends Animation {
     dessin.police(p, 0.85);
     dessin.texte(p, principal.x + 8, principal.bottom - 10, tr('anim_shadowsim_aide_souris'), 'doux', { centre: false });
     dessin.police(p, 1 / 0.85);
-    if (reel) this.aristarque(p, new Rect(rect.x, principal.bottom, rect.w, rect.h - principal.h));
+    const bas = new Rect(rect.x, principal.bottom, rect.w, rect.h - principal.h);
+    if (rj) this.rejouerEclipse(p, bas, rj);
+    else if (reel) this.aristarque(p, bas);
+  }
+
+  /** L'éclipse choisie dans la table, en proportions réelles ; l'instant fait avancer la Lune ou son ombre. */
+  private rejouerEclipse(p: Peintre, r0: Rect, rj: Rejeu): void {
+    const r = dessin.cadre(p, r0, tr(rj.solaire ? 'web_eclipse_titre_soleil' : 'web_eclipse_titre_lune', { date: date_eclipse(rj.e) }));
+    const RL = astro.R_LUNE_KM,
+      RT = astro.R_TERRE_KM;
+    const demi_h = Math.max(rj.rp_km + (rj.solaire ? 0 : RL), RT) * 1.08 + Math.abs(rj.y_km);
+    const k = Math.min(r.w / (2 * rj.demi_km), r.h / (2 * demi_h));
+    const cx = r.cx,
+      cy = r.cy;
+    const t = this.instant.value();
+    // la Lune va d'ouest en est : vers la gauche dans le ciel (éclipse de Lune), vers l'est sur la carte (de Soleil)
+    const sens = rj.solaire ? 1 : -1;
+    const pos = (u: number): Pt => new Pt(cx + sens * u * rj.demi_km * k * 0.9, cy - (rj.y_km + rj.pente * u * rj.demi_km * 0.9) * k);
+    p.save();
+    p.setClipRect(r);
+    p.setPen(dessin.stylo('doux', 1.0, 0.7, true));
+    p.drawLineP(pos(-1), pos(1));
+    dessin.fleche(p, pos(0.82).x, pos(0.82).y, pos(1).x, pos(1).y, dessin.stylo('doux', 1.2, 0.8), 7);
+    if (!rj.solaire) {
+      dessin.disque(p, cx, cy, rj.rp_km * k, 'penombre', null, 0.25);
+      dessin.disque(p, cx, cy, rj.ru_km * k, 'umbra', null, 0.88);
+      for (const u of [-1, 1]) {
+        const q = pos(u);
+        p.setPen(dessin.stylo('lune', 1.0, 0.5));
+        p.setBrush(null);
+        p.drawEllipse(q.x, q.y, RL * k, RL * k);
+      }
+      const q = pos(t);
+      dessin.disque(p, q.x, q.y, RL * k, 'lune', 'texte');
+      // la partie de la Lune dans l'ombre
+      p.save();
+      const ch = new Path2D();
+      ch.ellipse(q.x, q.y, RL * k, RL * k, 0, 0, 2 * Math.PI);
+      p.setClipPath(ch);
+      dessin.disque(p, cx, cy, rj.ru_km * k, 'arc2', null, 0.55);
+      p.restore();
+    } else {
+      dessin.disque(p, cx, cy, RT * k, 'terre', 'texte');
+      const q = pos(t);
+      p.save();
+      const ch = new Path2D();
+      ch.ellipse(cx, cy, RT * k, RT * k, 0, 0, 2 * Math.PI);
+      p.setClipPath(ch);
+      dessin.disque(p, q.x, q.y, rj.rp_km * k, 'umbra', null, 0.35);
+      if (rj.ru_km > 0) dessin.disque(p, q.x, q.y, Math.max(2.5, rj.ru_km * k), 'umbra', null, 0.95);
+      p.restore();
+      p.setPen(dessin.stylo('penombre', 1.0, 0.8, true));
+      p.setBrush(null);
+      p.drawEllipse(q.x, q.y, rj.rp_km * k, rj.rp_km * k);
+      if (rj.ru_km < 0) {
+        p.setPen(dessin.stylo('accent1', 1.4));
+        p.drawEllipse(q.x, q.y, Math.max(3, -rj.ru_km * k), Math.max(3, -rj.ru_km * k));
+      }
+    }
+    p.restore();
+    dessin.police(p, 0.85);
+    dessin.texte(p, r.left + 4, r.bottom - 4, tr('web_eclipse_note'), 'doux', { centre: false });
+    dessin.texte(p, r.right - 14, r.top + 12, tr('anim_pc_n') + ' ↑', 'doux');
+    dessin.police(p, 1 / 0.85);
   }
 
   /** Traversée centrale de l'ombre de la Terre par la Lune, proportions réelles. */

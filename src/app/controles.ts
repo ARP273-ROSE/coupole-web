@@ -3,6 +3,7 @@
  * construits à partir des modèles de src/anim/base.ts et synchronisés dans les deux sens.  Accessibles : libellés
  * associés, aides reliées par aria-describedby, état désactivé, clavier natif.
  */
+import { enrichir } from './texte_riche';
 import { Bouton, Choix, Coche, type Controle, Etiquette, Reglage, Saisie } from '../anim/base';
 import { langue } from '../i18n/i18n';
 import { fixe } from '../noyau/py';
@@ -46,7 +47,7 @@ export function vueReglage(r: Reglage): Vue {
   const el = h(
     'div',
     { class: 'reglage' },
-    h('div', { class: 'ligne' }, h('label', { for: id, text: r.texte }), boite),
+    h('div', { class: 'ligne' }, h('label', { for: id }, ...enrichir(r.texte)), boite),
     curseur,
     r.aide ? h('span', { class: 'visuellement-cache', id: idAide, text: r.aide }) : null,
   );
@@ -102,7 +103,7 @@ export function vueCoche(c: Coche): Vue {
   const el = h(
     'label',
     { class: 'interrupteur', for: id },
-    h('span', { text: c.texte }),
+    h('span', {}, ...enrichir(c.texte)),
     boite,
     c.aide ? h('span', { class: 'visuellement-cache', id: idAide, text: c.aide }) : null,
   );
@@ -124,7 +125,7 @@ export function vueChoix(c: Choix): Vue {
   const el = h(
     'div',
     { class: 'reglage liste' },
-    c.texte ? h('label', { for: id, text: c.texte }) : null,
+    c.texte ? h('label', { for: id }, ...enrichir(c.texte)) : null,
     sel,
     c.aide ? h('span', { class: 'visuellement-cache', id: idAide, text: c.aide }) : null,
   );

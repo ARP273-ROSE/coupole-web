@@ -24,7 +24,19 @@ const C = CATALOGUE as unknown as {
   lot1: string[];
 };
 
-export const THEMES: readonly string[] = C.themes;
+/**
+ * Ordre pédagogique des thèmes (accueil et filtres) : de l'introduction et du ciel vu de la Terre jusqu'à la
+ * cosmologie.  Un thème du catalogue absent de cette liste se placerait à la fin.
+ */
+const ORDRE_THEMES = [
+  'intro', 'coordsmotion', 'lunarcycles', 'ancientastro', 'renaissance', 'solar', 'solarsystemdebris',
+  'sunsolarenergy', 'light', 'telescopes', 'stellarprops', 'binaryvariablestars', 'extrasolarplanets', 'milkyway',
+  'cosmology',
+];
+export const THEMES: readonly string[] = [
+  ...ORDRE_THEMES.filter((t) => C.themes.includes(t)),
+  ...C.themes.filter((t) => !ORDRE_THEMES.includes(t)),
+];
 export const LOT1: readonly string[] = C.lot1;
 
 /** Entrées dans l'ordre du catalogue de Coupole (lots successifs). */

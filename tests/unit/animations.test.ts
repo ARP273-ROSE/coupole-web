@@ -13,6 +13,7 @@ import { choisirLangue, type Langue, toutCharger } from '../../src/i18n/i18n';
 import { choisirTheme } from '../../src/noyau/dessin';
 import { Peintre, Pt, Rect } from '../../src/noyau/peintre';
 import { fauxContexte } from './faux_canvas';
+import { etiquettesPosees } from '../../src/noyau/dessin';
 
 interface RefReglage {
   cle: string;
@@ -54,6 +55,8 @@ beforeAll(async () => {
 function reglagesDe(a: Animation) {
   const out: RefReglage[] = [];
   for (const [cle, [w, defaut]] of a.defauts) {
+    // réglages propres à la version web (clé « web_… ») : absents de Coupole
+    if (cle.startsWith('web_')) continue;
     if (w instanceof Reglage)
       out.push({
         cle, type: 'curseur', mini: w.mini, maxi: w.maxi, defaut, valeur: w.value(), dec: w.dec, unite: w.unite,
@@ -128,6 +131,7 @@ for (const e of ENTREES) {
         choisirTheme(theme);
         for (const [, w, h] of FORMATS) {
           const a = new cls().initialiser();
+          await a.pret;
           const { ctx, bilan } = fauxContexte();
           const p = new Peintre(ctx);
           const r = new Rect(0, 0, w, h);
@@ -152,6 +156,36 @@ for (const e of ENTREES) {
         }
       }
       choisirTheme('sombre');
+    });
+
+    it('étiquettes sans chevauchement (quatre formats, au départ et en cours de lecture)', async () => {
+      const cls = await charger(e);
+      const fautes: string[] = [];
+      for (const [nomFormat, w, h] of FORMATS) {
+        const a = new cls().initialiser();
+        const { ctx } = fauxContexte();
+        const p = new Peintre(ctx);
+        const r = new Rect(0, 0, w, h);
+        for (let i = 0; i < 3; i++) {
+          a.peindre(p, r);
+          const b = etiquettesPosees();
+          for (const [j, u] of b.entries()) {
+            const ww = Math.min(u.x + u.w, w) - Math.max(u.x, 0);
+            const hh = Math.min(u.y + u.h, h) - Math.max(u.y, 0);
+            if (ww * hh < 0.85 * u.w * u.h) fautes.push(`${nomFormat} image ${i} : boîte ${j} hors de la toile`);
+          }
+          for (let j = 0; j < b.length; j++)
+            for (let k = j + 1; k < b.length; k++) {
+              const u = b[j]!,
+                v = b[k]!;
+              const ww = Math.min(u.x + u.w, v.x + v.w) - Math.max(u.x, v.x);
+              const hh = Math.min(u.y + u.h, v.y + v.h) - Math.max(u.y, v.y);
+              if (ww > 1 && hh > 1 && ww * hh > 0.15 * Math.min(u.w * u.h, v.w * v.h)) fautes.push(`${nomFormat} image ${i} : boîtes ${j} et ${k}`);
+            }
+          a.battement(0.4);
+        }
+      }
+      expect(fautes, e.id).toEqual([]);
     });
   });
 }

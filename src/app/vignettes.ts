@@ -37,6 +37,7 @@ async function dessiner(toile: HTMLCanvasElement): Promise<void> {
   ctx.setTransform(k, 0, 0, k, 0, 0);
   reglerTaillePolice(12);
   const a = new cls().initialiser();
+  await a.pret;
   a.en_lecture = false;
   a.peindre(new Peintre(ctx), new Rect(0, 0, LARGEUR, HAUTEUR));
   toile.dataset.theme = themeActuel();

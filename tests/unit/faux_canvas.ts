@@ -34,7 +34,35 @@ export function fauxContexte(): { ctx: CanvasRenderingContext2D; bilan: Bilan } 
   const verifier = (nom: string, args: unknown[]): void => {
     for (const a of args) if (typeof a === 'number' && !Number.isFinite(a)) bilan.nonFinis.push(nom);
   };
+  // matrice courante (a b c d e f), pile de save/restore : getTransform rend des boîtes d'étiquettes exactes
+  let m = [1, 0, 0, 1, 0, 0];
+  const pile: number[][] = [];
+  const multiplier = (n: number[]): void => {
+    const [a, b, c, d, e, f] = m as [number, number, number, number, number, number];
+    const [A, B, C, D, E, F] = n as [number, number, number, number, number, number];
+    m = [a * A + c * B, b * A + d * B, a * C + c * D, b * C + d * D, a * E + c * F + e, b * E + d * F + f];
+  };
   const methodes: Record<string, (...a: unknown[]) => unknown> = {
+    save: () => {
+      pile.push([...m]);
+    },
+    restore: () => {
+      m = pile.pop() ?? [1, 0, 0, 1, 0, 0];
+    },
+    translate: (x: unknown, y: unknown) => multiplier([1, 0, 0, 1, x as number, y as number]),
+    scale: (x: unknown, y: unknown) => multiplier([x as number, 0, 0, y as number, 0, 0]),
+    rotate: (t: unknown) => {
+      const c = Math.cos(t as number),
+        s = Math.sin(t as number);
+      multiplier([c, s, -s, c, 0, 0]);
+    },
+    setTransform: (...a: unknown[]) => {
+      m = a.length >= 6 ? (a.slice(0, 6) as number[]) : [1, 0, 0, 1, 0, 0];
+    },
+    resetTransform: () => {
+      m = [1, 0, 0, 1, 0, 0];
+    },
+    getTransform: () => ({ a: m[0], b: m[1], c: m[2], d: m[3], e: m[4], f: m[5] }),
     measureText: (s: unknown) => {
       const taille = parseFloat(/([\d.]+)px/.exec(String(etat.font))?.[1] ?? '13');
       return { width: String(s).length * taille * 0.55, actualBoundingBoxAscent: taille * 0.75 };

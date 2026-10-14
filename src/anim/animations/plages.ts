@@ -99,7 +99,9 @@ export class PlagesDeclinaison extends Animation {
     p.drawLine(ox, oy, ox + Math.cos(a) * rt * 0.9, oy - Math.sin(a) * rt * 0.9);
     dessin.disque(p, ox, oy, 4.5, 'accent3');
     dessin.texte(p, cx + Math.cos(a) * rc * 1.07, cy - Math.sin(a) * rc * 1.07, tr('anim_altazimuth_zenith'), 'accent3', { fond: true });
-    const x0 = rect.right - rect.w * 0.22,
+    // légende : assez à gauche pour que les libellés tiennent dans la toile
+    const larg = Math.max(...['anim_latsim_circumpolaire', 'anim_latsim_lever', 'anim_latsim_jamais'].map((k) => p.fontMetrics().horizontalAdvance(tr(k))));
+    const x0 = Math.min(rect.right - rect.w * 0.22, rect.right - 10 - 28 - larg),
       y0 = rect.y + 30;
     [['anim_latsim_circumpolaire', 'accent1'], ['anim_latsim_lever', 'accent2'], ['anim_latsim_jamais', 'accent3']].forEach(([cle, coul], i) => {
       p.setPen(dessin.stylo(coul!, 8.0));

@@ -22,8 +22,6 @@ settings and same texts.
 Repris ou adaptés de ces sources / taken or adapted from these sources :
   - le catalogue des 92 animations (identifiants, titres, descriptions anglaises : animations.xml) ;
   - les comportements, réglages et paramètres des animations (lus dans le code ActionScript d'origine) ;
-  - le tracé des côtes du globe (shoreDemo/si100.xml, d'après les côtes GSHHS), dans
-    src/donnees/genere/cotes.json ;
   - les positions d'étoiles des constellations de la comparaison des repères, la liste des villes et le tracé
     simplifié de la ligne de changement de date du démonstrateur longitude/latitude ;
   - la table des éclipses 2015-2044 (coquilles corrigées, zones traduites en français), dans
@@ -73,10 +71,18 @@ des simulations.
 Changes: code fully rewritten (TypeScript, Canvas 2D), bilingual French/English interface, astronomical computations
 replaced by checked reference formulas; the original movies are replaced by simulations.
 
-Police / font
--------------
+Côtes / coastlines
+------------------
+Tracé des côtes des globes et des cartes : Natural Earth 1:50m (ne_50m_land), domaine public / public domain,
+https://www.naturalearthdata.com ; simplifié par outils/cotes_natural_earth.py dans src/donnees/genere/cotes.json.
+
+Polices / fonts
+---------------
 Inter (variable), Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter), SIL Open Font License 1.1
 (texte complet : public/fonts/OFL.txt).
+STIX Two Math 2.13, Copyright 2001-2021 The STIX Fonts Project Authors (https://github.com/stipub/stixfonts), SIL Open
+Font License 1.1, sous-ensemble (outils/police_maths.sh) : public/fonts/stix-two-math.woff2 (texte complet :
+public/fonts/OFL-STIX-Two.txt).
 
 Logo
 ----

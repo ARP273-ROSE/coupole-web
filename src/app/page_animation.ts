@@ -2,7 +2,7 @@
  * Page d'une animation : toile, barre de lecture, réglages, valeurs calculées, fiche (description, ce qu'il faut voir,
  * liste des réglages).  Chargée à la demande (morceau séparé) avec l'animation elle-même.
  */
-import { type Animation, Bouton, type EtatReglages, Reglage } from '../anim/base';
+import { Animation, Bouton, type EtatReglages, Reglage } from '../anim/base';
 import { charger, disponible, type Entree, PAR_ID } from '../anim/registre';
 import { aVoir } from '../i18n/a_voir';
 import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
@@ -12,6 +12,7 @@ import { texteNombre, type Vue, vueControle } from './controles';
 import * as prefs from './prefs';
 import { adresseAnimation, remplacerAdresse } from './routeur';
 import { Scene } from './scene';
+import { enrichir, remplir } from './texte_riche';
 
 export interface Page {
   el: HTMLElement;
@@ -64,6 +65,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   const zoomInfo = h('div', { class: 'zoom-info' }, zoomTexte, zoomRetour);
   const scene = h('div', { class: 'scene' }, zoomInfo);
   const transport = h('div', { class: 'transport', role: 'toolbar', 'aria-label': nom });
+  const sousScene = h('p', { class: 'aide-scene' });
   const reglages = h('div', { class: 'reglages' });
   const valeurs = h('dl', { class: 'valeurs' });
   const blocReglages = h('section', { class: 'bloc', 'aria-labelledby': 'titre-reglages' }, h('h2', { id: 'titre-reglages', text: tr('web_reglages') }), reglages);
@@ -84,7 +86,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     h(
       'div',
       { class: 'anim' },
-      h('div', { class: 'scene-boite' }, scene, transport),
+      h('div', { class: 'scene-boite' }, scene, transport, sousScene),
       h('div', { class: 'panneau' }, blocReglages, blocValeurs, fiche),
     ),
   );
@@ -110,8 +112,8 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     }
     v.forEach(([a, b], i) => {
       const [dt, dd] = lignes[i]!;
-      if (dt.textContent !== a) dt.textContent = a;
-      if (dd.textContent !== b) dd.textContent = b;
+      remplir(dt, a);
+      remplir(dd, b, true);
     });
     blocValeurs.hidden = v.length === 0;
   };
@@ -128,7 +130,6 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   c.setAttribute('role', 'img');
   c.setAttribute('aria-label', tr('web_scene', { nom }));
   c.setAttribute('aria-describedby', descId);
-  c.title = tr('web_scene_aide');
 
   anim = new cls(depart, toile);
   anim.initialiser();
@@ -201,20 +202,22 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   blocReglages.hidden = flux.length === 0;
 
   // ------------------------------------------------------------ fiche
-  const desc = h('p', { id: descId, text: tr('anim_desc_' + e.cle) });
+  const desc = h('p', { id: descId }, ...enrichir(tr('anim_desc_' + e.cle)));
   fiche.append(desc);
   const voir = aVoir(e.id, langue());
-  if (voir) fiche.append(h('h3', { text: tr('web_a_voir') }), h('p', { text: voir }));
+  if (voir) fiche.append(h('h3', { text: tr('web_a_voir') }), h('p', {}, ...enrichir(voir)));
   const items = flux
     .filter((x) => !(x instanceof Bouton) && 'texte' in x && (x as { texte: string }).texte)
     .map((x) => {
       const t = (x as unknown as { texte: string; aide?: string }).texte;
       const a = (x as unknown as { aide?: string }).aide ?? '';
-      return h('li', {}, h('b', { text: t }), a ? ` — ${a}` : '');
+      return h('li', {}, h('b', {}, ...enrichir(t)), ...(a ? [' — ', ...enrichir(a)] : []));
     });
   if (items.length) fiche.append(h('h3', { text: tr('web_liste_reglages') }), h('ul', {}, ...items));
-  if (existe('anim_' + e.cle + '_souris')) fiche.append(h('p', { class: 'astuce', text: tr('anim_' + e.cle + '_souris') }));
-  fiche.append(h('p', { class: 'astuce', text: tr('web_scene_aide') }), h('p', { class: 'credit', text: tr('web_credit_court') }));
+  // aide propre à l'animation (jamais par-dessus le dessin) : sous la scène et dans la fiche
+  const aide = aideInteraction(anim, e.cle);
+  sousScene.textContent = aide;
+  fiche.append(h('p', { class: 'astuce', text: aide }), h('p', { class: 'credit', text: tr('web_credit_court') }));
 
   // ------------------------------------------------------------ mémoire et adresse partageable
   let minuteur = 0;
@@ -270,4 +273,15 @@ async function partagerLien(e: Entree, anim: Animation): Promise<void> {
     remplacerAdresse(adresseAnimation(e.id, anim.etatModifie()));
     annoncer(tr('web_lien_pas_copie'));
   }
+}
+
+/** Ce que font la souris et le doigt dans cette animation précise. */
+function aideInteraction(a: Animation, cle: string): string {
+  const deplace = Object.getPrototypeOf(a).presser !== Animation.prototype.presser;
+  const parties: string[] = [];
+  if (existe('anim_' + cle + '_souris')) parties.push(tr('anim_' + cle + '_souris'));
+  else if (a.nb_vues > 0) parties.push(tr(deplace ? 'web_aide_tourner_deplacer' : 'web_aide_tourner'));
+  else if (deplace) parties.push(tr('web_aide_deplacer'));
+  parties.push(tr('web_aide_zoom'), tr(a.nb_vues > 0 ? 'web_aide_clavier_tourner' : 'web_aide_clavier'));
+  return parties.join(' ');
 }

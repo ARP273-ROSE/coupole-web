@@ -119,6 +119,7 @@ export class Saisons extends Animation {
     const de_cote = this.vue_terre.currentData() === 'cote';
     const rad = Math.PI / 180;
     p.save();
+    p.setClipRect(r);
     p.translate(cx, cy);
     dessin.disque(p, 0, 0, ray, 'terre');
     if (de_cote) {
@@ -142,8 +143,12 @@ export class Saisons extends Animation {
       dessin.texte(p, 0, -ray * 1.33, tr('anim_pc_n'), 'doux');
       p.rotate(d);
       if (this.c_subsolaire.isChecked()) dessin.disque(p, -ray, 0, 5, 'soleil', 'fond');
-      for (const k of [-0.6, -0.3, 0.0, 0.3, 0.6])
-        dessin.fleche(p, -ray * 2.2, k * ray, k === 0 ? -ray * 1.1 : -ray * Math.sqrt(1 - k * k) - 6, k * ray, dessin.stylo('soleil', 1.4, 0.8), 6);
+      // rayons du Soleil : depuis le bord du panneau jusqu'au limbe (le Soleil est loin à gauche)
+      const depart = Math.max(-ray * 2.2, -(cx - r.left) + 4);
+      for (const k of [-0.6, -0.3, 0.0, 0.3, 0.6]) {
+        const limbe = -ray * Math.sqrt(1 - k * k) - (k === 0 && this.c_subsolaire.isChecked() ? 7 : 2);
+        if (limbe - depart > 12) dessin.fleche(p, depart, k * ray, limbe, k * ray, dessin.stylo('soleil', 1.4, 0.8), 6);
+      }
     } else {
       const sd = Math.sin(d * rad),
         cd = Math.cos(d * rad);
@@ -174,6 +179,8 @@ export class Saisons extends Animation {
     const cx = r.cx,
       base = r.bottom - r.h * 0.22;
     const larg = r.w * 0.8;
+    p.save();
+    p.setClipRect(r);
     p.setPen(dessin.stylo('horizon', 2.5));
     p.drawLine(cx - larg / 2, base, cx + larg / 2, base);
     if (this.observ.currentData() === 'angle') {
@@ -210,5 +217,6 @@ export class Saisons extends Animation {
       p.drawLineP(a, b);
       dessin.texte(p, cx, base + 16, tr('anim_eclipticsimulator_surface', { x: nombre(et, 2) }), 'texte');
     }
+    p.restore();
   }
 }

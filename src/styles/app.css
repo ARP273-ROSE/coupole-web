@@ -1079,7 +1079,7 @@ select option {
 
 .valeurs {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(min(8.5em, 48%), 1fr) minmax(0, auto);
   gap: 2px 14px;
   margin: 0;
   font-size: 0.92rem;
@@ -1099,7 +1099,8 @@ select option {
   font-variant-numeric: tabular-nums;
   text-align: right;
   border-bottom: 1px solid var(--bord);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .valeurs dt:nth-last-of-type(1),
@@ -1368,4 +1369,30 @@ select option {
   .nav a[data-page='catalogue'] {
     display: none;
   }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ formules (MathML Core, STIX Two Math) */
+@font-face {
+  font-family: 'STIX Two Math';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/stix-two-math.woff2') format('woff2');
+}
+
+math {
+  font-family: 'STIX Two Math', math;
+  font-size: 1.1em;
+  math-style: normal;
+}
+
+.aide-scene {
+  margin: 6px 4px 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--texte-2);
 }

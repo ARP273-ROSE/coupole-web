@@ -138,7 +138,7 @@ export class ModuleDistance extends Animation {
     dessin.disque(p, x, y, rayon, 'etoile', null, 1.0 - 0.3 * f);
     dessin.texte(p, x, y - rayon - 14, `d = ${nombre(this.d.value(), 1)} pc`, 'accent2', { fond: true });
     dessin.police(p, 1.25, true);
-    dessin.texte(p, rect.cx, rect.y + 34, 'm − M = 5 log₁₀ d − 5', 'texte');
+    dessin.formule(p, rect.cx, rect.y + 34, 'm − M = 5 log₁₀ d − 5', 'texte');
     dessin.police(p, 1 / 1.25);
     dessin.texte(p, rect.cx, rect.y + 62, `${nombre(this.m.value(), 1)} − (${nombre(this.M.value(), 1)}) = ${nombre(this.m.value() - this.M.value(), 1)}`, 'accent1');
   }

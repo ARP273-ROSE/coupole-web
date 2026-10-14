@@ -78,6 +78,6 @@ export class PetitsAngles extends Animation {
       dessin.texte(p, x0 + k * v, y + 14, String(v), 'doux');
     }
     dessin.police(p, 1 / 0.8);
-    dessin.texte(p, rect.cx, rect.y + 22, `α ≈ 206 265″ × d / D = ${nombre((206_264.806 * d) / dist, 1)}″`, 'texte');
+    dessin.formule(p, rect.cx, rect.y + 28, `α ≈ 206 265″ × d / D = ${nombre((206_264.806 * d) / dist, 1)}″`, 'texte');
   }
 }

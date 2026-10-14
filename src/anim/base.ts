@@ -8,7 +8,7 @@
  * avancer(dt), dessiner(p, rect), valeurs() et, si besoin, presser / glisser / relacher (souris).
  */
 import { tr } from '../i18n/i18n';
-import { c } from '../noyau/dessin';
+import { c, debutImage } from '../noyau/dessin';
 import { Vue3D } from '../noyau/dessin';
 import { type Peintre, type Pt, Rect } from '../noyau/peintre';
 
@@ -503,7 +503,19 @@ export abstract class Animation {
     return e;
   }
 
+  /** tenue quand les données chargées à la demande (côtes…) sont prêtes : les vignettes l'attendent */
+  pret: Promise<void> = Promise.resolve();
+
+  /** Charge des données à la demande puis redessine. */
+  attendre(promesse: Promise<void>): void {
+    this.pret = promesse.then(() => this.rafraichir()).catch(() => {});
+  }
+
+  /** nombre de vues 3D (sphères qu'on fait tourner au glisser) : sert à l'aide de la page */
+  nb_vues = 0;
+
   vue(az: number, alt: number, alt_min = -89.0, alt_max = 89.0): Vue3D {
+    this.nb_vues += 1;
     return new Vue3D(az, alt, alt_min, alt_max);
   }
 
@@ -583,6 +595,7 @@ export abstract class Animation {
   /** Dessine toute la toile (fond compris) dans le rectangle donné. */
   peindre(p: Peintre, r: Rect): void {
     p.fillRect(r, c('fond'));
+    debutImage(p, r);
     this._vues = [];
     p.save();
     try {

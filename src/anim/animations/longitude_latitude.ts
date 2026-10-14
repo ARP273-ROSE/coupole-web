@@ -2,7 +2,6 @@
  * Longitude/Latitude Demonstrator : globe interactif, côtes, villes, équateur, méridien d'origine, ligne de
  * changement de date ; un point à déplacer dont la latitude et la longitude s'affichent (décimal ou sexagésimal).
  */
-import COTES from '../../donnees/genere/cotes.json';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import type { Peintre, Pt, Rect } from '../../noyau/peintre';
@@ -30,14 +29,23 @@ const LIGNE_DATE: [number, number][] = [
 ];
 
 let cotesCache: Pts[] | null = null;
+let cotesPromesse: Promise<void> | null = null;
 
-/** Polygones des côtes (longitude, latitude) → points de la sphère unité (chargés une fois). */
-export function cotes(): Pts[] {
-  if (!cotesCache) {
-    const doc = COTES as unknown as { polygones: [number, number][][] };
+/**
+ * Côtes (Natural Earth 1:50m simplifié) chargées à la demande, dans leur propre fichier : rend une promesse tenue une
+ * fois les côtes prêtes (l'animation se redessine alors).
+ */
+export function chargerCotes(): Promise<void> {
+  cotesPromesse ??= import('../../donnees/genere/cotes.json').then((m) => {
+    const doc = (m.default ?? m) as unknown as { polygones: [number, number][][] };
     cotesCache = doc.polygones.map((poly) => poly.map((q) => globe_xyz(q[1], q[0])));
-  }
-  return cotesCache;
+  });
+  return cotesPromesse;
+}
+
+/** Polygones des côtes → points de la sphère unité ; vide tant qu'ils ne sont pas chargés (voir chargerCotes). */
+export function cotes(): Pts[] {
+  return cotesCache ?? [];
 }
 
 /** Repère terrestre direct : x = (0°, 0°), y = (0°, 90° E), z = pôle Nord. */
@@ -86,6 +94,7 @@ export class LongitudeLatitude extends Animation {
   private zone: dessin.Peintre3D | null = null;
 
   override construire(): void {
+    this.attendre(chargerCotes());
     this.globe = this.vue(75.0, 25.0, -89.0, 89.0);
     this.lat = this.curseur('latitude', -90.0, 90.0, 40.8, { dec: 2, unite: '°', cle_texte: 'anim_c_latitude' });
     this.lon = this.curseur('longitude', -180.0, 180.0, -96.7, { dec: 2, unite: '°', cle_texte: 'anim_c_longitude' });
@@ -154,7 +163,7 @@ export class LongitudeLatitude extends Animation {
       if (lat) pe.courbe(dessin.cercle([0, 0, 1], 90 - lat), 'grille', 0.8, 0.6, { arriere: 'cache' });
     for (let lon = 0; lon < 180; lon += 30)
       pe.courbe(dessin.cercle([Math.sin((lon * Math.PI) / 180), -Math.cos((lon * Math.PI) / 180), 0]), 'grille', 0.8, 0.6, { arriere: 'cache' });
-    for (const poly of cotes()) if (poly.length >= 5) pe.courbe(poly, 'doux', 1.0, 0.9, { arriere: 'cache', ferme: true });
+    for (const poly of cotes()) pe.courbe(poly, 'doux', 1.0, 0.9, { arriere: 'cache' });
     if (this.c_reperes.isChecked()) {
       pe.courbe(dessin.cercle([0, 0, 1]), 'equateur', 2.0, 1.0, { arriere: 'cache' });
       pe.courbe(globe_pts(linspace(-90, 90, 91), new Array(91).fill(0)), 'accent1', 2.0, 1.0, { arriere: 'cache' });

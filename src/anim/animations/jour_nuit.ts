@@ -10,7 +10,7 @@ import { type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { linspace, pmod } from '../../noyau/py';
 import type { Pts } from '../../noyau/vec';
 import { Animation, angle, type Bouton_souris, type Choix, type Coche, date_du_jour, heures_minutes, type Reglage } from '../base';
-import { cotes, decimal } from './longitude_latitude';
+import { cotes, decimal, chargerCotes } from './longitude_latitude';
 
 const ANNEE = 2026;
 const R = 180 / Math.PI;
@@ -53,7 +53,7 @@ export function latitude_hauteur(lon: number, dec: number, lon_ss: number, h: nu
 /** Tracé des côtes sur une carte plane (coupé au passage de la ligne ±180°). */
 export function cotesCarte(p: Peintre, xy: (la: number, lo: number) => Pt): void {
   for (const poly of cotes() as Pts[]) {
-    if (poly.length < 5) continue;
+    if (poly.length < 2) continue;
     let pts: Pt[] = [];
     let lo_avant = 0;
     poly.forEach((q, i) => {
@@ -84,6 +84,7 @@ export class JourNuit extends Animation {
   private carte: Rect | null = null;
 
   override construire(): void {
+    this.attendre(chargerCotes());
     this.mode = this.choix('mode', [['anim_daylightsimulator_jour', 'jour'], ['anim_daylightsimulator_annee', 'annee']], 'jour');
     this.jour = this.curseur('jour', 0.0, 364.0, 79.0, { dec: 0, cle_texte: 'anim_c_jour' });
     this.heure = this.curseur('heure', 0.0, 24.0, 12.0, { dec: 2, unite: 'h', cle_texte: 'anim_daylightsimulator_tu' });

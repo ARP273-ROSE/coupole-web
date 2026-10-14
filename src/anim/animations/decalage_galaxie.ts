@@ -147,7 +147,10 @@ export class DecalageGalaxie extends Animation {
       const x = r.left + i * w + w * 0.15;
       p.fillRect(new Rect(x, r.bottom - 14 - h, w * 0.5, h), dessin.c(COULEURS[i]!, 0.8));
       dessin.texte(p, x + w * 0.25, r.bottom - 4, n, 'texte');
-      dessin.texte(p, x + w * 0.5 + 6, r.bottom - 20, `Δm = ${m[n]! >= m0[n]! ? '+' : ''}${nombre(m[n]! - m0[n]!, 2)}`, 'doux', { centre: false });
+      const dm = `Δm = ${m[n]! >= m0[n]! ? '+' : ''}${nombre(m[n]! - m0[n]!, 2)}`;
+      // à côté de la barre s'il y a la place, sinon au-dessus
+      if (p.fontMetrics().horizontalAdvance(dm) < w * 0.5 - 8) dessin.texte(p, x + w * 0.5 + 6, r.bottom - 20, dm, 'doux', { centre: false });
+      else dessin.texte(p, x + w * 0.25, Math.max(r.top + 8, r.bottom - 22 - h), dm, 'doux');
     });
   }
 }

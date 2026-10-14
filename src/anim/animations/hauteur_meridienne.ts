@@ -107,6 +107,6 @@ export class HauteurMeridienne extends Animation {
       const [h] = culmination(lat, dec);
       dessin.texte(p, o.x, o.y - 18, `h = ${angle(h)}`, 'texte', { fond: true });
     }
-    dessin.texte(p, rect.x + 10, rect.y + 18, 'h = 90° − φ + δ', 'texte', { centre: false });
+    dessin.formule(p, rect.x + 10, rect.y + 20, 'h = 90° − φ + δ', 'texte', { centre: false });
   }
 }
