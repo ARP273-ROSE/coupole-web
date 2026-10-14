@@ -33,6 +33,7 @@ const TABLE_UNITES = new Map(UNITES);
 /** « - » utilisé comme signe moins : en début de texte ou après un espace, une parenthèse, un signe, devant un chiffre */
 const RE_MOINS = /(^|[\s(\[{=:;,≈~<>±→])-(?=\.?\d)/g;
 const RE_PUISSANCE = /10\^([-+]?\d+)/g;
+const RE_RAPIDE = /[-/^]/;
 
 const INTERDITS: RegExp[] = [
   /(?<![A-Za-z])(?:k?m|W|g|kg|J|ph|ans|years|″)\s?\/\s?(?:s|m|cm|K|an|yr)(?![A-Za-z])/,
@@ -44,7 +45,8 @@ const INTERDITS: RegExp[] = [
 
 /** Le texte selon la règle typographique : unités SI, signe moins, puissances de dix. */
 export function typo(s: string): string {
-  if (!s) return s;
+  // chemin rapide (appelé pour chaque texte de la toile) : rien à corriger sans « - », « / » ni « ^ »
+  if (!s || !RE_RAPIDE.test(s)) return s;
   return s
     .replace(RE_UNITES, (_m, u: string) => TABLE_UNITES.get(u)!)
     .replace(RE_PUISSANCE, (_m, e: string) => '10' + [...e].map((c) => EXPOSANTS[c] ?? c).join(''))
