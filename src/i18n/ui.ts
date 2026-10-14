@@ -122,4 +122,32 @@ export const UI: Record<string, [string, string]> = {
   web_eclipse_titre_lune: ['Éclipse de Lune du {date} : la Lune traverse l’ombre de la Terre (proportions réelles, nord en haut)', 'Lunar eclipse of {date}: the Moon crosses the Earth’s shadow (true scale, north up)'],
   web_eclipse_titre_soleil: ['Éclipse de Soleil du {date} : l’ombre de la Lune balaie la Terre (proportions réelles, nord en haut)', 'Solar eclipse of {date}: the Moon’s shadow sweeps the Earth (true scale, north up)'],
   web_eclipse_note: ['Trajectoire approchée (éléments moyens, Meeus).', 'Approximate path (mean elements, Meeus).'],
+
+  // simulateur jour-nuit : vues polaires
+  web_projection: ['Projection', 'Projection'],
+  web_projection_aide: [
+    'Carte équirectangulaire, ou vue polaire (azimutale équidistante centrée sur le pôle Nord ou Sud).',
+    'Equirectangular map, or polar view (azimuthal equidistant, centred on the North or South Pole).',
+  ],
+  web_proj_equi: ['équirectangulaire', 'equirectangular'],
+  web_proj_nord: ['pôle Nord', 'North Pole'],
+  web_proj_sud: ['pôle Sud', 'South Pole'],
+  web_bord: ['Vue polaire jusqu’à', 'Polar view down to'],
+  web_bord_aide: ['Bord de la vue polaire : l’équateur, ou 30° au-delà pour voir les deux tropiques.', 'Edge of the polar view: the equator, or 30° beyond to see both tropics.'],
+  web_bord_0: ['l’équateur', 'the equator'],
+  web_bord_30: ['30° au-delà (tropiques)', '30° beyond (tropics)'],
+  web_tournant: ['Terminateur tournant', 'Rotating terminator'],
+  web_tournant_aide: [
+    'Vue polaire : la carte reste fixe (méridien de Greenwich en bas, ou en haut au pôle Sud) et le terminateur tourne ; sinon la Terre tourne sous un terminateur fixe (midi en bas).',
+    'Polar view: the map stays fixed (Greenwich meridian at the bottom, or at the top for the South Pole) and the terminator turns; otherwise the Earth turns under a fixed terminator (noon at the bottom).',
+  ],
+
+  web_proj_globe: ['globe 3D (vue de l’espace)', '3D globe (seen from space)'],
+  web_axe: ['Axe des pôles', 'Polar axis'],
+  web_axe_aide: ['Montrer l’axe de rotation de la Terre (partie cachée en pointillé).', 'Show the Earth’s rotation axis (hidden part dotted).'],
+  web_globe_soleil: ['vers le Soleil', 'to the Sun'],
+  web_aide_globe: [
+    'Globe 3D : glisser le fait tourner dans tous les sens (le point sous le doigt suit le doigt). Double-clic : revenir au point subsolaire. Clic droit ou appui long : placer l’observateur.',
+    '3D globe: dragging turns it in any direction (the point under the finger follows it). Double-click: back to the subsolar point. Right click or long press: place the observer.',
+  ],
 };

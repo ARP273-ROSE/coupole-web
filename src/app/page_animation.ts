@@ -282,6 +282,7 @@ function aideInteraction(a: Animation, cle: string): string {
   if (existe('anim_' + cle + '_souris')) parties.push(tr('anim_' + cle + '_souris'));
   else if (a.nb_vues > 0) parties.push(tr(deplace ? 'web_aide_tourner_deplacer' : 'web_aide_tourner'));
   else if (deplace) parties.push(tr('web_aide_deplacer'));
+  if (a.aide_supplementaire()) parties.push(a.aide_supplementaire());
   parties.push(tr('web_aide_zoom'), tr(a.nb_vues > 0 ? 'web_aide_clavier_tourner' : 'web_aide_clavier'));
   return parties.join(' ');
 }

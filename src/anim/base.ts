@@ -434,6 +434,16 @@ export abstract class Animation {
     this._glisse = null;
   }
 
+  /** Aide propre à la version web, ajoutée à l'aide de la page (vide par défaut). */
+  aide_supplementaire(): string {
+    return '';
+  }
+
+  /** Double-clic sur la toile : vrai si l'animation l'a traité (sinon la scène revient au zoom 1). */
+  doubleClic(_pos: Pt): boolean {
+    return false;
+  }
+
   /** Remet l'état interne (temps, positions) à son origine ; appelé par Réinitialiser. */
   etat_initial(): void {}
 

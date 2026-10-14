@@ -1202,7 +1202,7 @@ select option {
   box-shadow: var(--ombre-l);
   font-size: 0.92rem;
   font-weight: 560;
-  pointer-events: auto;
+  pointer-events: none;
   animation: monter 260ms var(--courbe);
 }
 
@@ -1211,6 +1211,7 @@ select option {
 }
 
 .annonce .bouton {
+  pointer-events: auto;
   min-height: 38px;
   background: var(--fond);
   color: var(--texte);

@@ -119,6 +119,34 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   omises, bords artificiels (méridien ±180°, pôle Sud) retirés ; 65 Ko compressés, chargées à la demande.
 - Projection équirectangulaire gardée pour le simulateur jour-nuit et les antipodes (terminateur exact, et
   correspondance linéaire entre le doigt et la latitude-longitude).
+- Simulateur jour-nuit, réglage « Projection » : équirectangulaire (par défaut), pôle Nord, pôle Sud. Vue polaire :
+  azimutale équidistante centrée sur le pôle (ρ proportionnel à la distance au pôle), bord à l'équateur ou 30° au-delà
+  (les deux tropiques visibles) ; vu du pôle, l'est tourne dans le sens direct ; méridiens tous les 15° (30° plus
+  marqués), parallèles tous les 15° ; équateur plein, tropiques (`accent1`) et cercles polaires (`accent2`) en
+  pointillé ; Soleil au zénith marqué s'il est dans le disque ; longitudes 0°, 90° E, 180°, 90° O au bord.
+- Par défaut la Terre tourne sous un terminateur fixe (méridien du point subsolaire en bas au Nord, en haut au Sud :
+  midi en bas) ; « Terminateur tournant » fixe la carte (Greenwich en bas au Nord, en haut au Sud).
+- Nuit et crépuscules (civil, nautique, astronomique, mêmes opacités que la carte plane : 55 %, 25 %, 20 %, 15 %) :
+  pour chaque méridien, la latitude exacte où h = 0 (ou −6°, −12°, −18°), bornée au bord ; cela forme une boucle
+  autour du pôle, sans artefact au pôle. La nuit est l'intérieur de la boucle si elle contient le pôle (δ☉ < 0 au
+  Nord, δ☉ ≥ 0 au Sud), sinon l'anneau entre la boucle et le bord (remplissage pair-impair). Au solstice, la boucle
+  est tangente au cercle polaire (test unitaire).
+- Les côtes Natural Earth déjà chargées sont reprojetées, coupées quand elles sortent du disque.
+- Quatrième projection « globe 3D (vue de l'espace) » : orthographique, Canvas 2D. Orientation = matrice de rotation
+  (repère terrestre → vue, lignes est / nord / verticale), réorthonormalisée après chaque glisser. Glisser : rotation
+  « boule de commande » autour de l'axe du plan de l'écran perpendiculaire au mouvement, d'angle |d| / r (le point
+  sous le doigt suit le doigt, dans tous les sens) ; inertie légère (×0,9 par image, arrêt sous 0,3 px). Double-clic :
+  recentrer sur le point subsolaire, nord en haut. Clic droit / appui long : placer l'observateur. Pincer et molette :
+  le zoom commun de la scène. Vue de départ : 25° N, 50° à l'ouest du point subsolaire (le terminateur est visible).
+- Sans « terminateur tournant », la Terre tourne sous un Soleil fixe dans la vue ; avec, le globe reste fixe.
+- Toutes les lignes (graticule 15°/30°, côtes, équateur, tropiques et cercles polaires en pointillé, étiquetés à leur
+  point visible le plus à droite) sont coupées au limbe au point exact de traversée (interpolé, ramené sur le cercle).
+- Nuit et crépuscules : calottes exactes {p · s < −sin h} ; contour = arc visible du petit cercle + arc de limbe du
+  côté de la calotte (ou disque entier, ou disque moins le cercle), remplissage pair-impair.
+- Rendu : atmosphère fine (anneau `ciel` 55 % → 0 de 0,98 r à 1,06 r), sphère en dégradé radial centré vers le point
+  subsolaire (135 % → base → 60 %), voile nuit progressif vers l'antipode du Soleil (jusqu'à 30 %), axe des pôles en
+  option (partie derrière le globe en pointillé, N marqué), point subsolaire, flèche « vers le Soleil » au bord.
+- Coût de calcul mesuré par un test : moins de 5 ms par image.
 
 ### Simulateur des ombres d'éclipse
 - Le Soleil est entier (centre à r + 8 px du bord).

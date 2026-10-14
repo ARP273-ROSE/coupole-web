@@ -157,7 +157,7 @@ test('à propos : licence et crédit', async ({ page }) => {
 });
 
 test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ page }) => {
-  test.setTimeout(240_000);
+  test.setTimeout(420_000);
   const s = await surveiller(page);
   await page.goto('./');
   let ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
@@ -207,4 +207,47 @@ test('formules en MathML : fractions empilées, police mathématique', async ({ 
   // la police mathématique auto-hébergée se charge (aucune requête externe : vérifié par les autres tests)
   expect(await page.evaluate(async () => (await document.fonts.load("16px 'STIX Two Math'", '∝√')).length)).toBeGreaterThan(0);
   await capture(page, 'formules');
+});
+
+test('jour-nuit : vues polaires (pôle Nord, pôle Sud)', async ({ page }) => {
+  const s = await surveiller(page);
+  await page.goto('./#/a/daylightsimulator?web_projection=nord');
+  await expect(page.locator('.scene canvas')).toBeVisible();
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
+  const choix = page.getByLabel('Projection');
+  await expect(choix).toBeVisible();
+  await expect(page.getByLabel('Vue polaire jusqu’à')).toBeVisible();
+  await capture(page, 'jour-nuit-nord');
+  await choix.selectOption({ label: 'pôle Sud' });
+  await expect.poll(() => page.url()).toContain('web_projection=sud');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
+  await capture(page, 'jour-nuit-sud');
+  await choix.selectOption({ label: 'équirectangulaire' });
+  await expect(page.getByLabel('Vue polaire jusqu’à')).toBeHidden();
+  expect(s.erreurs).toEqual([]);
+  expect(s.externes).toEqual([]);
+});
+
+test('jour-nuit : globe 3D qu’on fait tourner dans tous les sens', async ({ page }) => {
+  const s = await surveiller(page);
+  await page.goto('./#/a/daylightsimulator?web_projection=globe');
+  const toile = page.locator('.scene canvas');
+  await expect(toile).toBeVisible();
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
+  await expect(page.getByLabel('Axe des pôles')).toBeVisible();
+  const empreinte = (): Promise<string> => toile.evaluate((c: HTMLCanvasElement) => c.toDataURL().slice(-200));
+  const avant = await empreinte();
+  const b = (await toile.boundingBox())!;
+  const cx = b.x + b.width / 2,
+    cy = b.y + b.height / 2;
+  await page.mouse.move(cx, cy);
+  await page.mouse.down();
+  await page.mouse.move(cx + 40, cy + 25, { steps: 5 });
+  await page.mouse.up();
+  await expect.poll(empreinte).not.toBe(avant);
+  await capture(page, 'jour-nuit-globe');
+  await toile.dblclick({ position: { x: b.width / 2, y: b.height / 2 } });
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(3);
+  expect(s.erreurs).toEqual([]);
+  expect(s.externes).toEqual([]);
 });

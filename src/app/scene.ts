@@ -194,6 +194,11 @@ export class Scene implements Hote {
       { passive: false },
     );
     c.addEventListener('dblclick', (e) => {
+      const p = this.position(e);
+      if (this.anim?.doubleClic(this.logique(p.x, p.y))) {
+        e.preventDefault();
+        return;
+      }
       if (this.k !== 1) {
         e.preventDefault();
         this.zoomer(1, 0, 0, true);
