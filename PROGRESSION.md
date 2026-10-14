@@ -96,6 +96,24 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - Test : `tests/unit/animations.test.ts` vérifie, pour les 92 animations, quatre formats et trois images, qu'aucune
   boîte d'étiquette n'en recouvre une autre (plus de 15 %) ni ne sort de la toile.
 
+### Titres de panneaux (`cadre()` dans `src/noyau/dessin.ts`)
+- Un titre ne dépasse jamais de son panneau (largeur utile = largeur du panneau − 24 px) : en entier sur une ligne s'il
+  tient ; sinon sur deux lignes, coupé entre les mots, si le panneau a au moins 150 px de haut ; sinon sa forme courte
+  (`titreCourt` : sans les parenthèses, puis sans ce qui suit « : »), sur une ou deux lignes ; sinon coupé par « … ».
+  Police du titre : 0,95 × la base, gras ; le contenu du panneau descend d'autant de lignes.
+- Le titre complet reste lisible : ajouté au libellé accessible de la toile (`aria-label`), et en infobulle seulement
+  au survol d'un titre abrégé (aucune autre infobulle sur la toile). Les titres sont des obstacles pour le placeur.
+- Tests : unitaire (92 animations, cinq formats dont 300 × 640, deux langues : chaque titre dans son panneau, aucun
+  recouvrement) et Playwright téléphone (trois moteurs, 92 animations, mêmes contrôles sur `data-titres`).
+
+### Trois vues d'un spectre (Kirchhoff)
+- Le spectre suit l'ordre le long de la visée : distances d'entrée dans le nuage et dans l'ampoule ; l'ampoule est
+  opaque (la visée s'arrête sur elle). Absorption seulement si le gaz est traversé avant l'ampoule ; ampoule devant le
+  nuage : continu. Télescope sur un cercle de rayon 5,6 (au lieu de 4,6) : son tube (0,9) reste hors du halo de
+  l'ampoule (3,2 + 2,2 × 0,55 = 4,41) ; étiquette à l'extérieur du cercle, repliée au-dessus du télescope si elle
+  sortirait du panneau, halo réservé pour le placeur. Valeurs de référence inchangées (180° : absorption ; 318°, visée
+  de l'ampoule : continu).
+
 ### Formules
 - Pages : MathML Core natif (aucune bibliothèque) ; fractions empilées, exposants et indices, radicaux, variables d'une
   lettre en italique, mots (sin, log, TSL) et majuscules grecques droits, petite espace avant une fonction.

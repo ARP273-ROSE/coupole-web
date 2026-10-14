@@ -4,6 +4,7 @@
  * pointeurs (souris, doigt, stylet) : glisser, pincer-zoomer, molette, appui long = clic droit ; clavier.
  */
 import type { Animation, Bouton_souris, Hote } from '../anim/base';
+import { titresPoses } from '../noyau/dessin';
 import { Peintre, Pt, Rect, reglerTaillePolice } from '../noyau/peintre';
 
 const ZOOM_MAX = 8;
@@ -35,6 +36,11 @@ export class Scene implements Hote {
   private glisse: { id: number; x: number; y: number; x0: number; y0: number; bouge: boolean } | null = null;
   private pince: { d0: number; k0: number; mx0: number; my0: number; ox0: number; oy0: number } | null = null;
   private minuteurLong = 0;
+  /** libellé accessible de la toile (nom de l'animation) ; les titres complets des panneaux y sont ajoutés */
+  libelle = '';
+  private titres: { x: number; y: number; w: number; h: number; complet: string; abrege: boolean }[] = [];
+  private signatureTitres = '';
+  private infobulle = false;
   private obs: ResizeObserver | null = null;
   private detruite = false;
   private surVisibilite = (): void => {
@@ -117,7 +123,45 @@ export class Scene implements Hote {
     reglerTaillePolice(taillePolice(this.w, this.h));
     this.peintre = new Peintre(ctx);
     a.peindre(this.peintre, new Rect(0, 0, this.w, this.h));
+    this.majTitres();
     this.observateur.rendu?.();
+  }
+
+  /**
+   * Titres des panneaux : leur boîte (pixels CSS, pour l'infobulle des titres abrégés et les tests) et le texte complet
+   * dans le libellé accessible de la toile.
+   */
+  private majTitres(): void {
+    const d = this.dpr;
+    this.titres = titresPoses().map((t) => ({
+      x: t.boite.x / d, y: t.boite.y / d, w: t.boite.w / d, h: t.boite.h / d, complet: t.complet, abrege: t.abrege,
+    }));
+    const sig = JSON.stringify(this.titres.map((t) => [Math.round(t.x), Math.round(t.y), Math.round(t.w), Math.round(t.h), t.complet, t.abrege]));
+    if (sig === this.signatureTitres) return;
+    this.signatureTitres = sig;
+    this.canvas.dataset.titres = JSON.stringify(
+      titresPoses().map((t) => ({
+        boite: [t.boite.x / d, t.boite.y / d, t.boite.w / d, t.boite.h / d],
+        panneau: [t.panneau.x / d, t.panneau.y / d, t.panneau.w / d, t.panneau.h / d],
+        complet: t.complet, lignes: t.lignes, abrege: t.abrege,
+      })),
+    );
+    if (this.libelle) {
+      const noms = [...new Set(this.titres.map((t) => t.complet))];
+      this.canvas.setAttribute('aria-label', noms.length ? `${this.libelle} — ${noms.join(' ; ')}` : this.libelle);
+    }
+  }
+
+  /** Infobulle du titre complet quand la souris survole un titre abrégé (rien ailleurs sur la toile). */
+  private survolTitre(x: number, y: number): void {
+    const t = this.titres.find((u) => u.abrege && x >= u.x && x <= u.x + u.w && y >= u.y && y <= u.y + u.h);
+    if (t) {
+      this.canvas.title = t.complet;
+      this.infobulle = true;
+    } else if (this.infobulle) {
+      this.canvas.removeAttribute('title');
+      this.infobulle = false;
+    }
   }
 
   private redimensionner(): void {
@@ -252,7 +296,16 @@ export class Scene implements Hote {
   }
 
   private bouge(e: PointerEvent): void {
-    if (!this.pointeurs.has(e.pointerId) || !this.anim) return;
+    if (!this.pointeurs.has(e.pointerId)) {
+      if (e.pointerType === 'mouse' && this.anim) {
+        const p = this.position(e);
+        this.survolTitre(p.x, p.y);
+        const q = this.logique(p.x, p.y);
+        if (this.anim.survoler(q)) this.demander();
+      }
+      return;
+    }
+    if (!this.anim) return;
     const p = this.position(e);
     this.pointeurs.set(e.pointerId, p);
     if (this.pince && this.pointeurs.size >= 2) {

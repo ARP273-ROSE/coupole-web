@@ -178,6 +178,46 @@ test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ p
   expect(s.externes).toEqual([]);
 });
 
+test('titres des panneaux : dans leur panneau, sans recouvrement, titre complet accessible (téléphone)', async ({ page }) => {
+  test.skip(!test.info().project.name.endsWith('telephone'), 'format téléphone');
+  test.setTimeout(420_000);
+  await page.goto('./');
+  const ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
+  const fautes: string[] = [];
+  for (const id of ids) {
+    await page.goto(`./#/a/${id}`);
+    const toile = page.locator('.scene canvas');
+    await expect(toile).toBeVisible({ timeout: 30_000 });
+    await expect.poll(() => couleursToile(page), { message: id }).toBeGreaterThan(3);
+    // mise en page stable : deux lectures identiques à 250 ms d'écart
+    let avant = '';
+    await expect
+      .poll(async () => {
+        const v = (await toile.getAttribute('data-titres')) ?? '';
+        const stable = v !== '' && v === avant;
+        avant = v;
+        return stable;
+      }, { message: id, intervals: [250] })
+      .toBe(true);
+    const t = JSON.parse(avant) as { boite: number[]; panneau: number[]; complet: string; abrege: boolean }[];
+    const etiquette = (await toile.getAttribute('aria-label')) ?? '';
+    for (const [j, u] of t.entries()) {
+      const [x, y, w, h] = u.boite as [number, number, number, number];
+      const [px, py, pw, ph] = u.panneau as [number, number, number, number];
+      if (x < px + 4 || x + w > px + pw - 4 || y < py || y + h > py + ph) fautes.push(`${id} : titre ${j} « ${u.complet} » hors de son panneau`);
+      if (!etiquette.includes(u.complet)) fautes.push(`${id} : « ${u.complet} » absent du libellé accessible`);
+      for (const v of t.slice(j + 1)) {
+        const [a, b, c, d] = v.boite as [number, number, number, number];
+        const ww = Math.min(x + w, a + c) - Math.max(x, a),
+          hh = Math.min(y + h, b + d) - Math.max(y, b);
+        if (ww > 0.5 && hh > 0.5) fautes.push(`${id} : « ${u.complet} » et « ${v.complet} » se recouvrent`);
+      }
+    }
+    if (id === 'venusphases' || id === 'ptolemaic') await capture(page, `titres-${id}`);
+  }
+  expect(fautes).toEqual([]);
+});
+
 test('hors ligne après la première visite', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'service worker piloté hors ligne : Chromium');
   await page.goto('./');

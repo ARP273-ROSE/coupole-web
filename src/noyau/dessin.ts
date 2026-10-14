@@ -107,6 +107,7 @@ let cadreImage: Boite | null = null;
 export function debutImage(p?: Peintre, r?: Rect): void {
   etiquettesImage = [];
   objetsImage = [];
+  titresImage = [];
   cadreImage = null;
   lumiere = null;
   if (p && r) {
@@ -807,7 +808,83 @@ export function zones_principale(rect: Rect, n_secondaires = 2, part = 0.56): Re
   return out;
 }
 
-/** Fond arrondi d'un panneau, avec son titre en haut à gauche ; rend le rectangle utile. */
+/** Titre de panneau posé dans l'image : boîte et panneau en pixels de la toile, texte complet et lignes affichées. */
+export interface TitrePanneau {
+  boite: Boite;
+  panneau: Boite;
+  complet: string;
+  lignes: string[];
+  /** le texte affiché n'est pas le titre complet (titre court ou coupé par « … ») */
+  abrege: boolean;
+}
+let titresImage: TitrePanneau[] = [];
+
+/** Titres des panneaux posés depuis le début de l'image (tests, infobulle et description accessible de la toile). */
+export function titresPoses(): readonly TitrePanneau[] {
+  return titresImage;
+}
+
+/** Forme courte d'un titre : sans ses parenthèses, puis sans ce qui suit les deux-points. */
+export function titreCourt(t: string): string {
+  let s = t.replace(/\s*\([^()]*\)/g, '').trim();
+  const i = s.search(/\s*:\s/);
+  if (i > 0) s = s.slice(0, i).trim();
+  return s || t;
+}
+
+/** Coupe `t` en mots sur au plus `n` lignes de largeur `l` ; null si un mot ou une ligne ne tient pas. */
+function enLignes(t: string, l: number, n: number, mesure: (s: string) => number): string[] | null {
+  const mots = t.split(/\s+/).filter(Boolean);
+  const lignes: string[] = [];
+  let cur = '';
+  for (const m of mots) {
+    const essai = cur ? cur + ' ' + m : m;
+    if (mesure(essai) <= l) cur = essai;
+    else {
+      if (!cur || mesure(m) > l) return null;
+      lignes.push(cur);
+      cur = m;
+    }
+  }
+  if (cur) lignes.push(cur);
+  return lignes.length <= n ? lignes : null;
+}
+
+/** Plus long début de `t` qui tient dans `l` avec « … » (au moins « … »). */
+function avecEllipse(t: string, l: number, mesure: (s: string) => number): string {
+  let lo = 0,
+    hi = t.length;
+  while (lo < hi) {
+    const m = Math.ceil((lo + hi) / 2);
+    if (mesure(t.slice(0, m).trimEnd() + '…') <= l) lo = m;
+    else hi = m - 1;
+  }
+  return t.slice(0, lo).trimEnd() + '…';
+}
+
+/**
+ * Mise en page d'un titre de panneau dans la largeur `l` : en entier sur une ligne s'il tient ; sinon sur deux lignes
+ * si le panneau est assez haut (`deux_lignes`) ; sinon sa forme courte (sans parenthèses ni sous-titre), sur une ou
+ * deux lignes ; sinon coupé par « … ».  Jamais plus large que `l`.
+ */
+export function mettreEnPageTitre(t: string, l: number, deux_lignes: boolean, mesure: (s: string) => number): { lignes: string[]; abrege: boolean } {
+  if (mesure(t) <= l) return { lignes: [t], abrege: false };
+  const n = deux_lignes ? 2 : 1;
+  const plein = enLignes(t, l, n, mesure);
+  if (plein) return { lignes: plein, abrege: false };
+  const court = titreCourt(t);
+  if (court !== t) {
+    const c2 = enLignes(court, l, n, mesure);
+    if (c2) return { lignes: c2, abrege: true };
+  }
+  return { lignes: [avecEllipse(court !== t && mesure(court) <= mesure(t) ? court : t, l, mesure)], abrege: true };
+}
+
+/**
+ * Fond arrondi d'un panneau, avec son titre en haut à gauche ; rend le rectangle utile.  Le titre ne déborde jamais du
+ * panneau (donc jamais sur le panneau voisin) : deux lignes, forme courte ou « … » s'il le faut ; le titre complet reste
+ * dans `titresPoses()` (infobulle et description accessible de la toile).
+ */
 export function cadre(p: Peintre, r: Rect, titre: string | null = null): Rect {
   lumiere = null;
   p.save();
@@ -816,10 +893,42 @@ export function cadre(p: Peintre, r: Rect, titre: string | null = null): Rect {
   p.drawRoundedRect(r.adjusted(3, 3, -3, -3), 10, 10);
   p.restore();
   if (titre) {
+    const hBase = p.fontMetrics().height();
     police(p, 0.95, true);
-    texte(p, r.x + 12, r.y + 8 + p.fontMetrics().ascent(), titre, 'texte', { centre: false });
+    const fm = p.fontMetrics();
+    const l = Math.max(0, r.w - 24);
+    const { lignes, abrege } = mettreEnPageTitre(titre, l, r.h >= 150, (s) => fm.horizontalAdvance(s));
+    const m = matrice(p);
+    const y0 = r.y + 8;
+    for (const [i, ligne] of lignes.entries()) {
+      // tracé direct (pas texte()) : le titre est déjà ajusté à son panneau, il ne doit ni bouger ni rétrécir
+      const y = y0 + fm.ascent() + i * fm.height();
+      if (!m.tourne) {
+        const X = m.a * (r.x + 12) + m.e,
+          Y = m.d * (y - fm.ascent()) + m.f;
+        const w = fm.horizontalAdvance(ligne);
+        objetsImage.push({ x: Math.min(X, X + m.a * w), y: Math.min(Y, Y + m.d * fm.height()), w: Math.abs(m.a * w), h: Math.abs(m.d * fm.height()) });
+      }
+      p.setPen(couleurDe('texte', null));
+      p.drawText(r.x + 12, y, ligne);
+    }
+    if (!m.tourne) {
+      const larg = Math.max(...lignes.map((x) => fm.horizontalAdvance(x)));
+      const X = m.a * (r.x + 12) + m.e,
+        Y = m.d * y0 + m.f;
+      const PX = m.a * r.x + m.e,
+        PY = m.d * r.y + m.f;
+      titresImage.push({
+        boite: { x: Math.min(X, X + m.a * larg), y: Math.min(Y, Y + m.d * lignes.length * fm.height()), w: Math.abs(m.a * larg), h: Math.abs(m.d * lignes.length * fm.height()) },
+        panneau: { x: Math.min(PX, PX + m.a * r.w), y: Math.min(PY, PY + m.d * r.h), w: Math.abs(m.a * r.w), h: Math.abs(m.d * r.h) },
+        complet: titre,
+        lignes,
+        abrege,
+      });
+    }
+    const hTitre = (lignes.length - 1) * fm.height();
     police(p, 1 / 0.95);
-    return r.adjusted(8, 10 + p.fontMetrics().height(), -8, -8);
+    return r.adjusted(8, 10 + hBase + hTitre, -8, -8);
   }
   return r.adjusted(8, 8, -8, -8);
 }

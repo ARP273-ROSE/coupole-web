@@ -13,7 +13,7 @@ import { choisirLangue, type Langue, toutCharger } from '../../src/i18n/i18n';
 import { choisirTheme } from '../../src/noyau/dessin';
 import { Peintre, Pt, Rect } from '../../src/noyau/peintre';
 import { fauxContexte } from './faux_canvas';
-import { etiquettesPosees } from '../../src/noyau/dessin';
+import { etiquettesPosees, titresPoses } from '../../src/noyau/dessin';
 
 interface RefReglage {
   cle: string;
@@ -185,6 +185,38 @@ for (const e of ENTREES) {
           a.battement(0.4);
         }
       }
+      expect(fautes, e.id).toEqual([]);
+    });
+
+    it('titres de panneaux dans leur panneau, sans recouvrement (cinq formats, deux langues)', async () => {
+      const cls = await charger(e);
+      const fautes: string[] = [];
+      for (const lg of ['fr', 'en'] as Langue[]) {
+        choisirLangue(lg);
+        for (const [nomFormat, w, h] of [...FORMATS, ['étroit', 300, 640] as [string, number, number]]) {
+          const a = new cls().initialiser();
+          const { ctx } = fauxContexte();
+          const p = new Peintre(ctx);
+          a.peindre(p, new Rect(0, 0, w, h));
+          const t = titresPoses();
+          for (const [j, u] of t.entries()) {
+            const b = u.boite,
+              q = u.panneau;
+            if (b.x < q.x + 4 || b.x + b.w > q.x + q.w - 4 || b.y < q.y || b.y + b.h > q.y + q.h)
+              fautes.push(`${lg} ${nomFormat} : titre ${j} « ${u.complet} » hors de son panneau`);
+            if (!u.lignes.join(' ').trim()) fautes.push(`${lg} ${nomFormat} : titre ${j} vide`);
+          }
+          for (let j = 0; j < t.length; j++)
+            for (let k = j + 1; k < t.length; k++) {
+              const u = t[j]!.boite,
+                v = t[k]!.boite;
+              const ww = Math.min(u.x + u.w, v.x + v.w) - Math.max(u.x, v.x);
+              const hh = Math.min(u.y + u.h, v.y + v.h) - Math.max(u.y, v.y);
+              if (ww > 0.5 && hh > 0.5) fautes.push(`${lg} ${nomFormat} : titres « ${t[j]!.complet} » et « ${t[k]!.complet} »`);
+            }
+        }
+      }
+      choisirLangue('fr');
       expect(fautes, e.id).toEqual([]);
     });
   });

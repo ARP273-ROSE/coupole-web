@@ -436,6 +436,11 @@ export abstract class Animation {
     this._glisse = null;
   }
 
+  /** Souris qui survole la toile sans bouton enfoncé : vrai s'il faut redessiner (rien par défaut). */
+  survoler(_pos: Pt): boolean {
+    return false;
+  }
+
   /** Aide propre à la version web, ajoutée à l'aide de la page (vide par défaut). */
   aide_supplementaire(): string {
     return '';

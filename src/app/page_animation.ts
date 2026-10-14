@@ -129,6 +129,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   const c = toile.canvas;
   c.setAttribute('role', 'img');
   c.setAttribute('aria-label', tr('web_scene', { nom }));
+  toile.libelle = tr('web_scene', { nom });
   c.setAttribute('aria-describedby', descId);
 
   anim = new cls(depart, toile);
