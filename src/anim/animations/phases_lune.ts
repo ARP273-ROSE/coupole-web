@@ -12,8 +12,8 @@ import * as scenes from '../../noyau/scenes';
 import { appliquerM } from '../../noyau/vec';
 import { Animation, angle, type Bouton_souris, type Choix, type Coche, heures_minutes, nombre, type Reglage } from '../base';
 
-const PHASES = ['nl', 'pc', 'pq', 'gc', 'pl', 'gd', 'dq', 'dc'];
-const ANGLES_PHASES: Record<string, number> = { nl: 0.0, pc: 45.0, pq: 90.0, gc: 135.0, pl: 180.0, gd: 225.0, dq: 270.0, dc: 315.0 };
+export const PHASES = ['nl', 'pc', 'pq', 'gc', 'pl', 'gd', 'dq', 'dc'];
+export const ANGLES_PHASES: Record<string, number> = { nl: 0.0, pc: 45.0, pq: 90.0, gc: 135.0, pl: 180.0, gd: 225.0, dq: 270.0, dc: 315.0 };
 
 function ciel(heure: number, phase: number, lat: number): { az_soleil: number; alt_soleil: number; az_lune: number; alt_lune: number } {
   const h_sol = (heure - 12.0) * 15.0;

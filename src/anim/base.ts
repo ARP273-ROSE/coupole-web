@@ -369,10 +369,10 @@ export abstract class Animation {
   en_lecture = false;
   vitesse: Reglage | null = null;
   b_lecture: Bouton | null = null;
-  private etatDepart: EtatReglages;
+  private __etatDepart: EtatReglages;
 
   constructor(etat: EtatReglages = {}, hote?: Hote) {
-    this.etatDepart = etat;
+    this.__etatDepart = etat;
     if (hote) this.hote = hote;
   }
 
@@ -438,18 +438,18 @@ export abstract class Animation {
   etat_initial(): void {}
 
   // ------------------------------------------------------------ réglages
-  private texteDe(cle: string, cle_texte?: string | null): string {
+  private __texte(cle: string, cle_texte?: string | null): string {
     return cle_texte || `anim_${this.ID.toLowerCase()}_${cle}`;
   }
 
-  private depart(cle: string): number | boolean | Donnee | undefined {
-    return Object.prototype.hasOwnProperty.call(this.etatDepart, cle) ? this.etatDepart[cle] : undefined;
+  private __depart(cle: string): number | boolean | Donnee | undefined {
+    return Object.prototype.hasOwnProperty.call(this.__etatDepart, cle) ? this.__etatDepart[cle] : undefined;
   }
 
   curseur(cle: string, mini: number, maxi: number, defaut: number, o: OptionsCurseur = {}): Reglage {
-    const ct = this.texteDe(cle, o.cle_texte);
+    const ct = this.__texte(cle, o.cle_texte);
     const r = new Reglage(cle, o.groupe ?? 'flux', tr(ct), mini, maxi, defaut, o.dec ?? 1, o.unite ?? '', o.log ?? false, tr(o.cle_aide || ct + '_aide'));
-    const m = this.depart(cle);
+    const m = this.__depart(cle);
     if (typeof m === 'number' && Number.isFinite(m)) r.setValue(arrondiChamp(Math.max(mini, Math.min(maxi, m)), r.dec));
     this.defauts.set(cle, [r, defaut]);
     if (o.rafraichir ?? true) r.valueChanged.connect(() => this.reglage_change());
@@ -458,8 +458,8 @@ export abstract class Animation {
   }
 
   coche(cle: string, defaut = false, cle_texte: string | null = null, groupe: Groupe = 'flux'): Coche {
-    const ct = this.texteDe(cle, cle_texte);
-    const m = this.depart(cle);
+    const ct = this.__texte(cle, cle_texte);
+    const m = this.__depart(cle);
     const w = new Coche(cle, groupe, tr(ct), typeof m === 'boolean' ? m : defaut, tr(ct + '_aide'));
     this.defauts.set(cle, [w, defaut]);
     w.toggled.connect(() => this.reglage_change());
@@ -469,11 +469,11 @@ export abstract class Animation {
 
   /** options : [clé du texte, donnée]. */
   choix(cle: string, options: [string, Donnee][], defaut: Donnee, cle_texte: string | null = null, groupe: Groupe = 'flux'): Choix {
-    const ct = this.texteDe(cle, cle_texte);
+    const ct = this.__texte(cle, cle_texte);
     const w = new Choix(cle, groupe, tr(ct), tr(ct + '_aide'));
     for (const [cle_opt, donnee] of options) w.addItem(tr(cle_opt), donnee);
     w.setCurrentIndex(Math.max(0, w.findData(defaut)));
-    const m = this.depart(cle);
+    const m = this.__depart(cle);
     if (m !== undefined) {
       let i = w.findData(m as Donnee);
       if (i < 0) i = w.options.findIndex((o) => String(o.donnee) === String(m));
