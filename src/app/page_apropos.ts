@@ -45,6 +45,7 @@ export function pageApropos(): Page {
         h('li', {}, lien(COUPOLE, tr('web_apropos_coupole'))),
         h('li', {}, lien(DEPOT, tr('web_apropos_depot'))),
         h('li', {}, lien(CLASSACTION, tr('web_apropos_classaction'))),
+        h('li', {}, lien('https://github.com/ARP273-ROSE/Anticythere3D', tr('web_apropos_anticythere'))),
       ),
       h('p', { class: 'credit', text: tr('web_apropos_version', { v: __VERSION__ }) }),
     ),

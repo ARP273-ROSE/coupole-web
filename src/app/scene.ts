@@ -122,9 +122,22 @@ export class Scene implements Hote {
     ctx.scale(this.k, this.k);
     reglerTaillePolice(taillePolice(this.w, this.h));
     this.peintre = new Peintre(ctx);
+    const t0 = performance.now();
     a.peindre(this.peintre, new Rect(0, 0, this.w, this.h));
+    this.mesurer(performance.now() - t0);
     this.majTitres();
     this.observateur.rendu?.();
+  }
+
+  /** Durée de rendu des images (ms) : moyenne et maximum des 30 dernières, dans data-ms (mesures, tests). */
+  private durees: number[] = [];
+  private mesurer(ms: number): void {
+    this.durees.push(ms);
+    if (this.durees.length >= 30) {
+      const moy = this.durees.reduce((a, b) => a + b, 0) / this.durees.length;
+      this.canvas.dataset.ms = `${moy.toFixed(2)} ${Math.max(...this.durees).toFixed(2)}`;
+      this.durees = [];
+    }
   }
 
   /**

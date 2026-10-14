@@ -5,7 +5,7 @@ Usage : python3 outils/exporter_coupole.py CHEMIN_DU_DEPOT_COUPOLE
 
 Écrit (fichiers suivis par git, à régénérer quand Coupole change) :
   src/i18n/genere/{catalogue,anim}.{fr,en}.json   textes FR/EN (mêmes clés que Coupole)
-  src/donnees/genere/catalogue.json               les 92 animations (id, thème, titre et fichier d'origine), lots
+  src/donnees/genere/catalogue.json               les 93 animations (id, thème, titre et fichier d'origine), lots
   src/donnees/genere/*.json                       données des animations (spectres, binaires, étoiles… ; côtes : cotes_natural_earth.py)
 
 Seules les bibliothèques standard sont nécessaires ; les modules importés de Coupole sont ceux sans Qt."""
@@ -59,6 +59,7 @@ def main(coupole: Path) -> None:
         'animations': [[e.id, e.theme, e.titre, e.fichier, e.classe] for e in catalogue.ENTREES],
         'ordre': list(catalogue.ORDRE),
         'lot1': list(catalogue.LOT1),
+        'hors_classaction': {k: list(v) for k, v in catalogue.HORS_CLASSACTION.items()},
     })
 
     # ------------------------------------------------------------ données

@@ -1,6 +1,6 @@
 {
   "name": "coupole-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Coupole Web : animations d'astronomie dans le navigateur, d'après ClassAction (University of Nebraska-Lincoln Astronomy Education).",
   "license": "Apache-2.0",

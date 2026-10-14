@@ -157,7 +157,7 @@ test('à propos : licence et crédit', async ({ page }) => {
 });
 
 test('chaque animation s’ouvre, se dessine et affiche ses valeurs', async ({ page }) => {
-  test.setTimeout(420_000);
+  test.setTimeout(600_000);
   const s = await surveiller(page);
   await page.goto('./');
   let ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
@@ -216,6 +216,62 @@ test('titres des panneaux : dans leur panneau, sans recouvrement, titre complet 
     if (id === 'venusphases' || id === 'ptolemaic') await capture(page, `titres-${id}`);
   }
   expect(fautes).toEqual([]);
+});
+
+test('machine d’Anticythère : cadrans, enveloppe, faces, roue touchée, lecture, lien croisé, durée de rendu', async ({ page }) => {
+  test.setTimeout(120_000);
+  const s = await surveiller(page);
+  await page.goto('./#/a/antikythera');
+  await expect(page.locator('h1')).toHaveText('La machine d’Anticythère');
+  await expect(page.locator('.titre-anim .origine')).toContainText('Anticythere3D');
+  const lien = page.locator('.lien-croise a');
+  await expect(lien).toHaveAttribute('href', 'https://github.com/ARP273-ROSE/Anticythere3D');
+  await expect(lien).toHaveText('Application complète : Anticythere3D');
+  const dd = page.locator('.valeurs dd');
+  await expect(dd.first()).toHaveText('12/08/2026 (grégorien)');
+  await expect(dd.nth(1)).toHaveText('Choiak 28');
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  await capture(page, 'anticythere-avant');
+  // +1 an : la date avance d'une année tropique
+  await page.getByRole('button', { name: '+1 an' }).click();
+  await expect(dd.first()).toHaveText('12/08/2027 (grégorien)');
+  // face arrière
+  await page.getByRole('combobox', { name: 'Vue' }).selectOption({ label: 'face arrière' });
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  await capture(page, 'anticythere-arriere');
+  // machine ouverte, trois-quarts : toucher la scène désigne une roue
+  await page.getByRole('combobox', { name: 'Vue' }).selectOption({ label: 'trois-quarts' });
+  await page.getByRole('switch', { name: 'Enveloppe' }).click();
+  const toile = page.locator('.scene canvas');
+  await toile.scrollIntoViewIfNeeded();
+  const b = (await toile.boundingBox())!;
+  const roue = dd.last();
+  await expect(roue).toHaveText('survoler une roue (ou la toucher)');
+  for (const [fx, fy] of [[0.5, 0.5], [0.45, 0.55], [0.55, 0.45], [0.4, 0.5]]) {
+    await page.mouse.click(b.x + b.width * fx!, b.y + b.height * fy!);
+    await page.waitForTimeout(300);
+    if ((await roue.textContent())?.includes('dents')) break;
+  }
+  await expect(roue).toContainText('dents');
+  await capture(page, 'anticythere-ouverte');
+  // glisser fait tourner la machine, sans erreur
+  await page.mouse.move(b.x + b.width * 0.3, b.y + b.height * 0.3);
+  await page.mouse.down();
+  await page.mouse.move(b.x + b.width * 0.6, b.y + b.height * 0.4, { steps: 8 });
+  await page.mouse.up();
+  await expect.poll(() => couleursToile(page)).toBeGreaterThan(20);
+  // lecture : la date avance ; durée de rendu mesurée (moyenne de 30 images)
+  const avant = await dd.first().textContent();
+  await page.locator('.transport .bouton.principal').click();
+  await expect.poll(() => dd.first().textContent(), { timeout: 20_000 }).not.toBe(avant);
+  await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 20_000 }).not.toBeNull();
+  const ms = Number((await toile.getAttribute('data-ms'))!.split(' ')[0]);
+  test.info().annotations.push({ type: 'durée de rendu (ms)', description: String(ms) });
+  // garde-fou seulement : rendu logiciel, plusieurs navigateurs en parallèle (mesures propres : PROGRESSION.md)
+  expect(ms).toBeLessThan(100);
+  await page.locator('.transport .bouton.principal').click();
+  expect(s.erreurs).toEqual([]);
+  expect(s.externes).toEqual([]);
 });
 
 test('hors ligne après la première visite', async ({ page, context, browserName }) => {

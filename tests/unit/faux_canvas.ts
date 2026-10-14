@@ -50,6 +50,10 @@ export function fauxContexte(): { ctx: CanvasRenderingContext2D; bilan: Bilan } 
       m = pile.pop() ?? [1, 0, 0, 1, 0, 0];
     },
     translate: (x: unknown, y: unknown) => multiplier([1, 0, 0, 1, x as number, y as number]),
+    transform: (...a: unknown[]) => {
+      verifier('transform', a);
+      multiplier(a.slice(0, 6) as number[]);
+    },
     scale: (x: unknown, y: unknown) => multiplier([x as number, 0, 0, y as number, 0, 0]),
     rotate: (t: unknown) => {
       const c = Math.cos(t as number),

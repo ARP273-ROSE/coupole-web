@@ -1,5 +1,6 @@
 /**
- * Catalogue des 92 animations ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0) et
+ * Catalogue des 93 animations : les 92 de ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0)
+ * et la machine d'Anticythère (adaptée d'Anticythere3D, du même auteur) ; et
  * chargement à la demande : chaque fichier de src/anim/animations/ devient un morceau JavaScript séparé, téléchargé
  * à l'ouverture de l'animation (ou de sa vignette).
  */
@@ -22,6 +23,7 @@ const C = CATALOGUE as unknown as {
   animations: [string, string, string, string, string][];
   ordre: string[];
   lot1: string[];
+  hors_classaction?: Record<string, [string, string]>;
 };
 
 /**
@@ -38,6 +40,8 @@ export const THEMES: readonly string[] = [
   ...C.themes.filter((t) => !ORDRE_THEMES.includes(t)),
 ];
 export const LOT1: readonly string[] = C.lot1;
+/** Animations qui ne viennent pas de ClassAction : identifiant → [application d'origine, adresse de son dépôt]. */
+export const HORS_CLASSACTION: ReadonlyMap<string, [string, string]> = new Map(Object.entries(C.hors_classaction ?? {}));
 
 /** Entrées dans l'ordre du catalogue de Coupole (lots successifs). */
 export const ENTREES: readonly Entree[] = C.ordre.map((id) => {

@@ -251,6 +251,1032 @@ true
 },
 "lecture_au_depart": false
 },
+"antikythera": {
+"animee": true,
+"changements": [
+[
+"enveloppe",
+false
+],
+[
+"eclatement",
+58.0
+],
+[
+"face",
+"trois_quarts"
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Date",
+"12/08/2026 (Gregorian)"
+],
+[
+"Egyptian calendar",
+"Choiak 28"
+],
+[
+"Sun (zodiac)",
+"Leo 21.0°"
+],
+[
+"Moon (zodiac)",
+"Leo 19.2°"
+],
+[
+"Moon phase",
+"New Moon — 0 % lit"
+],
+[
+"Anomaly correction (pin and slot)",
+"+4.85°"
+],
+[
+"Ascending node",
+"Pisces 0.0°"
+],
+[
+"Metonic spiral",
+"cell 95 — year 8"
+],
+[
+"Callippic dial",
+"cycle 2 of 4"
+],
+[
+"Games dial",
+"Nemea"
+],
+[
+"Saros spiral",
+"cell 107 — glyph ΗΣ"
+],
+[
+"Exeligmos",
+"add 8 h"
+],
+[
+"Eclipse",
+"solar eclipse possible"
+],
+[
+"Mercury (Cosmos)",
+"Leo 3.2°"
+],
+[
+"Venus (Cosmos)",
+"Libra 7.3°"
+],
+[
+"Mars (Cosmos)",
+"Gemini 23.1°"
+],
+[
+"Jupiter (Cosmos)",
+"Leo 5.0°"
+],
+[
+"Saturn (Cosmos)",
+"Aries 20.4°"
+],
+[
+"Error against the real sky",
+"Sun 0.00°, Moon +2.58°"
+],
+[
+"Crank",
+"123.6 turns since J2000 (9 720 days)"
+],
+[
+"Gear",
+"hover over a gear (or tap it)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Date",
+"06/12/2026 (Gregorian)"
+],
+[
+"Egyptian calendar",
+"Pharmouthi 24"
+],
+[
+"Sun (zodiac)",
+"Sagittarius 15.6°"
+],
+[
+"Moon (zodiac)",
+"Scorpio 22.7°"
+],
+[
+"Moon phase",
+"Waning crescent — 4 % lit"
+],
+[
+"Anomaly correction (pin and slot)",
+"+5.22°"
+],
+[
+"Ascending node",
+"Aquarius 23.8°"
+],
+[
+"Metonic spiral",
+"cell 99 — year 8"
+],
+[
+"Callippic dial",
+"cycle 2 of 4"
+],
+[
+"Games dial",
+"Nemea"
+],
+[
+"Saros spiral",
+"cell 111"
+],
+[
+"Exeligmos",
+"add 8 h"
+],
+[
+"Eclipse",
+"none this lunation"
+],
+[
+"Mercury (Cosmos)",
+"Scorpio 28.2°"
+],
+[
+"Venus (Cosmos)",
+"Scorpio 3.3°"
+],
+[
+"Mars (Cosmos)",
+"Leo 29.3°"
+],
+[
+"Jupiter (Cosmos)",
+"Leo 21.8°"
+],
+[
+"Saturn (Cosmos)",
+"Aries 13.8°"
+],
+[
+"Error against the real sky",
+"Sun 0.00°, Moon +2.20°"
+],
+[
+"Crank",
+"125.1 turns since J2000 (9 836 days)"
+],
+[
+"Gear",
+"hover over a gear (or tap it)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Date",
+"06/12/2026 (Gregorian)"
+],
+[
+"Egyptian calendar",
+"Pharmouthi 24"
+],
+[
+"Sun (zodiac)",
+"Sagittarius 15.6°"
+],
+[
+"Moon (zodiac)",
+"Scorpio 22.7°"
+],
+[
+"Moon phase",
+"Waning crescent — 4 % lit"
+],
+[
+"Anomaly correction (pin and slot)",
+"+5.22°"
+],
+[
+"Ascending node",
+"Aquarius 23.8°"
+],
+[
+"Metonic spiral",
+"cell 99 — year 8"
+],
+[
+"Callippic dial",
+"cycle 2 of 4"
+],
+[
+"Games dial",
+"Nemea"
+],
+[
+"Saros spiral",
+"cell 111"
+],
+[
+"Exeligmos",
+"add 8 h"
+],
+[
+"Eclipse",
+"none this lunation"
+],
+[
+"Mercury (Cosmos)",
+"Scorpio 28.2°"
+],
+[
+"Venus (Cosmos)",
+"Scorpio 3.3°"
+],
+[
+"Mars (Cosmos)",
+"Leo 29.3°"
+],
+[
+"Jupiter (Cosmos)",
+"Leo 21.8°"
+],
+[
+"Saturn (Cosmos)",
+"Aries 13.8°"
+],
+[
+"Error against the real sky",
+"Sun 0.00°, Moon +2.20°"
+],
+[
+"Crank",
+"125.1 turns since J2000 (9 836 days)"
+],
+[
+"Gear",
+"hover over a gear (or tap it)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Date",
+"02/04/2027 (Gregorian)"
+],
+[
+"Egyptian calendar",
+"Mesore 21"
+],
+[
+"Sun (zodiac)",
+"Aries 10.3°"
+],
+[
+"Moon (zodiac)",
+"Aquarius 16.7°"
+],
+[
+"Moon phase",
+"Waning crescent — 20 % lit"
+],
+[
+"Anomaly correction (pin and slot)",
+"-3.94°"
+],
+[
+"Ascending node",
+"Aquarius 17.6°"
+],
+[
+"Metonic spiral",
+"cell 103 — year 9"
+],
+[
+"Callippic dial",
+"cycle 2 of 4"
+],
+[
+"Games dial",
+"Pythia"
+],
+[
+"Saros spiral",
+"cell 115"
+],
+[
+"Exeligmos",
+"add 8 h"
+],
+[
+"Eclipse",
+"none this lunation"
+],
+[
+"Mercury (Cosmos)",
+"Pisces 23.2°"
+],
+[
+"Venus (Cosmos)",
+"Pisces 7.3°"
+],
+[
+"Mars (Cosmos)",
+"Leo 21.8°"
+],
+[
+"Jupiter (Cosmos)",
+"Leo 11.9°"
+],
+[
+"Saturn (Cosmos)",
+"Aries 21.8°"
+],
+[
+"Error against the real sky",
+"Sun 0.00°, Moon +0.03°"
+],
+[
+"Crank",
+"126.6 turns since J2000 (9 953 days)"
+],
+[
+"Gear",
+"hover over a gear (or tap it)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Date",
+"12/08/2026 (Gregorian)"
+],
+[
+"Egyptian calendar",
+"Choiak 28"
+],
+[
+"Sun (zodiac)",
+"Leo 21.0°"
+],
+[
+"Moon (zodiac)",
+"Leo 19.2°"
+],
+[
+"Moon phase",
+"New Moon — 0 % lit"
+],
+[
+"Anomaly correction (pin and slot)",
+"+4.85°"
+],
+[
+"Ascending node",
+"Pisces 0.0°"
+],
+[
+"Metonic spiral",
+"cell 95 — year 8"
+],
+[
+"Callippic dial",
+"cycle 2 of 4"
+],
+[
+"Games dial",
+"Nemea"
+],
+[
+"Saros spiral",
+"cell 107 — glyph ΗΣ"
+],
+[
+"Exeligmos",
+"add 8 h"
+],
+[
+"Eclipse",
+"solar eclipse possible"
+],
+[
+"Mercury (Cosmos)",
+"Leo 3.2°"
+],
+[
+"Venus (Cosmos)",
+"Libra 7.3°"
+],
+[
+"Mars (Cosmos)",
+"Gemini 23.1°"
+],
+[
+"Jupiter (Cosmos)",
+"Leo 5.0°"
+],
+[
+"Saturn (Cosmos)",
+"Aries 20.4°"
+],
+[
+"Error against the real sky",
+"Sun 0.00°, Moon +2.58°"
+],
+[
+"Crank",
+"123.6 turns since J2000 (9 720 days)"
+],
+[
+"Gear",
+"hover over a gear (or tap it)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Closed machine: wooden case and bronze plates engraved in Greek. Untick to see the gear train.",
+"cle": "enveloppe",
+"defaut": true,
+"libelle": "Case",
+"type": "coche"
+},
+{
+"aide": "Spreads the 16 meshing planes along the arbors: no gear moves within its plane, meshing gears stay face to face.",
+"cle": "eclatement",
+"dec": 0,
+"defaut": 0,
+"libelle": "Exploded levels",
+"log": false,
+"maxi": 100,
+"mini": 0,
+"type": "curseur",
+"unite": "%",
+"valeur": 0.0
+},
+{
+"aide": "Front face (calendar, zodiac, Moon, Cosmos), back face (Metonic and Saros spirals) or three-quarter view; dragging then turns the machine.",
+"cle": "face",
+"defaut": "avant",
+"options": [
+[
+"front face",
+"avant"
+],
+[
+"back face",
+"arriere"
+],
+[
+"three-quarter",
+"trois_quarts"
+]
+],
+"type": "choix"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Date",
+"12/08/2026 (grégorien)"
+],
+[
+"Calendrier égyptien",
+"Choiak 28"
+],
+[
+"Soleil (zodiaque)",
+"Lion 21,0°"
+],
+[
+"Lune (zodiaque)",
+"Lion 19,2°"
+],
+[
+"Phase de la Lune",
+"Nouvelle Lune — 0 % éclairée"
+],
+[
+"Correction d’anomalie (tenon-fente)",
+"+4,85°"
+],
+[
+"Nœud ascendant",
+"Poissons 0,0°"
+],
+[
+"Spirale métonique",
+"case 95 — année 8"
+],
+[
+"Cadran callippique",
+"cycle 2 sur 4"
+],
+[
+"Cadran des Jeux",
+"Nemea"
+],
+[
+"Spirale du Saros",
+"case 107 — glyphe ΗΣ"
+],
+[
+"Exeligmos",
+"ajouter 8 h"
+],
+[
+"Éclipse",
+"éclipse de Soleil possible"
+],
+[
+"Mercure (Cosmos)",
+"Lion 3,2°"
+],
+[
+"Vénus (Cosmos)",
+"Balance 7,3°"
+],
+[
+"Mars (Cosmos)",
+"Gémeaux 23,1°"
+],
+[
+"Jupiter (Cosmos)",
+"Lion 5,0°"
+],
+[
+"Saturne (Cosmos)",
+"Bélier 20,4°"
+],
+[
+"Écart au ciel réel",
+"Soleil 0,00°, Lune +2,58°"
+],
+[
+"Manivelle",
+"123,6 tours depuis J2000 (9 720 jours)"
+],
+[
+"Roue",
+"survoler une roue (ou la toucher)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Date",
+"06/12/2026 (grégorien)"
+],
+[
+"Calendrier égyptien",
+"Pharmouthi 24"
+],
+[
+"Soleil (zodiaque)",
+"Sagittaire 15,6°"
+],
+[
+"Lune (zodiaque)",
+"Scorpion 22,7°"
+],
+[
+"Phase de la Lune",
+"Dernier croissant — 4 % éclairée"
+],
+[
+"Correction d’anomalie (tenon-fente)",
+"+5,22°"
+],
+[
+"Nœud ascendant",
+"Verseau 23,8°"
+],
+[
+"Spirale métonique",
+"case 99 — année 8"
+],
+[
+"Cadran callippique",
+"cycle 2 sur 4"
+],
+[
+"Cadran des Jeux",
+"Nemea"
+],
+[
+"Spirale du Saros",
+"case 111"
+],
+[
+"Exeligmos",
+"ajouter 8 h"
+],
+[
+"Éclipse",
+"aucune à cette lunaison"
+],
+[
+"Mercure (Cosmos)",
+"Scorpion 28,2°"
+],
+[
+"Vénus (Cosmos)",
+"Scorpion 3,3°"
+],
+[
+"Mars (Cosmos)",
+"Lion 29,3°"
+],
+[
+"Jupiter (Cosmos)",
+"Lion 21,8°"
+],
+[
+"Saturne (Cosmos)",
+"Bélier 13,8°"
+],
+[
+"Écart au ciel réel",
+"Soleil 0,00°, Lune +2,20°"
+],
+[
+"Manivelle",
+"125,1 tours depuis J2000 (9 836 jours)"
+],
+[
+"Roue",
+"survoler une roue (ou la toucher)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Date",
+"06/12/2026 (grégorien)"
+],
+[
+"Calendrier égyptien",
+"Pharmouthi 24"
+],
+[
+"Soleil (zodiaque)",
+"Sagittaire 15,6°"
+],
+[
+"Lune (zodiaque)",
+"Scorpion 22,7°"
+],
+[
+"Phase de la Lune",
+"Dernier croissant — 4 % éclairée"
+],
+[
+"Correction d’anomalie (tenon-fente)",
+"+5,22°"
+],
+[
+"Nœud ascendant",
+"Verseau 23,8°"
+],
+[
+"Spirale métonique",
+"case 99 — année 8"
+],
+[
+"Cadran callippique",
+"cycle 2 sur 4"
+],
+[
+"Cadran des Jeux",
+"Nemea"
+],
+[
+"Spirale du Saros",
+"case 111"
+],
+[
+"Exeligmos",
+"ajouter 8 h"
+],
+[
+"Éclipse",
+"aucune à cette lunaison"
+],
+[
+"Mercure (Cosmos)",
+"Scorpion 28,2°"
+],
+[
+"Vénus (Cosmos)",
+"Scorpion 3,3°"
+],
+[
+"Mars (Cosmos)",
+"Lion 29,3°"
+],
+[
+"Jupiter (Cosmos)",
+"Lion 21,8°"
+],
+[
+"Saturne (Cosmos)",
+"Bélier 13,8°"
+],
+[
+"Écart au ciel réel",
+"Soleil 0,00°, Lune +2,20°"
+],
+[
+"Manivelle",
+"125,1 tours depuis J2000 (9 836 jours)"
+],
+[
+"Roue",
+"survoler une roue (ou la toucher)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Date",
+"02/04/2027 (grégorien)"
+],
+[
+"Calendrier égyptien",
+"Mesore 21"
+],
+[
+"Soleil (zodiaque)",
+"Bélier 10,3°"
+],
+[
+"Lune (zodiaque)",
+"Verseau 16,7°"
+],
+[
+"Phase de la Lune",
+"Dernier croissant — 20 % éclairée"
+],
+[
+"Correction d’anomalie (tenon-fente)",
+"-3,94°"
+],
+[
+"Nœud ascendant",
+"Verseau 17,6°"
+],
+[
+"Spirale métonique",
+"case 103 — année 9"
+],
+[
+"Cadran callippique",
+"cycle 2 sur 4"
+],
+[
+"Cadran des Jeux",
+"Pythia"
+],
+[
+"Spirale du Saros",
+"case 115"
+],
+[
+"Exeligmos",
+"ajouter 8 h"
+],
+[
+"Éclipse",
+"aucune à cette lunaison"
+],
+[
+"Mercure (Cosmos)",
+"Poissons 23,2°"
+],
+[
+"Vénus (Cosmos)",
+"Poissons 7,3°"
+],
+[
+"Mars (Cosmos)",
+"Lion 21,8°"
+],
+[
+"Jupiter (Cosmos)",
+"Lion 11,9°"
+],
+[
+"Saturne (Cosmos)",
+"Bélier 21,8°"
+],
+[
+"Écart au ciel réel",
+"Soleil 0,00°, Lune +0,03°"
+],
+[
+"Manivelle",
+"126,6 tours depuis J2000 (9 953 jours)"
+],
+[
+"Roue",
+"survoler une roue (ou la toucher)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Date",
+"12/08/2026 (grégorien)"
+],
+[
+"Calendrier égyptien",
+"Choiak 28"
+],
+[
+"Soleil (zodiaque)",
+"Lion 21,0°"
+],
+[
+"Lune (zodiaque)",
+"Lion 19,2°"
+],
+[
+"Phase de la Lune",
+"Nouvelle Lune — 0 % éclairée"
+],
+[
+"Correction d’anomalie (tenon-fente)",
+"+4,85°"
+],
+[
+"Nœud ascendant",
+"Poissons 0,0°"
+],
+[
+"Spirale métonique",
+"case 95 — année 8"
+],
+[
+"Cadran callippique",
+"cycle 2 sur 4"
+],
+[
+"Cadran des Jeux",
+"Nemea"
+],
+[
+"Spirale du Saros",
+"case 107 — glyphe ΗΣ"
+],
+[
+"Exeligmos",
+"ajouter 8 h"
+],
+[
+"Éclipse",
+"éclipse de Soleil possible"
+],
+[
+"Mercure (Cosmos)",
+"Lion 3,2°"
+],
+[
+"Vénus (Cosmos)",
+"Balance 7,3°"
+],
+[
+"Mars (Cosmos)",
+"Gémeaux 23,1°"
+],
+[
+"Jupiter (Cosmos)",
+"Lion 5,0°"
+],
+[
+"Saturne (Cosmos)",
+"Bélier 20,4°"
+],
+[
+"Écart au ciel réel",
+"Soleil 0,00°, Lune +2,58°"
+],
+[
+"Manivelle",
+"123,6 tours depuis J2000 (9 720 jours)"
+],
+[
+"Roue",
+"survoler une roue (ou la toucher)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Machine fermée : coffret de bois et plaques de bronze gravées en grec. Décocher pour voir le train d’engrenages.",
+"cle": "enveloppe",
+"defaut": true,
+"libelle": "Enveloppe",
+"type": "coche"
+},
+{
+"aide": "Écarte les 16 plans d’engrènement le long des arbres : aucune roue ne bouge dans son plan, celles qui s’engrènent restent face à face.",
+"cle": "eclatement",
+"dec": 0,
+"defaut": 0,
+"libelle": "Éclatement des étages",
+"log": false,
+"maxi": 100,
+"mini": 0,
+"type": "curseur",
+"unite": "%",
+"valeur": 0.0
+},
+{
+"aide": "Face avant (calendrier, zodiaque, Lune, Cosmos), face arrière (spirales métonique et du Saros) ou trois-quarts ; glisser fait ensuite tourner la machine.",
+"cle": "face",
+"defaut": "avant",
+"options": [
+[
+"face avant",
+"avant"
+],
+[
+"face arrière",
+"arriere"
+],
+[
+"trois-quarts",
+"trois_quarts"
+]
+],
+"type": "choix"
+}
+]
+},
+"lecture_au_depart": false
+},
 "antipodesexplorer": {
 "animee": false,
 "changements": [

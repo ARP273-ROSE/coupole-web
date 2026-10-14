@@ -2,8 +2,8 @@
 export const UI: Record<string, [string, string]> = {
   web_titre_site: ['Coupole Web — animations d’astronomie', 'Coupole Web — astronomy animations'],
   web_description: [
-    '92 animations interactives d’astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes… D’après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.',
-    '92 interactive astronomy animations in the browser: celestial sphere, seasons, lunar phases, orbits, spectra, exoplanets… After ClassAction (University of Nebraska-Lincoln). Offline, no tracker.',
+    '93 animations interactives d’astronomie dans le navigateur : sphère céleste, saisons, phases de la Lune, orbites, spectres, exoplanètes, machine d’Anticythère… D’après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.',
+    '93 interactive astronomy animations in the browser: celestial sphere, seasons, lunar phases, orbits, spectra, exoplanets, Antikythera Mechanism… After ClassAction (University of Nebraska-Lincoln). Offline, no tracker.',
   ],
   web_evitement: ['Aller au contenu', 'Skip to content'],
   web_nav: ['Navigation principale', 'Main navigation'],
@@ -72,8 +72,8 @@ export const UI: Record<string, [string, string]> = {
   // ------------------------------------------------------------ à propos
   web_apropos_titre: ['À propos de Coupole Web', 'About Coupole Web'],
   web_apropos_intro: [
-    'Coupole Web est la version navigateur des animations d’astronomie de Coupole, une application libre de bureau pour Windows, macOS et Linux. Les 92 animations du catalogue ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau.',
-    'Coupole Web is the browser version of the astronomy animations of Coupole, a free desktop application for Windows, macOS and Linux. The 92 animations of the ClassAction catalogue are remade with the same formulas, the same data, the same settings and the same texts as the desktop application.',
+    'Coupole Web est la version navigateur des animations d’astronomie de Coupole, une application libre de bureau pour Windows, macOS et Linux. Les 92 animations du catalogue ClassAction y sont refaites avec les mêmes formules, les mêmes données, les mêmes réglages et les mêmes textes que l’application de bureau ; s’y ajoute une 93ᵉ, la machine d’Anticythère en 3D, adaptée d’Anticythere3D, du même auteur.',
+    'Coupole Web is the browser version of the astronomy animations of Coupole, a free desktop application for Windows, macOS and Linux. The 92 animations of the ClassAction catalogue are remade with the same formulas, the same data, the same settings and the same texts as the desktop application; a 93rd is added, the Antikythera Mechanism in 3D, adapted from Anticythere3D, by the same author.',
   ],
   web_apropos_origine_t: ['D’après ClassAction', 'After ClassAction'],
   web_apropos_origine: [
@@ -97,13 +97,14 @@ export const UI: Record<string, [string, string]> = {
   web_apropos_usage_4: ['L’adresse de la page garde les réglages : copiez-la pour partager exactement ce que vous voyez.', 'The page address keeps the settings: copy it to share exactly what you see.'],
   web_apropos_licence_t: ['Licence', 'License'],
   web_apropos_licence: [
-    'Code source sous licence Apache 2.0 (fichiers LICENSE et NOTICE du dépôt). Polices Inter et STIX Two Math sous licence SIL Open Font License 1.1 ; côtes Natural Earth (domaine public). Données reprises de l’original et sources citées dans le fichier NOTICE (NASA Exoplanet Archive, NASA Planetary Fact Sheet, JPL, CALEB, SIMBAD, AME 2020…).',
-    'Source code under the Apache 2.0 license (LICENSE and NOTICE files of the repository). Inter and STIX Two Math fonts under the SIL Open Font License 1.1; Natural Earth coastlines (public domain). Data taken from the original, with sources cited in the NOTICE file (NASA Exoplanet Archive, NASA Planetary Fact Sheet, JPL, CALEB, SIMBAD, AME 2020…).',
+    'Code source sous licence Apache 2.0 (fichiers LICENSE et NOTICE du dépôt). Polices Inter et STIX Two Math sous licence SIL Open Font License 1.1 ; côtes Natural Earth (domaine public). Données reprises de l’original et sources citées dans le fichier NOTICE (NASA Exoplanet Archive, NASA Planetary Fact Sheet, JPL, CALEB, SIMBAD, AME 2020…) ; machine d’Anticythère d’après Freeth et al. (Nature 2006, 2008 ; Scientific Reports 2021).',
+    'Source code under the Apache 2.0 license (LICENSE and NOTICE files of the repository). Inter and STIX Two Math fonts under the SIL Open Font License 1.1; Natural Earth coastlines (public domain). Data taken from the original, with sources cited in the NOTICE file (NASA Exoplanet Archive, NASA Planetary Fact Sheet, JPL, CALEB, SIMBAD, AME 2020…); Antikythera Mechanism after Freeth et al. (Nature 2006, 2008; Scientific Reports 2021).',
   ],
   web_apropos_liens_t: ['Liens', 'Links'],
   web_apropos_depot: ['Code source de Coupole Web', 'Coupole Web source code'],
   web_apropos_coupole: ['Coupole, l’application de bureau', 'Coupole, the desktop application'],
   web_apropos_classaction: ['ClassAction (sources d’origine)', 'ClassAction (original sources)'],
+  web_apropos_anticythere: ['Anticythere3D, l’application complète de la machine d’Anticythère', 'Anticythere3D, the full Antikythera Mechanism application'],
   web_apropos_version: ['Version {v}', 'Version {v}'],
 
   // rejouer les éclipses de la table (simulateur des ombres d'éclipse)

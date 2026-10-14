@@ -4,6 +4,28 @@ Copyright 2026 ARP273-ROSE
 Coupole Web est distribué sous licence Apache 2.0 (fichier LICENSE).
 Coupole Web is distributed under the Apache License 2.0 (LICENSE file).
 
+Machine d'Anticythère / Antikythera Mechanism (src/calc/anticythere.ts, src/anim/animations/anticythere.ts)
+---------------------------------------------------------------------------------------------------------
+Adaptée d'Anticythere3D, du même auteur (https://github.com/ARP273-ROSE/Anticythere3D, version 1.3.1), écrite
+pour ce projet par son auteur et intégrée ici sous licence Apache 2.0, comme dans Coupole (GPL-3.0) : nombres de
+dents, trains, rapports exacts, tenon et fente, implantation des arbres, cadrans et inscriptions gravées,
+astronomie de calage, et ses tests.
+Adapted from Anticythere3D, by the same author (version 1.3.1), written for this project by its author and
+included here under the Apache License 2.0, as in Coupole (GPL-3.0): tooth counts, trains, exact ratios, pin and
+slot, arbor layout, dials and engraved inscriptions, calibration astronomy, and its tests.
+Données scientifiques, avec leurs publications (telles que citées par Anticythere3D) / scientific data:
+  - Freeth T. et al., « Decoding the ancient Greek astronomical calculator known as the Antikythera Mechanism »,
+    Nature 444 (2006) 587-591, et notes supplémentaires (nombres de dents) ;
+  - Freeth T., Jones A., Steele J., Bitsakis Y., « Calendars with Olympiad display and eclipse prediction on the
+    Antikythera Mechanism », Nature 454 (2008) 614-617 (spirales, mois corinthiens, Jeux, glyphes d'éclipses) ;
+  - Freeth T., Higgon D., Dacanalis A., MacDonald L., Georgakopoulou M., Wojcik A., « A Model of the Cosmos in the
+    ancient Greek Antikythera Mechanism », Scientific Reports 11:5821 (2021) (relations de période des planètes,
+    anneaux du Cosmos, ligne des nœuds) ;
+  - Meeus J., Astronomical Algorithms, 2e éd., ch. 7, 25, 47, 54 (calage et écart au ciel réel).
+Glyphes d'éclipse du Saros calculés (syzygie proche d'un nœud), pas copiés de la plaque ; ère de Nabonassar
+(1er Thoth de l'an 1 = JD 1 448 638) pour le calendrier égyptien ; longitudes géocentriques des planètes par
+l'épicycle du modèle de 2021.
+
 Animations d'après ClassAction / Animations after ClassAction
 -------------------------------------------------------------
 Les animations sont refaites en TypeScript d'après ClassAction, University of Nebraska-Lincoln Astronomy Education,
@@ -20,7 +42,7 @@ settings and same texts.
               https://github.com/astroUNL/interactives-air-app
 
 Repris ou adaptés de ces sources / taken or adapted from these sources :
-  - le catalogue des 92 animations (identifiants, titres, descriptions anglaises : animations.xml) ;
+  - le catalogue des 92 animations ClassAction (identifiants, titres, descriptions anglaises : animations.xml) ;
   - les comportements, réglages et paramètres des animations (lus dans le code ActionScript d'origine) ;
   - les positions d'étoiles des constellations de la comparaison des repères, la liste des villes et le tracé
     simplifié de la ligne de changement de date du démonstrateur longitude/latitude ;

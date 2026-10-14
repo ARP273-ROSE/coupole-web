@@ -7,8 +7,9 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 
 - Socle complet : catalogue, fiche, toile, réglages, adresse partageable, mémoire, thèmes, langues, PWA hors ligne,
   sécurité, tests, CI, déploiement GitHub Pages.
-- Animations disponibles : **92 / 92**, toutes vérifiées contre les références de Coupole (réglages et valeurs
-  affichées, FR et EN), chacune avec son texte « Ce qu’il faut voir ».
+- Animations disponibles : **93** — les 92 de ClassAction et la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D),
+  toutes vérifiées contre les références de Coupole (réglages et valeurs affichées, FR et EN), chacune avec son texte
+  « Ce qu’il faut voir ».
 - Lighthouse (mobile et bureau, catalogue, à propos, deux animations) : performances 97–100, accessibilité 100,
   bonnes pratiques 100, référencement 100.
 
@@ -204,6 +205,46 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - Écart volontaire avec Coupole : les références (`tests/references/animations.json`, champ `_note`) ont été mises
   à jour avec ces valeurs (R par défaut 8,21 kpc, vitesses du modèle, ligne de masse ajoutée).
 
+### Machine d'Anticythère (`src/calc/anticythere.ts`, `src/anim/animations/anticythere.ts`)
+- Données et calculs repris d'Anticythere3D 1.3.1 (même auteur) sans changement : dents, trains (fractions exactes),
+  `gear_angles`, tenon-fente (ε = 1,1 mm, r = 9,6 mm), implantation des 15 arbres et 16 étages, éclatement le long des
+  arbres (`level_z`, `arbor_span`), cadrans (`dialface.py` : rayons, graduations, inscriptions, glyphes du Saros).
+  Ajouts : vitesse exacte de chaque roue (`GEAR_RATES`, testée contre la dérivée de `gear_angles`), calendrier égyptien
+  par l'ère de Nabonassar (JD 1 448 638, au lieu du jour de l'année grégorienne d'Anticythere3D), longitude
+  géocentrique des planètes par l'épicycle (demi-grands axes) au lieu de la longitude héliocentrique moyenne.
+- Date de départ : 12 août 2026, 12 h TU (éclipse totale de Soleil ; case ΗΣ du Saros). Machine calée à J2000.
+- Caméra : quaternion [w, x, y, z] → matrice (lignes = axes de vue dans le repère de la machine). Vues : avant
+  (identité), arrière (demi-tour autour de y), trois-quarts (Rx 24° · Ry −34°). Glisser : boule de commande d'angle
+  |d| / (0,45 × min(l, h)) ; entrées non finies ignorées, résultat renormé et validé (sinon l'orientation de base) ;
+  orientation invalide remplacée avant le dessin. Double-clic : vue choisie.
+- Projection orthographique ; échelle = emprise projetée du coffret (8 coins) et de la poignée, × 0,95, centrée ;
+  figée pendant un glisser de la vue (pas d'effet de pompage).
+- Rendu : chaque pièce plane est dessinée dans son plan par `ctx.transform(affine_plan)` ; tri du peintre sur
+  z × signe(R₂₂) ; arbres coupés aux plans des roues à moins de 20 mm (+ rayon) ; face cachée d'une roue = couronne de
+  3 mm (seul son bord dépasse) ; denture triangulaire si une dent fait ≥ 3 px CSS, sinon cercle primitif ; roues à
+  bras évidées (pair-impair). Machine fermée : faces du coffret tournées vers l'observateur seulement (bois
+  `#664526` × 0,7–1), façade bronze `#C6A86A`.
+- Couleurs des sous-ensembles : celles d'Anticythere3D en thème clair (entrée `#DE6910`, Lune `#0D59C1`, anomalie
+  `#8E1700`, métonique `#1D9594`, callippique `#786F4C`, Saros `#841959`, exeligmos `#B66CCD`) ; thème sombre :
+  éclaircies de 38 % vers le blanc. Bronze et gravure des cadrans : ceux de `dialface.py` (indépendants du thème).
+- Cadrans en cache : image carrée (R = 0,485 × envergure ; avant 251,5 mm, arrière = BACK_DIAL_SPAN), côté 256 à
+  2048 px, puissance de 2 selon le zoom réel (dpr et zoom de la scène compris) ; anneau calendaire à part, tourné pour
+  que l'aiguille du Soleil montre la date égyptienne ; face arrière dessinée en miroir (vue par-derrière).
+- Aiguilles : Soleil `#D9A626` (97,7 mm), Lune `#CCD1DB` (88,8 mm) avec sphère de phase demi-argentée (r 5,5 mm à
+  82 mm, limbe éclairé tourné vers l'aiguille du Soleil) ; anneaux du Cosmos (rayons 26–72 mm) et symboles ☾ ☿ ♀ ☉ ♂
+  ♃ ♄ placés par le placeur ; dos : aiguilles métonique et du Saros avec curseur sur le sillon, aiguilles des cadrans
+  callippique, exeligmos et Jeux.
+- Interaction : poignée (rayon de saisie max(16 px, 7 mm)) ; angle par intersection du rayon de vue avec le plan de
+  la poignée ; 1 tour de poignée = 48/223 an ; lecture : 1 tour par seconde × vitesse. Survol (souris) ou toucher
+  sans glisser (doigt) : roue la plus proche de l'observateur sous le pointeur (bras des roues évidées compris),
+  cartouche « nom · dents · rapport » et ligne « Roue » des valeurs.
+- Durée d'une image (Chromium, iPhone 15 émulé, NAS chargé, moyenne de 30 images) : fermée 0,4 ms (×1) et 1,5–2,3 ms
+  (processeur ralenti ×4) ; ouverte 0,9–1,2 ms (×1), 3,5–4,8 ms (×4) ; éclatée 3,6–4,9 ms (×4). Première image d'une
+  face : ≈ 200 ms (construction du cache, une fois).
+- Tests : `anticythere.test.ts` (tests d'Anticythere3D + références SageMath `tests/references/anticythere_sage.json`),
+  `anticythere_rendu.test.ts` (1 000 glissers aberrants, toutes vues, survol, manivelle), tests génériques des 93
+  animations, Playwright 3 moteurs × 3 formats.
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,
@@ -237,8 +278,21 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
       glisser qui suit le doigt, aide propre à chaque animation, côtes Natural Earth à la demande, éclipses rejouées,
       ordre pédagogique des thèmes ; audit visuel des 92 animations sur bureau et téléphone.
 
+### 2026-10-14 — 0.2.0 : titres de panneaux, Kirchhoff, jour-nuit, machine d’Anticythère
+
+- [x] Trois vues d’un spectre : ordre le long de la visée (ampoule opaque), télescope hors du halo ; références
+      inchangées.
+- [x] Titres de panneaux mis en page dans leur panneau (22 animations débordaient à 300 px de large) ; tests unitaire
+      et Playwright téléphone.
+- [x] Simulateur jour-nuit : globe 3D par défaut.
+- [x] Machine d’Anticythère (93ᵉ) : cœur, rendu, textes FR/EN (exportés de Coupole, seulement les nouvelles clés :
+      la réexportation complète des textes changerait d’autres libellés, voir « Reste à faire »), références de
+      Coupole (`references_animations.py … antikythera`), « Ce qu’il faut voir », lien croisé, à propos, NOTICE.
+
 ## Reste à faire
 
-- Rien d’obligatoire. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur
+- Rien d’obligatoire. Les textes de `src/i18n/genere/` n’ont pas été réexportés en entier depuis Coupole 0.4.1 (une
+  réexportation change quelques libellés de la Voie lactée et ajoute des clés propres au bureau) : à faire avec une
+  régénération des références de ces animations. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur
   téléphone dans quelques animations. Pistes : tirages aléatoires identiques à ceux de Python (Mersenne Twister) pour le CCD et le
   télescope (seules les valeurs non affichées en dépendent) ; bouton « Version web » dans Coupole.

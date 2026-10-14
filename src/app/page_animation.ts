@@ -3,7 +3,7 @@
  * liste des réglages).  Chargée à la demande (morceau séparé) avec l'animation elle-même.
  */
 import { Animation, Bouton, type EtatReglages, Reglage } from '../anim/base';
-import { charger, disponible, type Entree, PAR_ID } from '../anim/registre';
+import { charger, disponible, type Entree, HORS_CLASSACTION, PAR_ID } from '../anim/registre';
 import { aVoir } from '../i18n/a_voir';
 import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
 import { choisirTheme, type Theme } from '../noyau/dessin';
@@ -58,6 +58,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   const memoire = prefs.etatValide(prefs.lire('reglages:' + e.id, {}));
   const depart = Object.keys(etatAdresse).length ? etatAdresse : memoire;
   const nom = tr('anim_nom_' + e.cle);
+  const hors = HORS_CLASSACTION.get(e.id);
 
   // ------------------------------------------------------------ squelette
   const zoomTexte = h('span', { 'aria-live': 'polite' });
@@ -82,7 +83,9 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
       h('span', { 'aria-hidden': 'true', text: '·' }),
       h('span', { text: tr('anim_theme_' + e.theme) }),
     ),
-    h('div', { class: 'titre-anim' }, h('h1', { text: nom }), nom !== e.titre ? h('span', { class: 'origine', text: tr('web_titre_origine', { titre: e.titre }) }) : null),
+    h('div', { class: 'titre-anim' }, h('h1', { text: nom }),
+      hors ? h('span', { class: 'origine', text: tr(`anim_${e.cle}_adapte`) })
+        : nom !== e.titre ? h('span', { class: 'origine', text: tr('web_titre_origine', { titre: e.titre }) }) : null),
     h(
       'div',
       { class: 'anim' },
@@ -218,7 +221,9 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   // aide propre à l'animation (jamais par-dessus le dessin) : sous la scène et dans la fiche
   const aide = aideInteraction(anim, e.cle);
   sousScene.textContent = aide;
-  fiche.append(h('p', { class: 'astuce', text: aide }), h('p', { class: 'credit', text: tr('web_credit_court') }));
+  // lien croisé vers l'application complète d'où vient l'animation (hors ClassAction)
+  if (hors) fiche.append(h('p', { class: 'lien-croise' }, h('a', { href: hors[1], rel: 'noopener noreferrer', target: '_blank', text: tr(`anim_${e.cle}_lien`) }), ' ↗'));
+  fiche.append(h('p', { class: 'astuce', text: aide }), h('p', { class: 'credit', text: hors ? tr(`anim_${e.cle}_adapte`) : tr('web_credit_court') }));
 
   // ------------------------------------------------------------ mémoire et adresse partageable
   let minuteur = 0;

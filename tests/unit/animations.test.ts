@@ -99,8 +99,8 @@ const FORMATS: [string, number, number][] = [
 ];
 
 describe('catalogue', () => {
-  it('92 animations, toutes dans les références de Coupole', () => {
-    expect(ENTREES.length).toBe(92);
+  it('93 animations (92 de ClassAction et la machine d’Anticythère), toutes dans les références de Coupole', () => {
+    expect(ENTREES.length).toBe(93);
     for (const e of ENTREES) expect(R[e.id], e.id).toBeDefined();
   });
 });
