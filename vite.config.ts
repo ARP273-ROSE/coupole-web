@@ -37,6 +37,8 @@ function serviceWorker(): Plugin {
             // contenus des modules (≈ 5 Mo) : seuls les index sont mis en cache à l'installation ; chaque question,
             // fiche, table ou image l'est à sa première ouverture (le service worker garde tout ce qu'il sert)
             if (r.startsWith('contenu/') && !INDEX_CONTENU.has(r)) continue;
+            // captures du manifeste : seulement pour la boîte d'installation du navigateur
+            if (r.startsWith('screenshots/')) continue;
             fichiers.add(r);
           }
         }

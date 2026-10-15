@@ -1,23 +1,123 @@
 {
-  "name": "Coupole Web — animations d'astronomie",
+  "name": "Coupole Web — modules d'astronomie",
   "short_name": "Coupole",
-  "description": "94 animations interactives d'astronomie, d'après ClassAction (University of Nebraska-Lincoln). Hors ligne, sans traceur.",
+  "description": "22 modules d'astronomie : 517 questions, 94 animations interactives, des fiches, des tables et des images, d'après ClassAction (University of Nebraska-Lincoln). Recherche bilingue, favoris, hors ligne, sans traceur.",
   "id": "./",
   "start_url": "./#/",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
   "background_color": "#14171C",
   "theme_color": "#14171C",
   "lang": "fr",
   "dir": "ltr",
-  "categories": ["education", "science"],
+  "categories": [
+    "education",
+    "science"
+  ],
   "icons": [
-    { "src": "icons/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icone-masquable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "icons/icone-masquable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
-  ]
+    {
+      "src": "icons/icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icone-masquable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icone-masquable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/large-accueil.webp",
+      "sizes": "1280x800",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Accueil : les 22 modules, la recherche et les favoris"
+    },
+    {
+      "src": "screenshots/large-bibliotheque.webp",
+      "sizes": "1280x800",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Bibliothèque : toutes les animations, rangées par module"
+    },
+    {
+      "src": "screenshots/etroite-accueil.webp",
+      "sizes": "720x1480",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Accueil sur téléphone"
+    },
+    {
+      "src": "screenshots/etroite-animation.webp",
+      "sizes": "720x1480",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Simulateur des saisons sur téléphone"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Bibliothèque",
+      "short_name": "Bibliothèque",
+      "url": "./#/bibliotheque",
+      "icons": [
+        {
+          "src": "icons/icone-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Mes favoris",
+      "short_name": "Favoris",
+      "url": "./#/favoris",
+      "icons": [
+        {
+          "src": "icons/icone-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Recherche",
+      "short_name": "Recherche",
+      "url": "./#/recherche",
+      "icons": [
+        {
+          "src": "icons/icone-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }
