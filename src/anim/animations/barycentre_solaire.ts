@@ -3,6 +3,7 @@
  * Soleil décrit une boucle compliquée, à moins de ≈ 2,2 rayons solaires du centre de masse, menée surtout par Jupiter
  * et Saturne.  Positions vraies des planètes (éléments de Standish, JPL) et masses de l'éphéméride DE440.
  */
+import { anneeDecimale, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import * as dc from '../../calc/deux_corps';
 import { tr } from '../../i18n/i18n';
@@ -24,6 +25,14 @@ export class BarycentreSolaire extends Animation {
   cases: Record<string, Coche> = {};
   trainee: [number, number, number][] = [];
   private cle: [string, number] | null = null;
+
+  static override TEMPS = ['annee'] as const;
+  static override PAS_DIRECT = 60;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    this.poser(this.annee, anneeDecimale(m.i));
+  }
 
   override construire(): void {
     this.annee = this.curseur('annee', 1800.0, 2050.0, 2026.0, { dec: 1 });

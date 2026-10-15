@@ -3,6 +3,7 @@
  * Terre, et sa position dans le ciel de l'observateur selon l'heure.  Lunaison moyenne 29,53 jours.  Comme dans
  * l'original, l'orbite de la Lune est ramenée dans le plan de l'équateur céleste.
  */
+import { elongationLune, heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -40,6 +41,19 @@ export class PhasesLune extends Animation {
   c_heures!: Coche;
   c_repere!: Coche;
   private orbite_rect: [Rect, number, number, number, number] | null = null;
+
+  static override TEMPS = ['phase', 'heure', 'nom_phase'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    // phase réelle de la Lune (élongation) et heure solaire de l'observateur
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void j;
+    this.poser(this.phase, elongationLune(m.i.jj));
+    this.poser(this.heure, h);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.ciel3d = this.vue(200.0, 25.0, 10.0, 89.0);

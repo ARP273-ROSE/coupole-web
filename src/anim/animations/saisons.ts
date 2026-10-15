@@ -3,6 +3,7 @@
  * fixe dans l'espace), Terre vue de côté ou depuis le Soleil (point subsolaire, latitude de l'observateur), et, pour
  * l'observateur, l'angle des rayons à midi ou l'étalement d'un faisceau sur le sol.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -44,6 +45,17 @@ export class Saisons extends Animation {
   observ!: Choix;
   c_subsolaire!: Coche;
   c_etiquettes!: Coche;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.orbite = this.vue(270.0, 30.0, 0.0, 89.0);

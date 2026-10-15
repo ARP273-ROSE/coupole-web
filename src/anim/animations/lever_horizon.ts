@@ -3,6 +3,7 @@
  * Soleil glisse le long de l'horizon au fil de l'année, entre ses positions extrêmes des solstices ; aux équinoxes il
  * est plein est (ouest).  La trajectoire du Soleil coupe l'horizon sous l'angle 90° − |φ|.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -21,6 +22,17 @@ export class LeverHorizon extends Animation {
   lat!: Reglage;
   jour!: Reglage;
   c_trace!: Coche;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.cote = this.choix('cote', [['anim_horizon_est', 'est'], ['anim_horizon_ouest', 'ouest']], 'est');

@@ -38,7 +38,7 @@ export class Scene implements Hote {
   private ox = 0;
   private oy = 0;
   private pointeurs = new Map<number, { x: number; y: number }>();
-  private glisse: { id: number; x: number; y: number; x0: number; y0: number; bouge: boolean } | null = null;
+  private glisse: { id: number; x: number; y: number; x0: number; y0: number; bouge: boolean; pris: boolean; bouton: Bouton_souris } | null = null;
   private pince: { d0: number; k0: number; mx0: number; my0: number; ox0: number; oy0: number } | null = null;
   private minuteurLong = 0;
   /** libellé accessible de la toile (nom de l'animation) ; les titres complets des panneaux y sont ajoutés */
@@ -339,6 +339,13 @@ export class Scene implements Hote {
   private bas(e: PointerEvent): void {
     if (!this.anim) return;
     if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 2 && e.button !== 1) return;
+    // nouveau geste (premier doigt, souris, stylet) : tout pointeur resté en mémoire est périmé (relâché ailleurs,
+    // geste avalé par le système…) ; sans ce ménage, le doigt suivant passait pour un pincement et rien ne tournait
+    if (e.isPrimary && this.pointeurs.size) {
+      this.pointeurs.clear();
+      this.pince = null;
+      this.annulerGlisse();
+    }
     try {
       this.canvas.setPointerCapture(e.pointerId);
     } catch {
@@ -358,8 +365,8 @@ export class Scene implements Hote {
     if (this.pointeurs.size > 2) return;
     this.canvas.focus({ preventScroll: true });
     const bouton: Bouton_souris = e.button === 2 ? 'droit' : e.button === 1 ? 'milieu' : 'gauche';
-    this.glisse = { id: e.pointerId, x: p.x, y: p.y, x0: p.x, y0: p.y, bouge: false };
-    this.anim.presser(this.logique(p.x, p.y), bouton);
+    this.glisse = { id: e.pointerId, x: p.x, y: p.y, x0: p.x, y0: p.y, bouge: false, pris: false, bouton };
+    this.glisse.pris = this.anim.presser(this.logique(p.x, p.y), bouton);
     this.demander();
     if (e.pointerType !== 'mouse') {
       clearTimeout(this.minuteurLong);
@@ -423,6 +430,13 @@ export class Scene implements Hote {
     }
     g.x = p.x;
     g.y = p.y;
+    // rien n'a été saisi à l'appui (scène pas encore dessinée, réglage changé à cet instant…) : on retente ici, le
+    // glisser ne dépend ainsi ni du focus ni de ce qui s'est passé juste avant
+    if (!g.pris) {
+      g.pris = this.anim.presser(this.logique(p.x, p.y), g.bouton);
+      if (g.pris) this.demander();
+      return;
+    }
     this.anim.glisser(this.logique(p.x, p.y), dx / this.k, dy / this.k);
     this.demander();
   }

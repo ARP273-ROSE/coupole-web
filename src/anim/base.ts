@@ -8,6 +8,7 @@
  * avancer(dt), dessiner(p, rect), valeurs() et, si besoin, presser / glisser / relacher (souris).
  */
 import { tr } from '../i18n/i18n';
+import type { Moment } from '../calc/maintenant';
 import { c, debutImage } from '../noyau/dessin';
 import { Vue3D } from '../noyau/dessin';
 import { type Peintre, type Pt, Rect } from '../noyau/peintre';
@@ -383,6 +384,13 @@ export abstract class Animation {
   static LECTURE_AU_DEPART = false;
   /** l'animation enregistre des objets à fiche (survol, toucher, clavier) : l'aide le dit */
   static FICHES = false;
+  /** réglages de date et d'heure que « Maintenant » règle (« En direct » s'arrête dès qu'on les touche) ; vide :
+   *  l'animation ne dépend pas de la date */
+  static TEMPS: readonly string[] = [];
+  /** « En direct » : mise à jour toutes les PAS_DIRECT secondes */
+  static PAS_DIRECT = 1;
+  /** l'heure de l'animation est une heure solaire (sinon TU ou sans heure) : l'affichage le précise */
+  static HEURE_SOLAIRE = false;
 
   hote: Hote = HOTE_VIDE;
   controles: Controle[] = [];
@@ -656,6 +664,21 @@ export abstract class Animation {
       if (v !== d) out[cle] = v as number | boolean | Donnee;
     }
     return out;
+  }
+
+  // ------------------------------------------------------------ « Maintenant »
+  /** Règle la date et l'heure de l'animation sur l'instant `m` (rien par défaut ; voir calc/maintenant.ts). */
+  maintenant(_m: Moment): void {}
+
+  /** Réglages de position de l'observateur (« Ma position ») : latitude, longitude (null si absents). */
+  observateur(): { lat: Reglage | null; lon: Reglage | null } {
+    const r = (cle: string): Reglage | null => (this.controles.find((x) => x instanceof Reglage && x.cle === cle) as Reglage | undefined) ?? null;
+    return { lat: r('latitude'), lon: r('longitude') };
+  }
+
+  /** Pose une valeur dans les bornes du réglage. */
+  poser(r: Reglage | null | undefined, v: number): void {
+    if (r && Number.isFinite(v)) r.setValue(Math.max(r.mini, Math.min(r.maxi, v)));
   }
 
   // ------------------------------------------------------------ lecture

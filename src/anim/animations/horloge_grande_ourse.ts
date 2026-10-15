@@ -3,12 +3,13 @@
  * avancent d'environ 1° par jour au fil des saisons.  Ciel du nord en projection stéréographique centrée sur le pôle
  * céleste, horizon de l'observateur ; positions J2000 (SIMBAD) précessées à la date, temps sidéral IAU 1982.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import { cheminPolygone, type Peintre, Pt, Rect } from '../../noyau/peintre';
 import { linspace, pmod } from '../../noyau/py';
-import { Animation, angle, type Coche, date_du_jour, heures_minutes, jour_de_date, type Reglage } from '../base';
+import { Animation, angle, type Coche, date_du_jour, heures_minutes, type Reglage } from '../base';
 import { couleur_reelle, reelle } from '../etoiles_reelles';
 
 const ANNEE = 2026;
@@ -66,19 +67,22 @@ export class HorlogeGrandeOurse extends Animation {
   lat!: Reglage;
   c_noms!: Coche;
 
+  static override TEMPS = ['jour', 'heure'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    this.poser(this.jour, j);
+    this.poser(this.heure, h);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
+
   override construire(): void {
     this.jour = this.curseur('jour', 0.0, 364.0, 78.0, { dec: 0, cle_texte: 'anim_c_jour' });
     this.heure = this.curseur('heure', 0.0, 24.0, 1.2, { dec: 2, unite: 'h', cle_texte: 'anim_c_heure' });
     this.lat = this.curseur('latitude', 10.0, 90.0, 41.0, { dec: 1, unite: '°', cle_texte: 'anim_c_latitude' });
     this.c_noms = this.coche('noms', true);
-    this.bouton('anim_dipperclock_maintenant', () => this.maintenant());
-  }
-
-  maintenant(): void {
-    const t = new Date();
-    const mois = t.getMonth() + 1;
-    this.jour.setValue(Math.min(364, jour_de_date(mois, mois === 2 ? Math.min(t.getDate(), 28) : t.getDate())));
-    this.heure.setValue(t.getHours() + t.getMinutes() / 60.0);
   }
 
   override avancer(dt: number): void {

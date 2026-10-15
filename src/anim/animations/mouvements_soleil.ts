@@ -3,6 +3,7 @@
  * au méridien, changements au fil de l'année ; écliptique, mois, ombre de l'observateur, analemme.  Temps solaire
  * moyen du lieu ; Soleil de Meeus (0,01°) ; le ciel tourne avec le temps sidéral local.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -63,6 +64,17 @@ export class MouvementsSoleil extends Animation {
   c_dessous!: Coche;
   c_ombre!: Coche;
   c_analemme!: Coche;
+
+  static override TEMPS = ['jour', 'heure'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    this.poser(this.jour, j);
+    this.poser(this.heure, h);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.vue3d = this.vue(215.0, 35.0, 5.0, 89.0);

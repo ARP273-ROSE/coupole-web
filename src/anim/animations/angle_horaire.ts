@@ -2,6 +2,7 @@
  * Sidereal Time and Hour Angle Demonstrator : sphère locale à la latitude φ ; le ciel tourne avec le temps sidéral
  * local (TSL).  L'angle horaire d'une étoile vaut H = TSL − α (compté vers l'ouest depuis le méridien).
  */
+import { tslHeures, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -27,6 +28,15 @@ export class AngleHoraire extends Animation {
   ra!: Reglage;
   dec!: Reglage;
   c_arc!: Coche;
+
+  static override TEMPS = ['tsl'] as const;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    // temps sidéral local à la longitude retenue (« Ma position », sinon méridien du fuseau)
+    this.poser(this.tsl, tslHeures(m.i.jj, m.lon));
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.vue3d = this.vue(160.0, 35.0, 7.0, 89.0);

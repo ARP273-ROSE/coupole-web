@@ -3,6 +3,7 @@
  * traversées par l'écliptique.  Limites officielles des constellations (UAI) : 13 constellations dont Ophiuchus ; les
  * « signes » astrologiques sont des secteurs de 30° comptés depuis l'équinoxe.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -27,6 +28,16 @@ export class Zodiaque extends Animation {
   vue3d!: dessin.Vue3D;
   jour!: Reglage;
   c_signes!: Coche;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+  }
 
   override construire(): void {
     this.vue3d = this.vue(206.0, 30.0, 0.0, 50.0);

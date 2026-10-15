@@ -3,6 +3,7 @@
  * tombe à la latitude δ☉ : entre les tropiques au fil de l'année ; au-delà des cercles polaires, jour ou nuit polaire
  * autour des solstices.  Une année dure 30 s à la vitesse ×1.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -39,6 +40,16 @@ export class RayonsSoleil extends Animation {
 
   jour!: Reglage;
   c_cercles!: Coche;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+  }
 
   override construire(): void {
     this.jour = this.curseur('jour', 0.0, 364.0, 79.0, { dec: 0, cle_texte: 'anim_c_jour' });

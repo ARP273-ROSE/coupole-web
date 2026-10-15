@@ -3,6 +3,7 @@
  * l'observateur et son plan d'horizon), à droite le diagramme d'horizon de l'observateur (le ciel tourne).  Régions
  * circumpolaire, de lever et coucher, jamais levée ; traînées d'étoiles ; Grande Ourse, Orion, Croix du Sud.
  */
+import { tslHeures, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -51,6 +52,14 @@ export class ComparaisonReperes extends Animation {
   etoiles: [number, number][] = [];
   private ecoule = 0.0;
   private hasard = alea(7);
+
+  static override TEMPS = ['tsl'] as const;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    this.poser(this.tsl, tslHeures(m.i.jj, m.lon));
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.celeste = this.vue(225.0, 20.0);

@@ -4,6 +4,7 @@
  * point à faire glisser.  Comme l'original : horizon géométrique, cos H₀ = −tan φ tan δ ; en option, le lever au bord
  * supérieur du Soleil avec la réfraction (h₀ = −0,833°).
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -33,6 +34,17 @@ export class DureeJour extends Animation {
   c_refraction!: Coche;
   private cache: [string, [number[], number[]]] | null = null;
   private trace: Rect | null = null;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.globe = this.vue(60.0, 15.0);

@@ -3,6 +3,7 @@
  * latitude δ☉ et à la longitude où il est midi solaire vrai ; la zone éclairée glisse vers l'ouest au fil du jour
  * (15° par heure) et son contour change au fil de l'année.
  */
+import { heureDecimale, jourIndex, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { existe, tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -293,6 +294,19 @@ export class JourNuit extends Animation {
   private carte: Rect | null = null;
   /** vue polaire : centre et rayon du disque à l'écran */
   private disque: [number, number, number] | null = null;
+
+  static override TEMPS = ['jour', 'heure'] as const;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    // heure en TU : jour et heure de Greenwich ; « Ma position » place aussi l'observateur
+    this.poser(this.jour, jourIndex(m.i.tu[1], m.i.tu[2]));
+    this.poser(this.heure, heureDecimale(m.i.tu));
+    if (m.position) {
+      this.poser(this.lat, m.lat ?? this.lat.value());
+      this.poser(this.lon, m.lon);
+    }
+  }
 
   override construire(): void {
     this.attendre(chargerCotes());

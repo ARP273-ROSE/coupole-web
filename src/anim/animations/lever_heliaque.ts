@@ -3,6 +3,7 @@
  * et de la position de l'étoile.  Comme l'original, une étoile est « visible » si elle est levée pendant que le Soleil
  * est à plus de 7° sous l'horizon (réglable).  Graphique de l'année : nuit, crépuscules, heures où l'étoile est levée.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -78,6 +79,17 @@ export class LeverHeliaque extends Animation {
   heure!: Reglage;
   c_aube!: Coche;
   private graphe: [Rect, number, number, number, number] | null = null;
+
+  static override TEMPS = ['jour', 'heure'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    this.poser(this.jour, j);
+    this.poser(this.heure, h);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.vue3d = this.vue(150.0, 35.0, 7.0, 89.0);

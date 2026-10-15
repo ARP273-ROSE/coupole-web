@@ -3,6 +3,7 @@
  * au Soleil, à ±5,1° près.  Sa déclinaison suit à l'envers celle du Soleil : la pleine lune d'hiver monte haut dans le
  * ciel de minuit, celle d'été reste basse.
  */
+import { heureSolaire, type Moment } from '../../calc/maintenant';
 import * as astro from '../../calc/astro';
 import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -49,6 +50,17 @@ export class PleineLuneDeclinaison extends Animation {
   lat!: Reglage;
   private graphe: [Rect, number, number] | null = null;
   private courbe: [number, PleineLune][] | null = null;
+
+  static override TEMPS = ['jour'] as const;
+  static override HEURE_SOLAIRE = true;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    const [j, h] = heureSolaire(m.i, m.lon);
+    void h;
+    this.poser(this.jour, j);
+    if (m.lat !== null) this.poser(this.lat, m.lat);
+  }
 
   override construire(): void {
     this.vue3d = this.vue(200.0, 20.0, 7.0, 89.0);

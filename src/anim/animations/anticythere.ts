@@ -11,6 +11,7 @@
  * mis en cache dans une image dont la résolution suit le zoom (niveaux de détail) ; dentures remplacées par leur
  * cercle primitif quand une dent ferait moins de 2,5 pixels.
  */
+import { type Moment } from '../../calc/maintenant';
 import * as M from '../../calc/anticythere';
 import { langue, tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
@@ -540,6 +541,13 @@ export class Anticythere extends Animation {
   /** durée du dernier dessin (ms), pour les mesures */
   duree_ms = 0;
 
+  static override TEMPS = [] as const;
+
+  /** « Maintenant » : date et heure de l'appareil (calc/maintenant.ts). */
+  override maintenant(m: Moment): void {
+    this.regler_jd(m.i.jj);
+  }
+
   override construire(): void {
     this.enveloppe = this.coche('enveloppe', true);
     this.eclatement = this.curseur('eclatement', 0, 100, 0, { dec: 0, unite: '%' });
@@ -547,10 +555,6 @@ export class Anticythere extends Animation {
     this.face.currentIndexChanged.connect(() => {
       this.q = VUES[this.face.currentData() as string] ?? VUES.avant!;
       this.s_fige = null;
-    });
-    this.bouton('anim_antikythera_aujourdhui', () => {
-      const d = new Date();
-      this.regler_jd(M.julian_day(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours() + d.getUTCMinutes() / 60));
     });
     this.bouton('anim_antikythera_lunaison', () => this.regler_jd(this.jd() + M.SYNODIC_MONTH));
     this.bouton('anim_antikythera_annee', () => this.regler_jd(this.jd() + M.TROPICAL_YEAR));
