@@ -127,7 +127,9 @@ export function pret(): Promise<S.Sauvegarde> {
       try {
         const b = JSON.parse(sec) as { modifie?: string };
         const m0 = (brut as { modifie?: string } | null)?.modifie ?? '';
-        if (!brut || (typeof b.modifie === 'string' && b.modifie > m0)) brut = b;
+        // « >= » : les dates sont à la seconde ; la copie de secours est écrite après la dernière écriture réussie
+        // (elle est effacée à chaque écriture IndexedDB), donc à égalité c'est elle la plus récente
+        if (!brut || (typeof b.modifie === 'string' && b.modifie >= m0)) brut = b;
       } catch {
         /* illisible : ignorée */
       }

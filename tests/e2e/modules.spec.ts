@@ -41,7 +41,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test('accueil : 22 modules, bonus, Mes modules, animations par thème, recherche', async ({ page }) => {
+test('accueil : 22 modules, bonus, favoris, animations par thème, recherche', async ({ page }) => {
   const s = await surveiller(page);
   await page.goto('./');
   await expect(page.locator('.grille-modules').first().locator('.carte-module')).toHaveCount(22);
@@ -164,21 +164,21 @@ test('toutes les questions d’un module s’affichent sans erreur (FR puis EN)'
   expect(s.erreurs).toEqual([]);
 });
 
-test('Mes modules : créer, ajouter, organiser, renommer, supprimer et annuler', async ({ page }) => {
+test('Collections (ex-Mes modules) : créer, ajouter, organiser, renommer, supprimer et annuler', async ({ page }) => {
   const s = await surveiller(page);
   await page.goto('./#/m/intro/fiches');
   // ajouter une fiche à un nouveau module depuis le menu « + »
   await page.locator('#panneau-fiches .menu-boite button').first().click();
-  await page.getByRole('menuitem', { name: /Nouveau module/ }).click();
-  await expect(page.locator('.annonce', { hasText: 'ajouté à' })).toContainText('« Nouveau module 1 »');
+  await page.getByRole('menuitem', { name: /Nouvelle collection/ }).click();
+  await expect(page.locator('.annonce', { hasText: 'ajouté à' })).toContainText('« Nouvelle collection 1 »');
   await page.goto('./#/mes-modules');
   await expect(page.locator('.mon-module')).toHaveCount(1);
   await page.locator('.mon-module-lien').first().click();
-  await expect(page.locator('h1')).toHaveText('Nouveau module 1');
+  await expect(page.locator('h1')).toHaveText('Nouvelle collection 1');
   // ajouter une animation au même module depuis un autre module
   await page.goto('./#/m/coordsmotion/animations');
   await page.locator('#panneau-animations .menu-boite button').first().click();
-  await page.getByRole('menuitemcheckbox', { name: 'Nouveau module 1' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'Nouvelle collection 1' }).click();
   await page.goto('./#/mes-modules');
   await page.locator('.mon-module-lien').first().click();
   // organiser : l'animation passe devant la fiche

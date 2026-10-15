@@ -8,6 +8,8 @@ import { pageMesModules } from './page_mes_modules';
 import { pageProgression } from './page_progression';
 import { pageRecherche } from './page_recherche';
 import { pageRessource } from './page_ressource';
+import { pageFavoris } from './page_favoris';
+import { pageBibliotheque } from './page_bibliotheque';
 
 export async function page(r: Route): Promise<Page> {
   switch (r.page) {
@@ -23,6 +25,10 @@ export async function page(r: Route): Promise<Page> {
       return pageRecherche(r.q);
     case 'ressource':
       return pageRessource(r.genre, r.id);
+    case 'favoris':
+      return pageFavoris(r.genre, r.tri);
+    case 'bibliotheque':
+      return pageBibliotheque(r.onglet, r.module, r.favoris);
     default:
       throw new Error('page inconnue');
   }

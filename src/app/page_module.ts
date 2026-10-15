@@ -12,6 +12,7 @@ import { annoncer, h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { barreScore, confirmer, demanderTexte, elementRessource, onglets, titreDe, titresRessources, type GenreR, menuAjouter } from './composants';
 import type { Page } from './page_apropos';
+import { boutonFavori } from './favoris';
 import * as stockage from './stockage';
 
 export const TYPES = ['W', 'G', 'C', 'D'] as const;
@@ -137,10 +138,11 @@ export async function pageModule(cle: string, onglet: string, perso: boolean): P
     actions.append(raz);
   }
   const h1 = h('h1', { text: titre });
+  actions.prepend(boutonFavori('module', cle, titre, { libelle: true }));
   const tete = h(
     'header',
     { class: 'tete-module' },
-    h('nav', { class: 'fil', 'aria-label': tr('web_fil') }, h('a', { href: '#/' }, icone('retour'), tr('web_accueil')), h('span', { 'aria-hidden': 'true', text: '›' }), perso ? h('a', { href: '#/mes-modules', text: tr('web_mes_modules') }) : h('span', { text: tr('web_modules') })),
+    h('nav', { class: 'fil', 'aria-label': tr('web_fil') }, h('a', { href: '#/' }, icone('retour'), tr('web_accueil')), h('span', { 'aria-hidden': 'true', text: '›' }), ...(perso ? [h('a', { href: '#/favoris', text: tr('web_favoris') }), h('span', { 'aria-hidden': 'true', text: '›' }), h('a', { href: '#/mes-modules', text: tr('web_mes_modules') })] : [h('span', { text: tr('web_modules') })])),
     h1,
     !perso && m!.original && m!.original !== titre ? h('p', { class: 'origine', text: tr('web_titre_origine', { titre: m!.original }) }) : null,
     qs.length ? barreScore(bil) : null,

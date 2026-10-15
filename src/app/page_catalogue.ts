@@ -1,30 +1,38 @@
-/** Accueil : catalogue des animations par thème, recherche (sans accents, FR et EN), filtres, vignettes. */
+/**
+ * Catalogue des animations par thème : recherche bilingue (moteur commun : accents, pluriels, petites fautes, titres
+ * d'origine), filtres par thème et « favoris », vignettes, étoile favori sur chaque carte.
+ */
 import { disponible, ENTREES, type Entree, THEMES } from '../anim/registre';
 import { trEn, tr } from '../i18n/i18n';
+import { documentsDe, Index } from '../contenu/recherche';
+import { estFavori as favoriSauve } from '../contenu/sauvegarde';
 import { h, icone } from './dom';
+import { boutonFavori } from './favoris';
+import * as stockage from './stockage';
 import type { Page } from './page_apropos';
 import { adresseAnimation, adresseCatalogue, remplacerAdresse } from './routeur';
 
-export function sansAccents(s: string): string {
-  return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-}
-
-/** Recherche insensible à la casse et aux accents, dans les deux langues, le titre d'origine et l'identifiant. */
+let indexAnimations: Index | null = null;
+let dernier: [string, Set<string>] = ['', new Set()];
+/** Recherche bilingue (moteur commun) sur les animations : noms, descriptions, titres d'origine, thèmes, identifiants. */
 export function correspond(e: Entree, texte: string): boolean {
-  if (!texte.trim()) return true;
-  const foin = sansAccents(
-    [e.id, e.titre, ...(['fr', 'en'] as const).flatMap((l) => [trEn(l, 'anim_nom_' + e.cle), trEn(l, 'anim_desc_' + e.cle)])].join(' '),
-  );
-  return sansAccents(texte)
-    .split(/\s+/)
-    .filter(Boolean)
-    .every((m) => foin.includes(m));
+  const q = texte.trim();
+  if (!q) return true;
+  if (dernier[0] !== q) {
+    indexAnimations ??= new Index(documentsDe([], ENTREES.filter(disponible), [], (l, k) => {
+      const t = trEn(l, k);
+      return t === k ? undefined : t;
+    }));
+    dernier = [q, new Set(indexAnimations.chercher(q).map((r) => r.doc.id))];
+  }
+  return dernier[1].has(e.id);
 }
 
 export function pageCatalogue(q0: string, theme0: string): Page {
   const entrees = ENTREES.filter(disponible);
   let q = q0;
   let theme = THEMES.includes(theme0) ? theme0 : '';
+  let favorisSeuls = false;
 
   const champ = h('input', {
     type: 'search', id: 'recherche', name: 'q', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'search',
@@ -53,6 +61,12 @@ export function pageCatalogue(q0: string, theme0: string): Page {
   };
   ajoutePuce('', tr('web_tous'), entrees.length);
   for (const t of themesPresents) ajoutePuce(t, tr('anim_theme_' + t), parTheme.get(t)!.length);
+  const puceFavoris = h('button', { type: 'button', class: 'puce puce-favoris', 'aria-pressed': 'false' }, icone('etoile'), tr('web_favoris_seulement'));
+  puceFavoris.addEventListener('click', () => {
+    favorisSeuls = !favorisSeuls;
+    majFiltres();
+  });
+  puces.append(puceFavoris);
 
   // cartes (créées une fois, montrées ou cachées par les filtres)
   const cartes = new Map<string, HTMLElement>();
@@ -65,7 +79,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
     for (const e of parTheme.get(t)!) {
       const nom = tr('anim_nom_' + e.cle);
       const toile = h('canvas', { 'aria-hidden': 'true', 'data-anim': e.id, width: 320, height: 200 });
-      const carte = h(
+      const lien = h(
         'a',
         { class: 'carte', href: adresseAnimation(e.id) },
         h('div', { class: 'vignette' }, toile),
@@ -77,6 +91,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
           h('p', { class: 'carte-desc', text: tr('anim_desc_' + e.cle) }),
         ),
       );
+      const carte = h('div', { class: 'carte-boite' }, lien, boutonFavori('animation', e.id, nom));
       cartes.set(e.id, carte);
       grille.append(carte);
     }
@@ -92,7 +107,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
     for (const t of themesPresents) {
       let n = 0;
       for (const e of parTheme.get(t)!) {
-        const ok = (!theme || theme === t) && correspond(e, q);
+        const ok = (!theme || theme === t) && correspond(e, q) && (!favorisSeuls || favoriSauve(stockage.doc(), 'animation', e.id));
         cartes.get(e.id)!.hidden = !ok;
         if (ok) n++;
       }
@@ -102,6 +117,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
       total += n;
     }
     for (const [t, b] of boutonsTheme) b.setAttribute('aria-pressed', String(theme === t));
+    puceFavoris.setAttribute('aria-pressed', String(favorisSeuls));
     compte.textContent = total === 1 ? tr('web_resultat_1') : tr('web_resultats', { n: total });
     vide.hidden = total > 0;
     vide.textContent = tr('web_aucun', { q });

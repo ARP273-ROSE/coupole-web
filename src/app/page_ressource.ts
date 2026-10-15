@@ -3,6 +3,7 @@ import { tr } from '../i18n/i18n';
 import { h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { libelleGenre, menuAjouter } from './composants';
+import { boutonFavori } from './favoris';
 import type { Page } from './page_apropos';
 
 export async function pageRessource(genre: string, id: string): Promise<Page> {
@@ -18,7 +19,7 @@ export async function pageRessource(genre: string, id: string): Promise<Page> {
     'div',
     { class: 'page page-ressource' },
     h('nav', { class: 'fil', 'aria-label': tr('web_fil') }, h('a', { href: '#/' }, icone('retour'), tr('web_accueil')), ...(ms[0] ? [h('span', { 'aria-hidden': 'true', text: '›' }), h('a', { href: `#/m/${ms[0].cle}/${genre}s`, text: contenu.bi(ms[0].titre) })] : [])),
-    h('header', { class: 'tete-question' }, h('span', { class: 'badge', text: libelleGenre(genre) }), h('h1', { text: r.titre }), h('span', { class: 'outils-question' }, menuAjouter({ genre, id }, r.titre))),
+    h('header', { class: 'tete-question' }, h('span', { class: 'badge', text: libelleGenre(genre) }), h('h1', { text: r.titre }), h('span', { class: 'outils-question' }, boutonFavori(genre, id, r.titre), menuAjouter({ genre, id }, r.titre))),
     h('div', { class: 'ressource-page' }, r.el),
     ms.length ? h('p', { class: 'modules-de' }, tr('web_dans_modules') + ' ', ...ms.flatMap((m, i) => [i ? ', ' : '', h('a', { href: `#/m/${m.cle}`, text: contenu.bi(m.titre) })])) : null,
   );

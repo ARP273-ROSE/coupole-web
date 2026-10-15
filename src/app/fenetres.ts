@@ -50,7 +50,7 @@ export function nombreOuvertes(): number {
 /**
  * Ouvre (ou ramène au premier plan) la fenêtre `cle`.  `contenu` est appelé une seule fois, à la création.
  */
-export function ouvrir(cle: string, titre: string, contenu: () => Promise<HTMLElement>, genre = ''): HTMLElement {
+export function ouvrir(cle: string, titre: string, contenu: () => Promise<HTMLElement>, genre = '', extra: HTMLElement | null = null): HTMLElement {
   const deja = ouvertes.get(cle);
   if (deja) {
     premierPlan(deja);
@@ -59,7 +59,7 @@ export function ouvrir(cle: string, titre: string, contenu: () => Promise<HTMLEl
   }
   const idTitre = 'fen-' + cle.replace(/[^a-z0-9]/gi, '-');
   const bFermer = h('button', { type: 'button', class: 'bouton icone discret', 'aria-label': tr('web_fermer_fenetre', { titre }), title: tr('web_fermer') }, icone('fermer'));
-  const barre = h('div', { class: 'fenetre-barre', tabindex: 0, 'aria-label': tr('web_deplacer_fenetre') }, h('span', { class: 'fenetre-genre', text: genre }), h('h2', { id: idTitre, text: titre }), bFermer);
+  const barre = h('div', { class: 'fenetre-barre', tabindex: 0, 'aria-label': tr('web_deplacer_fenetre') }, h('span', { class: 'fenetre-genre', text: genre }), h('h2', { id: idTitre, text: titre }), extra, bFermer);
   const corps = h('div', { class: 'fenetre-corps' }, h('p', { class: 'chargement', text: tr('web_chargement') }));
   const el = h('section', { class: 'fenetre', role: 'dialog', 'aria-modal': 'false', 'aria-labelledby': idTitre, 'data-cle': cle }, barre, corps);
   const f: Fen = { el, cle, retour: document.activeElement instanceof HTMLElement ? document.activeElement : null };

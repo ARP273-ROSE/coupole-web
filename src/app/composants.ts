@@ -10,8 +10,10 @@ import * as contenu from './contenu';
 import * as fenetres from './fenetres';
 import * as stockage from './stockage';
 import { enrichir } from './texte_riche';
+import { boutonFavori } from './favoris';
 
 export type GenreR = 'question' | 'animation' | 'fiche' | 'table' | 'image';
+export type GenreL = GenreR | 'module';
 
 // ------------------------------------------------------------------ titres
 let titres: Promise<Record<'f' | 't' | 'i', Record<string, contenu.Bi>>> | null = null;
@@ -36,7 +38,7 @@ export async function titreDe(genre: GenreR, id: string): Promise<string> {
   return contenu.bi(t[genre === 'fiche' ? 'f' : genre === 'table' ? 't' : 'i'][id] ?? id);
 }
 
-export function libelleGenre(g: GenreR): string {
+export function libelleGenre(g: GenreL): string {
   return tr('web_genre_' + g);
 }
 
@@ -57,7 +59,7 @@ export function texteQuestion(s: string | null | undefined): (string | Node)[] {
 
 // ------------------------------------------------------------------ ouvrir une ressource
 export function ouvrirRessource(genre: 'fiche' | 'table' | 'image', id: string, titre: string): void {
-  fenetres.ouvrir(`${genre}:${id}`, titre, async () => (await contenu.contenuRessource(genre, id)).el, libelleGenre(genre));
+  fenetres.ouvrir(`${genre}:${id}`, titre, async () => (await contenu.contenuRessource(genre, id)).el, libelleGenre(genre), boutonFavori(genre, id, titre, { petit: true }));
 }
 
 // ------------------------------------------------------------------ aperçu au survol
@@ -77,8 +79,8 @@ function cacherBulle(): void {
   }
 }
 
-function montrerBulle(cible: HTMLElement, genre: GenreR, id: string): void {
-  if (genre === 'question' || genre === 'animation') return;
+function montrerBulle(cible: HTMLElement, genre: GenreL, id: string): void {
+  if (genre === 'question' || genre === 'animation' || genre === 'module') return;
   clearTimeout(minuteurBulle);
   cibleBulle = cible;
   minuteurBulle = window.setTimeout(async () => {
@@ -104,15 +106,23 @@ function montrerBulle(cible: HTMLElement, genre: GenreR, id: string): void {
 export interface OptionsElement {
   etoile?: boolean;
   sousTitre?: string;
-  lien?: string; // adresse (questions, animations)
-  retirer?: () => void; // dans un module personnel
+  lien?: string; // adresse (questions, animations, modules)
+  retirer?: () => void; // dans une collection
+  titreNoeuds?: (string | Node)[]; // titre mis en forme (surlignage de la recherche)
+  extrait?: (string | Node)[]; // passage du texte (recherche)
+  sansFavori?: boolean;
 }
 
-export function elementRessource(genre: GenreR, id: string, titre: string, o: OptionsElement = {}): HTMLElement {
+export function elementRessource(genre: GenreL, id: string, titre: string, o: OptionsElement = {}): HTMLElement {
   const li = h('li', { class: 'ressource', 'data-genre': genre, 'data-id': id });
-  const contenuLien = [o.etoile ? h('span', { class: 'etoile', 'aria-label': tr('web_liee'), title: tr('web_liee'), text: '★' }) : null, h('span', { class: 'ressource-titre', text: titre }), o.sousTitre ? h('span', { class: 'ressource-sous', text: o.sousTitre }) : null];
+  const contenuLien = [
+    o.etoile ? h('span', { class: 'etoile', 'aria-label': tr('web_liee'), title: tr('web_liee'), text: '★' }) : null,
+    h('span', { class: 'ressource-titre' }, ...(o.titreNoeuds ?? [titre])),
+    o.sousTitre ? h('span', { class: 'ressource-sous', text: o.sousTitre }) : null,
+    o.extrait?.length ? h('span', { class: 'ressource-extrait' }, ...o.extrait) : null,
+  ];
   let action: HTMLElement;
-  if (genre === 'animation' || genre === 'question') action = h('a', { class: 'ressource-lien', href: o.lien ?? (genre === 'animation' ? `#/a/${encodeURIComponent(id)}` : '#/') }, ...contenuLien);
+  if (genre === 'animation' || genre === 'question' || genre === 'module') action = h('a', { class: 'ressource-lien', href: o.lien ?? (genre === 'animation' ? `#/a/${encodeURIComponent(id)}` : genre === 'module' ? `#/m/${encodeURIComponent(id)}` : '#/') }, ...contenuLien);
   else {
     action = h('button', { type: 'button', class: 'ressource-lien', 'aria-haspopup': 'dialog' }, ...contenuLien);
     action.addEventListener('click', () => {
@@ -129,6 +139,8 @@ export function elementRessource(genre: GenreR, id: string, titre: string, o: Op
   action.addEventListener('focus', () => montrerBulle(action, genre, id));
   action.addEventListener('blur', cacherBulle);
   li.append(action);
+  if (!o.sansFavori) li.append(boutonFavori(genre, id, titre, { petit: true }));
+  if (genre === 'module') return li;
   if (o.retirer) {
     const b = h('button', { type: 'button', class: 'bouton icone discret petit', 'aria-label': tr('web_retirer_de', { titre }), title: tr('web_retirer') }, icone('fermer'));
     b.addEventListener('click', o.retirer);

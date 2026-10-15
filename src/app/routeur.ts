@@ -6,7 +6,9 @@
  *   #/m/<module>[/<onglet>]    un module (onglets questions, animations, fiches, tables, images)
  *   #/m/<module>/q/<question>?p_<menu>=<option>&g=<graine>   une question dans son module
  *   #/mm/<id>[/<onglet>], #/mm/<id>/q/<question>             un module personnel (« Mes modules »)
- *   #/mes-modules, #/progression, #/recherche?q=…, #/r/<fiche|table|image>/<id>, #/apropos
+ *   #/favoris?t=<genre>&tri=<ordre>   mes favoris ; #/mes-modules : collections (ex-« Mes modules »)
+ *   #/bibliotheque[/<onglet>]?m=<module>&f=1   tout le contenu d'un type, par module (présentation de ClassAction)
+ *   #/mes-modules, #/progression, #/recherche?q=…, #/r/<fiche|table|image>/<id>, #/apropos[?installer]
  */
 import type { EtatReglages } from '../anim/base';
 
@@ -15,12 +17,14 @@ export type Route =
   | { page: 'module'; cle: string; onglet: string; perso: boolean }
   | { page: 'question'; cle: string; question: string; perso: boolean; params: URLSearchParams }
   | { page: 'mes-modules'; nouveau: boolean }
+  | { page: 'favoris'; genre: string; tri: string }
+  | { page: 'bibliotheque'; onglet: string; module: string; favoris: boolean }
   | { page: 'progression' }
   | { page: 'recherche'; q: string }
   | { page: 'ressource'; genre: string; id: string }
   | { page: 'catalogue'; q: string; theme: string }
   | { page: 'animation'; id: string; etat: EtatReglages }
-  | { page: 'apropos' };
+  | { page: 'apropos'; installer: boolean };
 
 export function lireRoute(hash = location.hash): Route {
   const brut = hash.replace(/^#/, '');
@@ -37,7 +41,7 @@ export function lireRoute(hash = location.hash): Route {
     }
     return { page: 'animation', id: decodeURIComponent(morceaux[1]), etat };
   }
-  if (morceaux[0] === 'apropos') return { page: 'apropos' };
+  if (morceaux[0] === 'apropos') return { page: 'apropos', installer: params.has('installer') };
   const id = (x: string | undefined): string => decodeURIComponent(x ?? '').slice(0, 80);
   if ((morceaux[0] === 'm' || morceaux[0] === 'mm') && morceaux[1]) {
     const perso = morceaux[0] === 'mm';
@@ -46,6 +50,8 @@ export function lireRoute(hash = location.hash): Route {
   }
   if (morceaux[0] === 'mes-modules') return { page: 'mes-modules', nouveau: params.get('nouveau') === '1' };
   if (morceaux[0] === 'progression') return { page: 'progression' };
+  if (morceaux[0] === 'favoris') return { page: 'favoris', genre: (params.get('t') ?? '').slice(0, 20), tri: (params.get('tri') ?? '').slice(0, 20) };
+  if (morceaux[0] === 'bibliotheque') return { page: 'bibliotheque', onglet: id(morceaux[1]), module: (params.get('m') ?? '').slice(0, 80), favoris: params.get('f') === '1' };
   if (morceaux[0] === 'recherche') return { page: 'recherche', q: (params.get('q') ?? '').slice(0, 200) };
   if (morceaux[0] === 'r' && morceaux[1] && morceaux[2]) return { page: 'ressource', genre: id(morceaux[1]), id: id(morceaux[2]) };
   if (morceaux[0] === 'animations' || params.has('q') || params.has('t')) return { page: 'catalogue', q: params.get('q') ?? '', theme: params.get('t') ?? '' };

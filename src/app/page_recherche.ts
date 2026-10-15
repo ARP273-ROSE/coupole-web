@@ -1,123 +1,133 @@
 /**
- * Recherche globale FR/EN : questions, animations, fiches, tables, images.  Saisie normalisée (minuscules, sans
- * accents) ; chaque mot est cherché comme préfixe d'un mot du titre (poids 1,5), des mots-clés (1,3) et du résumé
- * (1), dans les deux langues ; tri par nombre de mots trouvés puis par score (comme ClassAction, étendu aux
- * ressources).
+ * Recherche globale bilingue : modules, animations, questions, fiches, tables, images.  Moteur commun avec Coupole
+ * (bureau) : `contenu/recherche.ts` (index FR + EN, titres d'origine de ClassAction, insensible aux accents, à la
+ * casse, aux pluriels simples et aux petites fautes, classement titre > mots-clés > texte).  Les résultats sont
+ * groupés par type (dans l'ordre du meilleur résultat de chaque type) et affichés dans la langue de l'interface,
+ * mots trouvés surlignés ; quand la correspondance n'est que dans l'autre langue, le titre de l'autre langue suit.
  */
-import { ENTREES, disponible } from '../anim/registre';
-import { tr, trEn } from '../i18n/i18n';
+import { disponible, ENTREES } from '../anim/registre';
+import { langue, trEn, tr, type Langue } from '../i18n/i18n';
+import { Index, documentsDe, extrait, surligner, type Doc, type Resultat } from '../contenu/recherche';
+import * as S from '../contenu/sauvegarde';
 import { h, icone } from './dom';
 import * as contenu from './contenu';
-import { elementRessource, type GenreR } from './composants';
+import { elementRessource, type GenreL } from './composants';
 import type { Page } from './page_apropos';
 import { remplacerAdresse } from './routeur';
+import * as stockage from './stockage';
 
-export function normaliser(s: string): string {
-  return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const PAR_GROUPE = 30;
+
+let indexP: Promise<Index> | null = null;
+/** Index commun (construit une fois, à la première recherche). */
+export function index(): Promise<Index> {
+  indexP ??= Promise.all([contenu.charger('recherche.json'), contenu.modules()]).then(([j, ms]) =>
+    new Index(documentsDe(j.entrees, ENTREES.filter(disponible), ms, (l, k) => {
+      const t = trEn(l, k);
+      return t === k ? undefined : t;
+    })),
+  );
+  indexP.catch(() => (indexP = null));
+  return indexP;
 }
 
-function mots(s: string): string[] {
-  return normaliser(s).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+/** Morceaux surlignés (élément <mark> pour les mots trouvés). */
+export function noeudsSurlignes(texte: string, mots: Iterable<string>): (string | Node)[] {
+  return surligner(texte, mots).map(([t, m]) => (m ? h('mark', { text: t }) : t));
 }
 
-export interface Entree {
-  g: GenreR;
-  id: string;
-  m: string[];
-  titres: string[]; // mots normalisés du titre (FR + EN)
-  cles: string[];
-  resume: string[];
-  t: contenu.Bi;
-  r: contenu.Bi;
+function bi(v: Doc['t'] | Doc['r'], l: Langue): string {
+  if (v && typeof v === 'object') return v[l] || '';
+  return v ?? '';
 }
-
-/** Score d'une entrée pour les mots cherchés : [nombre de mots trouvés, score pondéré]. */
-export function noter(e: Pick<Entree, 'titres' | 'cles' | 'resume'>, cherches: string[]): [number, number] {
-  let n = 0;
-  let score = 0;
-  for (const c of cherches) {
-    let s = 0;
-    if (e.titres.some((w) => w.startsWith(c))) s += 1.5;
-    if (e.cles.some((w) => w.startsWith(c))) s += 1.3;
-    if (e.resume.some((w) => w.startsWith(c))) s += 1;
-    if (s) n++;
-    score += s;
-  }
-  return [n, score];
-}
-
-let index: Promise<Entree[]> | null = null;
-function construireIndex(): Promise<Entree[]> {
-  index ??= contenu.charger('recherche.json').then((j) => {
-    const out: Entree[] = [];
-    const genre: Record<string, GenreR> = { q: 'question', f: 'fiche', t: 'table', i: 'image' };
-    for (const e of j.entrees) {
-      out.push({ g: genre[e.g]!, id: e.id, m: e.m, t: e.t, r: e.r, titres: mots(e.t.fr + ' ' + e.t.en), cles: mots(e.k.fr + ' ' + e.k.en), resume: mots(e.r.fr + ' ' + e.r.en) });
-    }
-    for (const a of ENTREES.filter(disponible)) {
-      const t = { fr: trEn('fr', 'anim_nom_' + a.cle), en: trEn('en', 'anim_nom_' + a.cle) };
-      const r = { fr: trEn('fr', 'anim_desc_' + a.cle), en: trEn('en', 'anim_desc_' + a.cle) };
-      out.push({ g: 'animation', id: a.id, m: [], t, r, titres: mots(t.fr + ' ' + t.en + ' ' + a.titre), cles: mots(a.id + ' ' + trEn('fr', 'anim_theme_' + a.theme) + ' ' + trEn('en', 'anim_theme_' + a.theme)), resume: mots(r.fr + ' ' + r.en) });
-    }
-    return out;
-  });
-  return index;
-}
-
-export async function chercher(q: string): Promise<(Entree & { n: number; score: number })[]> {
-  const cherches = mots(q);
-  if (!cherches.length) return [];
-  const idx = await construireIndex();
-  return idx
-    .map((e) => {
-      const [n, score] = noter(e, cherches);
-      return { ...e, n, score };
-    })
-    .filter((e) => e.n > 0)
-    .sort((a, b) => b.n - a.n || b.score - a.score);
-}
-
-const ORDRE: GenreR[] = ['question', 'animation', 'fiche', 'table', 'image'];
 
 export async function pageRecherche(q0: string): Promise<Page> {
-  const champ = h('input', { type: 'search', id: 'recherche-globale', name: 'q', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'search', placeholder: tr('web_recherche_globale_indice'), 'aria-label': tr('web_recherche_globale') });
+  await stockage.pret();
+  const s = stockage.doc();
+  const champ = h('input', { type: 'search', id: 'recherche-globale', name: 'q', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'search', placeholder: tr('web_recherche_globale_indice'), 'aria-label': tr('web_recherche_globale'), 'aria-describedby': 'aide-recherche' });
   champ.value = q0;
+  const caseFavoris = h('input', { type: 'checkbox', id: 'recherche-favoris' });
   const compte = h('p', { class: 'compte', 'aria-live': 'polite' });
   const resultats = h('div', { class: 'resultats' });
   const ms = await contenu.modules();
-  const premierModule = (id: string): string | undefined => ms.find((m) => m.questions.some((x) => x.id === id && x.ok))?.cle;
+  const okQ = new Map<string, contenu.Module>();
+  for (const m of ms) for (const q of m.questions) if (q.ok && !okQ.has(q.id)) okQ.set(q.id, m);
+  const l = langue();
+  const autre: Langue = l === 'fr' ? 'en' : 'fr';
+  const deplies = new Set<string>();
+
+  const ligne = (r: Resultat): HTMLElement => {
+    const d = r.doc;
+    const titre = bi(d.t, l) || bi(d.t, autre) || d.id;
+    const morceauxTitre = surligner(titre, r.mots);
+    const trouveIci = morceauxTitre.some(([, m]) => m);
+    let sous = '';
+    let lien: string | undefined;
+    if (d.g === 'question') {
+      const m = okQ.get(d.id)!;
+      sous = contenu.bi(m.titre);
+      lien = `#/m/${m.cle}/q/${d.id}`;
+    } else if (d.g === 'animation') {
+      const e = ENTREES.find((x) => x.id === d.id);
+      sous = e ? tr('anim_theme_' + e.theme) : '';
+    } else if (d.g === 'module') {
+      lien = `#/m/${d.id}`;
+      sous = d.o && d.o !== titre ? tr('web_titre_origine', { titre: d.o }) : '';
+    } else if (d.m?.[0]) sous = contenu.bi(ms.find((m) => m.cle === d.m![0])?.titre);
+    // passage du texte (langue de l'interface), ou titre de l'autre langue / d'origine quand c'est là que ça correspond
+    const ex: (string | Node)[] = [];
+    const texte = bi(d.r, l);
+    const titreAutre = [bi(d.t, autre), d.o ?? ''].find((t) => t && t !== titre && surligner(t, r.mots).some(([, m]) => m));
+    if (!trouveIci && titreAutre) ex.push(h('span', { class: 'autre-langue', lang: titreAutre === d.o ? 'en' : autre }, ...noeudsSurlignes(tr('web_aussi_en', { titre: titreAutre }), r.mots)));
+    else if (texte && surligner(texte, r.mots).some(([, m]) => m)) ex.push(...noeudsSurlignes(extrait(texte, r.mots, 150), r.mots));
+    return elementRessource(d.g as GenreL, d.id, titre, { lien, sousTitre: sous || undefined, titreNoeuds: morceauxTitre.map(([t, m]) => (m ? h('mark', { text: t }) : t)), extrait: ex });
+  };
+
   let jeton = 0;
   const maj = async (): Promise<void> => {
     const n = ++jeton;
     const q = champ.value.trim();
     remplacerAdresse('#/recherche' + (q ? '?q=' + encodeURIComponent(q) : ''));
-    const r = q ? await chercher(q) : [];
+    const idx = q ? await index() : null;
     if (n !== jeton) return;
+    let r = idx ? idx.chercher(q).filter((x) => x.doc.g !== 'question' || okQ.has(x.doc.id)) : [];
+    if (caseFavoris.checked) r = r.filter((x) => S.estFavori(s, x.doc.g, x.doc.id));
     resultats.replaceChildren();
     compte.textContent = q ? (r.length ? tr('web_n_resultats', { n: r.length }) : tr('web_aucun_resultat', { q })) : '';
-    for (const g of ORDRE) {
-      const l = r.filter((e) => e.g === g && (g !== 'question' || premierModule(e.id))).slice(0, 60);
-      if (!l.length) continue;
+    // groupes : dans l'ordre du meilleur résultat de chaque type
+    const ordre: string[] = [];
+    for (const x of r) if (!ordre.includes(x.doc.g)) ordre.push(x.doc.g);
+    for (const g of ordre) {
+      const tous = r.filter((x) => x.doc.g === g);
       const ul = h('ul', { class: 'liste-ressources' });
-      for (const e of l) {
-        const mod = g === 'question' ? premierModule(e.id) : e.m[0];
-        const nomMod = mod ? contenu.bi(ms.find((m) => m.cle === mod)?.titre) : '';
-        ul.append(elementRessource(g, e.id, contenu.bi(e.t), { lien: g === 'question' ? `#/m/${mod}/q/${e.id}` : undefined, sousTitre: nomMod || undefined }));
+      const montrer = deplies.has(g) ? tous : tous.slice(0, PAR_GROUPE);
+      for (const x of montrer) ul.append(ligne(x));
+      const section = h('section', { class: 'groupe-ressources', 'data-genre': g }, h('h2', {}, tr('web_onglet_' + g + 's'), h('span', { class: 'nb', text: String(tous.length) })), ul);
+      if (montrer.length < tous.length) {
+        const plus = h('button', { type: 'button', class: 'bouton discret', text: tr('web_voir_plus', { n: tous.length - montrer.length }) });
+        plus.addEventListener('click', () => {
+          deplies.add(g);
+          void maj().then(() => resultats.querySelector<HTMLElement>(`section[data-genre="${g}"] li:nth-child(${PAR_GROUPE + 1}) a, section[data-genre="${g}"] li:nth-child(${PAR_GROUPE + 1}) button`)?.focus());
+        });
+        section.append(plus);
       }
-      resultats.append(h('section', { class: 'groupe-ressources' }, h('h2', {}, tr('web_onglet_' + g + 's'), h('span', { class: 'nb', text: String(r.filter((e) => e.g === g).length) })), ul));
+      resultats.append(section);
     }
   };
   let minuteur = 0;
   champ.addEventListener('input', () => {
     clearTimeout(minuteur);
+    deplies.clear();
     minuteur = window.setTimeout(() => void maj(), 150);
   });
+  caseFavoris.addEventListener('change', () => void maj());
   const el = h(
     'div',
-    { class: 'page page-recherche' },
+    { class: 'page page-recherche', lang: l },
     h('nav', { class: 'fil', 'aria-label': tr('web_fil') }, h('a', { href: '#/' }, icone('retour'), tr('web_accueil'))),
     h('h1', { text: tr('web_recherche_titre') }),
     h('div', { class: 'recherche', role: 'search' }, icone('chercher'), champ),
+    h('div', { class: 'barre-filtres' }, h('p', { class: 'aide', id: 'aide-recherche', text: tr('web_recherche_bilingue') }), h('p', { class: 'case' }, caseFavoris, h('label', { for: 'recherche-favoris' }, icone('etoile'), tr('web_favoris_seulement')))),
     compte,
     resultats,
   );

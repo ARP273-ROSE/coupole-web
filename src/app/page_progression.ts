@@ -109,14 +109,14 @@ export async function pageProgression(): Promise<Page> {
     }
     stockage.remplacer(remplacer ? imp : S.fusionner(s, imp));
     window.dispatchEvent(new Event('coupole:preferences'));
-    annoncer(tr('web_importe', { q: Object.keys(imp.questions).length, a: Object.keys(imp.animations).length, m: imp.mes_modules.length }), { libelle: tr('web_defaire'), faire: () => { stockage.remplacer(avant); window.dispatchEvent(new Event('coupole:preferences')); window.dispatchEvent(new Event('coupole:rafraichir')); } }, 10000);
+    annoncer(tr('web_importe', { q: Object.keys(imp.questions).length, a: Object.keys(imp.animations).length, f: imp.favoris.length, m: imp.mes_modules.length }), { libelle: tr('web_defaire'), faire: () => { stockage.remplacer(avant); window.dispatchEvent(new Event('coupole:preferences')); window.dispatchEvent(new Event('coupole:rafraichir')); } }, 10000);
     window.dispatchEvent(new Event('coupole:rafraichir'));
   });
 
   // réinitialisation : choix de la partie
   const partie = h('select', { id: 'raz-partie' });
   const options: [string, string][] = [
-    ['reponses', tr('web_raz_reponses')], ['reglages', tr('web_raz_reglages')], ['mes_modules', tr('web_raz_mes_modules')], ['preferences', tr('web_raz_preferences')], ['tout', tr('web_raz_tout')],
+    ['reponses', tr('web_raz_reponses')], ['reglages', tr('web_raz_reglages')], ['favoris', tr('web_raz_favoris')], ['mes_modules', tr('web_raz_mes_modules')], ['preferences', tr('web_raz_preferences')], ['tout', tr('web_raz_tout')],
   ];
   for (const m of ms) if (m.questions.some((q) => q.ok)) options.push([`module:${m.cle}`, tr('web_raz_module', { nom: contenu.bi(m.titre) })]);
   for (const id of Object.keys(s.animations)) if (PAR_ID.has(id)) options.push([`animation:${id}`, tr('web_raz_animation', { nom: tr('anim_nom_' + PAR_ID.get(id)!.cle) })]);

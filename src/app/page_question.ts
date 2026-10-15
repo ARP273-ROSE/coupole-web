@@ -13,6 +13,7 @@ import { langue, tr } from '../i18n/i18n';
 import { ajouter, annoncer, h, icone, pageIntrouvable } from './dom';
 import * as contenu from './contenu';
 import { elementRessource, menuAjouter, texteQuestion, titresRessources } from './composants';
+import { boutonFavori } from './favoris';
 import { ordreQuestions, questionsDe } from './page_module';
 import type { Page } from './page_apropos';
 import * as stockage from './stockage';
@@ -302,7 +303,7 @@ export async function pageQuestion(cle: string, qid: string, perso: boolean, par
       h('span', { class: 'badge type-' + typeQ, text: tr('web_type_' + typeQ) }),
       q.statut_reponse === 'corrigee' || q.statut_reponse === 'etablie_par_nous' ? h('span', { class: 'badge statut', text: tr('web_statut_' + q.statut_reponse) }) : null,
       h('h1', { id: 'titre-question', text: titreQ }),
-      h('span', { class: 'outils-question' }, menuAjouter({ genre: 'question', id: qid }, titreQ), bPlein)),
+      h('span', { class: 'outils-question' }, boutonFavori('question', qid, titreQ), menuAjouter({ genre: 'question', id: qid }, titreQ), bPlein)),
     zoneMenus,
     enonce,
     zoneFigure,
