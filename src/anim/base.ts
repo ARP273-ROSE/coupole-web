@@ -465,6 +465,16 @@ export abstract class Animation {
     this._glisse = null;
   }
 
+  /**
+   * La saisie en cours fait-elle tourner toute la scène (sphère, globe, caméra) plutôt qu'un objet ?  Au doigt, hors
+   * plein écran, une scène ne se tourne qu'à deux doigts ou après un appui long : un doigt seul fait défiler la page.
+   * Les animations à caméra propre (sans Vue3D) mettent `scene_tenue` à vrai dans presser().
+   */
+  scene_tenue = false;
+  saisie_scene(): boolean {
+    return this.scene_tenue || this._glisse instanceof Vue3D;
+  }
+
   /** Souris qui survole la toile sans bouton enfoncé : vrai s'il faut redessiner (rien par défaut). */
   survoler(_pos: Pt): boolean {
     return false;

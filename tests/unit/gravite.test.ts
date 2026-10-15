@@ -12,6 +12,7 @@ import * as g from '../../src/calc/gravite';
 import { GraviteOrbites, sci } from '../../src/anim/animations/gravite_orbites';
 import { choisirLangue, toutCharger } from '../../src/i18n/i18n';
 import { Peintre, Pt, Rect } from '../../src/noyau/peintre';
+import { titresPoses } from '../../src/noyau/dessin';
 import { fauxContexte } from './faux_canvas';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -287,6 +288,24 @@ describe('animation', () => {
       }
       choisirLangue('fr');
     }
+  });
+
+  it('le panneau « Lune vue du Soleil » ne recouvre jamais la scène (à côté en paysage, dessous en portrait)', () => {
+    for (const sc of ['soleil_terre_lune', 'libre'] as const)
+      for (const [w, h] of [[900, 600], [1800, 760], [390, 700], [300, 640], [360, 560]] as [number, number][]) {
+        const a = new GraviteOrbites({ scenario: sc, lune_soleil: true }).initialiser();
+        for (let k = 0; k < 20; k++) a.battement(0.2);
+        peindre(a, new Rect(0, 0, w, h));
+        const t = titresPoses();
+        expect(t.length, `${sc} ${w}×${h}`).toBe(2);
+        const [u, v] = [t[0]!.panneau, t[1]!.panneau];
+        const ww = Math.min(u.x + u.w, v.x + v.w) - Math.max(u.x, v.x);
+        const hh = Math.min(u.y + u.h, v.y + v.h) - Math.max(u.y, v.y);
+        expect(ww > 2 && hh > 2, `${sc} ${w}×${h}`).toBe(false);
+        // en portrait, dessous ; en paysage, à côté
+        if (h > w * 1.15) expect(v.y).toBeGreaterThan(u.y + u.h * 0.5);
+        else expect(v.x).toBeGreaterThan(u.x + u.w * 0.5);
+      }
   });
 
   it('valeurs : période mesurée comparée à la vraie, énergie, moment, courbure', () => {

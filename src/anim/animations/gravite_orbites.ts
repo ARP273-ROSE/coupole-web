@@ -286,7 +286,8 @@ export class GraviteOrbites extends Animation {
     const c = this.sys.corps[i]!;
     const v = this.cam;
     const reel = c.rayon * v.s;
-    const mod = (CONF[this.sc].rmod[c.nom] ?? 0.03) * v.L;
+    // en vue « Modèle », 5 px au moins (téléphone) : un astre à manipuler au doigt reste visible
+    const mod = Math.max(5, (CONF[this.sc].rmod[c.nom] ?? 0.03) * v.L);
     const t = this.lisse();
     return Math.max(1.5, Math.exp((1 - t) * Math.log(Math.max(reel, 1e-9)) + t * Math.log(mod)));
   }
@@ -491,7 +492,22 @@ export class GraviteOrbites extends Animation {
   // ------------------------------------------------------------ dessin
   override dessiner(p: Peintre, rect: Rect): void {
     const titre = tr(this.tCible === 1 ? 'anim_gravityorbits_titre_modele' : 'anim_gravityorbits_titre_echelle');
-    const r = dessin.cadre(p, rect, titre);
+    // l'encart « Lune vue du Soleil » a son propre panneau, à côté (paysage) ou dessous (portrait) : jamais par-dessus
+    // le mouvement
+    let principal = rect;
+    let rEncart: Rect | null = null;
+    if (this.c_lune_soleil.isChecked() && this.sys.trio) {
+      if (rect.w >= rect.h * 1.15) {
+        const lw = rect.w * 0.6;
+        principal = new Rect(rect.x, rect.y, lw, rect.h);
+        rEncart = new Rect(rect.x + lw, rect.y, rect.w - lw, rect.h);
+      } else {
+        const lh = rect.h * 0.6;
+        principal = new Rect(rect.x, rect.y, rect.w, lh);
+        rEncart = new Rect(rect.x, rect.y + lh, rect.w, rect.h - lh);
+      }
+    }
+    const r = dessin.cadre(p, principal, titre);
     const cf = CONF[this.sc];
     const L = 0.44 * Math.min(r.w, r.h);
     this.cam = { cx: r.cx, cy: r.cy, s: L / cf.D, L, ox: cf.ox };
@@ -516,7 +532,7 @@ export class GraviteOrbites extends Animation {
       dessin.texte(p, r.right - wm - 6, r.top + 34, m, 'doux', { centre: false });
       dessin.police(p, 1 / 0.85);
     }
-    if (this.c_lune_soleil.isChecked() && sys.trio) this.encart(p, r);
+    if (rEncart) this.encart(p, rEncart);
   }
 
   private grille(p: Peintre, r: Rect): void {
@@ -690,25 +706,16 @@ export class GraviteOrbites extends Animation {
   }
 
   /**
-   * Encart « Lune vue du Soleil » : vraie trajectoire héliocentrique de la Lune et de la Terre sur les 60 derniers
+   * Panneau « Lune vue du Soleil » (à côté ou sous la scène) : vraie trajectoire héliocentrique de la Lune et de la Terre sur les 60 derniers
    * jours (même échelle en x et en y : les deux chemins se confondent, sans boucle), et le rapport des courbures
    * Lune / Terre au cours du temps : toujours positif, donc toujours tourné vers le Soleil.
    */
-  private encart(p: Peintre, r: Rect): void {
+  private encart(p: Peintre, R: Rect): void {
     const sys = this.sys;
     const [is, it, il] = sys.trio!;
     const ts = sys.traces[is]!,
       tt = sys.traces[it]!,
       tl = sys.traces[il]!;
-    const etroit = r.w < 420;
-    const w = etroit ? r.w : Math.max(200, 0.42 * r.w);
-    const h = Math.max(130, (etroit ? 0.46 : 0.44) * r.h);
-    const R = new Rect(r.right - w, r.bottom - h, w, h);
-    p.save();
-    p.setPen(null);
-    p.setBrush(dessin.c('fond', 0.94));
-    p.drawRoundedRect(R.adjusted(3, 3, -3, -3), 10, 10);
-    p.restore();
     const ri = dessin.cadre(p, R, tr('anim_gravityorbits_titre_lune_soleil'));
     const n = Math.min(ts.x.length, tt.x.length, tl.x.length);
     const N = Math.min(n, Math.ceil((60 * g.JOUR) / sys.pasTrace) + 1);

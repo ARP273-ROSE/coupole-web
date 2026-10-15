@@ -38,6 +38,16 @@ propres à Coupole (aucune partie de PhET n’est copiée).
 - Thème « Renaissance » et module « L’astronomie de la Renaissance » ; la recherche « gravity and orbits » ou
   « gravité et orbites » la donne en premier ; « Ce qu’il faut voir » ; à propos, NOTICE. Une image : 0,9 à 2,5 ms
   (Chromium, Firefox, WebKit, bureau et tablette).
+- **Toucher (toutes les animations)** : la page défile de nouveau quand le doigt part de la toile
+  (`touch-action: pan-y pinch-zoom`) ; un doigt posé sur un objet à manipuler (astre, poignée, flèche, curseur
+  dessiné) le saisit et la page ne défile pas ; une scène à tourner (sphère, globe, Orion, Anticythère) se tourne à
+  deux doigts (pincer : zoom) ou après un appui long de 300 ms qui la saisit (contour accentué) ; en plein écran, un
+  doigt manipule tout ; aide « Deux doigts pour tourner, un doigt pour défiler » une seule fois ; souris et stylet
+  inchangés.
+- **En-tête** : opaque sur téléphone (un titre qui passe dessous ne transparaît plus) ; `scroll-padding-top` compte
+  l'encoche.
+- Le panneau « Lune vue du Soleil » est **à côté** de la scène (paysage) **ou dessous** (portrait), jamais par-dessus
+  le mouvement ; test commun : aucun panneau d'animation n'en recouvre un autre, toutes cases cochées, six formats.
 - Tests : mécanique au bit près comme le bureau (cas communs), périodes à 0,5 % des vraies, conservation sur dix ans à
   vitesse ×10, chute libre, mouvement rectiligne sans gravité, accord avec SageMath ; animation (glisser, flèche,
   ruban, vues, valeurs, durée d’une image < 5 ms) ; Playwright 3 moteurs × 3 formats (recherche, module, glisser à la
@@ -291,6 +301,15 @@ texts are Coupole’s own (no part of PhET is copied).
   ones (or with Kepler for the ISS and the comet), total energy and its change, angular momentum, tape, curvature.
 - “Renaissance” theme and “Renaissance Astronomy” module; searching “gravity and orbits” or “gravité et orbites” gives
   it first; “What to see”; about page, NOTICE. One frame: 0.9 to 2.5 ms (Chromium, Firefox, WebKit, desktop and tablet).
+- **Touch (all animations)**: the page scrolls again when the finger starts on the canvas (`touch-action: pan-y
+  pinch-zoom`); a finger placed on an object to manipulate (body, handle, arrow, drawn slider) grabs it and the page
+  does not scroll; a scene to turn (sphere, globe, Orion, Antikythera) turns with two fingers (pinch: zoom) or after a
+  300 ms long press that grabs it (highlighted outline); in full screen, one finger handles everything; a “Two fingers
+  to turn, one finger to scroll” hint is shown once; mouse and pen unchanged.
+- **Header**: opaque on phones (a title passing under it no longer shows through); `scroll-padding-top` includes the
+  notch.
+- The “Moon seen from the Sun” panel is **beside** the scene (landscape) **or below it** (portrait), never over the
+  motion; shared test: no animation panel overlaps another, all boxes ticked, six formats.
 - Tests: mechanics bit-identical to the desktop (shared cases), periods within 0.5 % of the true ones, conservation over
   ten years at ×10 speed, free fall, straight-line motion without gravity, agreement with SageMath; animation (drag,
   arrow, tape, views, values, frame time < 5 ms); Playwright 3 engines × 3 formats (search, module, mouse and finger

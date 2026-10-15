@@ -219,5 +219,30 @@ for (const e of ENTREES) {
       choisirLangue('fr');
       expect(fautes, e.id).toEqual([]);
     });
+
+    it('aucun panneau (encart compris) ne recouvre un autre : toutes les cases cochées, cinq formats', async () => {
+      const cls = await charger(e);
+      const fautes: string[] = [];
+      for (const [nomFormat, w, h] of [...FORMATS, ['étroit', 300, 640] as [string, number, number], ['portrait', 390, 700] as [string, number, number]]) {
+        const a = new cls().initialiser();
+        for (const [, [c]] of a.defauts) if (c instanceof Coche && c.visible) c.setChecked(true);
+        const { ctx } = fauxContexte();
+        const p = new Peintre(ctx);
+        for (let i = 0; i < 3; i++) {
+          a.peindre(p, new Rect(0, 0, w, h));
+          const t = titresPoses();
+          for (let j = 0; j < t.length; j++)
+            for (let k = j + 1; k < t.length; k++) {
+              const u = t[j]!.panneau,
+                v = t[k]!.panneau;
+              const ww = Math.min(u.x + u.w, v.x + v.w) - Math.max(u.x, v.x);
+              const hh = Math.min(u.y + u.h, v.y + v.h) - Math.max(u.y, v.y);
+              if (ww > 2 && hh > 2) fautes.push(`${nomFormat} image ${i} : panneaux « ${t[j]!.complet} » et « ${t[k]!.complet} »`);
+            }
+          a.battement(0.4);
+        }
+      }
+      expect([...new Set(fautes)], e.id).toEqual([]);
+    });
   });
 }

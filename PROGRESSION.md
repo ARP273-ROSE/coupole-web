@@ -143,6 +143,17 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 ### Interaction
 - Glisser une sphère : le point sous le doigt suit le doigt (vers la droite, la face visible part vers la droite ; vers
   le bas, elle descend), au rythme de 1 radian par rayon de sphère, compensé par 1 / cos(hauteur) en azimut (borné).
+- Toucher (0.6.1) : `touch-action: pan-y pinch-zoom` sur la toile ; au pointerdown tactile, `Scene.saisir` appelle
+  `presser` : un objet saisi (`saisie_scene()` faux) bloque le défilement (touchstart et touchmove empêchés, écouteurs
+  non passifs ; pointerdown arrive avant touchstart) ; une scène à tourner (`_glisse` est une Vue3D, ou
+  `scene_tenue` posé par Anticythère et le globe du jour-nuit) est relâchée aussitôt : un doigt fait défiler ; appui
+  long de 300 ms sans bouger → saisie (classe `saisie` : contour `accent` 3 px, vibration 8 ms) ; deux doigts → milieu
+  des doigts = rotation, écart = zoom autour du point de départ ; plein écran (`document.fullscreenElement`) : un doigt
+  manipule tout (`touch-action: none`) ; aide « Deux doigts pour tourner… » une fois (`coupole-web:aide-deux-doigts`,
+  bulle 4 s en bas de la scène). Souris et stylet : inchangés. Tests : `tests/e2e/toucher.spec.ts` (décision par
+  événements synthétiques Chromium et WebKit, défilement réel par CDP sur Chromium téléphone, deux doigts, appui
+  long) ; `maintenant.spec.ts` : le globe au doigt après appui long.
+- En-tête opaque sur téléphone (`--fond`) ; `scroll-padding-top` = en-tête + encoche + 12 px.
 - Aide : propre à chaque animation (texte « souris » de Coupole s'il existe, sinon selon qu'elle a une sphère à tourner
   et/ou des objets à déplacer), en petit sous la scène et dans la fiche ; jamais d'infobulle sur la toile.
 - Panneaux : tout ce qui est dessiné dans un panneau y est découpé (rayons du Soleil des saisons : du bord du panneau
@@ -251,8 +262,8 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   d'agrandissement dessous (85 %, `doux`).
 - Étiquettes : nom de chaque astre par le placeur commun ; à l'échelle, Terre et Lune confondues (moins de r + 3 px)
   → une seule étiquette « Terre et Lune (un seul point) » ; pas d'étiquette sur un astre qui remplit la vue.
-- Encart « Lune vue du Soleil » (case, scénarios à trois corps) : en bas à droite, 42 % × 44 % (toute la largeur sous
-  420 px), fond 94 % ; haut : chemins héliocentriques des 60 derniers jours, même échelle en x et y, Soleil en bas
+- Panneau « Lune vue du Soleil » (case, scénarios à trois corps) : jamais par-dessus la scène — à droite (40 % de la
+  largeur) si la toile est en paysage (l ≥ 1,15 h), sinon dessous (40 % de la hauteur) ; haut : chemins héliocentriques des 60 derniers jours, même échelle en x et y, Soleil en bas
   (Terre `terre` 3 px 50 %, Lune `lune` 1,4 px) ; bas : rapport des courbures κ_Lune / κ_Terre (vitesse et
   accélération relatives au Soleil), ligne 0 `accent3` pointillée, ligne 1 `grille` — toujours entre 0,49 et 1,41.
 - Interaction : glisser un astre (ses satellites Lune et ISS suivent, temps suspendu pendant la saisie, mesures
@@ -703,6 +714,8 @@ File d'attente :
       dans Coupole (`textes_gravite.py`) et exportés ; « Ce qu'il faut voir » ; à propos ; module Renaissance
       (`ANIMATIONS_AJOUTEES` de `outils/importer_contenu.py`) ; recherche (cas régénérés, 101 recherches dont
       « gravity and orbits »).
+- [x] Retours téléphone : défilement au doigt sur la toile (objets saisis, scènes à deux doigts ou appui long), panneau
+      « Lune vue du Soleil » à côté ou dessous, en-tête opaque ; test « aucun panneau n'en recouvre un autre ».
 - [x] Tests : `tests/unit/gravite.test.ts` (parité au bit, physique, SageMath, animation, durée), références de Coupole
       régénérées, `tests/e2e/gravite.spec.ts` (3 moteurs × 3 formats) ; 95 animations partout.
 

@@ -10,6 +10,9 @@ import { Peintre, Pt, Rect, reglerTaillePolice } from '../noyau/peintre';
 
 const ZOOM_MAX = 8;
 const APPUI_LONG_MS = 550;
+/** appui long qui « saisit » une scène à tourner (au doigt, hors plein écran ; un doigt seul fait défiler la page) */
+const SAISIE_SCENE_MS = 300;
+const CLE_AIDE_DOIGTS = 'coupole-web:aide-deux-doigts';
 
 export interface Observateur {
   rendu?(): void;
@@ -38,9 +41,19 @@ export class Scene implements Hote {
   private ox = 0;
   private oy = 0;
   private pointeurs = new Map<number, { x: number; y: number }>();
-  private glisse: { id: number; x: number; y: number; x0: number; y0: number; bouge: boolean; pris: boolean; bouton: Bouton_souris } | null = null;
-  private pince: { d0: number; k0: number; mx0: number; my0: number; ox0: number; oy0: number } | null = null;
+  private glisse: { id: number; x: number; y: number; x0: number; y0: number; bouge: boolean; pris: boolean; bouton: Bouton_souris; doigt: boolean } | null = null;
+  private pince: {
+    d0: number; k0: number; mx0: number; my0: number; ox0: number; oy0: number;
+    /** deux doigts sur une scène à tourner : le milieu des doigts la fait tourner, l'écart zoome */
+    rotation: boolean; mxp: number; myp: number;
+  } | null = null;
   private minuteurLong = 0;
+  /**
+   * Au doigt, le geste en cours manipule un objet ou la scène : la page ne défile pas (touchstart et touchmove
+   * empêchés).  Sinon le défilement vertical de la page reste natif (touch-action: pan-y).
+   */
+  private toucherBloque = false;
+  private minuteurSaisie = 0;
   /** libellé accessible de la toile (nom de l'animation) ; les titres complets des panneaux y sont ajoutés */
   libelle = '';
   private titres: { x: number; y: number; w: number; h: number; complet: string; abrege: boolean }[] = [];
@@ -306,6 +319,13 @@ export class Scene implements Hote {
     c.addEventListener('pointercancel', (e) => this.haut(e));
     c.addEventListener('lostpointercapture', (e) => this.haut(e));
     c.addEventListener('contextmenu', (e) => e.preventDefault());
+    // le doigt sur un objet (ou deux doigts, ou plein écran) : pas de défilement ni de zoom de la page ; ailleurs, la
+    // page défile (pointerdown arrive avant touchstart : la décision est déjà prise)
+    const bloquer = (e: TouchEvent): void => {
+      if (e.cancelable && (this.toucherBloque || this.pince || (e.touches?.length ?? 0) >= 2 || this.pleinEcran())) e.preventDefault();
+    };
+    c.addEventListener('touchstart', bloquer, { passive: false });
+    c.addEventListener('touchmove', bloquer, { passive: false });
     c.addEventListener(
       'wheel',
       (e) => {
@@ -346,6 +366,10 @@ export class Scene implements Hote {
       this.pince = null;
       this.annulerGlisse();
     }
+    if (e.isPrimary) {
+      this.toucherBloque = false;
+      this.boite.classList.remove('saisie');
+    }
     try {
       this.canvas.setPointerCapture(e.pointerId);
     } catch {
@@ -356,23 +380,98 @@ export class Scene implements Hote {
     if (this.pointeurs.size === 2) {
       this.annulerGlisse();
       const [a, b] = [...this.pointeurs.values()] as [{ x: number; y: number }, { x: number; y: number }];
+      const mx = (a.x + b.x) / 2,
+        my = (a.y + b.y) / 2;
+      // deux doigts sur une scène à tourner : le milieu des doigts la fait tourner (et l'écart zoome)
+      let rotation = false;
+      if (e.pointerType === 'touch') {
+        this.toucherBloque = true;
+        this.anim.scene_tenue = false;
+        if (this.anim.presser(this.logique(mx, my), 'gauche')) {
+          if (this.anim.saisie_scene()) rotation = true;
+          else this.anim.relacher(this.logique(mx, my));
+        }
+      }
       this.pince = {
-        d0: Math.max(10, Math.hypot(a.x - b.x, a.y - b.y)), k0: this.k, mx0: (a.x + b.x) / 2, my0: (a.y + b.y) / 2,
-        ox0: this.ox, oy0: this.oy,
+        d0: Math.max(10, Math.hypot(a.x - b.x, a.y - b.y)), k0: this.k, mx0: mx, my0: my,
+        ox0: this.ox, oy0: this.oy, rotation, mxp: mx, myp: my,
       };
       return;
     }
     if (this.pointeurs.size > 2) return;
     this.canvas.focus({ preventScroll: true });
     const bouton: Bouton_souris = e.button === 2 ? 'droit' : e.button === 1 ? 'milieu' : 'gauche';
-    this.glisse = { id: e.pointerId, x: p.x, y: p.y, x0: p.x, y0: p.y, bouge: false, pris: false, bouton };
-    this.glisse.pris = this.anim.presser(this.logique(p.x, p.y), bouton);
+    this.glisse = { id: e.pointerId, x: p.x, y: p.y, x0: p.x, y0: p.y, bouge: false, pris: false, bouton, doigt: e.pointerType === 'touch' && !this.pleinEcran() };
+    this.glisse.pris = this.saisir(this.glisse);
     this.demander();
     if (e.pointerType !== 'mouse') {
       clearTimeout(this.minuteurLong);
       this.minuteurLong = window.setTimeout(() => this.appuiLong(), APPUI_LONG_MS);
     }
   }
+
+  /** Le pointeur est-il en plein écran (un doigt y manipule tout) ? */
+  private pleinEcran(): boolean {
+    const f = typeof document !== 'undefined' ? document.fullscreenElement : null;
+    return !!f && f.contains(this.canvas);
+  }
+
+  /**
+   * Saisie à l'appui (ou retentée au glisser).  Souris, stylet, plein écran : comme avant.  Doigt : un objet (astre,
+   * poignée, flèche, curseur dessiné) est saisi et la page ne défile plus ; une scène à tourner ne l'est pas (un doigt
+   * fait défiler la page) : il faut deux doigts, ou un appui long qui la saisit.
+   */
+  private saisir(g: NonNullable<Scene['glisse']>): boolean {
+    const a = this.anim;
+    if (!a) return false;
+    a.scene_tenue = false;
+    const pris = a.presser(this.logique(g.x, g.y), g.bouton);
+    if (!pris || !g.doigt) {
+      if (pris && g.doigt) this.toucherBloque = true;
+      return pris;
+    }
+    if (!a.saisie_scene()) {
+      this.toucherBloque = true;
+      return true;
+    }
+    // scène à tourner : relâchée tout de suite ; un appui long sans bouger la saisit
+    a.relacher(this.logique(g.x, g.y));
+    a.scene_tenue = false;
+    this.aideDeuxDoigts();
+    clearTimeout(this.minuteurSaisie);
+    this.minuteurSaisie = window.setTimeout(() => {
+      const h = this.glisse;
+      if (!h || h !== g || h.bouge || h.pris || !this.anim) return;
+      this.anim.scene_tenue = false;
+      h.pris = this.anim.presser(this.logique(h.x, h.y), h.bouton);
+      if (h.pris) {
+        this.toucherBloque = true;
+        this.boite.classList.add('saisie');
+        navigator.vibrate?.(8);
+        this.demander();
+      }
+    }, SAISIE_SCENE_MS);
+    return false;
+  }
+
+  /** « Deux doigts pour tourner, un doigt pour défiler » : une fois, au premier doigt posé sur une scène à tourner. */
+  private aideDeuxDoigts(): void {
+    try {
+      if (localStorage.getItem(CLE_AIDE_DOIGTS)) return;
+      localStorage.setItem(CLE_AIDE_DOIGTS, '1');
+    } catch {
+      return;
+    }
+    const bulle = document.createElement('div');
+    bulle.className = 'aide-doigts';
+    bulle.setAttribute('role', 'status');
+    bulle.textContent = this.textes.deuxDoigts;
+    this.boite.append(bulle);
+    window.setTimeout(() => bulle.remove(), 4000);
+  }
+
+  /** textes de l'interface (posés par la page) */
+  textes = { deuxDoigts: 'Deux doigts pour tourner, un doigt pour défiler' };
 
   private appuiLong(): void {
     const g = this.glisse;
@@ -410,6 +509,21 @@ export class Scene implements Hote {
       const mx = (a.x + b.x) / 2,
         my = (a.y + b.y) / 2;
       const k = Math.max(1, Math.min(ZOOM_MAX, (this.pince.k0 * d) / this.pince.d0));
+      if (this.pince.rotation) {
+        // rotation par le milieu des doigts, zoom autour du point de départ
+        const dmx = mx - this.pince.mxp,
+          dmy = my - this.pince.myp;
+        this.pince.mxp = mx;
+        this.pince.myp = my;
+        this.ox = this.pince.mx0 - ((this.pince.mx0 - this.pince.ox0) / this.pince.k0) * k;
+        this.oy = this.pince.my0 - ((this.pince.my0 - this.pince.oy0) / this.pince.k0) * k;
+        this.k = k;
+        this.borner();
+        if (dmx || dmy) this.anim.glisser(this.logique(mx, my), dmx / this.k, dmy / this.k);
+        this.observateur.zoom?.(this.k);
+        this.demander();
+        return;
+      }
       // le point de la scène sous le milieu des doigts suit les doigts
       this.ox = mx - ((this.pince.mx0 - this.pince.ox0) / this.pince.k0) * k;
       this.oy = my - ((this.pince.my0 - this.pince.oy0) / this.pince.k0) * k;
@@ -427,13 +541,15 @@ export class Scene implements Hote {
     if (Math.hypot(p.x - g.x0, p.y - g.y0) > 8) {
       g.bouge = true;
       clearTimeout(this.minuteurLong);
+      clearTimeout(this.minuteurSaisie);
     }
     g.x = p.x;
     g.y = p.y;
     // rien n'a été saisi à l'appui (scène pas encore dessinée, réglage changé à cet instant…) : on retente ici, le
-    // glisser ne dépend ainsi ni du focus ni de ce qui s'est passé juste avant
+    // glisser ne dépend ainsi ni du focus ni de ce qui s'est passé juste avant (au doigt : un objet seulement, une
+    // scène à tourner laisse la page défiler)
     if (!g.pris) {
-      g.pris = this.anim.presser(this.logique(p.x, p.y), g.bouton);
+      g.pris = this.saisir(g);
       if (g.pris) this.demander();
       return;
     }
@@ -445,7 +561,13 @@ export class Scene implements Hote {
     if (!this.pointeurs.has(e.pointerId)) return;
     this.pointeurs.delete(e.pointerId);
     clearTimeout(this.minuteurLong);
+    clearTimeout(this.minuteurSaisie);
+    if (!this.pointeurs.size) {
+      this.toucherBloque = false;
+      this.boite.classList.remove('saisie');
+    }
     if (this.pince && this.pointeurs.size < 2) {
+      if (this.pince.rotation) this.anim?.relacher(this.logique(this.pince.mxp, this.pince.myp));
       this.pince = null;
       return;
     }
@@ -466,6 +588,7 @@ export class Scene implements Hote {
 
   private annulerGlisse(): void {
     clearTimeout(this.minuteurLong);
+    clearTimeout(this.minuteurSaisie);
     if (this.glisse) {
       this.anim?.relacher(this.logique(this.glisse.x, this.glisse.y));
       this.glisse = null;
@@ -538,6 +661,7 @@ export class Scene implements Hote {
     this.obs?.disconnect();
     document.removeEventListener('visibilitychange', this.surVisibilite);
     clearTimeout(this.minuteurLong);
+    clearTimeout(this.minuteurSaisie);
     if (this.anim) {
       if (this.anim.en_lecture) this.anim.en_lecture = false;
       this.anim.hote = { rafraichir() {}, lectureChangee() {} };

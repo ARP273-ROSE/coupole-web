@@ -629,6 +629,7 @@ export class Anticythere extends Animation {
       this.angle_saisie = this.angle_manivelle(pos);
     } else {
       this.prise = 'vue';
+      this.scene_tenue = true;
       if (this.pr) this.s_fige = this.pr.s;
     }
     this._glisse = () => {};

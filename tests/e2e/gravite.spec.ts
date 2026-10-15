@@ -72,6 +72,7 @@ test('recherche « gravity and orbits » : l’animation en premier ; module Ren
 });
 
 test('glisser la Terre (sans focus préalable), lecture, période, vue à l’échelle, repos', async ({ page, browserName }) => {
+  test.setTimeout(120_000);
   const s = await surveiller(page);
   await page.goto('./#/a/gravityorbits');
   const toile = page.locator('.scene canvas');
@@ -93,10 +94,11 @@ test('glisser la Terre (sans focus préalable), lecture, période, vue à l’é
   }
   await expect.poll(() => valeur(page, 'Distance Terre–Soleil')).not.toMatch(/^1,0000 ua/);
   // « Réinitialiser » puis lecture à vitesse ×10 : la Terre fait un tour, période ≈ 365,26 j
-  await page.goto('./#/a/gravityorbits?vitesse=10');
-  await expect.poll(() => valeur(page, 'Distance Terre–Soleil')).toMatch(/^1,0000 ua/);
+  // Terre et Lune à vitesse ×10 : un mois en 2,7 s (même sur une machine lente)
+  await page.goto('./#/a/gravityorbits?scenario=terre_lune&vitesse=10');
+  await expect.poll(() => valeur(page, 'Distance Lune–Terre')).toMatch(/^384\u202f400 km/);
   await page.getByRole('button', { name: 'Lecture' }).first().click();
-  await expect.poll(() => valeur(page, 'Période mesurée (Terre)'), { timeout: 30_000 }).toMatch(/^365,2\d j/);
+  await expect.poll(() => valeur(page, 'Période mesurée (Lune)'), { timeout: 60_000 }).toMatch(/^27,2\d j/);
   await expect.poll(() => toile.getAttribute('data-ms'), { timeout: 30_000 }).not.toBeNull();
   const ms = Number((await toile.getAttribute('data-ms'))!.split(' ')[0]);
   test.info().annotations.push({ type: 'durée de rendu (ms)', description: String(ms) });
@@ -113,7 +115,8 @@ test('glisser la Terre (sans focus préalable), lecture, période, vue à l’é
     await page.waitForTimeout(ms);
     return (await page.evaluate(() => (window as unknown as { __raf: number }).__raf)) - r0;
   };
-  await expect.poll(() => images(600), { timeout: 20_000, intervals: [0] }).toBeLessThanOrEqual(1);
+  // (WebKit peut suspendre les images pendant que la liste se ferme : on attend deux fenêtres calmes de suite)
+  await expect.poll(async () => (await images(800)) + (await images(800)), { timeout: 30_000, intervals: [0] }).toBeLessThanOrEqual(1);
   expect(await images(1200)).toBeLessThanOrEqual(1);
   await page.screenshot({ path: `test-results/captures/${test.info().project.name}-gravite-echelle.png` });
   expect(s.erreurs).toEqual([]);

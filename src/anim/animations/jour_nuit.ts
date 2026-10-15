@@ -385,6 +385,7 @@ export class JourNuit extends Animation {
       }
       this.inertie = [0, 0];
       this.elan++;
+      this.scene_tenue = true;
       let avant = pos;
       this._glisse = (q) => {
         const dx = q.x - avant.x,

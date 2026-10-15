@@ -99,7 +99,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--entete) + 12px);
+  /* l'en-tête collant (encoche comprise) ne masque jamais un titre atteint par un lien ou le focus */
+  scroll-padding-top: calc(var(--entete) + env(safe-area-inset-top) + 12px);
 }
 
 body {
@@ -727,7 +728,9 @@ p {
 .scene canvas {
   width: 100%;
   height: 100%;
-  touch-action: none;
+  /* un doigt fait défiler la page, sauf s'il part d'un objet à manipuler (scene.ts : touchstart empêché) ; deux
+     doigts, un appui long ou le plein écran manipulent la scène */
+  touch-action: pan-y pinch-zoom;
   cursor: grab;
   -webkit-user-select: none;
   user-select: none;
@@ -736,6 +739,45 @@ p {
 
 .scene canvas:active {
   cursor: grabbing;
+}
+
+.scene:fullscreen canvas {
+  touch-action: none;
+}
+
+/* scène saisie au doigt par un appui long : contour accentué */
+.scene.saisie {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+/* aide contextuelle, une seule fois : « Deux doigts pour tourner, un doigt pour défiler » */
+.aide-doigts {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 28px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fond) 88%, transparent);
+  color: var(--texte);
+  border: 1px solid var(--bord);
+  font-size: 0.85rem;
+  text-align: center;
+  pointer-events: none;
+  animation: aide-doigts 4s ease forwards;
+}
+
+@keyframes aide-doigts {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aide-doigts {
+    animation: none;
+  }
 }
 
 .scene canvas:focus-visible {
@@ -1778,10 +1820,11 @@ math {
 
 /* barre de navigation en bas sur téléphone : libellés visibles, pouce, plus de débordement à 320 px */
 @media (max-width: 640px) {
+  /* opaque : un titre qui passe dessous en défilant ne transparaît pas */
   .entete {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    background: color-mix(in srgb, var(--fond) 92%, transparent);
+    background: var(--fond);
   }
 
   .marque-texte {

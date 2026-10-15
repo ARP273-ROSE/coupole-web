@@ -151,6 +151,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
       zoomTexte.textContent = `${tr('web_zoom')} ${texteNombre(k, 1)}×`;
     },
   });
+  toile.textes.deuxDoigts = tr('web_deux_doigts');
   zoomRetour.addEventListener('click', () => toile.zoomer(1, 0, 0, true));
   const c = toile.canvas;
   c.setAttribute('role', 'img');

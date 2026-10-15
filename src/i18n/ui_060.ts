@@ -131,4 +131,5 @@ export const UI_060: Record<string, [string, string]> = {
   web_installer_tous: ['Instructions pour les autres navigateurs', 'Instructions for other browsers'],
   web_installer_comment: ['Comment installer', 'How to install'],
   web_fermer_fiche: ['Fermer', 'Close'],
+  web_deux_doigts: ['Deux doigts pour tourner, un doigt pour défiler (ou un appui long pour saisir la scène)', 'Two fingers to turn, one finger to scroll (or a long press to grab the scene)'],
 };

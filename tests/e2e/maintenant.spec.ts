@@ -108,16 +108,18 @@ test('glisser sur le globe : après un réglage touché, le panneau défilé, un
   const toile = page.locator('.scene canvas').first();
   await expect(toile).toBeVisible();
   await page.waitForTimeout(800);
-  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('none');
-  /** Glisser au doigt (événements de pointeur « touch ») : n'importe quel moteur. */
+  // un doigt seul fait défiler la page ; le globe se tourne à deux doigts ou après un appui long (300 ms)
+  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('pan-y pinch-zoom');
+  /** Glisser au doigt après un appui long (événements de pointeur « touch ») : n'importe quel moteur. */
   const glisserDoigt = async (id: number, relacher = true): Promise<void> => {
-    await toile.evaluate((c, [id, rel]) => {
+    await toile.evaluate(async (c, [id, rel]) => {
       // centre de la toile là où elle est maintenant (la page a pu défiler)
       const r = c.getBoundingClientRect();
       const x = r.left + r.width / 2;
       const y = r.top + r.height / 2;
       const ev = (t: string, dx: number) => new PointerEvent(t, { pointerId: id as number, pointerType: 'touch', isPrimary: true, bubbles: true, cancelable: true, clientX: x + dx, clientY: y, buttons: t === 'pointerup' ? 0 : 1 });
       c.dispatchEvent(ev('pointerdown', 0));
+      await new Promise((f) => setTimeout(f, 400));
       for (let k = 1; k <= 8; k++) c.dispatchEvent(ev('pointermove', k * 12));
       if (rel) c.dispatchEvent(ev('pointerup', 96));
     }, [id, relacher] as const);
