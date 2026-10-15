@@ -45,6 +45,10 @@ function rejouer(c: { genre: string; entree: any }): unknown {
           etat: () => S.etatQuestion(s, o.qid),
           tentative: () => S.noterTentative(s, o.qid, o.t),
           bilan: () => S.bilan(s, o.questions),
+          est_favori: () => S.estFavori(s, o.genre, o.id),
+          ajouter_favori: () => S.ajouterFavori(s, o.genre, o.id, o.quand),
+          retirer_favori: () => S.retirerFavori(s, o.genre, o.id),
+          basculer_favori: () => S.basculerFavori(s, o.genre, o.id, o.quand),
         };
         const r = f[o.op]!();
         res.push(r === undefined ? null : JSON.parse(JSON.stringify(r)));

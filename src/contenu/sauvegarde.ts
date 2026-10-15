@@ -4,22 +4,32 @@
  * modules », préférences.  Logique pure (sans DOM ni stockage) : mêmes fonctions, nom pour nom, dans
  * `coupole/modules/anim/classe/sauvegarde.py` ; mêmes cas de test (`tests/references/sauvegarde_cas.json`).
  *
- * Format (version 1) :
- *   { format: "coupole-sauvegarde", version: 1, application, modifie,
+ * Format (version 2) :
+ *   { format: "coupole-sauvegarde", version: 2, application, modifie,
  *     preferences: { langue?, theme?, … },
  *     animations: { <id>: { reglages: {cle: valeur}, modifie } },
  *     questions:  { <id>: { tentatives: [{date, reponse: [ids], juste, parametres, graine}], reponse_vue, indice_vu,
  *                           a_revoir } },
  *     modules:    { <clé>: { derniere_question, visite } },
- *     mes_modules: [ { id, nom, cree, modifie, elements: [{genre, id}] } ] }
+ *     mes_modules: [ { id, nom, cree, modifie, elements: [{genre, id}] } ],
+ *     favoris:    [ { genre, id, ajoute } ] }            (genre : question, animation, fiche, table, image, module)
  * Version 0 (avant 0.4.0) : réglages dispersés « reglages:<id> », « theme », « langue » → `migrer`.
+ * Version 1 (0.4.0–0.5.x) : sans favoris → lue telle quelle, favoris vides.
  */
 
 export const FORMAT = 'coupole-sauvegarde';
-export const VERSION = 1;
+export const VERSION = 2;
 export const MAX_TENTATIVES = 50;
 export const GENRES = ['question', 'animation', 'fiche', 'table', 'image'] as const;
 export type Genre = (typeof GENRES)[number];
+export const GENRES_FAVORIS = [...GENRES, 'module'] as const;
+export type GenreFavori = (typeof GENRES_FAVORIS)[number];
+export const MAX_FAVORIS = 5000;
+export interface Favori {
+  genre: GenreFavori;
+  id: string;
+  ajoute: string;
+}
 
 export type ValeurReglage = number | boolean | string | null;
 export type Reglages = Record<string, ValeurReglage>;
@@ -57,6 +67,7 @@ export interface Sauvegarde {
   questions: Record<string, SuiviQuestion>;
   modules: Record<string, { derniere_question: string | null; visite: string }>;
   mes_modules: MonModule[];
+  favoris: Favori[];
 }
 
 const CLE = /^[A-Za-z0-9_:.\-]{1,80}$/;
@@ -68,7 +79,7 @@ export function maintenant(): string {
 }
 
 export function vide(application = '', date = EPOQUE): Sauvegarde {
-  return { format: FORMAT, version: VERSION, application, modifie: date, preferences: {}, animations: {}, questions: {}, modules: {}, mes_modules: [] };
+  return { format: FORMAT, version: VERSION, application, modifie: date, preferences: {}, animations: {}, questions: {}, modules: {}, mes_modules: [], favoris: [] };
 }
 
 function objet(v: unknown): Record<string, unknown> | null {
@@ -137,6 +148,15 @@ function elementValide(v: unknown): Element | null {
   return { genre: g as Genre, id };
 }
 
+function favoriValide(v: unknown): Favori | null {
+  const o = objet(v);
+  if (!o) return null;
+  const g = o.genre;
+  const id = texte(o.id, 80);
+  if (!id || !CLE.test(id) || !(GENRES_FAVORIS as readonly unknown[]).includes(g)) return null;
+  return { genre: g as GenreFavori, id, ajoute: date(o.ajoute) };
+}
+
 function monModuleValide(v: unknown): MonModule | null {
   const o = objet(v);
   if (!o) return null;
@@ -157,7 +177,7 @@ function monModuleValide(v: unknown): MonModule | null {
 }
 
 /**
- * Lit n'importe quelle sauvegarde (version 0 ou 1, éventuellement abîmée) et rend une sauvegarde version 1 valide :
+ * Lit n'importe quelle sauvegarde (version 0, 1 ou 2, éventuellement abîmée) et rend une sauvegarde version 2 valide :
  * ce qui est illisible est ignoré, jamais d'erreur.  Une version future est refusée (null) pour ne rien écraser.
  */
 export function migrer(brut: unknown, application = ''): Sauvegarde | null {
@@ -208,6 +228,15 @@ export function migrer(brut: unknown, application = ''): Sauvegarde | null {
       s.mes_modules.push(mm);
     }
   }
+  const fav = new Set<string>();
+  for (const x of Array.isArray(o.favoris) ? o.favoris : []) {
+    const f = favoriValide(x);
+    if (f && !fav.has(f.genre + ':' + f.id)) {
+      fav.add(f.genre + ':' + f.id);
+      s.favoris.push(f);
+    }
+  }
+  s.favoris = s.favoris.slice(0, MAX_FAVORIS);
   return s;
 }
 
@@ -247,6 +276,7 @@ export function fusionner(a: Sauvegarde, b: Sauvegarde): Sauvegarde {
     if (i < 0) s.mes_modules.push(JSON.parse(JSON.stringify(m)));
     else if (!plusRecent(m.modifie, s.mes_modules[i]!.modifie)) s.mes_modules[i] = JSON.parse(JSON.stringify(m));
   }
+  for (const f of b.favoris) if (!estFavori(s, f.genre, f.id) && s.favoris.length < MAX_FAVORIS) s.favoris.push({ ...f });
   s.modifie = a.modifie > b.modifie ? a.modifie : b.modifie;
   return s;
 }
@@ -258,6 +288,7 @@ export type Partie =
   | { partie: 'reglages' }
   | { partie: 'reponses' }
   | { partie: 'mes_modules' }
+  | { partie: 'favoris' }
   | { partie: 'preferences' }
   | { partie: 'tout' };
 
@@ -280,6 +311,9 @@ export function reinitialiser(s: Sauvegarde, p: Partie): Sauvegarde {
       break;
     case 'mes_modules':
       n.mes_modules = [];
+      break;
+    case 'favoris':
+      n.favoris = [];
       break;
     case 'preferences':
       n.preferences = {};
@@ -417,6 +451,32 @@ export function nomLibre(s: Sauvegarde, base: string, numeroter = false): string
   }
   if (!pris.has(base)) return base;
   for (let i = 2; ; i++) if (!pris.has(`${base} (${i})`)) return `${base} (${i})`;
+}
+
+// ------------------------------------------------------------------ favoris
+export function estFavori(s: Sauvegarde, genre: string, id: string): boolean {
+  return s.favoris.some((f) => f.genre === genre && f.id === id);
+}
+
+/** Ajoute (à la fin) ; false si déjà là, invalide ou au-delà de MAX_FAVORIS. */
+export function ajouterFavori(s: Sauvegarde, genre: string, id: string, quand = maintenant()): boolean {
+  const f = favoriValide({ genre, id, ajoute: quand });
+  if (!f || estFavori(s, genre, id) || s.favoris.length >= MAX_FAVORIS) return false;
+  s.favoris.push(f);
+  return true;
+}
+
+export function retirerFavori(s: Sauvegarde, genre: string, id: string): boolean {
+  const i = s.favoris.findIndex((f) => f.genre === genre && f.id === id);
+  if (i < 0) return false;
+  s.favoris.splice(i, 1);
+  return true;
+}
+
+/** Ajoute ou retire ; rend le nouvel état (true = favori). */
+export function basculerFavori(s: Sauvegarde, genre: string, id: string, quand = maintenant()): boolean {
+  if (retirerFavori(s, genre, id)) return false;
+  return ajouterFavori(s, genre, id, quand);
 }
 
 // ------------------------------------------------------------------ export / import
