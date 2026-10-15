@@ -179,3 +179,24 @@ describe('formules : délimiteurs et racines extensibles, indices en mots', () =
     expect(n.s).toEqual({ t: 'id', v: 'max' });
   });
 });
+
+describe('neutrino : la lettre grecque ν, jamais la lettre latine v', () => {
+  // « e⁺ + v », « → … + v » : le neutrino écrit avec un v latin (U+0076) dans une équation de réaction
+  const VLATIN = /(?:\+|→)\s*v(?:ₑ|e)?(?=\s|$|[,.;:)])/;
+  it('règle : « e⁺ + v » rejeté, « e⁺ + νₑ » accepté', () => {
+    expect(VLATIN.test('¹H + ¹H → ²H + e⁺ + v')).toBe(true);
+    expect(VLATIN.test('¹³N → ¹³C + e⁺ + ve')).toBe(true);
+    expect(VLATIN.test('¹H + ¹H → ²H + e⁺ + νₑ')).toBe(false);
+    expect(VLATIN.test('v = d / t')).toBe(false);
+  });
+  it('équations des réactions de fusion et tous les textes des animations', async () => {
+    const { ETAPES_PP, ETAPES_CNO, equation } = await import('../../src/anim/animations/fusion');
+    for (const e of [...ETAPES_PP, ...ETAPES_CNO]) {
+      const q = equation(e);
+      expect(VLATIN.test(q), q).toBe(false);
+      if (e[1].includes('nu')) expect(q).toContain('νₑ');
+    }
+    for (const d of [ANIM_FR, ANIM_EN, CAT_FR, CAT_EN] as Record<string, string>[]) for (const [k, v] of Object.entries(d)) expect(VLATIN.test(v), k).toBe(false);
+    for (const lg of ['fr', 'en'] as const) for (const e of ENTREES) expect(VLATIN.test(aVoir(e.id, lg) ?? ''), e.id).toBe(false);
+  });
+});

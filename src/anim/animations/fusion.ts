@@ -35,7 +35,10 @@ const NOYAUX: Record<string, [string, number, number]> = {
   p: ['¹H', 1, 1], d: ['²H', 1, 2], he3: ['³He', 2, 3], he4: ['⁴He', 2, 4], c12: ['¹²C', 6, 12],
   n13: ['¹³N', 7, 13], c13: ['¹³C', 6, 13], n14: ['¹⁴N', 7, 14], o15: ['¹⁵O', 8, 15], n15: ['¹⁵N', 7, 15],
 };
-const LEPTONS: Record<string, string> = { 'e+': 'e⁺', nu: 'ν', gamma: 'γ' };
+// neutrino : la lettre grecque nu (U+03BD), avec l'indice e (neutrino électronique), jamais la lettre latine v
+export const LEPTONS: Record<string, string> = { 'e+': 'e⁺', nu: 'νₑ', gamma: 'γ' };
+/** taille minimale (rayon, px) des particules légères à l'écran : elles sont agrandies, et la légende le dit */
+export const RAYON_MIN_LEPTON = 10;
 
 /** Énergie totale libérée (keV), annihilations comprises : 4 Δ(¹H) − Δ(⁴He) = 26 731 keV. */
 export function energie_totale(etapes: readonly Etape[]): number {
@@ -59,6 +62,8 @@ abstract class Fusion extends Animation {
   static override LECTURE_AU_DEPART = true;
   abstract readonly etapes: Etape[];
   t = 0.0;
+  /** particules légères de la dernière image : [genre, x, y, rayon] (tests) */
+  leptons: [string, number, number, number][] = [];
 
   override construire(): void {
     this.bouton('anim_fusion_suivante', () => this.suivante());
@@ -106,36 +111,83 @@ abstract class Fusion extends Animation {
     dessin.texte(p, x, y, sym, 'fond');
   }
 
+  /**
+   * Particule légère, reconnaissable et agrandie (rayon ≥ RAYON_MIN_LEPTON) : positon = petite sphère marquée « + »,
+   * neutrino = flèche fine en pointillé, photon γ = flèche ondulée jaune ; étiquette à taille normale, posée par le
+   * placeur anti-collision (trait de rappel s'il l'éloigne).
+   */
   private lepton(p: Peintre, x: number, y: number, k: string, s: number, dx: number, dy: number): void {
+    const n = Math.hypot(dx, dy) || 1.0;
+    const ux = dx / n,
+      uy = dy / n;
+    const r = Math.max(RAYON_MIN_LEPTON, s * 0.45);
+    this.leptons.push([k, x, y, r]);
     if (k === 'gamma') {
       const pts: Pt[] = [];
-      const n = Math.hypot(dx, dy) || 1.0;
-      const ux = dx / n,
-        uy = dy / n;
-      for (let i = 0; i < 25; i++) {
-        const d = -i * 1.4;
-        const a = 4 * Math.sin(i * 0.9);
+      const longueur = r * 4.2;
+      for (let i = 0; i <= 40; i++) {
+        const d = -(i / 40) * longueur;
+        const a = r * 0.45 * Math.sin((i / 40) * Math.PI * 6);
         pts.push(new Pt(x + ux * d - uy * a, y + uy * d + ux * a));
       }
-      p.setPen(dessin.stylo('accent1', 2.0));
+      p.setPen(dessin.stylo('soleil', 2.2));
       p.drawPolyline(pts);
-      dessin.texte(p, x + 10, y - 10, 'γ', 'accent1');
+      dessin.fleche(p, x - ux * 2, y - uy * 2, x + ux * r * 0.6, y + uy * r * 0.6, dessin.stylo('soleil', 2.2), 9);
+      dessin.etiquette(p, x, y, 'γ', 'soleil', r);
     } else if (k === 'e+') {
-      dessin.disque(p, x, y, s * 0.35, 'accent2', 'texte');
-      dessin.texte(p, x + 12, y - 8, 'e⁺', 'accent2');
+      dessin.disque(p, x, y, r, 'accent2', 'texte');
+      dessin.police(p, 1.15, true);
+      dessin.texte(p, x, y + 1, '+', 'fond');
+      dessin.police(p, 1 / 1.15);
+      dessin.etiquette(p, x, y, 'e⁺', 'accent2', r);
     } else {
-      dessin.disque(p, x, y, s * 0.25, 'doux');
-      dessin.texte(p, x + 10, y - 8, 'ν', 'doux');
+      p.setPen(dessin.stylo('doux', 1.4, 0.95, true));
+      p.drawLine(x - ux * r * 3.6, y - uy * r * 3.6, x, y);
+      dessin.fleche(p, x - ux * 2, y - uy * 2, x + ux * r * 0.5, y + uy * r * 0.5, dessin.stylo('doux', 1.4), 8);
+      dessin.etiquette(p, x, y, 'νₑ', 'doux', r);
     }
+  }
+
+  /** Légende des symboles (coin haut gauche) et rappel que les particules légères ne sont pas à l'échelle. */
+  private legende(p: Peintre, r: Rect): void {
+    dessin.police(p, 0.82);
+    const fm = p.fontMetrics();
+    const h = fm.height() + 4;
+    const x = r.left + 8;
+    let y = r.top + 6;
+    const ligne = (dessinerSymbole: (cx: number, cy: number) => void, texte: string, cle: string): void => {
+      dessinerSymbole(x + 9, y + h / 2);
+      dessin.texte(p, x + 24, y + h / 2 + fm.ascent() / 2 - 1, texte, cle, { centre: false });
+      y += h;
+    };
+    ligne((cx, cy) => {
+      dessin.disque(p, cx, cy, 6, 'accent2', 'texte');
+    }, tr('anim_fusion_legende_positon'), 'texte');
+    ligne((cx, cy) => {
+      p.setPen(dessin.stylo('doux', 1.3, 0.95, true));
+      p.drawLine(cx - 9, cy, cx + 6, cy);
+      dessin.fleche(p, cx + 2, cy, cx + 8, cy, dessin.stylo('doux', 1.3), 5);
+    }, tr('anim_fusion_legende_neutrino'), 'texte');
+    ligne((cx, cy) => {
+      const pts: Pt[] = [];
+      for (let i = 0; i <= 16; i++) pts.push(new Pt(cx - 9 + (i / 16) * 15, cy + 2.5 * Math.sin((i / 16) * Math.PI * 4)));
+      p.setPen(dessin.stylo('soleil', 1.6));
+      p.drawPolyline(pts);
+    }, tr('anim_fusion_legende_gamma'), 'texte');
+    dessin.texte(p, x, y + h / 2 + fm.ascent() / 2 - 1, tr('anim_fusion_echelle'), 'doux', { centre: false });
+    dessin.police(p, 1 / 0.82);
   }
 
   private scene(p: Peintre, r: Rect): void {
     const [k, f] = this.etape();
     const [reac, prod] = this.etapes[k]!;
+    this.leptons = [];
+    this.legende(p, r);
+    // la réaction, centrée et grande (l'équation est écrite en bas)
     const cx = r.cx,
-      cy = r.cy;
-    const s = Math.min(r.w, r.h) / 14;
-    const L = Math.min(r.w, r.h) * 0.42;
+      cy = r.cy - 8;
+    const s = Math.min(r.w, r.h) / 10.5;
+    const L = Math.min(r.w * 0.36, r.h * 0.32);
     if (f < 0.45) {
       const u = 1 - f / 0.45;
       reac.forEach((n, i) => {
