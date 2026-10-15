@@ -83,6 +83,7 @@ export function pageApropos(installer = false): Page {
         h('li', {}, lien(DEPOT, tr('web_apropos_depot'))),
         h('li', {}, lien(CLASSACTION, tr('web_apropos_classaction'))),
         h('li', {}, lien('https://github.com/ARP273-ROSE/Anticythere3D', tr('web_apropos_anticythere'))),
+        h('li', {}, lien('https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_fr.html', tr('web_apropos_phet'))),
       ),
       h('p', { class: 'credit', text: tr('web_apropos_version', { v: __VERSION__ }) }),
     ),

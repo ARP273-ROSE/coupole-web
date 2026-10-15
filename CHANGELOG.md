@@ -2,6 +2,47 @@
 
 *Français, puis [English](#english).*
 
+## 0.6.1 — 2026-10-15
+
+Nouvelle animation **« Gravité et orbites »** (95ᵉ), d’après la simulation PhET « Gravity and Orbits » du projet PhET
+Interactive Simulations de l’University of Colorado Boulder : idée et fonctions reprises, code, dessins et textes
+propres à Coupole (aucune partie de PhET n’est copiée).
+
+- **Scénarios** : Soleil et Terre ; Soleil, Terre et Lune ; Terre et Lune ; Terre et station spatiale (ISS) ; libre
+  (Soleil, Terre, Lune et une comète d’aphélie 2,4 ua). Le Soleil, la Terre et la Lune ensemble partent de leurs
+  positions et vitesses **réelles du 1ᵉʳ janvier 2026** (éphéméride DE440, chaque orbite ramenée dans l’écliptique
+  autour de sa ligne des nœuds) : une Lune lancée sur un cercle de Kepler prendrait, dans le champ de marée du Soleil,
+  une orbite de période 27,05 à 27,81 j selon la phase de départ.
+- **Deux vues** : « Modèle » (astres agrandis, distance Terre–Lune agrandie 78 fois, rapports écrits sur la toile) et
+  « À l’échelle » (tailles et distances vraies : vus du Soleil, la Terre et la Lune ne font qu’un point, entouré d’un
+  anneau discret), avec un passage en douceur de l’une à l’autre (rayons et écart interpolés en logarithme) ; aucune
+  image de plus une fois arrivé.
+- **Mécanique** : N corps, schéma symplectique de **Yoshida d’ordre 4** (Verlet de vitesse composé), pas adaptatif
+  (1 % du temps dynamique de la paire la plus serrée) ; constantes officielles (G CODATA 2018, GM☉ et GM⊕ nominaux UAI
+  2015, GM☾ DE440, rayons UAI 2015 et NASA, ua UAI 2012, ISS NASA) ; collisions (le plus léger s’écrase, quantité de
+  mouvement gardée). Périodes mesurées (passages par la direction de départ, instant interpolé) : Terre 365,26 j
+  (vraie 365,256 j), Lune 27,34 j (vraie 27,322 j), ISS 92,9 min, comète 671,0 j ; énergie et moment cinétique
+  conservés à 10⁻¹⁴ près. Vérifié par une intégration indépendante sous SageMath (DOP853, tolérance 10⁻¹³) : mêmes
+  périodes à 2 × 10⁻⁶ près.
+- **Réglages** : flèches de force de gravité (bleues) et de vitesse (vertes), trajectoires, grille avec la taille du
+  carreau, ruban de mesure (vraie distance), gravité coupable (chaque corps file tout droit), masses du Soleil, de la
+  Terre et de la Lune (0,5 à 2), « Lune vue du Soleil » ; boutons Pas, Retour (positions et vitesses du dernier
+  départ), Effacer les trajectoires ; temps en jours terrestres.
+- **Souris et doigt** : glisser un astre (ses satellites le suivent ; le temps est suspendu pendant la saisie), tirer
+  le bout d’une flèche verte pour changer la vitesse, glisser les bouts du ruban ; toujours actif, sans focus préalable.
+- **Lune vue du Soleil** : encart en vraie géométrie (60 derniers jours : la Lune suit la Terre sans jamais faire de
+  boucle) et courbe du rapport des courbures Lune / Terre, toujours positif (0,49 à 1,41) : la trajectoire de la Lune
+  est toujours tournée vers le Soleil, qui la tire 2,2 fois plus fort que la Terre.
+- **Valeurs** : distances (ua et millions de km, ou km), vitesses relatives (km·s⁻¹), périodes mesurées comparées aux
+  vraies (ou à Kepler pour l’ISS et la comète), énergie totale et sa variation, moment cinétique, ruban, courbure.
+- Thème « Renaissance » et module « L’astronomie de la Renaissance » ; la recherche « gravity and orbits » ou
+  « gravité et orbites » la donne en premier ; « Ce qu’il faut voir » ; à propos, NOTICE. Une image : 0,9 à 2,5 ms
+  (Chromium, Firefox, WebKit, bureau et tablette).
+- Tests : mécanique au bit près comme le bureau (cas communs), périodes à 0,5 % des vraies, conservation sur dix ans à
+  vitesse ×10, chute libre, mouvement rectiligne sans gravité, accord avec SageMath ; animation (glisser, flèche,
+  ruban, vues, valeurs, durée d’une image < 5 ms) ; Playwright 3 moteurs × 3 formats (recherche, module, glisser à la
+  souris et au doigt, lecture, période, vue à l’échelle, repos).
+
 ## 0.6.0 — 2026-10-15
 
 Recherche bilingue, favoris, bibliothèque, installation de l’application ; « Maintenant » et « En direct » ; ombres
@@ -215,6 +256,45 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.6.1 — 2026-10-15
+
+New animation **“Gravity and Orbits”** (the 95th), after the PhET simulation “Gravity and Orbits” of the PhET
+Interactive Simulations project at the University of Colorado Boulder: idea and features taken up, code, drawings and
+texts are Coupole’s own (no part of PhET is copied).
+
+- **Scenarios**: Sun and Earth; Sun, Earth and Moon; Earth and Moon; Earth and space station (ISS); free (Sun, Earth,
+  Moon and a comet with a 2.4 au aphelion). The Sun, the Earth and the Moon together start from their **real positions
+  and velocities on 1 January 2026** (DE440 ephemeris, each orbit brought into the ecliptic about its line of nodes): a
+  Moon launched on a Keplerian circle would, in the Sun’s tidal field, take an orbit with a period of 27.05 to 27.81 d
+  depending on the starting phase.
+- **Two views**: “Model” (bodies enlarged, Earth–Moon distance enlarged 78 times, ratios written on the canvas) and “To
+  scale” (true sizes and distances: seen from the Sun, the Earth and the Moon are a single dot, circled by a faint
+  ring), with a smooth transition between them (radii and gap interpolated on a log scale); no further frame once
+  there.
+- **Mechanics**: N bodies, **4th-order Yoshida** symplectic scheme (composed velocity Verlet), adaptive step (1 % of the
+  dynamical time of the tightest pair); official constants (G CODATA 2018, nominal GM☉ and GM⊕ IAU 2015, GM☾ DE440,
+  radii IAU 2015 and NASA, au IAU 2012, ISS NASA); collisions (the lighter body crashes, momentum kept). Measured
+  periods (passages through the starting direction, interpolated instant): Earth 365.26 d (true 365.256 d), Moon
+  27.34 d (true 27.322 d), ISS 92.9 min, comet 671.0 d; energy and angular momentum conserved to 10⁻¹⁴. Checked by an
+  independent SageMath integration (DOP853, tolerance 10⁻¹³): same periods to 2 × 10⁻⁶.
+- **Settings**: gravity force (blue) and velocity (green) arrows, paths, grid with the square size, measuring tape
+  (real distance), gravity on/off (each body moves off in a straight line), masses of the Sun, the Earth and the Moon
+  (0.5 to 2), “Moon seen from the Sun”; Step, Rewind (positions and velocities of the last start), Clear paths buttons;
+  time in Earth days.
+- **Mouse and finger**: drag a body (its satellites follow; time is paused while holding it), pull the tip of a green
+  arrow to change the velocity, drag the ends of the tape; always active, no prior focus needed.
+- **Moon seen from the Sun**: true-geometry inset (last 60 days: the Moon follows the Earth and never loops) and the
+  Moon / Earth curvature ratio curve, always positive (0.49 to 1.41): the Moon’s path always curves towards the Sun,
+  which pulls it 2.2 times harder than the Earth does.
+- **Values**: distances (au and million km, or km), relative speeds (km·s⁻¹), measured periods compared with the true
+  ones (or with Kepler for the ISS and the comet), total energy and its change, angular momentum, tape, curvature.
+- “Renaissance” theme and “Renaissance Astronomy” module; searching “gravity and orbits” or “gravité et orbites” gives
+  it first; “What to see”; about page, NOTICE. One frame: 0.9 to 2.5 ms (Chromium, Firefox, WebKit, desktop and tablet).
+- Tests: mechanics bit-identical to the desktop (shared cases), periods within 0.5 % of the true ones, conservation over
+  ten years at ×10 speed, free fall, straight-line motion without gravity, agreement with SageMath; animation (drag,
+  arrow, tape, views, values, frame time < 5 ms); Playwright 3 engines × 3 formats (search, module, mouse and finger
+  drag, playback, period, to-scale view, idle).
 
 ### 0.6.0 — 2026-10-15
 

@@ -1,6 +1,7 @@
 /**
- * Catalogue des 94 animations : les 92 de ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0),
- * la machine d’Anticythère (adaptée d’Anticythere3D, du même auteur) et « Orion en 3D » (propre à Coupole) ; et
+ * Catalogue des 95 animations : les 92 de ClassAction (University of Nebraska-Lincoln Astronomy Education, Apache 2.0),
+ * la machine d’Anticythère (adaptée d’Anticythere3D, du même auteur), « Orion en 3D » (propre à Coupole) et « Gravité
+ * et orbites » (d’après la simulation PhET Gravity and Orbits, University of Colorado Boulder ; code propre) ; et
  * chargement à la demande : chaque fichier de src/anim/animations/ devient un morceau JavaScript séparé, téléchargé
  * à l'ouverture de l'animation (ou de sa vignette).
  */

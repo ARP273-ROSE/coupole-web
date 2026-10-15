@@ -901,7 +901,7 @@ p {
 }
 
 .champ-nombre .unite {
-  padding: 0 10px 0 2px;
+  padding: 0 12px 0 3px;
   color: var(--texte-3);
   font-size: 0.85rem;
   white-space: nowrap;

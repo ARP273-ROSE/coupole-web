@@ -13,11 +13,12 @@
   <img src="docs/captures/question.webp" alt="Une question avec sa figure et ses ressources liées (thème clair)" width="49%" />
   <img src="docs/captures/anticythere.webp" alt="La machine d’Anticythère en 3D" width="49%" />
   <img src="docs/captures/orion.webp" alt="Orion en 3D : les étoiles à leur distance" width="49%" />
+  <img src="docs/captures/gravite.webp" alt="Gravité et orbites : Soleil, Terre et Lune, et la Lune vue du Soleil" width="49%" />
 </p>
 <p align="center"><img src="docs/captures/telephone.webp" alt="Un module sur téléphone, barre de navigation en bas" width="260" /></p>
 
 **22 modules d’astronomie** comme dans ClassAction : **517 questions** à discuter en groupe (variantes, figures,
-réponse qui clignote, indice, explication, ressources liées ★), **94 animations**, **110 fiches**, **14 tables** et des
+réponse qui clignote, indice, explication, ressources liées ★), **95 animations**, **110 fiches**, **14 tables** et des
 images libres (crédit et licence affichés), une **bibliothèque** qui montre tout le contenu d’un type rangé par module
 (la présentation d’origine de ClassAction), une **recherche bilingue** (en français ou en anglais, accents, pluriels et
 petites fautes tolérés, mots trouvés surlignés), des **favoris** (étoile sur tout : module, animation, question, fiche,
@@ -29,10 +30,14 @@ céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lun
 distances des étoiles, lumière et spectres, exoplanètes, étoiles doubles… Refaites d’après **ClassAction**
 (University of Nebraska-Lincoln Astronomy Education, licence Apache 2.0), avec **les mêmes formules, les mêmes données,
 les mêmes réglages et les mêmes textes** que l’application de bureau Coupole. Les **92 animations** sont disponibles, plus
-deux : la **machine d’Anticythère en 3D** (manivelle au doigt ou à la souris, cadrans gravés en grec, machine ouverte ou
+trois : la **machine d’Anticythère en 3D** (manivelle au doigt ou à la souris, cadrans gravés en grec, machine ouverte ou
 éclatée, rapports exacts des engrenages), adaptée d’[Anticythere3D](https://github.com/ARP273-ROSE/Anticythere3D), du
 même auteur, et **Orion en 3D** (comme la Grande Ourse 3D : les étoiles principales à leurs vraies distances, la figure sur la
-sphère céleste, M42 et la Tête de Cheval en volume à leur place). Les spectres stellaires sont calculés
+sphère céleste, M42 et la Tête de Cheval en volume à leur place) et **Gravité et orbites**, d’après la simulation
+PhET « Gravity and Orbits » (University of Colorado Boulder ; code, dessins et textes propres) : Soleil, Terre, Lune,
+station spatiale et comète en gravitation (Yoshida d’ordre 4, positions réelles du 1ᵉʳ janvier 2026), vue « modèle » ou
+à l’échelle (la Terre et la Lune n’y font qu’un point), forces et vitesses à tirer, périodes mesurées comparées aux
+vraies, trajectoire de la Lune vue du Soleil. Les spectres stellaires sont calculés
 (Saha–Boltzmann sur des atmosphères modèles, 133 raies NIST, bandes moléculaires) ; les étoiles réelles ont leur
 couleur vraie et une **fiche au survol** (souris, doigt ou clavier : type, magnitudes, distance avec son incertitude,
 température, sources).
@@ -74,7 +79,7 @@ du Python de Coupole. Deux jeux de références, produits par l’application de
 
 - `tests/references/calculs.json` : plus de 4 000 appels de fonctions (et des arrondis de Python), que les tests
   TypeScript doivent retrouver à 10⁻⁹ près (relatif) ;
-- `tests/references/animations.json` : pour chacune des 94 animations, ses réglages (bornes, défauts, décimales,
+- `tests/references/animations.json` : pour chacune des 95 animations, ses réglages (bornes, défauts, décimales,
   unités, libellés, options) et les valeurs qu’elle affiche, au caractère près, en français et en anglais, dans un
   scénario fixe (création, pas d’animation, changement de tous les réglages, réinitialisation).
 
@@ -101,17 +106,19 @@ TypeScript, Playwright, axe-core, types de Node), aucune à l’exécution.
 
 Licence Apache 2.0 (`LICENSE`). D’après ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0) ;
 machine d’Anticythère adaptée d’Anticythere3D (même auteur), d’après Freeth et al. (Nature 2006, 2008 ; Scientific
-Reports 2021) ; Orion en 3D : SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, articles cités ; questions d’après
+Reports 2021) ; Orion en 3D : SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, articles cités ; Gravité et orbites
+d’après la simulation PhET « Gravity and Orbits » (PhET Interactive Simulations, University of Colorado Boulder), sans
+rien en reprendre (voir `NOTICE`) ; questions d’après
 ClassAction (Apache 2.0), fiches, tables et schémas écrits pour Coupole, photographies libres (crédits exacts) ; données et sources citées dans `NOTICE`. Polices Inter et STIX Two Math (SIL Open Font License 1.1) ; côtes Natural Earth (domaine public).
 
 ---
 
 ## English
 
-*Screenshots: see above (home, a question, the Antikythera Mechanism, Orion in 3D, a module on a phone).*
+*Screenshots: see above (home, a question, the Antikythera Mechanism, Orion in 3D, Gravity and Orbits, a module on a phone).*
 
 **22 astronomy modules** as in ClassAction: **517 questions** to discuss in groups (variants, figures, flashing
-answer, hint, explanation, related resources ★), **94 animations**, **110 outlines**, **14 tables** and free images
+answer, hint, explanation, related resources ★), **95 animations**, **110 outlines**, **14 tables** and free images
 (credit and licence shown), a **library** showing all the content of a type grouped by module (ClassAction’s original
 presentation), a **bilingual search** (in English or in French, accents, plurals and small typos tolerated, matches
 highlighted), **favourites** (a star on everything: module, animation, question, outline, table, image; collections
@@ -122,11 +129,15 @@ The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), i
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar
 distances, light and spectra, exoplanets, binary stars… Remade after **ClassAction** (University of Nebraska-Lincoln
 Astronomy Education, Apache 2.0 license), with **the same formulas, the same data, the same settings and the same
-texts** as the Coupole desktop application. All **92 animations** are available, plus two: the **Antikythera
+texts** as the Coupole desktop application. All **92 animations** are available, plus three: the **Antikythera
 Mechanism in 3D** (crank turned with a finger or the mouse, dials engraved in Greek, open or exploded machine, exact
 gear ratios), adapted from [Anticythere3D](https://github.com/ARP273-ROSE/Anticythere3D), by the same author, and
 **Orion in 3D** (like the Big Dipper 3D: the main stars at their true distances, the figure on the celestial sphere,
-M42 and the Horsehead in volume, in place). Stellar spectra are computed (Saha–Boltzmann on model atmospheres,
+M42 and the Horsehead in volume, in place) and **Gravity and Orbits**, after the PhET simulation “Gravity and Orbits”
+(University of Colorado Boulder; code, drawings and texts of our own): Sun, Earth, Moon, space station and comet
+under gravity (4th-order Yoshida, real positions on 1 January 2026), model or to-scale view (where the Earth and the
+Moon are a single dot), forces and velocities to pull, measured periods compared with the true ones, the Moon’s path
+seen from the Sun. Stellar spectra are computed (Saha–Boltzmann on model atmospheres,
 133 NIST lines, molecular bands); real stars have their true colour and a **hover data sheet** (mouse, finger or
 keyboard: type, magnitudes, distance with its uncertainty, temperature, sources).
 
@@ -161,7 +172,7 @@ keyboard: type, magnitudes, distance with its uncertainty, temperature, sources)
 
 The computations are transposed from Coupole’s Python. Two reference sets, produced by the desktop application
 itself, check them: `tests/references/calculs.json` (more than 4,000 function calls, matched to 10⁻⁹ relative) and
-`tests/references/animations.json` (for each of the 94 animations, its settings and the values it displays, character
+`tests/references/animations.json` (for each of the 95 animations, its settings and the values it displays, character
 for character, in French and English, through a fixed scenario).
 
 ## Develop
@@ -180,6 +191,8 @@ Playwright, axe-core, Node types), none at run time.
 
 Apache License 2.0 (`LICENSE`). After ClassAction, University of Nebraska-Lincoln Astronomy Education (Apache 2.0);
 Antikythera Mechanism adapted from Anticythere3D (same author), after Freeth et al. (Nature 2006, 2008; Scientific
-Reports 2021); Orion in 3D: SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, cited papers; questions after
+Reports 2021); Orion in 3D: SIMBAD (CDS), Gaia DR3 (ESA/DPAC), Hipparcos 2007, cited papers; Gravity and Orbits after
+the PhET simulation “Gravity and Orbits” (PhET Interactive Simulations, University of Colorado Boulder), reusing none
+of it (see `NOTICE`); questions after
 ClassAction (Apache 2.0), outlines, tables and diagrams written for Coupole, free photographs (exact credits);
 data and sources cited in `NOTICE`. Inter and STIX Two Math fonts (SIL Open Font License 1.1); Natural Earth coastlines (public domain).

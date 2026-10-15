@@ -12777,6 +12777,740 @@ false
 },
 "lecture_au_depart": false
 },
+"gravityorbits": {
+"animee": true,
+"changements": [
+[
+"scenario",
+"libre"
+],
+[
+"mode",
+"echelle"
+],
+[
+"masse_soleil",
+1.59
+],
+[
+"masse_terre",
+1.92
+],
+[
+"masse_lune",
+1.03
+],
+[
+"force",
+false
+],
+[
+"vecteurs_vitesse",
+true
+],
+[
+"traces",
+false
+],
+[
+"grille",
+true
+],
+[
+"ruban",
+true
+],
+[
+"gravite",
+false
+],
+[
+"lune_soleil",
+true
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Elapsed time",
+"0.0 Earth days"
+],
+[
+"Earth–Sun distance",
+"1.0000 au (149.6 million km)"
+],
+[
+"Earth / Sun relative speed",
+"29.78 km·s⁻¹"
+],
+[
+"Measured period (Earth)",
+"— (after a first revolution) · true: 365.256 d"
+],
+[
+"Total energy",
+"−2.649 × 10³³ J · relative change 0"
+],
+[
+"Angular momentum (relative change)",
+"0"
+],
+[
+"Drawing",
+"bodies ×1 290"
+]
+]
+],
+[
+"pas",
+[
+[
+"Elapsed time",
+"14.8 Earth days"
+],
+[
+"Earth–Sun distance",
+"1.0000 au (149.6 million km)"
+],
+[
+"Earth / Sun relative speed",
+"29.78 km·s⁻¹"
+],
+[
+"Measured period (Earth)",
+"— (after a first revolution) · true: 365.256 d"
+],
+[
+"Total energy",
+"−2.649 × 10³³ J · relative change 9 × 10⁻¹⁶"
+],
+[
+"Angular momentum (relative change)",
+"4 × 10⁻¹⁶"
+],
+[
+"Drawing",
+"bodies ×1 290"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Elapsed time",
+"0.0 Earth days"
+],
+[
+"Earth–Sun distance",
+"0.9833 au (147.1 million km)"
+],
+[
+"Earth / Sun relative speed",
+"30.27 km·s⁻¹"
+],
+[
+"Moon–Earth distance",
+"361 026 km"
+],
+[
+"Moon / Earth relative speed",
+"1.09 km·s⁻¹"
+],
+[
+"Comet–Sun distance",
+"0.6000 au (89.8 million km)"
+],
+[
+"Comet / Sun relative speed",
+"48.64 km·s⁻¹"
+],
+[
+"Gravity",
+"off: each body goes straight on at constant speed"
+],
+[
+"Measuring tape",
+"0.9833 au (147.1 million km)"
+],
+[
+"Curvature of the Moon seen from the Sun",
+"always towards the Sun: 1.34 to 1.34 times the Earth’s"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Elapsed time",
+"14.8 Earth days"
+],
+[
+"Earth–Sun distance",
+"1.0165 au (152.1 million km)"
+],
+[
+"Earth / Sun relative speed",
+"30.27 km·s⁻¹"
+],
+[
+"Moon–Earth distance",
+"1 433 031 km"
+],
+[
+"Moon / Earth relative speed",
+"1.09 km·s⁻¹"
+],
+[
+"Comet–Sun distance",
+"0.7300 au (109.2 million km)"
+],
+[
+"Comet / Sun relative speed",
+"48.64 km·s⁻¹"
+],
+[
+"Gravity",
+"off: each body goes straight on at constant speed"
+],
+[
+"Measuring tape",
+"0.9833 au (147.1 million km)"
+],
+[
+"Curvature of the Moon seen from the Sun",
+"always towards the Sun: 1.34 to 1.34 times the Earth’s"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Elapsed time",
+"0.0 Earth days"
+],
+[
+"Earth–Sun distance",
+"1.0000 au (149.6 million km)"
+],
+[
+"Earth / Sun relative speed",
+"29.78 km·s⁻¹"
+],
+[
+"Measured period (Earth)",
+"— (after a first revolution) · true: 365.256 d"
+],
+[
+"Total energy",
+"−2.649 × 10³³ J · relative change 0"
+],
+[
+"Angular momentum (relative change)",
+"0"
+],
+[
+"Drawing",
+"bodies ×1 290"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Bodies present; each starts on its orbit (Sun, Earth and Moon together: real positions and velocities on 1 January 2026).",
+"cle": "scenario",
+"defaut": "soleil_terre",
+"options": [
+[
+"Sun and Earth",
+"soleil_terre"
+],
+[
+"Sun, Earth and Moon",
+"soleil_terre_lune"
+],
+[
+"Earth and Moon",
+"terre_lune"
+],
+[
+"Earth and space station (ISS)",
+"terre_iss"
+],
+[
+"Free: Sun, Earth, Moon and comet",
+"libre"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Model: bodies enlarged (and the Earth–Moon distance enlarged) to be readable; to scale: real sizes and distances. The view moves smoothly from one to the other.",
+"cle": "mode",
+"defaut": "modele",
+"options": [
+[
+"Model",
+"modele"
+],
+[
+"To scale",
+"echelle"
+]
+],
+"type": "choix"
+},
+{
+"aide": "In solar masses (1 M☉ = 1.988 × 10³⁰ kg).",
+"cle": "masse_soleil",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Mass of the Sun",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M☉",
+"valeur": 1.0
+},
+{
+"aide": "In Earth masses (1 M⊕ = 5.972 × 10²⁴ kg).",
+"cle": "masse_terre",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Mass of the Earth",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M⊕",
+"valeur": 1.0
+},
+{
+"aide": "In lunar masses (1 M☾ = 7.346 × 10²² kg).",
+"cle": "masse_lune",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Mass of the Moon",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M☾",
+"valeur": 1.0
+},
+{
+"aide": "Blue arrows: total gravity force on each body (length relative to the start, for each body).",
+"cle": "force",
+"defaut": true,
+"libelle": "Gravity force",
+"type": "coche"
+},
+{
+"aide": "Green arrows: velocity of each body (same scale for all); drag the tip of an arrow to change the velocity.",
+"cle": "vecteurs_vitesse",
+"defaut": false,
+"libelle": "Velocity vector",
+"type": "coche"
+},
+{
+"aide": "Path followed by each body.",
+"cle": "traces",
+"defaut": true,
+"libelle": "Paths",
+"type": "coche"
+},
+{
+"aide": "Grid; the size of a square is written at the bottom left.",
+"cle": "grille",
+"defaut": false,
+"libelle": "Grid",
+"type": "coche"
+},
+{
+"aide": "Drag its two ends: it measures the real distance in space.",
+"cle": "ruban",
+"defaut": false,
+"libelle": "Measuring tape",
+"type": "coche"
+},
+{
+"aide": "Without gravity, each body moves off in a straight line at constant speed (Newton’s first law).",
+"cle": "gravite",
+"defaut": true,
+"libelle": "Gravity",
+"type": "coche"
+},
+{
+"aide": "Inset: the Moon’s real path around the Sun and its curvature, always turned towards the Sun.",
+"cle": "lune_soleil",
+"defaut": false,
+"libelle": "Moon seen from the Sun",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Temps écoulé",
+"0,0 jours terrestres"
+],
+[
+"Distance Terre–Soleil",
+"1,0000 ua (149,6 millions de km)"
+],
+[
+"Vitesse relative Terre / Soleil",
+"29,78 km·s⁻¹"
+],
+[
+"Période mesurée (Terre)",
+"— (après un premier tour) · vraie : 365,256 j"
+],
+[
+"Énergie totale",
+"−2,649 × 10³³ J · variation relative 0"
+],
+[
+"Moment cinétique (variation relative)",
+"0"
+],
+[
+"Dessin",
+"astres ×1 290"
+]
+]
+],
+[
+"pas",
+[
+[
+"Temps écoulé",
+"14,8 jours terrestres"
+],
+[
+"Distance Terre–Soleil",
+"1,0000 ua (149,6 millions de km)"
+],
+[
+"Vitesse relative Terre / Soleil",
+"29,78 km·s⁻¹"
+],
+[
+"Période mesurée (Terre)",
+"— (après un premier tour) · vraie : 365,256 j"
+],
+[
+"Énergie totale",
+"−2,649 × 10³³ J · variation relative 9 × 10⁻¹⁶"
+],
+[
+"Moment cinétique (variation relative)",
+"4 × 10⁻¹⁶"
+],
+[
+"Dessin",
+"astres ×1 290"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Temps écoulé",
+"0,0 jours terrestres"
+],
+[
+"Distance Terre–Soleil",
+"0,9833 ua (147,1 millions de km)"
+],
+[
+"Vitesse relative Terre / Soleil",
+"30,27 km·s⁻¹"
+],
+[
+"Distance Lune–Terre",
+"361 026 km"
+],
+[
+"Vitesse relative Lune / Terre",
+"1,09 km·s⁻¹"
+],
+[
+"Distance Comète–Soleil",
+"0,6000 ua (89,8 millions de km)"
+],
+[
+"Vitesse relative Comète / Soleil",
+"48,64 km·s⁻¹"
+],
+[
+"Gravité",
+"coupée : chaque corps va tout droit à vitesse constante"
+],
+[
+"Ruban de mesure",
+"0,9833 ua (147,1 millions de km)"
+],
+[
+"Courbure de la Lune vue du Soleil",
+"toujours vers le Soleil : de 1,34 à 1,34 fois celle de la Terre"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Temps écoulé",
+"14,8 jours terrestres"
+],
+[
+"Distance Terre–Soleil",
+"1,0165 ua (152,1 millions de km)"
+],
+[
+"Vitesse relative Terre / Soleil",
+"30,27 km·s⁻¹"
+],
+[
+"Distance Lune–Terre",
+"1 433 031 km"
+],
+[
+"Vitesse relative Lune / Terre",
+"1,09 km·s⁻¹"
+],
+[
+"Distance Comète–Soleil",
+"0,7300 ua (109,2 millions de km)"
+],
+[
+"Vitesse relative Comète / Soleil",
+"48,64 km·s⁻¹"
+],
+[
+"Gravité",
+"coupée : chaque corps va tout droit à vitesse constante"
+],
+[
+"Ruban de mesure",
+"0,9833 ua (147,1 millions de km)"
+],
+[
+"Courbure de la Lune vue du Soleil",
+"toujours vers le Soleil : de 1,34 à 1,34 fois celle de la Terre"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Temps écoulé",
+"0,0 jours terrestres"
+],
+[
+"Distance Terre–Soleil",
+"1,0000 ua (149,6 millions de km)"
+],
+[
+"Vitesse relative Terre / Soleil",
+"29,78 km·s⁻¹"
+],
+[
+"Période mesurée (Terre)",
+"— (après un premier tour) · vraie : 365,256 j"
+],
+[
+"Énergie totale",
+"−2,649 × 10³³ J · variation relative 0"
+],
+[
+"Moment cinétique (variation relative)",
+"0"
+],
+[
+"Dessin",
+"astres ×1 290"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Corps en présence ; chacun part de son orbite (Soleil, Terre et Lune ensemble : positions et vitesses réelles du 1ᵉʳ janvier 2026).",
+"cle": "scenario",
+"defaut": "soleil_terre",
+"options": [
+[
+"Soleil et Terre",
+"soleil_terre"
+],
+[
+"Soleil, Terre et Lune",
+"soleil_terre_lune"
+],
+[
+"Terre et Lune",
+"terre_lune"
+],
+[
+"Terre et station spatiale (ISS)",
+"terre_iss"
+],
+[
+"Libre : Soleil, Terre, Lune et comète",
+"libre"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Modèle : astres agrandis (et distance Terre–Lune agrandie) pour être lisibles ; à l’échelle : tailles et distances réelles. On passe de l’une à l’autre en douceur.",
+"cle": "mode",
+"defaut": "modele",
+"options": [
+[
+"Modèle",
+"modele"
+],
+[
+"À l’échelle",
+"echelle"
+]
+],
+"type": "choix"
+},
+{
+"aide": "En masses solaires (1 M☉ = 1,988 × 10³⁰ kg).",
+"cle": "masse_soleil",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Masse du Soleil",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M☉",
+"valeur": 1.0
+},
+{
+"aide": "En masses terrestres (1 M⊕ = 5,972 × 10²⁴ kg).",
+"cle": "masse_terre",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Masse de la Terre",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M⊕",
+"valeur": 1.0
+},
+{
+"aide": "En masses lunaires (1 M☾ = 7,346 × 10²² kg).",
+"cle": "masse_lune",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Masse de la Lune",
+"log": false,
+"maxi": 2.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "M☾",
+"valeur": 1.0
+},
+{
+"aide": "Flèches bleues : force de gravité totale sur chaque corps (longueur relative à celle du départ, propre à chaque corps).",
+"cle": "force",
+"defaut": true,
+"libelle": "Force de gravité",
+"type": "coche"
+},
+{
+"aide": "Flèches vertes : vitesse de chaque corps (même échelle pour tous) ; tirer le bout d’une flèche change la vitesse.",
+"cle": "vecteurs_vitesse",
+"defaut": false,
+"libelle": "Vecteur vitesse",
+"type": "coche"
+},
+{
+"aide": "Chemin parcouru par chaque corps.",
+"cle": "traces",
+"defaut": true,
+"libelle": "Trajectoires",
+"type": "coche"
+},
+{
+"aide": "Quadrillage ; la taille d’un carreau est écrite en bas à gauche.",
+"cle": "grille",
+"defaut": false,
+"libelle": "Grille",
+"type": "coche"
+},
+{
+"aide": "Glisser ses deux bouts : il mesure la vraie distance dans l’espace.",
+"cle": "ruban",
+"defaut": false,
+"libelle": "Ruban de mesure",
+"type": "coche"
+},
+{
+"aide": "Sans gravité, chaque corps file en ligne droite à vitesse constante (première loi de Newton).",
+"cle": "gravite",
+"defaut": true,
+"libelle": "Gravité",
+"type": "coche"
+},
+{
+"aide": "Encart : vraie trajectoire de la Lune autour du Soleil et sa courbure, toujours tournée vers le Soleil.",
+"cle": "lune_soleil",
+"defaut": false,
+"libelle": "Lune vue du Soleil",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "hammerthrower": {
 "animee": true,
 "changements": [

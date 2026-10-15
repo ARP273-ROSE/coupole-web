@@ -30,6 +30,8 @@ from pathlib import Path
 
 ICI = Path(__file__).resolve().parent.parent
 SORTIE = ICI / 'public' / 'contenu'
+# Animations propres à Coupole ajoutées aux modules de ClassAction (l'original ne les connaît pas) : module → ids
+ANIMATIONS_AJOUTEES = {'renaissance': ['gravityorbits']}
 TYPES = {'warmup': 'W', 'general': 'G', 'challenge': 'C', 'discussion': 'D'}
 
 
@@ -155,7 +157,7 @@ def main(racine: Path) -> int:
             'affiche': bool(m.get('affiche', True)),
             'bonus': bool(q.get('bonus', not m.get('affiche', True))),
             'questions': qs,
-            'animations': m.get('animations', []),
+            'animations': m.get('animations', []) + [a for a in ANIMATIONS_AJOUTEES.get(cle, []) if a not in m.get('animations', [])],
             'fiches': m.get('fiches', []),
             'tables': m.get('tables', []),
             'images': m.get('images', []),

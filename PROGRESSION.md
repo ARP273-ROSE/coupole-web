@@ -7,12 +7,15 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 
 - Socle complet : catalogue, fiche, toile, réglages, adresse partageable, mémoire, thèmes, langues, PWA hors ligne,
   sécurité, tests, CI, déploiement GitHub Pages.
-- Animations disponibles : **94** — les 92 de ClassAction, la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D)
-  et Orion en 3D (0.3.0, propre à Coupole), toutes vérifiées contre les références de Coupole (réglages et valeurs
+- Animations disponibles : **95** — les 92 de ClassAction, la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D),
+  Orion en 3D (0.3.0, propre à Coupole) et Gravité et orbites (0.6.1, d’après PhET), toutes vérifiées contre les références de Coupole (réglages et valeurs
   affichées, FR et EN, références régénérées en entier depuis Coupole 0.5.0), chacune avec son texte « Ce qu’il faut
   voir ».
 - 0.3.0 : spectres sur bases physiques, Orion en 3D, fiche au survol générique, couleur vraie des étoiles, règle
   typographique (unités SI, signe moins, délimiteurs extensibles) sur tous les textes affichés.
+- 0.6.1 : **95ᵉ animation « Gravité et orbites »**, d'après la simulation PhET « Gravity and Orbits » (University of
+  Colorado Boulder ; idée et fonctions seulement, code, dessins et textes propres, licences PhET vérifiées et citées
+  dans NOTICE) ; thème Renaissance, module « L'astronomie de la Renaissance ».
 - 0.6.0 : recherche bilingue (FR/EN, accents, pluriels, fautes, surlignage), favoris, bibliothèque, collections,
   installation de l'application, « Maintenant » / « En direct », ombres d'éclipse en vraie géométrie + vue 3D.
 - 0.5.0 : passe finale (barre de navigation en bas sur téléphone, contraste automatique des figures, états
@@ -208,6 +211,56 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   pour le Soleil, apparentes pour la Lune comme les tables de la NASA), instant ∈ [−1, 1] = ± (R⊕ + pénombre) / v ;
   les trois vues suivent ; le type au maximum est celui de la table (133 / 133, testé). Distances extrêmes de la Lune
   (DE440, 1900–2100) : 356 375,3 km (4/01/1912), 406 711,7 km (9/01/1921).
+
+### Gravité et orbites (0.6.1 ; `src/calc/gravite.ts`, `src/anim/animations/gravite_orbites.ts`)
+- Origine : simulation PhET « Gravity and Orbits » (PhET Interactive Simulations, University of Colorado Boulder),
+  montrée en cours. Licences vérifiées le 15/10/2026 (phet.colorado.edu/en/licensing) : simulations CC BY-NC 4.0
+  depuis le 29/03/2026 (CC BY 4.0 avant), code MIT ou GPL (dépôt actuel non public), « PhET » marque déposée. Rien
+  n'est copié (ni code, ni image, ni texte, ni logo) : seules l'idée et la liste des fonctions sont reprises ; crédit
+  « D'après la simulation PhET « Gravity and Orbits » (University of Colorado Boulder) » sous le titre, dans la fiche, à
+  propos, README et NOTICE.
+- Mécanique (jumeau `gravite_meca.py` du bureau, nombres identiques au bit près, cas `tests/references/gravite_cas.json`
+  par `outils/cas_gravite.py` de Coupole) : N corps plans, Yoshida d'ordre 4 (coefficients SageMath écrits en
+  décimal), pas = 0,01 × min √(r³ / G(m₁ + m₂)), 20 000 pas au plus par appel ; collisions aux rayons réels (le plus
+  léger s'écrase, quantité de mouvement gardée) ; périodes = passages par la direction de départ vue du primaire
+  (produit vectoriel qui change de signe, produit scalaire > 0, instant interpolé), T = t_n / n ; seules des
+  opérations + − × ÷ √ dans le calcul (aucune fonction transcendante : JavaScript et Python arrondissent pareil) ;
+  `Math.hypot` évité dans les valeurs (√(x² + y²) explicite).
+- Constantes : G CODATA 2018 ; GM☉, GM⊕, R☉, R⊕ nominaux UAI 2015 B3 ; GM☾ DE440 ; R☾, demi-grand axe 384 400 km, année
+  et mois sidéraux NASA ; ua UAI 2012 ; ISS 419 725 kg à 415 km. Scénarios Soleil–Terre, Terre–Lune, Terre–ISS : orbites
+  circulaires (quantité de mouvement totale nulle). Soleil–Terre–Lune et libre : **état réel du 1/01/2026 0 h TDB**
+  (DE440, `outils/verif_anim/etat_initial_gravite.py` de Coupole, python-lab) : chaque orbite est ramenée dans
+  l'écliptique par une rotation autour de sa ligne des nœuds (une projection, z oublié, raccourcissait la Lune :
+  26,99 j) ; une Lune circulaire de Kepler dans le champ de marée du Soleil donnait 27,05 à 27,81 j selon la phase.
+- Vérification SageMath (`outils/verif_anim/gravite_orbites_verif.sage` → `tests/references/gravite_orbites_sage.json`,
+  DOP853 tolérance 10⁻¹³, mêmes conditions initiales à 120 bits) : Terre 365,2563 j (S–T), 365,2571 j (S–T–L), Lune
+  27,3382 j (S–T–L), 27,2846 j (T–L, Kepler), ISS 92,867 min, comète 670,97 j ; notre intégrateur : écart ≤ 2 × 10⁻⁶.
+  Accélération de la Lune par le Soleil / par la Terre : 2,198 (> 1 : trajectoire toujours concave vers le Soleil).
+- Vue : L = 0,44 × min(l, h) pour D (1 ua ; 384 400 km ; R⊕ + 415 km ; libre 1,6 ua centrée à 0,9 ua) ; y vers le haut.
+  « Modèle » : rayons = fraction de L (Soleil 0,14, Terre 0,055, Lune 0,028 ; T–L : 0,16 et 0,06 ; ISS : Terre réelle
+  0,94, station 0,06 ; libre 0,10 / 0,045 / 0,024 / comète 0,03) et écart Terre–Lune × 0,2 ua / 384 400 km = ×78 ;
+  « À l'échelle » : vrais rayons (1,5 px au moins, anneau de 7 px 45 % autour d'un astre de moins de 3 px). Passage :
+  t ∈ [0, 1] sur 0,9 s par requestAnimationFrame (QTimer 16 ms au bureau), adouci t²(3 − 2t), rayons et écart
+  interpolés en logarithme ; plus aucune image une fois arrivé. Les valeurs ne dépendent que de la vue visée.
+- Couleurs : astres `soleil` / `terre` / `lune` (sphères), ISS `texte` (module `doux`, ailes `equateur` 85 %), comète
+  `accent2` + queue anti-solaire (1,2 px au moins, 45 %, longueur 0,12 L × (1 ua / d)², bornée à 0,5 L) ; traces même
+  couleur 1,2 px 55 % (≤ 1 500 points dessinés par corps) ; force `equateur` 2,2 px (échelle propre à chaque corps :
+  0,22 L au départ) ; vitesse `horizon` 2,2 px (échelle commune : vitesse du corps de référence = 0,3 L) + poignée
+  cercle 6 px ; flèches bornées à 0,9 L ; ruban `accent1` 2 px, bouts 6 px à 35 % ; grille `grille` 0,7 px 55 %, carreau
+  ≥ max(36 px, 0,22 L) parmi 0,01…5 ua ou 1-2-5 × 10ⁿ km, écrit en bas à gauche ; temps en haut à droite ; rapports
+  d'agrandissement dessous (85 %, `doux`).
+- Étiquettes : nom de chaque astre par le placeur commun ; à l'échelle, Terre et Lune confondues (moins de r + 3 px)
+  → une seule étiquette « Terre et Lune (un seul point) » ; pas d'étiquette sur un astre qui remplit la vue.
+- Encart « Lune vue du Soleil » (case, scénarios à trois corps) : en bas à droite, 42 % × 44 % (toute la largeur sous
+  420 px), fond 94 % ; haut : chemins héliocentriques des 60 derniers jours, même échelle en x et y, Soleil en bas
+  (Terre `terre` 3 px 50 %, Lune `lune` 1,4 px) ; bas : rapport des courbures κ_Lune / κ_Terre (vitesse et
+  accélération relatives au Soleil), ligne 0 `accent3` pointillée, ligne 1 `grille` — toujours entre 0,49 et 1,41.
+- Interaction : glisser un astre (ses satellites Lune et ISS suivent, temps suspendu pendant la saisie, mesures
+  reprises et traces effacées au relâcher, nouveau « départ ») ; bout de flèche verte (10 px) ; bouts du ruban ; ordre
+  de prise : poignées de vitesse, ruban, astres du plus petit au plus grand ; « Retour » : état au dernier départ
+  (lecture lancée ou modification), masses des curseurs gardées.
+- Mesures (NAS chargé) : image 0,9–1,1 ms Chromium, 1,7–2,5 ms WebKit, 2,1–6,7 ms Firefox (headless) ; test unitaire
+  < 5 ms par image (meilleure de 6 séries de 10, tous scénarios, toutes cases, lecture ×10).
 
 ### Chaîne proton-proton, cycle CNO (0.6.0)
 - Particules légères agrandies à 10 px de rayon au moins (légende : « pas à l'échelle ») : positon = sphère `accent2`
@@ -640,6 +693,18 @@ File d'attente :
   focus rendu après un réglage au doigt) ; ombres d'éclipse en vraie géométrie + vue 3D ; fusion lisible (νₑ).
 - Audit : adresse partageable lue une fois stable (WebKit), première animation avec un délai long.
 - Données DE440 : `outils/verif_anim/geometrie_eclipses.py` de Coupole (python-lab, skyfield 1.54, de440s.bsp).
+
+### 2026-10-15 — 0.6.1 : Gravité et orbites (95ᵉ animation, d'après PhET)
+- [x] Licences PhET vérifiées en ligne (page « Licensing » et « Historical Software Agreement », rendues par
+      Playwright) ; aucun élément repris ; crédit et NOTICE.
+- [x] Mécanique `src/calc/gravite.ts` (Yoshida 4, pas adaptatif), état réel DE440 du 1/01/2026, vérification SageMath.
+- [x] Animation : 5 scénarios, vues modèle / à l'échelle avec passage doux, forces, vitesses, traces, grille, ruban,
+      gravité, masses, glisser, Pas / Retour / Effacer, encart « Lune vue du Soleil », valeurs ; textes FR/EN écrits
+      dans Coupole (`textes_gravite.py`) et exportés ; « Ce qu'il faut voir » ; à propos ; module Renaissance
+      (`ANIMATIONS_AJOUTEES` de `outils/importer_contenu.py`) ; recherche (cas régénérés, 101 recherches dont
+      « gravity and orbits »).
+- [x] Tests : `tests/unit/gravite.test.ts` (parité au bit, physique, SageMath, animation, durée), références de Coupole
+      régénérées, `tests/e2e/gravite.spec.ts` (3 moteurs × 3 formats) ; 95 animations partout.
 
 ## Reste à faire
 

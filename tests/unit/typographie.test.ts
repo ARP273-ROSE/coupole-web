@@ -3,7 +3,7 @@
  * signe moins typographique, puissances de dix en exposant, milliers à espace fine insécable, formules à délimiteurs et
  * racines extensibles, indices de plusieurs lettres en romain.  Formateur commun aux ressources et aux applis
  * (typographie.ts, cas typographie_cas.json) et règle des animations (typo.ts, cas typographie_reference.json), les
- * mêmes qu'au bureau ; puis aucun texte affiché des 94 animations (valeurs, réglages, aides, textes de l'interface,
+ * mêmes qu'au bureau ; puis aucun texte affiché des 95 animations (valeurs, réglages, aides, textes de l'interface,
  * « Ce qu'il faut voir », textes dessinés sur la toile) n'enfreint la règle.
  */
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -60,7 +60,7 @@ describe('formateur commun (mêmes cas que le bureau et les ressources)', () => 
 });
 
 describe('aucun texte affiché n’enfreint la règle', () => {
-  it('valeurs, réglages et aides des 94 animations (FR et EN, scénario complet)', () => {
+  it('valeurs, réglages et aides des 95 animations (FR et EN, scénario complet)', () => {
     const f: string[] = [];
     for (const [id, r] of Object.entries(ANIM as unknown as RefAnim)) {
       for (const lg of ['fr', 'en'] as const) {
@@ -82,7 +82,7 @@ describe('aucun texte affiché n’enfreint la règle', () => {
     expect(f).toEqual([]);
   });
 
-  it('textes dessinés sur la toile (94 animations, réglages par défaut puis changés, FR et EN)', async () => {
+  it('textes dessinés sur la toile (95 animations, réglages par défaut puis changés, FR et EN)', async () => {
     const f = new Set<string>();
     for (const lg of ['fr', 'en'] as Langue[]) {
       choisirLangue(lg);

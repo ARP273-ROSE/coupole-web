@@ -3,7 +3,7 @@
  * téléphone : les trois moteurs et les trois formats sont couverts) :
  *  - les 517 questions : affichage, toutes les options de chaque menu (variantes), « Montrer la réponse », indice,
  *    explication, « Valider », score enregistré (Ma progression) ;
- *  - les 94 animations : chaque réglage actionné (curseur, case, liste, bouton), toile jamais vide, adresse partageable
+ *  - les 95 animations : chaque réglage actionné (curseur, case, liste, bouton), toile jamais vide, adresse partageable
  *    qui redonne les mêmes valeurs après rechargement ;
  *  - toutes les fiches, tables et images (page partageable `#/r/…`), crédit visible sous chaque photographie ;
  *  - sauvegarde : export → réinitialisation → import = état identique ;
@@ -149,7 +149,7 @@ test('animations : chaque réglage actionné, toile jamais vide, adresse partage
   const s = await surveiller(page);
   await page.goto('./#/animations');
   const ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
-  expect(ids.length).toBe(94);
+  expect(ids.length).toBe(95);
   const fautes: string[] = [];
   let reglages = 0;
   let premiere = true;
@@ -219,7 +219,7 @@ test('animations : chaque réglage actionné, toile jamais vide, adresse partage
     }
     if (!(await attendre(async () => (await couleursToile(page)) > 3))) fautes.push(`${id} : toile vide après les boutons`);
   }
-  test.info().annotations.push({ type: 'animations', description: `94 animations, ${reglages} réglages actionnés` });
+  test.info().annotations.push({ type: 'animations', description: `95 animations, ${reglages} réglages actionnés` });
   expect(fautes).toEqual([]);
   expect(s.erreurs).toEqual([]);
   expect(s.externes).toEqual([]);

@@ -1,7 +1,7 @@
 {
   "name": "Coupole Web — modules d'astronomie",
   "short_name": "Coupole",
-  "description": "22 modules d'astronomie : 517 questions, 94 animations interactives, des fiches, des tables et des images, d'après ClassAction (University of Nebraska-Lincoln). Recherche bilingue, favoris, hors ligne, sans traceur.",
+  "description": "22 modules d'astronomie : 517 questions, 95 animations interactives, des fiches, des tables et des images, d'après ClassAction (University of Nebraska-Lincoln). Recherche bilingue, favoris, hors ligne, sans traceur.",
   "id": "./",
   "start_url": "./#/",
   "scope": "./",
