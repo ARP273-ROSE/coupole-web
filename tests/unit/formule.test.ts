@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { analyser, type Noeud } from '../../src/noyau/formule';
-import { rejeu } from '../../src/anim/animations/ombres';
+import { lune_rejeu, rejeu, types } from '../../src/anim/animations/ombres';
 import { ECLIPSES_LUNE, ECLIPSES_SOLEIL } from '../../src/anim/animations/table_eclipses';
-import * as astro from '../../src/calc/astro';
 
 /** Écriture compacte d'un arbre : fractions (n)/(d), exposants ^, indices _, racines √[ ]. */
 function ecrire(n: Noeud): string {
@@ -51,21 +50,20 @@ describe('formules', () => {
 });
 
 describe('éclipses rejouées', () => {
-  it('chaque éclipse de la table a une trajectoire compatible avec son type', () => {
-    const RL = astro.R_LUNE_KM,
-      RT = astro.R_TERRE_KM;
-    ECLIPSES_LUNE.forEach((e, i) => {
-      const r = rejeu('L' + i)!;
-      const y = Math.abs(r.y_km);
-      if (e[3] === 'total') expect(y).toBeLessThan(r.ru_km - RL);
-      else if (e[3] === 'partial') expect(y > r.ru_km - RL && y < r.ru_km + RL).toBe(true);
-      else expect(y > r.ru_km + RL && y < r.rp_km + RL).toBe(true);
-    });
-    ECLIPSES_SOLEIL.forEach((e, i) => {
-      const r = rejeu('S' + i)!;
-      const y = Math.abs(r.y_km);
-      if (e[3] === 'partial') expect(y > RT && y < RT + r.rp_km).toBe(true);
-      else expect(y).toBeLessThan(RT);
-    });
+  it('chaque éclipse de la table, rejouée à son maximum (géométrie DE440), a le type de la table', () => {
+    const T: Record<string, string> = { total: 'totale', annular: 'annulaire', hybrid: 'hybride', partial: 'partielle', penumbral: 'penombrale' };
+    for (const [table, s] of [[ECLIPSES_SOLEIL, 'S'], [ECLIPSES_LUNE, 'L']] as const)
+      table.forEach((e, i) => {
+        const r = rejeu(s + i)!;
+        const [x, y, z] = lune_rejeu(r, 0);
+        const t = types(x, y, z, r.g.s_km);
+        expect(s === 'S' ? t.soleil.type : t.lune.type, `${s}${i}`).toBe(T[e[3]]);
+        // au début et à la fin du trajet montré : plus d'éclipse
+        for (const u of [-1, 1]) {
+          const [a, b, c] = lune_rejeu(r, u);
+          const f = types(a, b, c, r.g.s_km);
+          expect(s === 'S' ? f.soleil.type : f.lune.type, `${s}${i} ${u}`).toBe('aucune');
+        }
+      });
   });
 });

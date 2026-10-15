@@ -1,21 +1,43 @@
 /**
- * Eclipse Shadow Simulator : Terre et Lune à déplacer à la souris, avec leurs cônes d'ombre et de pénombre, tracés
- * par les tangentes communes au Soleil et au corps (géométrie de l'original).  Le type d'éclipse produit est indiqué.
- * Un encart donne les proportions réelles d'une éclipse centrale de Lune (méthode d'Aristarque).
+ * Eclipse Shadow Simulator : la Lune (et la Terre) à placer librement ; les cônes d'ombre, d'antombre et de pénombre
+ * de la Terre ET de la Lune sont tracés en vraie géométrie, et le type d'éclipse est calculé avec les tailles et la
+ * distance réelles de la Lune telle que placée (calc/eclipses_geo.ts : totale, annulaire, hybride, partielle,
+ * pénombrale, aucune ; largeur de la bande).
+ *
+ * Vue de côté : le Soleil est à gauche, si loin que ses rayons sont parallèles (hors échelle) ; le long de l'axe,
+ * 1 px vaut `kx` km (la distance Terre–Lune affichée est celle de la figure) ; en travers, 1 px vaut `ky` km (tailles
+ * et écarts agrandis du rapport kx / ky, indiqué) : les cônes, très effilés en vrai, restent lisibles et cohérents
+ * avec le calcul.  Vue 3D : orbite de la Lune inclinée de 5,145° sur le plan Terre–Soleil, ligne des nœuds, Lune
+ * au-dessus ou au-dessous de l'axe ; curseurs « position sur l'orbite » et « angle Soleil – nœuds » (saisons
+ * d'éclipses).  « Rejouer une éclipse » replace la Lune selon la géométrie réelle de l'éclipse choisie (JPL DE440 :
+ * distance, gamma, trajectoire), dans les trois vues, l'instant la faisant avancer.
  */
 import * as astro from '../../calc/astro';
+import * as G from '../../calc/eclipses_geo';
+import GEO from '../../donnees/genere/eclipses_geometrie.json';
 import { langue, tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
-import { type Peintre, Pt, Rect } from '../../noyau/peintre';
+import { type Peintre, Pt, Rect, type Stylo } from '../../noyau/peintre';
 import { Animation, type Bouton_souris, type Choix, type Coche, duree_hm, nombre, type Reglage } from '../base';
-import { ECLIPSES_LUNE, ECLIPSES_SOLEIL, type Eclipse, format_duree, verifier } from './table_eclipses';
+import { ECLIPSES_LUNE, ECLIPSES_SOLEIL, type Eclipse, format_duree } from './table_eclipses';
 
-const R_SOLEIL = 60.0,
-  R_TERRE = 22.0,
-  R_LUNE = 9.0;
-/** Marge à gauche du Soleil : il est dessiné en entier. */
-const MARGE_SOLEIL = 8.0;
 const INCLINAISON_LUNE = 5.145;
+const DEG = Math.PI / 180;
+
+interface GeoEclipse {
+  date: [number, number, number];
+  type: string;
+  jj_ut: number;
+  iso: string;
+  d_km: number;
+  s_km: number;
+  x_km: number;
+  y_km: number;
+  vx_kmh: number;
+  vy_kmh: number;
+  gamma: number;
+}
+const GEOMETRIE = (GEO as unknown as { eclipses: Record<string, GeoEclipse> }).eclipses;
 
 /** Date d'une éclipse de la table, dans la langue courante. */
 function date_eclipse(e: Eclipse): string {
@@ -24,128 +46,80 @@ function date_eclipse(e: Eclipse): string {
 }
 
 export interface Rejeu {
+  cle: string;
   solaire: boolean;
   e: Eclipse;
-  /** écart (km) entre le centre de la Lune (ou l'axe de son ombre) et l'axe de l'ombre (ou le centre de la Terre), nord > 0 */
-  y_km: number;
-  /** pente de la trajectoire (vers le nord si > 0) */
-  pente: number;
-  ru_km: number;
-  rp_km: number;
-  /** demi-longueur du trajet montré (km) */
-  demi_km: number;
+  g: GeoEclipse;
+  /** demi-durée montrée (heures), de part et d'autre du maximum */
+  demi_h: number;
 }
 
-/**
- * Géométrie d'une éclipse de la table, en proportions réelles.  L'écart à l'axe vient de l'argument de latitude moyen
- * de la Lune (Meeus) : y = D sin(5,145°) sin F ; il est ramené dans le domaine compatible avec le type de la table
- * (les éléments moyens ne sont qu'approchés).
- */
+/** Éclipse de la table (clé « S<i> » ou « L<i> ») et sa géométrie réelle (DE440), ou null. */
 export function rejeu(cle: string): Rejeu | null {
   const solaire = cle[0] === 'S';
   const e = (solaire ? ECLIPSES_SOLEIL : ECLIPSES_LUNE)[Number(cle.slice(1))];
-  if (!e) return null;
-  const v = verifier(e, solaire);
-  const sinF = Math.sin((v.F * Math.PI) / 180);
-  let y = astro.D_LUNE_KM * Math.sin((INCLINAISON_LUNE * Math.PI) / 180) * sinF;
-  const cosF = Math.cos((v.F * Math.PI) / 180);
-  const pente = Math.tan((INCLINAISON_LUNE * Math.PI) / 180) * (cosF >= 0 ? 1 : -1) * 0.92;
-  const RL = astro.R_LUNE_KM,
-    RT = astro.R_TERRE_KM;
-  let ru: number, rp: number;
-  const borne = (a: number, b: number): void => {
-    const s = y >= 0 ? 1 : -1;
-    y = s * Math.max(a, Math.min(b, Math.abs(y)));
-  };
-  const type = e[3];
-  if (!solaire) {
-    const o = astro.eclipse_de_lune();
-    ru = o.rayon_ombre_km!;
-    rp = o.rayon_penombre_km!;
-    if (type === 'total') borne(0, (ru - RL) * 0.9);
-    else if (type === 'partial') borne(ru - RL + 150, ru + RL - 150);
-    else borne(ru + RL + 150, rp + RL - 150);
-    return { solaire, e, y_km: y, pente, ru_km: ru, rp_km: rp, demi_km: (rp + RL) * 1.08 };
-  }
-  const c = astro.cones_ombre(astro.R_SOLEIL_KM, RL, astro.UA_KM);
-  const x = astro.D_LUNE_KM - RT;
-  rp = c.rayon_penombre(x);
-  // l'ombre (totale) ou l'anti-ombre (annulaire) : son rayon dépend de la distance de la Lune, qui varie de ±5 %
-  ru = type === 'total' ? 70 : type === 'hybrid' ? 15 : -90;
-  if (type === 'partial') borne(RT + 200, RT + rp - 200);
-  else borne(0, RT * 0.95);
-  return { solaire, e, y_km: y, pente, ru_km: ru, rp_km: rp, demi_km: (RT + rp) * 1.12 };
+  const g = GEOMETRIE[cle];
+  if (!e || !g) return null;
+  const v = Math.max(1, Math.hypot(g.vx_kmh, g.vy_kmh));
+  const delta = Math.abs(g.gamma) * G.R_TERRE_KM;
+  const x = Math.sqrt(Math.max(0, g.d_km ** 2 - delta ** 2));
+  const rayon = solaire ? G.R_TERRE_KM + G.eclipseSoleil(-x, 0, g.s_km).penombre_km : G.eclipseLune(x, 0, g.s_km).penombre_km + G.R_LUNE_KM;
+  return { cle, solaire, e, g, demi_h: (rayon * 1.08) / v };
 }
 
-/** Points des cônes d'ombre et de pénombre d'un disque (ox, oy, r_objet) éclairé par (sx, sy, r_source). */
-export function geometrie(sx: number, sy: number, ox: number, oy: number, r_source: number, r_objet: number, loin = 3000.0) {
-  const d = Math.hypot(ox - sx, oy - sy);
-  const ang = Math.atan2(oy - sy, ox - sx);
-  const ca = Math.cos(ang),
-    sa = Math.sin(ang);
-  const rep = (x: number, y: number): Pt => new Pt(sx + ca * x - sa * y, sy + sa * x + ca * y);
-  const s_a = Math.min(0.999, (r_source + r_objet) / d);
-  const a = Math.asin(s_a);
-  const x2 = d - r_objet * s_a,
-    y2 = r_objet * Math.cos(a);
-  const x3 = r_source / s_a;
-  const x4 = loin,
-    y4 = (loin - x3) * Math.tan(a);
-  const s_b = (r_source - r_objet) / d;
-  const b = Math.asin(s_b);
-  const x6 = d + r_objet * s_b,
-    y6 = r_objet * Math.cos(b);
-  const x7 = d + r_objet / s_b;
-  const y8 = (loin - x7) * Math.tan(b);
-  return {
-    penombre: [rep(x2, y2), rep(x4, y4), rep(x4, -y4), rep(x2, -y2)],
-    ombre: [rep(x6, y6), rep(x7, 0), rep(x6, -y6)],
-    antiombre: [rep(x7, 0), rep(loin, y8), rep(loin, -y8)],
-    axe: [ca, sa],
-    d,
-    sommet: x7 - d,
-    k_ombre: s_b,
-    k_penombre: (r_source + r_objet) / d,
-  };
+/** Position de la Lune (km, repère de la Terre : x vers l'opposé du Soleil, y nord, z est) à l'instant u ∈ [−1, 1]. */
+export function lune_rejeu(rj: Rejeu, u: number): [number, number, number] {
+  const dt = u * rj.demi_h;
+  const est = rj.g.x_km + rj.g.vx_kmh * dt;
+  const nord = rj.g.y_km + rj.g.vy_kmh * dt;
+  const delta = Math.hypot(est, nord);
+  const le_long = Math.sqrt(Math.max(0, rj.g.d_km ** 2 - delta ** 2));
+  return [rj.solaire ? -le_long : le_long, nord, est];
 }
 
-/** Ombre portée par l'objet sur la cible : 'totale', 'annulaire', 'partielle', 'penombre' ou ''. */
-export function type_eclipse(sx: number, sy: number, ox: number, oy: number, r_objet: number, cx: number, cy: number, r_cible: number): string {
-  const d = Math.hypot(ox - sx, oy - sy);
-  const ux = (ox - sx) / d,
-    uy = (oy - sy) / d;
-  const x = (cx - ox) * ux + (cy - oy) * uy;
-  if (x <= 0) return '';
-  const dist = Math.abs(-(cx - ox) * uy + (cy - oy) * ux);
-  const k_u = (R_SOLEIL - r_objet) / d;
-  const k_p = (R_SOLEIL + r_objet) / d;
-  const ru = r_objet - x * k_u;
-  const rp = r_objet + x * k_p;
-  if (dist - r_cible >= rp) return '';
-  if (ru > 0) {
-    if (dist + r_cible <= ru) return 'totale';
-    if (dist - r_cible < ru) return 'partielle';
-    return 'penombre';
-  }
-  if (dist < -ru - r_cible) return 'annulaire';
-  return dist - r_cible < -ru ? 'partielle' : 'penombre';
+export interface Types {
+  soleil: G.EclipseSoleil;
+  lune: G.EclipseLune;
+  distance_km: number;
+  delta_km: number;
+}
+
+/** Types d'éclipse pour une Lune en (x, y, z) km par rapport à la Terre. */
+export function types(x: number, y: number, z: number, d_soleil = G.UA_KM): Types {
+  const delta = Math.hypot(y, z);
+  return { soleil: G.eclipseSoleil(x, delta, d_soleil), lune: G.eclipseLune(x, delta, d_soleil), distance_km: Math.hypot(x, y, z), delta_km: delta };
 }
 
 export class OmbresEclipse extends Animation {
   static override ID = 'shadowsim';
   static override ANIMEE = false;
 
-  terre: [number, number] | null = null;
-  lune: [number, number] | null = null;
+  /** Terre : position dans la vue de côté (fraction) ; Lune : km par rapport à la Terre */
+  terre: [number, number] = [0.42, 0.5];
+  lune: [number, number, number] = [G.D_LUNE_KM, 0, 0];
   c_reel!: Coche;
+  c_3d!: Coche;
+  position!: Reglage;
+  noeuds!: Reglage;
   rejouer!: Choix;
   instant!: Reglage;
-  private rect: Rect | null = null;
+  vue3d!: dessin.Vue3D;
+  private cote: Rect | null = null;
+  private echelle: [number, number] = [1, 1];
 
   override construire(): void {
-    this.terre = null;
-    this.lune = null;
+    this.vue3d = this.vue(215.0, 22.0, -80.0, 85.0);
     this.c_reel = this.coche('reel', true);
+    this.c_3d = this.coche('vue3d', true);
+    this.position = this.curseur('position', 0.0, 360.0, 180.0, { dec: 0, unite: '°' });
+    this.noeuds = this.curseur('noeuds', 0.0, 360.0, 0.0, { dec: 0, unite: '°' });
+    const orbite = (): void => {
+      if (this.rejeu()) return;
+      const d = Math.hypot(...this.lune) || G.D_LUNE_KM;
+      this.lune = G.positionOrbite(d, this.position.value(), this.noeuds.value(), INCLINAISON_LUNE);
+    };
+    this.position.valueChanged.connect(orbite);
+    this.noeuds.valueChanged.connect(orbite);
     const options: [string, string][] = [['anim_shadowsim_libre', 'libre']];
     const toutes: [Eclipse, string, boolean][] = [
       ...ECLIPSES_SOLEIL.map((e, i) => [e, 'S' + i, true] as [Eclipse, string, boolean]),
@@ -158,10 +132,16 @@ export class OmbresEclipse extends Animation {
     this.instant = this.curseur('instant', -1.0, 1.0, 0.0, { dec: 2 });
     this.instant.setVisible(false);
     this.rejouer.currentIndexChanged.connect(() => {
-      this.instant.setVisible(this.rejouer.currentData() !== 'libre');
+      const rj = this.rejeu();
+      this.instant.setVisible(rj !== null);
       this.instant.setValue(0.0);
+      // en quittant le rejeu, on retrouve le placement libre (la Lune reste où l'éclipse l'avait mise)
+      if (rj) this.lune = lune_rejeu(rj, 0);
     });
-    this.rect = null;
+    this.instant.valueChanged.connect(() => {
+      const rj = this.rejeu();
+      if (rj) this.lune = lune_rejeu(rj, this.instant.value());
+    });
   }
 
   rejeu(): Rejeu | null {
@@ -170,167 +150,324 @@ export class OmbresEclipse extends Animation {
   }
 
   override etat_initial(): void {
-    this.terre = null;
-    this.lune = null;
+    this.terre = [0.42, 0.5];
+    this.lune = G.positionOrbite(G.D_LUNE_KM, this.position?.value() ?? 180, this.noeuds?.value() ?? 0, INCLINAISON_LUNE);
   }
 
-  private positions(rect: Rect): [Pt, Pt] {
-    if (this.terre === null) {
-      this.terre = [0.55, 0.5];
-      this.lune = [0.8, 0.5];
-    }
-    const t = new Pt(rect.x + this.terre[0] * rect.w, rect.y + this.terre[1] * rect.h);
-    const lu = new Pt(rect.x + this.lune![0] * rect.w, rect.y + this.lune![1] * rect.h);
-    return [t, lu];
+  /** Types d'éclipse pour la position actuelle (distance du Soleil de l'éclipse rejouée, sinon 1 ua). */
+  etat(): Types {
+    const rj = this.rejeu();
+    return types(this.lune[0], this.lune[1], this.lune[2], rj ? rj.g.s_km : G.UA_KM);
   }
 
-  override presser(pos: Pt, _bouton: Bouton_souris): boolean {
-    if (this.rect === null) return false;
-    const [t, lu] = this.positions(this.rect);
-    for (const [nom, q, r] of [['lune', lu, R_LUNE], ['terre', t, R_TERRE]] as ['lune' | 'terre', Pt, number][]) {
-      if (Math.hypot(pos.x - q.x, pos.y - q.y) <= r + 6) {
-        this._glisse = (pp) => this.tirer(nom, pp);
+  // ------------------------------------------------------------ souris
+  private ecran(r: Rect): { ex: number; ey: number; lx: number; ly: number; kx: number; ky: number; rt: number; rl: number } {
+    const [kx, ky] = this.echelle;
+    const ex = r.x + this.terre[0] * r.w,
+      ey = r.y + this.terre[1] * r.h;
+    return { ex, ey, lx: ex + this.lune[0] / kx, ly: ey - this.lune[1] / ky, kx, ky, rt: G.R_TERRE_KM / ky, rl: G.R_LUNE_KM / ky };
+  }
+
+  override presser(pos: Pt, b: Bouton_souris): boolean {
+    const r = this.cote;
+    if (r !== null && r.contains(pos) && !this.rejeu()) {
+      const e = this.ecran(r);
+      if (Math.hypot(pos.x - e.lx, pos.y - e.ly) <= Math.max(e.rl, 10) + 8) {
+        this._glisse = (q) => this.tirerLune(q);
+        return true;
+      }
+      if (Math.hypot(pos.x - e.ex, pos.y - e.ey) <= e.rt + 6) {
+        this._glisse = (q) => this.tirerTerre(q);
         return true;
       }
     }
-    return false;
+    return super.presser(pos, b);
   }
 
-  private tirer(nom: 'lune' | 'terre', pos: Pt): void {
-    const r = this.rect!;
-    let x = (pos.x - r.x) / r.w;
-    let y = (pos.y - r.y) / r.h;
-    const sx = (R_SOLEIL + MARGE_SOLEIL) / r.w;
-    x = Math.max(sx + (R_SOLEIL + 30) / r.w, Math.min(0.98, x));
-    y = Math.max(0.02, Math.min(0.98, y));
-    this[nom] = [x, y];
+  private tirerLune(pos: Pt): void {
+    const r = this.cote!;
+    const e = this.ecran(r);
+    const px = Math.max(r.x + 4, Math.min(r.right - 4, pos.x));
+    const py = Math.max(r.y + 4, Math.min(r.bottom - 4, pos.y));
+    let dx = px - e.ex,
+      dy = py - e.ey;
+    // jamais dans la Terre
+    const min = e.rt + e.rl + 2;
+    const d = Math.hypot(dx, dy);
+    if (d < min) {
+      const ux = d > 1e-6 ? dx / d : 1,
+        uy = d > 1e-6 ? dy / d : 0;
+      dx = ux * min;
+      dy = uy * min;
+    }
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
+    this.lune = [dx * e.kx, -dy * e.ky, 0];
   }
 
-  private eclipses(): [string, string] {
-    const r = this.rect;
-    if (r === null) return ['', ''];
-    const [t, lu] = this.positions(r);
-    const sx = r.x + R_SOLEIL + MARGE_SOLEIL,
-      sy = r.cy;
-    const lunaire = type_eclipse(sx, sy, t.x, t.y, R_TERRE, lu.x, lu.y, R_LUNE);
-    const solaire = type_eclipse(sx, sy, lu.x, lu.y, R_LUNE, t.x, t.y, R_TERRE);
-    return [lunaire, solaire];
+  private tirerTerre(pos: Pt): void {
+    const r = this.cote!;
+    const x = Math.max(0.2, Math.min(0.8, (pos.x - r.x) / r.w));
+    const y = Math.max(0.12, Math.min(0.88, (pos.y - r.y) / r.h));
+    if (Number.isFinite(x) && Number.isFinite(y)) this.terre = [x, y];
   }
 
+  // ------------------------------------------------------------ valeurs
   override valeurs(): [string, string][] {
-    const [lunaire, solaire] = this.eclipses();
-    const e = astro.eclipse_de_lune();
+    const t = this.etat();
+    const s = t.soleil,
+      l = t.lune;
+    const km = (v: number): string => nombre(Math.round(v), 0);
+    const dir = this.lune[1] >= 0 ? tr('anim_shadowsim_nord') : tr('anim_shadowsim_sud');
+    const d = t.distance_km;
+    const cle_d = d < G.PERIGEE_MIN_KM ? 'anim_shadowsim_dist_moins' : d > G.APOGEE_MAX_KM ? 'anim_shadowsim_dist_plus' : 'anim_shadowsim_dist_dans';
+    const soleil = s.type === 'aucune' ? tr('anim_shadowsim_aucune') : tr('anim_shadowsim_s_' + s.type, { l: km(s.largeur_km) });
+    const lune = l.type === 'aucune' ? tr('anim_shadowsim_aucune') : tr('anim_shadowsim_l_' + l.type);
     const out: [string, string][] = [
-      [tr('anim_shadowsim_lunaire'), tr('anim_shadowsim_' + (lunaire || 'aucune'))],
-      [tr('anim_shadowsim_solaire'), tr('anim_shadowsim_' + (solaire || 'aucune'))],
+      [tr('anim_shadowsim_solaire'), soleil],
+      [tr('anim_shadowsim_lunaire'), lune],
+      [tr('anim_shadowsim_distance'), tr(cle_d, { d: km(d), p: km(G.PERIGEE_MIN_KM), a: km(G.APOGEE_MAX_KM) })],
+      [tr('anim_shadowsim_ecart'), tr('anim_shadowsim_ecart_val', { r: nombre(Math.abs(this.lune[1]) / G.R_TERRE_KM, 2), km: km(Math.abs(this.lune[1])), dir })],
     ];
-    if (this.c_reel.isChecked())
+    if (Math.abs(this.lune[2]) > 1) out.push([tr('anim_shadowsim_hors_plan'), `${km(Math.abs(this.lune[2]))} km`]);
+    const [kx, ky] = this.echelle;
+    out.push([tr('anim_shadowsim_echelle'), tr('anim_shadowsim_echelle_val', { x: km(kx), y: km(ky), k: nombre(kx / ky, 1) })]);
+    const rj = this.rejeu();
+    if (rj) {
+      const jj = rj.g.jj_ut + (this.instant.value() * rj.demi_h) / 24;
+      const h = (((jj + 0.5) % 1) + 1) % 1;
+      const hm = `${String(Math.floor(h * 24)).padStart(2, '0')}:${String(Math.floor(((h * 24) % 1) * 60)).padStart(2, '0')}`;
+      out.push(
+        [tr('anim_shadowsim_rejouee'), `${date_eclipse(rj.e)} · ${tr(rj.solaire ? 'anim_shadowsim_soleil' : 'anim_shadowsim_lune_t')}, ${tr('anim_eclipsetable_t_' + rj.e[3])}`],
+        [tr('anim_shadowsim_instant_ut'), `${hm} ${tr('anim_shadowsim_tu')}`],
+        [tr('anim_shadowsim_gamma'), nombre(rj.g.gamma, 4)],
+        [tr('anim_eclipsetable_grandeur'), nombre(rj.e[5], 3)],
+        [tr('anim_eclipsetable_duree'), format_duree(rj.e[6])],
+      );
+    } else if (this.c_reel.isChecked()) {
+      const e = astro.eclipse_de_lune();
       out.push(
         [tr('anim_shadowsim_rayon_ombre'), `${nombre(e.rayon_ombre_km!, 0)} km (${nombre(e.ombre_en_diametres_lunaires!, 2)} × ${tr('anim_shadowsim_diam_lune')})`],
         [tr('anim_shadowsim_longueur_ombre'), `${nombre(e.longueur_ombre_km!, 0)} km`],
         [tr('anim_shadowsim_totalite'), duree_hm(e.totalite_h!)],
         [tr('anim_shadowsim_phase_ombre'), duree_hm(e.ombre_totale_h!)],
       );
-    const rj = this.rejeu();
-    if (rj) {
-      out.push(
-        [tr('anim_shadowsim_rejouee'), `${date_eclipse(rj.e)} · ${tr(rj.solaire ? 'anim_shadowsim_soleil' : 'anim_shadowsim_lune_t')}, ${tr('anim_eclipsetable_t_' + rj.e[3])}`],
-        [tr('anim_eclipsetable_grandeur'), nombre(rj.e[5], 3)],
-        [tr('anim_eclipsetable_duree'), format_duree(rj.e[6])],
-        [tr('anim_shadowsim_ecart'), `${nombre(Math.abs(rj.y_km), 0)} km ${tr(rj.y_km >= 0 ? 'anim_pc_n' : 'anim_pc_s')}`],
-      );
     }
     return out;
   }
 
+  // ------------------------------------------------------------ dessin
   override dessiner(p: Peintre, rect: Rect): void {
     const rj = this.rejeu();
-    const reel = this.c_reel.isChecked() || rj !== null;
-    const principal = new Rect(rect.x, rect.y, rect.w, rect.h * (reel ? 0.72 : 1.0));
-    this.rect = principal;
-    const [t, lu] = this.positions(principal);
-    const sx = principal.x + R_SOLEIL + MARGE_SOLEIL,
-      sy = principal.cy;
-    p.save();
-    p.setClipRect(principal);
-    for (const [ox, oy, r] of [[t.x, t.y, R_TERRE], [lu.x, lu.y, R_LUNE]] as [number, number, number][]) {
-      const g = geometrie(sx, sy, ox, oy, R_SOLEIL, r);
-      p.setPen(dessin.stylo('grille', 0.8, 0.6));
-      p.setBrush(dessin.c('penombre', 0.22));
-      p.drawPolygon(g.penombre);
-      p.setBrush(dessin.c('umbra', 0.85));
-      p.drawPolygon(g.ombre);
-      p.setPen(dessin.stylo('grille', 1.0, 0.8, true));
-      const a = g.antiombre;
-      p.drawLineP(a[0]!, a[1]!);
-      p.drawLineP(a[0]!, a[2]!);
+    const encart = this.c_reel.isChecked() || rj !== null;
+    const haut = new Rect(rect.x, rect.y, rect.w, rect.h * (encart ? 0.7 : 1.0));
+    const avec3d = this.c_3d.isChecked();
+    const large = haut.w > haut.h * 1.25;
+    let cote = haut,
+      r3d: Rect | null = null;
+    if (avec3d) {
+      if (large) {
+        cote = new Rect(haut.x, haut.y, haut.w * 0.62, haut.h);
+        r3d = new Rect(haut.x + haut.w * 0.62, haut.y, haut.w * 0.38, haut.h);
+      } else {
+        cote = new Rect(haut.x, haut.y, haut.w, haut.h * 0.58);
+        r3d = new Rect(haut.x, haut.y + haut.h * 0.58, haut.w, haut.h * 0.42);
+      }
     }
-    dessin.disque(p, sx, sy, R_SOLEIL, 'soleil');
-    dessin.disque(p, t.x, t.y, R_TERRE, 'terre', 'texte');
-    dessin.disque(p, lu.x, lu.y, R_LUNE, 'lune', 'texte');
-    p.restore();
-    dessin.texte(p, t.x, t.y - R_TERRE - 10, tr('anim_shadowsim_terre'), 'texte', { fond: true });
-    dessin.texte(p, lu.x, lu.y - R_LUNE - 10, tr('anim_shadowsim_lune'), 'texte', { fond: true });
-    dessin.police(p, 0.85);
-    dessin.texte(p, principal.x + 8, principal.bottom - 10, tr('anim_shadowsim_aide_souris'), 'doux', { centre: false });
-    dessin.police(p, 1 / 0.85);
-    const bas = new Rect(rect.x, principal.bottom, rect.w, rect.h - principal.h);
+    this.vueDeCote(p, cote);
+    if (r3d) this.vueOrbite(p, r3d);
+    const bas = new Rect(rect.x, haut.bottom, rect.w, rect.h - haut.h);
     if (rj) this.rejouerEclipse(p, bas, rj);
-    else if (reel) this.aristarque(p, bas);
+    else if (encart) this.aristarque(p, bas);
   }
 
-  /** L'éclipse choisie dans la table, en proportions réelles ; l'instant fait avancer la Lune ou son ombre. */
+  /** Vue de côté : Soleil à gauche (hors échelle), Terre, Lune et leurs cônes en vraie géométrie (deux échelles). */
+  private vueDeCote(p: Peintre, r0: Rect): void {
+    const r = dessin.cadre(p, r0, tr('anim_shadowsim_titre_cote'));
+    this.cote = r;
+    const rt_px = Math.max(9, Math.min(24, r.h * 0.075));
+    this.echelle = [G.D_LUNE_KM / (r.w * 0.3), G.R_TERRE_KM / rt_px];
+    const e = this.ecran(r);
+    const t = this.etat();
+    const ds = this.rejeu()?.g.s_km ?? G.UA_KM;
+    p.save();
+    p.setClipRect(r);
+    // le Soleil, très loin à gauche : un bord de disque et des rayons parallèles
+    const rs = r.h * 0.9;
+    dessin.disque(p, r.x - rs + 16, r.cy, rs, 'soleil');
+    p.setPen(dessin.stylo('soleil', 0.8, 0.25));
+    for (let k = -3; k <= 3; k++) p.drawLine(r.x + 20, r.cy + (k * r.h) / 8, r.right, r.cy + (k * r.h) / 8);
+    // cônes : la pénombre, puis l'ombre et l'antombre, de la Terre puis de la Lune (axes parallèles à Soleil–Terre)
+    const cone = (ox: number, oy: number, rkm: number, d_sm: number, couleur_ombre: string): void => {
+      const ku = (G.R_SOLEIL_KM - rkm) / d_sm,
+        kp = (G.R_SOLEIL_KM + rkm) / d_sm;
+      const fin = r.right - ox;
+      if (fin <= 0) return;
+      const xkm = fin * e.kx;
+      const rp_fin = (rkm + xkm * kp) / e.ky;
+      p.setPen(dessin.stylo('grille', 0.8, 0.5));
+      p.setBrush(dessin.c('penombre', 0.2));
+      p.drawPolygon([new Pt(ox, oy - rkm / e.ky), new Pt(r.right, oy - rp_fin), new Pt(r.right, oy + rp_fin), new Pt(ox, oy + rkm / e.ky)]);
+      const longueur = rkm / ku / e.kx; // pointe de l'ombre (px)
+      p.setBrush(dessin.c(couleur_ombre, 0.85));
+      if (longueur < fin) {
+        p.drawPolygon([new Pt(ox, oy - rkm / e.ky), new Pt(ox + longueur, oy), new Pt(ox, oy + rkm / e.ky)]);
+        // antombre : au-delà de la pointe
+        const ra = ((fin - longueur) * e.kx * ku) / e.ky;
+        p.setPen(dessin.stylo('accent1', 1.1, 0.85, true));
+        p.setBrush(dessin.c('accent1', 0.12));
+        p.drawPolygon([new Pt(ox + longueur, oy), new Pt(r.right, oy - ra), new Pt(r.right, oy + ra)]);
+      } else {
+        const ru_fin = (rkm - xkm * ku) / e.ky;
+        p.drawPolygon([new Pt(ox, oy - rkm / e.ky), new Pt(r.right, oy - ru_fin), new Pt(r.right, oy + ru_fin), new Pt(ox, oy + rkm / e.ky)]);
+      }
+    };
+    cone(e.ex, e.ey, G.R_TERRE_KM * G.ATMOSPHERE, ds, 'umbra');
+    cone(e.lx, e.ly, G.R_LUNE_KM, ds + this.lune[0], 'umbra');
+    p.setPen(dessin.stylo('doux', 0.8, 0.6, true));
+    p.drawLine(r.x + 16, e.ey, r.right, e.ey);
+    dessin.disque(p, e.ex, e.ey, e.rt, 'terre', 'texte');
+    const horsPlan = Math.abs(this.lune[2]) > G.R_TERRE_KM;
+    dessin.disque(p, e.lx, e.ly, Math.max(2.5, e.rl), 'lune', horsPlan ? null : 'texte', horsPlan ? 0.45 : null);
+    p.restore();
+    dessin.texte(p, e.ex, e.ey - e.rt - 10, tr('anim_shadowsim_terre'), 'texte', { fond: true });
+    dessin.texte(p, e.lx, e.ly - Math.max(e.rl, 4) - 10, tr('anim_shadowsim_lune'), 'texte', { fond: true });
+    dessin.police(p, 0.8);
+    dessin.texte(p, r.x + 22, r.y + 12, tr('anim_shadowsim_soleil_loin'), 'doux', { centre: false, fond: true });
+    const etiquette = t.soleil.type !== 'aucune' ? tr('anim_shadowsim_solaire') + ' : ' + tr('anim_shadowsim_' + t.soleil.type) : t.lune.type !== 'aucune' ? tr('anim_shadowsim_lunaire') + ' : ' + tr('anim_shadowsim_' + t.lune.type) : '';
+    if (etiquette) dessin.texte(p, r.right - 8 - p.fontMetrics().horizontalAdvance(etiquette), r.y + 12, etiquette, 'accent3', { centre: false, fond: true });
+    dessin.police(p, 1 / 0.8);
+  }
+
+  /** Vue 3D : plan Terre–Soleil, orbite inclinée de la Lune, ligne des nœuds, Lune au-dessus ou au-dessous de l'axe. */
+  private vueOrbite(p: Peintre, r0: Rect): void {
+    const r = dessin.cadre(p, r0, tr('anim_shadowsim_titre_3d'));
+    this.zone_rotative(r, this.vue3d);
+    const v = this.vue3d;
+    const R = Math.min(r.w * 0.42, r.h * 0.4);
+    const cx = r.cx,
+      cy = r.cy + r.h * 0.04;
+    // monde : x vers l'opposé du Soleil, y = est (hors du plan de la vue de côté), z = nord
+    const proj = (x: number, y: number, z: number): [number, number, number] => {
+      const q = v.projeter1([x, y, z]);
+      return [cx + q[0] * R, cy - q[1] * R, q[2]];
+    };
+    const ligne = (pts: [number, number, number][], stylo: Stylo, ferme = false): void => {
+      p.setPen(stylo);
+      p.setBrush(null);
+      const ecran = pts.map(([x, y, z]) => {
+        const q = proj(x, y, z);
+        return new Pt(q[0], q[1]);
+      });
+      if (ferme) p.drawPolygon(ecran);
+      else p.drawPolyline(ecran);
+    };
+    const N = 96;
+    const cercle = (rayon: number, f: (a: number) => [number, number, number]): [number, number, number][] => Array.from({ length: N + 1 }, (_, k) => f((2 * Math.PI * k) / N)).map(([x, y, z]) => [x * rayon, y * rayon, z * rayon]);
+    p.save();
+    p.setClipRect(r);
+    // plan Terre–Soleil (écliptique) : disque teinté et cercle
+    const plan = cercle(1.18, (a) => [Math.cos(a), Math.sin(a), 0]);
+    p.setPen(dessin.stylo('grille', 0.8, 0.6));
+    p.setBrush(dessin.c('ecliptique', 0.07));
+    p.drawPolygon(plan.map(([x, y, z]) => new Pt(...(proj(x, y, z).slice(0, 2) as [number, number]))));
+    // axe Soleil–Terre, Soleil à l'infini (flèche « vers le Soleil »)
+    ligne([[-1.35, 0, 0], [1.35, 0, 0]], dessin.stylo('soleil', 1.0, 0.7, true));
+    const s0 = proj(-1.3, 0, 0),
+      s1 = proj(-1.05, 0, 0);
+    dessin.fleche(p, s1[0], s1[1], s0[0], s0[1], dessin.stylo('soleil', 1.4), 7);
+    dessin.texte(p, s0[0], s0[1] - 12, tr('anim_shadowsim_vers_soleil'), 'soleil', { fond: true });
+    // orbite de la Lune : inclinée de i autour de la ligne des nœuds (angle Ω depuis la direction du Soleil)
+    const rj = this.rejeu();
+    const om = (rj ? 0 : this.noeuds.value()) * DEG;
+    const inc = INCLINAISON_LUNE * DEG;
+    // nœud ascendant n (dans le plan), direction du mouvement m (inclinée de i vers le nord) : même convention que
+    // positionOrbite (angle compté depuis la direction du Soleil)
+    const n: [number, number, number] = [-Math.cos(om), Math.sin(om), 0];
+    const m: [number, number, number] = [Math.sin(om) * Math.cos(inc), Math.cos(om) * Math.cos(inc), Math.sin(inc)];
+    const orb = cercle(1, (a) => [n[0] * Math.cos(a) + m[0] * Math.sin(a), n[1] * Math.cos(a) + m[1] * Math.sin(a), n[2] * Math.cos(a) + m[2] * Math.sin(a)]);
+    if (!rj) ligne(orb, dessin.stylo('lune', 1.3, 0.85));
+    // ligne des nœuds
+    ligne([[n[0] * 1.12, n[1] * 1.12, 0], [-n[0] * 1.12, -n[1] * 1.12, 0]], dessin.stylo('meridien', 1.0, 0.9, true));
+    const na = proj(n[0] * 1.12, n[1] * 1.12, 0);
+    dessin.police(p, 0.8);
+    dessin.texte(p, na[0], na[1] + 12, tr('anim_shadowsim_noeud_asc'), 'meridien', { fond: true });
+    dessin.police(p, 1 / 0.8);
+    // Terre
+    const t0 = proj(0, 0, 0);
+    dessin.disque(p, t0[0], t0[1], Math.max(5, R * 0.07), 'terre', 'texte');
+    // Lune : position réelle ramenée au rayon de l'orbite dessinée
+    const d = Math.hypot(...this.lune) || 1;
+    const [lx, ly, lz] = [this.lune[0] / d, this.lune[2] / d, this.lune[1] / d];
+    const l3 = proj(lx, ly, lz),
+      l0 = proj(lx, ly, 0);
+    p.setPen(dessin.stylo(lz >= 0 ? 'accent2' : 'accent3', 1.4));
+    p.drawLine(l0[0], l0[1], l3[0], l3[1]);
+    dessin.disque(p, l3[0], l3[1], Math.max(3.5, R * 0.035), 'lune', 'texte');
+    p.restore();
+    const ec = Math.abs(this.lune[1]) / G.R_TERRE_KM;
+    dessin.police(p, 0.85);
+    dessin.texte(p, r.x + 8, r.bottom - 26, tr('anim_shadowsim_orbite_lune'), 'lune', { centre: false });
+    dessin.texte(p, r.x + 8, r.bottom - 10, tr('anim_shadowsim_decalage_3d', { r: nombre(ec, 2), dir: this.lune[1] >= 0 ? tr('anim_shadowsim_nord') : tr('anim_shadowsim_sud') }), 'texte', { centre: false });
+    dessin.police(p, 1 / 0.85);
+  }
+
+  /** L'éclipse choisie, vue de face (plan fondamental, vraie géométrie DE440) ; l'instant fait avancer la Lune. */
   private rejouerEclipse(p: Peintre, r0: Rect, rj: Rejeu): void {
     const r = dessin.cadre(p, r0, tr(rj.solaire ? 'anim_shadowsim_titre_soleil' : 'anim_shadowsim_titre_lune', { date: date_eclipse(rj.e) }));
-    const RL = astro.R_LUNE_KM,
-      RT = astro.R_TERRE_KM;
-    const demi_h = Math.max(rj.rp_km + (rj.solaire ? 0 : RL), RT) * 1.08 + Math.abs(rj.y_km);
-    const k = Math.min(r.w / (2 * rj.demi_km), r.h / (2 * demi_h));
+    const RL = G.R_LUNE_KM,
+      RT = G.R_TERRE_KM;
+    const [x0, y0] = [lune_rejeu(rj, -1), lune_rejeu(rj, 1)];
+    const t = this.etat();
+    const rp = rj.solaire ? t.soleil.penombre_km : t.lune.penombre_km;
+    const portee = Math.max(Math.abs(x0[2]), Math.abs(y0[2]), Math.abs(x0[1]), Math.abs(y0[1])) + Math.max(rp + RL, RT) * 1.05;
+    const k = Math.min(r.w / (2 * portee), r.h / (2 * (Math.max(Math.abs(x0[1]), Math.abs(y0[1])) + Math.max(rp + RL, RT) * 1.1)));
     const cx = r.cx,
       cy = r.cy;
-    const t = this.instant.value();
-    // la Lune va d'ouest en est : vers la gauche dans le ciel (éclipse de Lune), vers l'est sur la carte (de Soleil)
+    // carte (Soleil) : est à droite ; ciel (Lune) : est à gauche, comme vu de la Terre
     const sens = rj.solaire ? 1 : -1;
-    const pos = (u: number): Pt => new Pt(cx + sens * u * rj.demi_km * k * 0.9, cy - (rj.y_km + rj.pente * u * rj.demi_km * 0.9) * k);
+    const pos = (u: number): Pt => {
+      const q = lune_rejeu(rj, u);
+      return new Pt(cx + sens * q[2] * k, cy - q[1] * k);
+    };
+    const u = this.instant.value();
     p.save();
     p.setClipRect(r);
     p.setPen(dessin.stylo('doux', 1.0, 0.7, true));
     p.drawLineP(pos(-1), pos(1));
     dessin.fleche(p, pos(0.82).x, pos(0.82).y, pos(1).x, pos(1).y, dessin.stylo('doux', 1.2, 0.8), 7);
     if (!rj.solaire) {
-      dessin.disque(p, cx, cy, rj.rp_km * k, 'penombre', null, 0.25);
-      dessin.disque(p, cx, cy, rj.ru_km * k, 'umbra', null, 0.88);
-      for (const u of [-1, 1]) {
-        const q = pos(u);
+      dessin.disque(p, cx, cy, t.lune.penombre_km * k, 'penombre', null, 0.25);
+      dessin.disque(p, cx, cy, t.lune.ombre_km * k, 'umbra', null, 0.88);
+      for (const v of [-1, 1]) {
+        const q = pos(v);
         p.setPen(dessin.stylo('lune', 1.0, 0.5));
         p.setBrush(null);
         p.drawEllipse(q.x, q.y, RL * k, RL * k);
       }
-      const q = pos(t);
+      const q = pos(u);
       dessin.disque(p, q.x, q.y, RL * k, 'lune', 'texte');
-      // la partie de la Lune dans l'ombre
       p.save();
       const ch = new Path2D();
       ch.ellipse(q.x, q.y, RL * k, RL * k, 0, 0, 2 * Math.PI);
       p.setClipPath(ch);
-      dessin.disque(p, cx, cy, rj.ru_km * k, 'arc2', null, 0.55);
+      dessin.disque(p, cx, cy, t.lune.ombre_km * k, 'arc2', null, 0.55);
       p.restore();
     } else {
       dessin.disque(p, cx, cy, RT * k, 'terre', 'texte');
-      const q = pos(t);
+      const q = pos(u);
       p.save();
       const ch = new Path2D();
       ch.ellipse(cx, cy, RT * k, RT * k, 0, 0, 2 * Math.PI);
       p.setClipPath(ch);
-      dessin.disque(p, q.x, q.y, rj.rp_km * k, 'umbra', null, 0.35);
-      if (rj.ru_km > 0) dessin.disque(p, q.x, q.y, Math.max(2.5, rj.ru_km * k), 'umbra', null, 0.95);
+      dessin.disque(p, q.x, q.y, t.soleil.penombre_km * k, 'umbra', null, 0.35);
+      if (t.soleil.ombre_surface_km > 0) dessin.disque(p, q.x, q.y, Math.max(2.5, t.soleil.ombre_surface_km * k), 'umbra', null, 0.95);
       p.restore();
       p.setPen(dessin.stylo('penombre', 1.0, 0.8, true));
       p.setBrush(null);
-      p.drawEllipse(q.x, q.y, rj.rp_km * k, rj.rp_km * k);
-      if (rj.ru_km < 0) {
+      p.drawEllipse(q.x, q.y, t.soleil.penombre_km * k, t.soleil.penombre_km * k);
+      if (t.soleil.ombre_surface_km < 0) {
         p.setPen(dessin.stylo('accent1', 1.4));
-        p.drawEllipse(q.x, q.y, Math.max(3, -rj.ru_km * k), Math.max(3, -rj.ru_km * k));
+        p.drawEllipse(q.x, q.y, Math.max(3, -t.soleil.ombre_surface_km * k), Math.max(3, -t.soleil.ombre_surface_km * k));
       }
     }
     p.restore();
