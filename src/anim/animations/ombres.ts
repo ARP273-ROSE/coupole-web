@@ -22,6 +22,8 @@ import { Animation, type Bouton_souris, type Choix, type Coche, duree_hm, nombre
 import { ECLIPSES_LUNE, ECLIPSES_SOLEIL, type Eclipse, format_duree } from './table_eclipses';
 
 const INCLINAISON_LUNE = 5.145;
+/** vue de côté : tailles et écarts (en travers) agrandis de ce facteur par rapport aux distances le long de l'axe */
+export const AGRANDISSEMENT = 6;
 const DEG = Math.PI / 180;
 
 interface GeoEclipse {
@@ -105,7 +107,7 @@ export class OmbresEclipse extends Animation {
   instant!: Reglage;
   vue3d!: dessin.Vue3D;
   private cote: Rect | null = null;
-  private echelle: [number, number] = [1, 1];
+  private echelle: [number, number] = [G.D_LUNE_KM / 186, G.D_LUNE_KM / 186 / AGRANDISSEMENT]; // avant le premier dessin
 
   override construire(): void {
     this.vue3d = this.vue(215.0, 22.0, -80.0, 85.0);
@@ -229,8 +231,7 @@ export class OmbresEclipse extends Animation {
       [tr('anim_shadowsim_ecart'), tr('anim_shadowsim_ecart_val', { r: nombre(Math.abs(this.lune[1]) / G.R_TERRE_KM, 2), km: km(Math.abs(this.lune[1])), dir })],
     ];
     if (Math.abs(this.lune[2]) > 1) out.push([tr('anim_shadowsim_hors_plan'), `${km(Math.abs(this.lune[2]))} km`]);
-    const [kx, ky] = this.echelle;
-    out.push([tr('anim_shadowsim_echelle'), tr('anim_shadowsim_echelle_val', { x: km(kx), y: km(ky), k: nombre(kx / ky, 1) })]);
+    out.push([tr('anim_shadowsim_echelle'), tr('anim_shadowsim_echelle_val', { k: nombre(AGRANDISSEMENT, 0) })]);
     const rj = this.rejeu();
     if (rj) {
       const jj = rj.g.jj_ut + (this.instant.value() * rj.demi_h) / 24;
@@ -259,7 +260,8 @@ export class OmbresEclipse extends Animation {
   override dessiner(p: Peintre, rect: Rect): void {
     const rj = this.rejeu();
     const encart = this.c_reel.isChecked() || rj !== null;
-    const haut = new Rect(rect.x, rect.y, rect.w, rect.h * (encart ? 0.7 : 1.0));
+    // l'éclipse rejouée, vue de face, a besoin d'un peu plus de place que l'encart d'Aristarque
+    const haut = new Rect(rect.x, rect.y, rect.w, rect.h * (rj ? 0.6 : encart ? 0.7 : 1.0));
     const avec3d = this.c_3d.isChecked();
     const large = haut.w > haut.h * 1.25;
     let cote = haut,
@@ -284,8 +286,9 @@ export class OmbresEclipse extends Animation {
   private vueDeCote(p: Peintre, r0: Rect): void {
     const r = dessin.cadre(p, r0, tr('anim_shadowsim_titre_cote'));
     this.cote = r;
-    const rt_px = Math.max(9, Math.min(24, r.h * 0.075));
-    this.echelle = [G.D_LUNE_KM / (r.w * 0.3), G.R_TERRE_KM / rt_px];
+    // 384 400 km = 30 % de la largeur ; en travers, AGRANDISSEMENT fois plus grand (Terre de 0,03 × largeur de rayon)
+    const kx = G.D_LUNE_KM / (r.w * 0.3);
+    this.echelle = [kx, kx / AGRANDISSEMENT];
     const e = this.ecran(r);
     const t = this.etat();
     const ds = this.rejeu()?.g.s_km ?? G.UA_KM;

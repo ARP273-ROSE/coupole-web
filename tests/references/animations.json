@@ -24876,7 +24876,7 @@ false
 ],
 [
 "Side view scale",
-"1 px ≈ 1 km along the axis, 1 km across (sizes and offsets enlarged × 1.0)"
+"distances along the axis to the figure’s scale; sizes and offsets across enlarged × 6"
 ],
 [
 "Earth’s shadow at the Moon’s distance (radius)",
@@ -24921,7 +24921,7 @@ false
 ],
 [
 "Side view scale",
-"1 px ≈ 1 km along the axis, 1 km across (sizes and offsets enlarged × 1.0)"
+"distances along the axis to the figure’s scale; sizes and offsets across enlarged × 6"
 ],
 [
 "Replayed eclipse",
@@ -24966,7 +24966,7 @@ false
 ],
 [
 "Side view scale",
-"1 px ≈ 1 km along the axis, 1 km across (sizes and offsets enlarged × 1.0)"
+"distances along the axis to the figure’s scale; sizes and offsets across enlarged × 6"
 ],
 [
 "Earth’s shadow at the Moon’s distance (radius)",
@@ -25610,7 +25610,7 @@ false
 ],
 [
 "Échelle de la vue de côté",
-"1 px ≈ 1 km le long de l’axe, 1 km en travers (tailles et écarts agrandis × 1,0)"
+"distances le long de l’axe à l’échelle de la figure ; tailles et écarts en travers agrandis × 6"
 ],
 [
 "Ombre de la Terre à la distance de la Lune (rayon)",
@@ -25655,7 +25655,7 @@ false
 ],
 [
 "Échelle de la vue de côté",
-"1 px ≈ 1 km le long de l’axe, 1 km en travers (tailles et écarts agrandis × 1,0)"
+"distances le long de l’axe à l’échelle de la figure ; tailles et écarts en travers agrandis × 6"
 ],
 [
 "Éclipse rejouée",
@@ -25700,7 +25700,7 @@ false
 ],
 [
 "Échelle de la vue de côté",
-"1 px ≈ 1 km le long de l’axe, 1 km en travers (tailles et écarts agrandis × 1,0)"
+"distances le long de l’axe à l’échelle de la figure ; tailles et écarts en travers agrandis × 6"
 ],
 [
 "Ombre de la Terre à la distance de la Lune (rayon)",
