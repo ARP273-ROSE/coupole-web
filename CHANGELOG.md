@@ -2,6 +2,60 @@
 
 *Français, puis [English](#english).*
 
+## 0.6.0 — 2026-10-15
+
+Recherche bilingue, favoris, bibliothèque, installation de l’application ; « Maintenant » et « En direct » ; ombres
+d’éclipse en vraie géométrie.
+
+- **Recherche bilingue** : quelle que soit la langue de l’interface, une recherche en anglais ou en français trouve le
+  contenu (modules, animations, questions, fiches, tables, images), affiché dans la langue de l’interface (« seasons »
+  → « Simulateur des saisons » ; « Kepler’s third law » → « Troisième loi de Kepler », « Les lois de Kepler »). Index
+  commun FR + EN (titres, mots-clés, textes, titres d’origine de ClassAction) ; insensible aux accents, à la casse, aux
+  pluriels simples et aux petites fautes (distance d’édition 1 ou 2 selon la longueur) ; classement titre > mots-clés >
+  texte ; mots trouvés surlignés ; titre de l’autre langue quand c’est lui qui correspond ; résultats groupés par type.
+  Même moteur, ligne pour ligne, que Coupole (bureau), avec des cas de référence communs (dont les 8 premiers
+  résultats de 97 recherches sur les vrais contenus). Le catalogue des animations s’en sert aussi.
+- **Favoris** : une étoile sur tout atelier (module, animation, question, fiche, table, image) dans les listes, les
+  fenêtres et les pages ; section « Mes favoris » sur l’accueil, page « Favoris » (groupés par type, filtre, tri),
+  filtre « favoris seulement » dans le catalogue, la bibliothèque et la recherche ; bascule accessible au clavier
+  (aria-pressed). Enregistrés dans la sauvegarde commune, **format version 2** (une version 1 se lit telle quelle ;
+  export / import web ⇄ bureau ; réinitialisation partielle « tous les favoris »).
+- **« Mes modules » devient « Collections »**, au second plan : un bouton discret « Organiser en collections… » dans
+  « Mes favoris » ; la navigation propose « Favoris ». Les modules personnels existants sont repris tels quels.
+- **Bibliothèque** : la présentation d’origine de ClassAction ; onglets Questions, Animations, Fiches, Tables, Images
+  montrant tout le contenu du type, rangé par module dans l’ordre d’origine, avec vignettes (animations dessinées par
+  elles-mêmes, photos et schémas), aperçu au survol, filtres par module et « favoris seulement » ; une carte de
+  l’accueil y mène (« Tout le contenu, comme dans ClassAction »).
+- **Installer l’application** : proposée discrètement après un premier usage (2ᵉ visite ou 30 s), jamais si elle est
+  déjà installée ; Chrome, Edge, Opera, Samsung Internet : invite du navigateur captée et déclenchée par « Installer »
+  (bannière et bouton de l’en-tête) ; iPhone et iPad (y compris l’iPad qui se présente comme un Mac) : fiche illustrée
+  « Partager → Sur l’écran d’accueil » ; Safari 17+ sur Mac : « Fichier → Ajouter au Dock » ; Firefox Android : menu ⋮ ;
+  Firefox sur ordinateur : expliqué ; « Plus tard » (30 jours) et « Ne plus proposer » ; page « Installer
+  l’application » dans « À propos ». Manifeste complété (captures larges et étroites, raccourcis) pour la boîte
+  d’installation riche de Chrome.
+- **« Maintenant » et « En direct »** dans les 19 animations qui dépendent de la date ou de l’heure : instant de
+  l’appareil (temps universel absolu), affiché dans son fuseau (« 09:20 heure de Paris (UTC+2) · 07:20 TU ») ; aucune
+  erreur de fuseau ni d’heure d’été (heure solaire au méridien du fuseau, ou à la longitude de « Ma position »,
+  géolocalisation demandée seulement par le bouton) ; « En direct » met l’heure à jour sans rendu continu et s’arrête
+  dès qu’on touche la date. Testé en fuseaux émulés (changement d’heure du 25 octobre 2026, Auckland +13, St. John’s
+  −2:30, Katmandou +5:45, jour de l’an).
+- **Simulateur des ombres d’éclipse** : le type d’éclipse est calculé en vraie géométrie (tailles réelles, distance de
+  la Lune telle que placée) : en approchant la Lune, aucune → partielle → annulaire → totale ; largeur de la bande,
+  distance comparée au périgée et à l’apogée extrêmes (DE440, 1900–2100) ; cônes d’ombre, d’antombre et de pénombre
+  de la Lune dessinés ; vue 3D de l’orbite inclinée de 5,1°, de la ligne des nœuds et du décalage de la Lune ; les
+  éclipses rejouées replacent la Lune dans toutes les vues avec leur géométrie réelle (JPL DE440 : distance, gamma,
+  trajectoire) ; les 133 éclipses de la table retrouvent leur type.
+- **Chaîne proton-proton, cycle CNO** : neutrino écrit νₑ (lettre grecque), particules légères reconnaissables et
+  agrandies (positon marqué « + », neutrino en flèche pointillée, photon γ en flèche ondulée), étiquettes à taille
+  normale placées sans chevauchement, légende des symboles, réaction centrée et agrandie.
+- **Glisser toujours actif** sur les toiles (globe du simulateur jour-nuit compris) : un pointeur resté en mémoire
+  (geste avalé par le système, doigt jamais relâché) ne bloque plus la rotation ; après un réglage fait au doigt, le
+  réglage rend le focus pour que le toucher suivant sur la toile ne serve pas qu’à le fermer (iPad).
+- Correctifs : une sauvegarde faite dans la même seconde que la précédente n’était pas reprise au rechargement (copie
+  de secours ignorée à égalité de date) ; le bouton « Maintenant » de l’horloge de la Grande Ourse prenait l’heure
+  d’été pour l’heure solaire ; audit : adresse partageable lue avant sa réécriture (WebKit), première animation lente
+  sur un exécuteur chargé.
+
 ## 0.5.0 — 2026-10-14
 
 Passe finale : design, audit complet, accessibilité, confidentialité.
@@ -159,6 +213,45 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.6.0 — 2026-10-15
+
+Bilingual search, favourites, library, app installation; “Now” and “Live”; eclipse shadows in true geometry.
+
+- **Bilingual search**: whatever the interface language, a search in English or in French finds the content (modules,
+  animations, questions, outlines, tables, images), shown in the interface language (“saisons” → “Seasons Simulator”).
+  Shared FR + EN index (titles, keywords, texts, original ClassAction titles); insensitive to accents, case, simple
+  plurals and small typos (edit distance 1 or 2 depending on length); ranking title > keywords > text; matches
+  highlighted; the other language’s title when that is what matches; results grouped by type. Same engine, line for
+  line, as Coupole (desktop), with shared reference cases.
+- **Favourites**: a star on every item (module, animation, question, outline, table, image) in lists, windows and
+  pages; “My favourites” on the home page, a Favourites page (grouped by type, filter, sort), “favourites only” filter
+  in the catalogue, library and search; keyboard-accessible toggle (aria-pressed). Saved in the shared backup, **format
+  version 2** (version 1 read as is; web ⇄ desktop export/import; partial reset “all favourites”).
+- **“My modules” becomes “Collections”**, in the background: an “Organise into collections…” button in “My
+  favourites”; the navigation offers “Favourites”. Existing personal modules are kept as they are.
+- **Library**: ClassAction’s original presentation; Questions, Animations, Outlines, Tables, Images tabs showing all
+  the content of the type, grouped by module in the original order, with thumbnails, hover preview, module and
+  “favourites only” filters; a home-page card leads to it.
+- **Install the app**: offered discreetly after a first use (2nd visit or 30 s), never when already installed; Chrome,
+  Edge, Opera, Samsung Internet: browser prompt captured and triggered by “Install” (banner and header button); iPhone
+  and iPad (including iPad presenting itself as a Mac): illustrated “Share → Add to Home Screen” sheet; Safari 17+ on
+  Mac: “File → Add to Dock”; Firefox Android: ⋮ menu; Firefox desktop: explained; “Later” (30 days) and “Don’t ask
+  again”; “Install the app” section in About. Manifest completed (wide and narrow screenshots, shortcuts).
+- **“Now” and “Live”** in the 19 date- or time-dependent animations: the device’s instant (absolute universal time),
+  shown in its time zone; no time zone or daylight-saving error; “Live” updates the time without continuous rendering
+  and stops as soon as the date is touched; “My location” only on request. Tested with emulated time zones.
+- **Eclipse Shadow Simulator**: eclipse type computed in true geometry (real sizes, Moon’s distance as placed): none →
+  partial → annular → total as the Moon comes closer; path width; distance compared with the extreme perigee and
+  apogee (DE440, 1900–2100); the Moon’s umbra, antumbra and penumbra cones drawn; 3D view of the 5.1°-tilted orbit,
+  line of nodes and Moon offset; replayed eclipses place the Moon in all views with their real geometry (JPL DE440);
+  the 133 table eclipses get their type back.
+- **Proton-proton chain, CNO cycle**: neutrino written νₑ (Greek letter), recognisable enlarged light particles,
+  normal-size labels placed without overlap, symbol legend, centred and enlarged reaction.
+- **Dragging always works** on the canvases (day-night globe included), even after a lost pointer or a setting changed
+  by touch (iPad).
+- Fixes: a save made in the same second as the previous one was not restored on reload; the Big Dipper clock’s “Now”
+  took daylight-saving time for solar time; audit: shareable address read before being rewritten (WebKit).
 
 ### 0.5.0 — 2026-10-14
 

@@ -12,6 +12,10 @@ import * as prefs from './app/prefs';
 import * as stockage from './app/stockage';
 import { lireRoute, type Route } from './app/routeur';
 import { charger, PAR_ID } from './anim/registre';
+import * as installation from './app/installation';
+
+// invite d'installation du navigateur : captée avant tout (elle peut arriver très tôt)
+installation.demarrer();
 
 type ChoixTheme = 'auto' | 'sombre' | 'clair';
 
@@ -49,6 +53,8 @@ function langueDepart(): Langue {
 }
 
 // ------------------------------------------------------------------ en-tête
+let arreterSuivi: (() => void) | null = null;
+
 function construireEntete(): void {
   const nav = document.getElementById('nav')!;
   const outils = document.getElementById('outils')!;
@@ -59,8 +65,9 @@ function construireEntete(): void {
   };
   nav.replaceChildren(
     lien('#/', 'accueil', 'modules', 'web_nav_modules'),
+    lien('#/bibliotheque', 'bibliotheque', 'bibliotheque', 'web_nav_bibliotheque'),
     lien('#/animations', 'catalogue', 'animation', 'web_nav_catalogue'),
-    lien('#/mes-modules', 'mes-modules', 'dossier', 'web_nav_mes_modules'),
+    lien('#/favoris', 'favoris', 'etoile', 'web_nav_favoris'),
     lien('#/progression', 'progression', 'progres', 'web_nav_progression'),
     lien('#/apropos', 'apropos', 'info', 'web_nav_apropos'),
   );
@@ -75,7 +82,7 @@ function construireEntete(): void {
     b.addEventListener('click', () => void changerLangue(l));
     seg.append(b);
   }
-  const bTheme = h('button', { type: 'button', class: 'bouton icone discret' });
+  const bTheme = h('button', { type: 'button', class: 'bouton icone discret bouton-theme' });
   const majTheme = (): void => {
     bTheme.replaceChildren(icone(choixTheme === 'auto' ? 'auto' : choixTheme === 'sombre' ? 'lune' : 'soleil'));
     const t = tr('web_theme_' + choixTheme);
@@ -90,7 +97,15 @@ function construireEntete(): void {
     majTheme();
   });
   majTheme();
-  outils.replaceChildren(seg, bTheme);
+  const bInstaller = h('button', { type: 'button', class: 'bouton icone discret bouton-installer', 'aria-label': tr('web_installer'), title: tr('web_installer') }, icone('installer'));
+  bInstaller.addEventListener('click', () => void installation.installer());
+  const majInstaller = (): void => {
+    bInstaller.hidden = !installation.possible();
+  };
+  majInstaller();
+  arreterSuivi?.();
+  arreterSuivi = installation.suivre(majInstaller);
+  outils.replaceChildren(bInstaller, seg, bTheme);
 }
 
 async function changerLangue(l: Langue): Promise<void> {
@@ -106,7 +121,7 @@ async function changerLangue(l: Langue): Promise<void> {
 
 // ------------------------------------------------------------------ pages
 function marquerNav(route: Route): void {
-  const p = route.page === 'module' || route.page === 'question' ? (route.perso ? 'mes-modules' : 'accueil') : route.page === 'animation' ? 'catalogue' : route.page;
+  const p = route.page === 'module' || route.page === 'question' ? (route.perso ? 'favoris' : 'accueil') : route.page === 'animation' ? 'catalogue' : route.page === 'mes-modules' ? 'favoris' : route.page;
   document.querySelectorAll<HTMLAnchorElement>('#nav a').forEach((a) => {
     const actif = a.dataset.page === p;
     if (actif) a.setAttribute('aria-current', 'page');
@@ -128,8 +143,11 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
           h('p', { class: 'chargement', role: 'status', text: tr('web_chargement') })));
     const m = await import('./app/page_animation');
     nouvelle = await m.pageAnimation(route.id, route.etat);
-  } else if (route.page === 'apropos') nouvelle = pageApropos();
-  else if (route.page === 'catalogue') nouvelle = pageCatalogue(route.q, route.theme);
+  } else if (route.page === 'apropos') nouvelle = pageApropos(route.installer);
+  else if (route.page === 'catalogue') {
+    await stockage.pret();
+    nouvelle = pageCatalogue(route.q, route.theme);
+  }
   else if (route.page === 'accueil') {
     await stockage.pret();
     nouvelle = pageAccueil();

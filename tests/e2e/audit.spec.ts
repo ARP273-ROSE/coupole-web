@@ -152,10 +152,14 @@ test('animations : chaque réglage actionné, toile jamais vide, adresse partage
   expect(ids.length).toBe(94);
   const fautes: string[] = [];
   let reglages = 0;
+  let premiere = true;
   for (const id of ids) {
     await page.goto(`./#/a/${id}`);
     const pa = page.locator(`.page-anim[data-anim="${id}"]`);
-    await expect(pa.locator('.scene canvas'), id).toBeVisible({ timeout: 30_000 });
+    // la première animation ouverte charge aussi le morceau des pages d'animation pendant que le service worker met
+    // tout le site en cache : sur un exécuteur d'intégration continue chargé, cela dépassait parfois 30 s
+    await expect(pa.locator('.scene canvas'), id).toBeVisible({ timeout: premiere ? 120_000 : 30_000 });
+    premiere = false;
     await expect.poll(() => couleursToile(page), { message: id }).toBeGreaterThan(3);
     const r = pa.locator('.reglages');
     // curseurs : une touche vers la droite
@@ -185,8 +189,15 @@ test('animations : chaque réglage actionné, toile jamais vide, adresse partage
     // pause éventuelle, puis adresse partageable : mêmes valeurs après rechargement
     const pause = pa.locator('.transport .bouton.principal[aria-pressed="true"]');
     if (await pause.count()) await pause.click();
-    await page.waitForTimeout(300);
-    const url = page.url();
+    // l'adresse est réécrite 350 ms après le dernier changement : on attend qu'elle ne bouge plus (lire l'adresse
+    // trop tôt donnait, sous WebKit, une adresse d'un réglage en retard sur les valeurs affichées)
+    let url = page.url();
+    for (let k = 0; k < 20; k++) {
+      await page.waitForTimeout(450);
+      const u = page.url();
+      if (u === url) break;
+      url = u;
+    }
     if (/\?/.test(url) && !/[?&](t|temps|jour_courant|instant|angle_courant)=/.test(url)) {
       const avant = await pa.locator('.valeurs').textContent();
       await page.goto('about:blank');
@@ -263,7 +274,7 @@ test('sauvegarde : export → tout réinitialiser → import = état identique',
   await page.keyboard.press('ArrowRight');
   await page.goto('./#/m/intro/fiches');
   await page.locator('#panneau-fiches .menu-boite button').first().click();
-  await page.getByRole('menuitem', { name: /Nouveau module/ }).click();
+  await page.getByRole('menuitem', { name: /Nouvelle collection/ }).click();
   await page.waitForTimeout(600);
   await page.goto('./#/progression');
   let brut = '';

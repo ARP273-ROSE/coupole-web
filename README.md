@@ -18,8 +18,11 @@
 
 **22 modules d’astronomie** comme dans ClassAction : **517 questions** à discuter en groupe (variantes, figures,
 réponse qui clignote, indice, explication, ressources liées ★), **94 animations**, **110 fiches**, **14 tables** et des
-images libres (crédit et licence affichés), une **recherche** FR/EN dans tout, **Mes modules** (vos propres séquences)
-et **Ma progression** ; tout est gardé dans le navigateur et s’exporte dans un fichier que lit aussi Coupole.
+images libres (crédit et licence affichés), une **bibliothèque** qui montre tout le contenu d’un type rangé par module
+(la présentation d’origine de ClassAction), une **recherche bilingue** (en français ou en anglais, accents, pluriels et
+petites fautes tolérés, mots trouvés surlignés), des **favoris** (étoile sur tout : module, animation, question, fiche,
+table, image ; collections au second plan) et **Ma progression** ; tout est gardé dans le navigateur et s’exporte dans
+un fichier que lit aussi Coupole.
 
 Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupole), dans le navigateur : sphère
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
@@ -35,6 +38,12 @@ couleur vraie et une **fiche au survol** (souris, doigt ou clavier : type, magni
 température, sources).
 
 - **Typographie soignée** : unités SI (km·s⁻¹, W·m⁻²), signe moins, espaces fines, formules à délimiteurs extensibles.
+- **Maintenant et en direct** : les animations qui dépendent de la date (jour-nuit, mouvements du Soleil, saisons,
+  temps sidéral, phases de la Lune, Anticythère…) se règlent sur l’instant de l’appareil, sans erreur de fuseau ni
+  d’heure d’été (« 09:20 heure de Paris (UTC+2) · 07:20 TU ») ; « Ma position » seulement sur demande.
+- **Simulateur des ombres d’éclipse** en vraie géométrie : type d’éclipse (totale, annulaire, hybride, partielle,
+  pénombrale) calculé avec la distance de la Lune telle que placée, cônes de la Terre et de la Lune, vue 3D de l’orbite
+  inclinée et de la ligne des nœuds, éclipses 2015–2044 rejouées avec leur géométrie JPL DE440.
 
 - **Partout** : Chrome, Safari, Firefox, Edge ; ordinateur, tablette, téléphone ; de 320 px au 4K, portrait ou
   paysage.
@@ -44,14 +53,16 @@ température, sources).
   pour le clic droit ; flèches, `+`, `−`, `0`, espace.
 - **Accessible** : libellés et aides lus par les lecteurs d’écran, focus visible, contrastes AA, mouvement réduit
   respecté ; vérifié par axe-core (WCAG 2.2 AA) sur chaque type de page, dans les deux thèmes.
-- **Léger** : première page de 103 Ko compressés ; Lighthouse 95 à 100 en performances (mobile et bureau), 100 en
+- **Léger** : première page de 112 Ko compressés ; Lighthouse 95 à 100 en performances (mobile et bureau), 100 en
   accessibilité, bonnes pratiques et référencement.
 - **Bilingue** : français et anglais (langue du navigateur détectée, bascule en un clic) ; thème sombre doux par
   défaut, clair ou automatique.
 - **Partageable** : l’adresse de la page garde l’animation et ses réglages ; les réglages sont aussi mémorisés dans le
   navigateur.
-- **Hors ligne et installable** (application web progressive) ; mise à jour proposée quand une nouvelle version est
-  publiée.
+- **Hors ligne et installable** (application web progressive) : proposée discrètement après un premier usage
+  (Chrome, Edge, Opera, Samsung Internet : bouton « Installer » ; iPhone et iPad : fiche « Partager → Sur l’écran
+  d’accueil » ; Mac : « Fichier → Ajouter au Dock » ; Firefox Android : menu ⋮), jamais si elle est déjà installée,
+  « Plus tard » pendant 30 jours ou « Ne plus proposer » ; mise à jour proposée quand une nouvelle version est publiée.
 - **Sûr et discret** : site entièrement statique, aucune requête vers un autre site, aucun traceur, aucun cookie ;
   politique de sécurité du contenu stricte (aucun script ni style en ligne), empreintes d’intégrité.
 
@@ -101,8 +112,11 @@ ClassAction (Apache 2.0), fiches, tables et schémas écrits pour Coupole, photo
 
 **22 astronomy modules** as in ClassAction: **517 questions** to discuss in groups (variants, figures, flashing
 answer, hint, explanation, related resources ★), **94 animations**, **110 outlines**, **14 tables** and free images
-(credit and licence shown), a FR/EN **search** across everything, **My modules** (your own sequences) and **My
-progress**; everything is kept in the browser and exports to a file that Coupole also reads.
+(credit and licence shown), a **library** showing all the content of a type grouped by module (ClassAction’s original
+presentation), a **bilingual search** (in English or in French, accents, plurals and small typos tolerated, matches
+highlighted), **favourites** (a star on everything: module, animation, question, outline, table, image; collections
+in the background) and **My progress**; everything is kept in the browser and exports to a file that Coupole also
+reads.
 
 The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), in the browser: celestial sphere,
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar
@@ -117,6 +131,12 @@ M42 and the Horsehead in volume, in place). Stellar spectra are computed (Saha�
 keyboard: type, magnitudes, distance with its uncertainty, temperature, sources).
 
 - **Careful typography**: SI units (km·s⁻¹, W·m⁻²), minus sign, thin spaces, formulas with stretchy delimiters.
+- **Now and live**: date-dependent animations (day-night, Sun motions, seasons, sidereal time, lunar phases,
+  Antikythera…) set themselves to the device’s instant, with no time zone or daylight-saving error (“09:20 Paris time
+  (UTC+2) · 07:20 UT”); “My location” only on request.
+- **Eclipse Shadow Simulator** in true geometry: eclipse type (total, annular, hybrid, partial, penumbral) computed
+  with the Moon’s distance as placed, cones of the Earth and the Moon, 3D view of the tilted orbit and the line of
+  nodes, 2015–2044 eclipses replayed with their JPL DE440 geometry.
 
 - **Everywhere**: Chrome, Safari, Firefox, Edge; desktop, tablet, phone; from 320 px to 4K, portrait or landscape.
 - **Smooth**: Canvas 2D drawing, sharp on high-density screens, only when something moves; paused when the tab is
@@ -125,12 +145,15 @@ keyboard: type, magnitudes, distance with its uncertainty, temperature, sources)
   arrows, `+`, `−`, `0`, space.
 - **Accessible**: labels and help read by screen readers, visible focus, AA contrast, reduced motion honoured;
   checked with axe-core (WCAG 2.2 AA) on every page type, in both themes.
-- **Light**: 103 kB compressed first page; Lighthouse 95–100 for performance (mobile and desktop), 100 for
+- **Light**: 112 kB compressed first page; Lighthouse 95–100 for performance (mobile and desktop), 100 for
   accessibility, best practices and SEO.
 - **Bilingual**: French and English (browser language detected, one-click switch); soft dark theme by default, light
   or automatic.
 - **Shareable**: the page address keeps the animation and its settings; settings are also remembered in the browser.
-- **Offline and installable** (progressive web app); update offered when a new version is published.
+- **Offline and installable** (progressive web app): offered discreetly after a first use (Chrome, Edge, Opera,
+  Samsung Internet: “Install” button; iPhone and iPad: “Share → Add to Home Screen” sheet; Mac: “File → Add to Dock”;
+  Firefox Android: ⋮ menu), never when already installed, “Later” for 30 days or “Don’t ask again”; update offered when
+  a new version is published.
 - **Safe and private**: fully static site, no request to any other site, no tracker, no cookie; strict content
   security policy (no inline script or style), subresource integrity.
 

@@ -684,6 +684,17 @@ p {
   font-size: 0.92rem;
 }
 
+.titre-anim:has(> .bouton-favori) {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) auto;
+  justify-content: start;
+  align-items: center;
+}
+
+.titre-anim:has(> .bouton-favori) .origine {
+  grid-column: 1 / -1;
+}
+
 .anim {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(320px, 26vw, 420px);
@@ -1870,4 +1881,372 @@ math {
   :root {
     --largeur: 2400px;
   }
+}
+
+/* ------------------------------------------------------------------ 0.6.0 : favoris (étoile), cartes à étoile */
+.bouton-favori[aria-pressed='true'] svg {
+  color: var(--accent);
+}
+
+:root[data-theme='clair'] .bouton-favori[aria-pressed='true'] svg {
+  color: #8a5a00;
+}
+
+.bouton-favori .libelle-favori {
+  font-weight: 560;
+}
+
+.carte-boite {
+  position: relative;
+  display: flex;
+}
+
+.carte-boite > .carte {
+  flex: 1;
+  min-width: 0;
+}
+
+.carte-boite > .bouton-favori {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  background: color-mix(in srgb, var(--fond) 78%, transparent);
+  border-color: var(--bord);
+}
+
+.carte-boite > .bouton-favori:hover {
+  background: var(--surface-2);
+}
+
+.puce-favoris {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.puce-favoris svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ------------------------------------------------------------------ accueil : favoris, bibliothèque */
+.titre-section h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titre-section h2 svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+}
+
+:root[data-theme='clair'] .titre-section h2 svg {
+  color: #8a5a00;
+}
+
+.favoris-accueil {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.favoris-accueil li {
+  display: flex;
+  min-width: 0;
+  max-width: min(100%, 360px);
+}
+
+.favoris-accueil .vide {
+  color: var(--texte-2);
+}
+
+.favori-accueil {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--bord);
+  background: var(--surface);
+  color: var(--texte);
+  text-decoration: none;
+  box-shadow: var(--ombre);
+}
+
+.favori-accueil:hover {
+  border-color: var(--bord-fort);
+  background: var(--surface-2);
+}
+
+.favori-accueil .genre {
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 620;
+  color: var(--texte-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.favori-titre {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 580;
+}
+
+.carte-bibliotheque {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-radius: var(--rayon);
+  border: 1px dashed var(--bord-fort);
+  background: var(--surface);
+  color: var(--texte);
+  text-decoration: none;
+}
+
+.carte-bibliotheque:hover {
+  background: var(--surface-2);
+}
+
+.carte-bibliotheque-icone {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface-3);
+}
+
+.carte-bibliotheque-icone svg {
+  width: 24px;
+  height: 24px;
+}
+
+.carte-bibliotheque-titre {
+  font-weight: 650;
+  font-size: 1.05rem;
+}
+
+.carte-bibliotheque-texte {
+  color: var(--texte-2);
+  font-size: 0.92rem;
+}
+
+/* ------------------------------------------------------------------ installation de l'application */
+.banniere-installation {
+  order: 99;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--rayon);
+  border: 1px solid var(--bord-fort);
+  background: var(--surface);
+  color: var(--texte);
+  box-shadow: var(--ombre-l);
+  animation: monter 260ms var(--courbe);
+}
+
+.banniere-installation img {
+  border-radius: 10px;
+}
+
+.banniere-installation p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.4;
+}
+
+.banniere-boutons {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.bouton-installer[hidden] {
+  display: none;
+}
+
+.fiche-installation {
+  max-width: min(460px, calc(100vw - 32px));
+  padding: 20px 22px;
+  border-radius: var(--rayon-l);
+  border: 1px solid var(--bord-fort);
+  background: var(--surface);
+  color: var(--texte);
+  box-shadow: var(--ombre-l);
+}
+
+.fiche-installation::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+.fiche-installation h2,
+.installation h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.fiche-installation h2 svg,
+.installation h2 svg {
+  width: 24px;
+  height: 24px;
+}
+
+.fiche-installation .dialogue-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.etapes-installation {
+  list-style: none;
+  counter-reset: etape;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.etapes-installation li {
+  counter-increment: etape;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 10px;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.etapes-installation li::before {
+  content: counter(etape);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  font-weight: 650;
+  font-size: 0.85rem;
+}
+
+.etape-icone {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--bord);
+  background: var(--surface-2);
+  color: #2f7de1;
+}
+
+:root[data-theme='sombre'] .etape-icone {
+  color: #7cb4ff;
+}
+
+.etape-icone svg {
+  width: 24px;
+  height: 24px;
+}
+
+.installation {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border-radius: var(--rayon);
+  border: 1px solid var(--bord);
+  background: var(--surface);
+}
+
+.installation:focus {
+  outline: none;
+}
+
+.installation:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.installation h3 {
+  font-size: 1rem;
+  margin: 16px 0 4px;
+}
+
+.installation .ok {
+  font-weight: 600;
+}
+
+.installation details {
+  margin-top: 14px;
+}
+
+.installation summary {
+  cursor: pointer;
+  font-weight: 560;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+
+/* ------------------------------------------------------------------ animations : date et heure de l'appareil */
+.actions-maintenant {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.actions-maintenant .bouton[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
+}
+
+.actions-maintenant .bouton[aria-pressed='true'] svg circle:first-child {
+  animation: pulsation 1.6s ease-in-out infinite;
+}
+
+@keyframes pulsation {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.heure-maintenant {
+  margin: 10px 0 0;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+}
+
+.heure-maintenant:empty {
+  display: none;
+}
+
+.bloc-maintenant .aide {
+  margin: 6px 0 0;
+  color: var(--texte-2);
+  font-size: 0.86rem;
 }

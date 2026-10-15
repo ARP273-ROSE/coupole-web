@@ -13,6 +13,8 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
   voir ».
 - 0.3.0 : spectres sur bases physiques, Orion en 3D, fiche au survol générique, couleur vraie des étoiles, règle
   typographique (unités SI, signe moins, délimiteurs extensibles) sur tous les textes affichés.
+- 0.6.0 : recherche bilingue (FR/EN, accents, pluriels, fautes, surlignage), favoris, bibliothèque, collections,
+  installation de l'application, « Maintenant » / « En direct », ombres d'éclipse en vraie géométrie + vue 3D.
 - 0.5.0 : passe finale (barre de navigation en bas sur téléphone, contraste automatique des figures, états
   introuvable / hors ligne, audit de bout en bout exhaustif, axe-core, garde-fou de confidentialité à empreintes salées).
 - 0.4.0 : navigation par les 22 modules de ClassAction (+ 2 bonus), 517 questions, 110 fiches, 14 tables, 109
@@ -184,11 +186,35 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
   élan et entrées aberrantes, 60 glissers en lecture dans chacune des 92 animations, et glissers rapides en lecture
   dans Chromium, Firefox et WebKit (globe, sphère, orbites) : image jamais vide.
 
-### Simulateur des ombres d'éclipse
-- Le Soleil est entier (centre à r + 8 px du bord).
-- « Rejouer une éclipse » : les 133 éclipses de la table 2015–2044, en proportions réelles (ombre et pénombre de la
-  Terre à la distance de la Lune, ou ombre de la Lune sur la Terre) ; écart à l'axe y = D sin(5,145°) sin F (argument
-  de latitude moyen, Meeus), ramené dans le domaine compatible avec le type de la table ; curseur « instant ».
+### Simulateur des ombres d'éclipse (refait en 0.6.0 ; `src/calc/eclipses_geo.ts`, `ombres.ts`)
+- Vraie géométrie : Soleil à l'infini (rayons parallèles), axes d'ombre parallèles à Soleil–Terre ; Lune repérée par
+  (x le long de l'axe, y nord, z hors du plan), km. Type : `eclipses_geo` (Soleil : ombre de la Lune au plan central
+  et au point de surface le plus proche → totale / hybride / annulaire, partielle si seule la pénombre touche ;
+  largeur = diamètre de l'ombre à la surface ; Lune : règle de Danjon, rayon de la Terre + 1 %, celle des tables de la
+  NASA — Chauvenet 2 % classait à tort la pénombrale du 29/09/2042). Constantes : R☉ 695 700, R⊕ 6 378,137, R☾
+  1 737,4 km.
+- Vue de côté (62 % de la largeur, ou 58 % de la hauteur si étroit) : kx = 384 400 km / (0,3 × largeur) le long de
+  l'axe, ky = R⊕ / rt avec rt = 9–24 px (7,5 % de la hauteur) en travers ; Soleil = bord de disque `soleil` (rayon 0,9 h)
+  et rayons horizontaux `soleil` 25 % ; cônes : pénombre `penombre` 20 %, ombre `umbra` 85 %, antombre contour
+  `accent1` pointillé + fond 12 % ; Lune hors du plan de la figure (|z| > R⊕) : 45 % d'opacité. Étiquette du type
+  d'éclipse en haut à droite (`accent3`). Échelle indiquée dans les valeurs.
+- Vue 3D (38 %) : `Vue3D(215, 22)`, rayon de l'orbite min(0,42 l, 0,4 h) ; plan Terre–Soleil `ecliptique` 7 %, axe
+  Soleil–Terre `soleil` pointillé + flèche « vers le Soleil », orbite `lune` 1,3 px inclinée de 5,145° (vraie
+  inclinaison), ligne des nœuds `meridien` pointillé + « nœud ascendant », Lune et son fil vertical (`accent2` au
+  nord, `accent3` au sud). Glisser = tourner (zone rotative), Lune et Terre restent saisissables dans la vue de côté.
+- Curseurs : position sur l'orbite (0 = nouvelle lune, 180 = pleine lune), angle Soleil – nœuds (0 / 180 : saison
+  d'éclipses) ; la Lune garde sa distance. Rejeu : géométrie DE440 de chaque éclipse au maximum (instant, d, gamma,
+  position et vitesse dans le plan fondamental : `donnees/genere/eclipses_geometrie.json`, positions astrométriques
+  pour le Soleil, apparentes pour la Lune comme les tables de la NASA), instant ∈ [−1, 1] = ± (R⊕ + pénombre) / v ;
+  les trois vues suivent ; le type au maximum est celui de la table (133 / 133, testé). Distances extrêmes de la Lune
+  (DE440, 1900–2100) : 356 375,3 km (4/01/1912), 406 711,7 km (9/01/1921).
+
+### Chaîne proton-proton, cycle CNO (0.6.0)
+- Particules légères agrandies à 10 px de rayon au moins (légende : « pas à l'échelle ») : positon = sphère `accent2`
+  marquée « + » (gras 115 %), neutrino νₑ = trait `doux` 1,4 px pointillé + flèche, photon γ = onde `soleil` 2,2 px
+  (3 périodes sur 4,2 r) + flèche ; étiquettes par `etiquette()` (placeur commun, trait de rappel), taille normale.
+- Réaction centrée (centre − 8 px), noyaux s = min(l, h) / 10,5, écartement min(0,36 l, 0,32 h) ; légende 82 % en haut
+  à gauche.
 
 ### Courbe de rotation de la Voie lactée
 - Courbe : modèle de masse de McMillan (2017, arXiv:1608.00971 ; bulbe, disques d'étoiles mince et épais, gaz HI et
@@ -450,6 +476,23 @@ Thème sombre par défaut ; « auto » suit le système. Les dégradés des astr
 - Figures des questions : un texte sur une surface de contraste < 3:1 prend la couleur `avant` (sombre ou clair) la
   plus contrastée ; texte de la bonne réponse : liseré (`paint-order: stroke`) de la couleur la plus contrastée.
 
+### Recherche, favoris, bibliothèque, installation (0.6.0)
+- Recherche : moteur `src/contenu/recherche.ts` (= `recherche.py` du bureau) ; points entiers : même racine 10, début
+  8, une faute 7, deux fautes 5 ; × titre 3, mots-clés 2, texte 1 ; phrase = titre +12, contenue +6 ; couverture du
+  titre + ⌊6 × trouvés / mots⌋. Résultats groupés par type dans l'ordre du meilleur résultat ; `mark` : fond `accent`
+  22 %, texte `texte`, gras 620 ; titre de l'autre langue en italique (« En anglais : … »).
+- Favoris : icône étoile (contour ; pleine `accent`, #8a5a00 en thème clair) ; sur les cartes du catalogue et de la
+  bibliothèque, bouton rond 40 px en haut à droite sur fond translucide ; accueil : puces « genre + titre » (12 au plus,
+  récentes d'abord). Page « Favoris » : puces de type, tri, groupes, collections en bas (bouton discret).
+- Bibliothèque : `#/bibliotheque/<onglet>?m=…&f=1`, grilles de cartes 220 px pour animations et images (vignettes
+  paresseuses), listes pour questions (W / G / C / D), fiches, tables ; carte d'accueil en pointillé.
+- Navigation (6) : Modules, Bibliothèque, Catalogue, Favoris, Progression, À propos.
+- Installation : bannière dans la zone des annonces (en bas, au-dessus de la barre de navigation) : icône 40 px, texte,
+  « Installer » / « Comment installer », « Plus tard », « Ne plus proposer » ; fiche (dialogue) : étapes numérotées
+  avec icônes 40 px (Partager, Sur l'écran d'accueil) ; bouton de l'en-tête (icône téléphone + flèche).
+- Date et heure : bloc « Date et heure » en tête du panneau (Maintenant, En direct `aria-pressed` + point qui
+  pulse, Ma position), ligne « date · heure locale (UTC±h) · heure TU », note sur l'heure solaire.
+
 ### Catalogue
 - Ordre des thèmes : Introduction, Coordonnées et mouvements, Lune, Astronomie antique, Renaissance, Système solaire,
   Petits corps, Soleil, Lumière et spectres, Télescopes, Propriétés stellaires, Étoiles doubles et variables,
@@ -585,6 +628,18 @@ File d'attente :
 - [x] 7. Jour-nuit : globe 3D par défaut. - [x] 8. Sauvegarde de tout (+ aller-retour vérifié en 0.5.0).
 - [ ] 3. Page privée de comparaison avec l'original (Ruffle) : hors de ce dépôt public (page NAS), à proposer.
 - [x] Consigne finale « moderne, léger, fonctionnel, tout tester » : cette passe.
+
+### 2026-10-15 — 0.6.0 : recherche bilingue, favoris, bibliothèque, installation, maintenant, ombres d'éclipse
+- Recherche bilingue (moteur commun web / bureau, cas `tests/references/recherche_cas.json` produits par
+  `outils/cas_recherche.py` de Coupole : unitaires, petit corpus, 97 recherches sur les vrais contenus).
+- Favoris (sauvegarde version 2 : `favoris`, cas de parité régénérés, 39), collections (ex-« Mes modules »),
+  bibliothèque, installation (règles pures `installation_regles.ts`, tests unitaires et Playwright Chromium / WebKit
+  iPhone, iPad, iPad « Mac » / Firefox), manifeste (captures `outils/captures_manifeste.mjs`).
+- « Maintenant » / « En direct » / « Ma position » (`src/calc/maintenant.ts` = `maintenant.py`, 165 cas zoneinfo) ;
+  glisser toujours actif (pointeurs périmés oubliés au premier doigt d'un nouveau geste, saisie retentée au glisser,
+  focus rendu après un réglage au doigt) ; ombres d'éclipse en vraie géométrie + vue 3D ; fusion lisible (νₑ).
+- Audit : adresse partageable lue une fois stable (WebKit), première animation avec un délai long.
+- Données DE440 : `outils/verif_anim/geometrie_eclipses.py` de Coupole (python-lab, skyfield 1.54, de440s.bsp).
 
 ## Reste à faire
 

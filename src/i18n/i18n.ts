@@ -6,6 +6,7 @@
 import { format } from '../noyau/py';
 import { UI } from './ui';
 import { UI_CLASSE } from './ui_classe';
+import { UI_060 } from './ui_060';
 
 export type Langue = 'fr' | 'en';
 export const LANGUES: readonly Langue[] = ['fr', 'en'];
@@ -14,7 +15,7 @@ let courante: Langue = 'fr';
 const textes: Record<Langue, Record<string, string>> = { fr: {}, en: {} };
 const chargees = new Set<string>();
 
-for (const [cle, v] of [...Object.entries(UI), ...Object.entries(UI_CLASSE)]) {
+for (const [cle, v] of [...Object.entries(UI), ...Object.entries(UI_CLASSE), ...Object.entries(UI_060)]) {
   textes.fr[cle] = v[0];
   textes.en[cle] = v[1];
 }

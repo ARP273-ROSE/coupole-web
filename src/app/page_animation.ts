@@ -10,11 +10,13 @@ import { choisirTheme, type Theme } from '../noyau/dessin';
 import { annoncer, h, icone, pageIntrouvable } from './dom';
 import { texteNombre, type Vue, vueControle } from './controles';
 import * as stockage from './stockage';
+import { boutonFavori } from './favoris';
 import { adresseAnimation, remplacerAdresse } from './routeur';
 import { Scene } from './scene';
 import { FicheFlottante } from './fiche_flottante';
 import { enrichir, remplir } from './texte_riche';
 import { typo } from '../noyau/typo';
+import * as M from '../calc/maintenant';
 
 export interface Page {
   el: HTMLElement;
@@ -80,7 +82,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
       h('span', { 'aria-hidden': 'true', text: '·' }),
       h('span', { text: tr('anim_theme_' + e.theme) }),
     ),
-    h('div', { class: 'titre-anim' }, h('h1', { text: nom }),
+    h('div', { class: 'titre-anim' }, h('h1', { text: nom }), boutonFavori('animation', e.id, nom),
       hors ? h('span', { class: 'origine', text: tr(`anim_${e.cle}_adapte`) })
         : nom !== e.titre ? h('span', { class: 'origine', text: tr('web_titre_origine', { titre: e.titre }) }) : null),
     h(
@@ -133,9 +135,15 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     );
     credits.hidden = cr.length === 0;
   };
+  // bloc « Maintenant » (créé plus bas, une fois l'animation construite ; la lecture peut démarrer avant)
+  let maintenant: ReturnType<typeof blocMaintenant> = null;
   const toile = new Scene(scene, {
     valeurs: majValeurs,
-    lecture: majLecture,
+    lecture: () => {
+      majLecture();
+      // lecture relancée : le temps de l'animation reprend la main
+      if (anim?.en_lecture) maintenant?.arreterDirect();
+    },
     rendu: majCredits,
     fiche: (c) => (c ? carte.suivre(c) : carte.cacher()),
     zoom: (k) => {
@@ -219,6 +227,25 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     }
   }
   blocReglages.hidden = flux.length === 0;
+  // iPad, iPhone : un réglage qui garde le focus après un geste au doigt ou au stylet (menu déroulant surtout) fait
+  // que le toucher suivant sur la toile sert seulement à le fermer ; on rend donc le focus après un tel réglage (au
+  // clavier, le focus reste où il est)
+  let dernierPointeur = 'mouse';
+  const panneau = el.querySelector<HTMLElement>('.panneau');
+  panneau?.addEventListener('pointerdown', (ev) => (dernierPointeur = ev.pointerType), true);
+  panneau?.addEventListener('keydown', () => (dernierPointeur = 'clavier'), true);
+  panneau?.addEventListener(
+    'change',
+    (ev) => {
+      const t = ev.target as HTMLElement;
+      if ((dernierPointeur === 'touch' || dernierPointeur === 'pen') && t.matches('select, input[type="range"], input[type="number"], input[type="text"]')) setTimeout(() => t.blur(), 0);
+    },
+    true,
+  );
+
+  // ------------------------------------------------------------ « Maintenant », « En direct », « Ma position »
+  maintenant = blocMaintenant(anim, cls as unknown as typeof Animation);
+  if (maintenant) el.querySelector('.panneau')?.prepend(maintenant.el);
 
   // ------------------------------------------------------------ fiche
   const desc = h('p', { id: descId }, ...enrichir(tr('anim_desc_' + e.cle)));
@@ -250,6 +277,8 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
     return modifie;
   };
   const memoriser = (): void => {
+    // « En direct » : l'heure change chaque seconde, rien à mémoriser
+    if (maintenant?.applique()) return;
     clearTimeout(minuteur);
     enAttente = true;
     minuteur = window.setTimeout(() => {
@@ -277,6 +306,7 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
       clearTimeout(minuteur);
       // un réglage changé juste avant de quitter la page est gardé quand même
       if (enAttente) ecrireReglages();
+      maintenant?.detruire();
       anim.arreter();
       toile.detruire();
       for (const v of vues) v.detacher();
@@ -317,4 +347,113 @@ function aideInteraction(a: Animation, cle: string): string {
   if ((a.constructor as typeof Animation).FICHES) parties.push(tr('anim_aide_fiche'));
   parties.push(tr('web_aide_zoom'), tr(a.nb_vues > 0 ? 'web_aide_clavier_tourner' : 'web_aide_clavier'));
   return parties.join(' ');
+}
+
+// ==================================================================== « Maintenant »
+/** Position de « Ma position » : gardée en mémoire pendant la visite seulement (jamais écrite ni envoyée). */
+let positionSession: { lat: number; lon: number } | null = null;
+
+function texteLonLat(v: number, pos: string, neg: string): string {
+  return `${texteNombre(Math.abs(v), 1)}° ${v >= 0 ? pos : neg}`;
+}
+
+/**
+ * Bloc « Date et heure » des animations qui dépendent de la date : « Maintenant » (instant de l'appareil, sans erreur
+ * de fuseau ni d'heure d'été : calc/maintenant.ts), « En direct » (mise à jour toutes les secondes ou minutes, sans
+ * rendu continu ; s'arrête dès qu'on touche un réglage de date ou qu'on relance la lecture), « Ma position »
+ * (géolocalisation demandée explicitement, gardée pendant la visite).
+ */
+function blocMaintenant(anim: Animation, C: typeof Animation): { el: HTMLElement; applique: () => boolean; arreterDirect: () => void; detruire: () => void } | null {
+  if (anim.maintenant === Animation.prototype.maintenant) return null;
+  const lg = langue();
+  const texte = h('p', { class: 'heure-maintenant', 'aria-live': 'polite' });
+  const note = h('p', { class: 'aide' });
+  const bMaintenant = h('button', { type: 'button', class: 'bouton' }, icone('horloge'), tr('web_maintenant'));
+  const bDirect = h('button', { type: 'button', class: 'bouton', 'aria-pressed': 'false' }, icone('direct'), tr('web_en_direct'));
+  const obs = anim.observateur();
+  const bPosition = obs.lat || obs.lon ? h('button', { type: 'button', class: 'bouton discret' }, icone('position'), tr('web_ma_position')) : null;
+  let applique = false;
+  let direct = 0;
+  const appliquer = (annoncer_ = false): void => {
+    const i = M.maintenant();
+    applique = true;
+    try {
+      if (anim.en_lecture) anim.arreter();
+      anim.maintenant(M.moment(i, positionSession));
+    } finally {
+      applique = false;
+    }
+    anim.rafraichir();
+    texte.setAttribute('aria-live', annoncer_ ? 'polite' : 'off');
+    texte.textContent = `${M.texteDate(i, lg)} · ${M.texteHeure(i, lg)}`;
+    const p = positionSession;
+    const lon = p ? p.lon : M.meridienDuFuseau(i);
+    note.textContent = p
+      ? tr('web_position_retenue', { lat: texteLonLat(p.lat, 'N', 'S'), lon: texteLonLat(p.lon, lg === 'fr' ? 'E' : 'E', lg === 'fr' ? 'O' : 'W') })
+      : C.HEURE_SOLAIRE ? tr('web_heure_solaire_fuseau', { lon: texteLonLat(lon, 'E', lg === 'fr' ? 'O' : 'W') }) : '';
+    note.hidden = !note.textContent;
+  };
+  const arreterDirect = (): void => {
+    if (!direct) return;
+    clearInterval(direct);
+    direct = 0;
+    bDirect.setAttribute('aria-pressed', 'false');
+    texte.setAttribute('aria-live', 'polite');
+  };
+  bMaintenant.addEventListener('click', () => {
+    arreterDirect();
+    appliquer(true);
+  });
+  bDirect.addEventListener('click', () => {
+    if (direct) return arreterDirect();
+    appliquer(true);
+    direct = window.setInterval(() => appliquer(false), C.PAS_DIRECT * 1000);
+    bDirect.setAttribute('aria-pressed', 'true');
+  });
+  bPosition?.addEventListener('click', () => {
+    if (!('geolocation' in navigator)) return void annoncer(tr('web_position_indisponible'));
+    bPosition.setAttribute('aria-busy', 'true');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        bPosition.removeAttribute('aria-busy');
+        positionSession = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+        appliquer(true);
+      },
+      (err) => {
+        bPosition.removeAttribute('aria-busy');
+        annoncer(tr(err.code === 1 ? 'web_position_refusee' : 'web_position_indisponible'));
+      },
+      { enableHighAccuracy: false, timeout: 15000, maximumAge: 600_000 },
+    );
+  });
+  // un réglage de date touché (par l'utilisateur, pas par « En direct ») : on s'arrête
+  const detacher: (() => void)[] = [];
+  for (const ctl of anim.controles) {
+    const cle = (ctl as { cle?: string }).cle;
+    if (cle && C.TEMPS.includes(cle)) detacher.push(ctl.observer(() => (applique ? undefined : arreterDirect())));
+  }
+  // boutons de l'animation qui déplacent le temps (Anticythère : « + 1 lunaison »…)
+  const surBouton = (ev: Event): void => {
+    if (direct && (ev.target as HTMLElement).closest('.reglages button')) arreterDirect();
+  };
+  document.addEventListener('click', surBouton, true);
+  const el = h(
+    'section',
+    { class: 'bloc bloc-maintenant', 'aria-labelledby': 'titre-maintenant' },
+    h('h2', { id: 'titre-maintenant', text: tr('web_date_heure') }),
+    h('div', { class: 'actions-maintenant' }, bMaintenant, bDirect, bPosition),
+    texte,
+    note,
+  );
+  note.hidden = true;
+  return {
+    el,
+    applique: () => applique,
+    arreterDirect,
+    detruire() {
+      arreterDirect();
+      for (const d of detacher) d();
+      document.removeEventListener('click', surBouton, true);
+    },
+  };
 }

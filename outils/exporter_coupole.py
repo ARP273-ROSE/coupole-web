@@ -87,6 +87,8 @@ def main(coupole: Path) -> None:
     ecrire(refs / 'nebuleuses_orion.json', json.loads((coupole / 'tests' / 'nebuleuses_orion_reference.json').read_text('utf-8')))
     ecrire(g / 'etoiles.json', {'proches': donnees_etoiles.PROCHES, 'brillantes': donnees_etoiles.BRILLANTES,
                                 'communes': donnees_etoiles.COMMUNES})
+    # géométrie réelle des éclipses de la table (DE440, outils/verif_anim/geometrie_eclipses.py de Coupole)
+    ecrire(g / 'eclipses_geometrie.json', lire_gz(anim / 'donnees' / 'eclipses_geometrie.json.gz'))
     ecrire(g / 'eclipses.json', {'soleil': donnees_eclipses.SOLEIL, 'lune': donnees_eclipses.LUNE,
                                  'lieux_fr': donnees_eclipses.LIEUX_FR,
                                  'directions_fr': donnees_eclipses.DIRECTIONS_FR,

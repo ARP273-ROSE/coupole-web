@@ -136,7 +136,7 @@ test('langue et thème', async ({ page }) => {
   await expect(page.locator('h1')).toContainText('The sky');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   const avant = await page.locator('html').getAttribute('data-theme');
-  const bouton = page.locator('#outils .bouton.icone');
+  const bouton = page.locator('#outils .bouton-theme');
   for (let i = 0; i < 3; i++) {
     await bouton.click();
     if ((await page.locator('html').getAttribute('data-theme')) !== avant) break;

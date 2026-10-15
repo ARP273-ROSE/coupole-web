@@ -28,13 +28,20 @@ export function ajouter(el: Element, enfants: (Enfant | Enfant[])[]): void {
 
 const PARSEUR = typeof DOMParser !== 'undefined' ? new DOMParser() : null;
 
-/** Icône SVG (chaînes fixes du code, jamais de données externes). */
+const MODELES = new Map<string, SVGSVGElement>();
+
+/** Icône SVG (chaînes fixes du code, jamais de données externes) ; analysée une fois, puis clonée. */
 export function icone(nom: keyof typeof ICONES): SVGSVGElement {
-  const doc = PARSEUR!.parseFromString(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICONES[nom]}</svg>`,
-    'image/svg+xml',
-  );
-  return document.importNode(doc.documentElement, true) as unknown as SVGSVGElement;
+  let m = MODELES.get(nom);
+  if (!m) {
+    const doc = PARSEUR!.parseFromString(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICONES[nom]}</svg>`,
+      'image/svg+xml',
+    );
+    m = document.importNode(doc.documentElement, true) as unknown as SVGSVGElement;
+    MODELES.set(nom, m);
+  }
+  return m.cloneNode(true) as SVGSVGElement;
 }
 
 export const ICONES = {
@@ -69,6 +76,17 @@ export const ICONES = {
   echange: '<path d="M7 4v13M3 13l4 4 4-4"/><path d="M17 20V7M13 11l4-4 4 4"/>',
   boussole: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
   nuage: '<path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5z"/><path d="M4 4l16 16"/>',
+  etoile: '<path d="m12 3.2 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/>',
+  etoile_pleine: '<path d="m12 3.2 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" fill="currentColor"/>',
+  bibliotheque: '<path d="M4 4.5h3.5v15H4zM9.5 4.5H13v15H9.5z"/><path d="m15.2 5.6 3.4-.9 3.1 14.5-3.4.9z"/>',
+  installer: '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 7v7.5M9 11.5l3 3 3-3M10 18.5h4"/>',
+  partager_ios: '<path d="M12 3v12M8 7l4-4 4 4"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 17.5 10H16"/>',
+  ajouter_ecran: '<rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M12 8.5v7M8.5 12h7"/>',
+  menu_points: '<circle cx="12" cy="5.5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="18.5" r="1.4" fill="currentColor"/>',
+  trier: '<path d="M7 4v16M3 16l4 4 4-4"/><path d="M14 6h7M14 11h5M14 16h3"/>',
+  horloge: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  direct: '<circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>',
+  position: '<path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
 } as const;
 
 /** Bloc d'état (introuvable, hors ligne, vide) : icône, titre, texte, actions ; annoncé aux lecteurs d'écran. */
