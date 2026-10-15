@@ -122,7 +122,7 @@ export function pageCatalogue(q0: string, theme0: string): Page {
     vide.hidden = total > 0;
     vide.textContent = tr('web_aucun', { q });
     clearTimeout(minuteur);
-    minuteur = window.setTimeout(() => remplacerAdresse(adresseCatalogue(q.trim(), theme)), 300);
+    minuteur = window.setTimeout(() => remplacerAdresse(adresseCatalogue(q.trim(), theme), 'catalogue'), 300);
   };
   champ.addEventListener('input', () => {
     q = champ.value;

@@ -73,9 +73,12 @@ export function adresseCatalogue(q = '', theme = ''): string {
   return '#/animations' + (s ? '?' + s : '');
 }
 
-/** Remplace l'adresse sans créer d'entrée d'historique ni déclencher de changement de page. */
-export function remplacerAdresse(hash: string): void {
+/** Remplace l'adresse sans créer d'entrée d'historique ni déclencher de changement de page.  `page` : la page qui
+ * réécrit son adresse (« catalogue ») ; si l'on a changé de page entre-temps (réécriture différée), on
+ * ne touche à rien — sinon l'adresse de la nouvelle page serait écrasée et elle ne s'afficherait jamais. */
+export function remplacerAdresse(hash: string, page?: Route['page']): void {
   if (location.hash === hash) return;
+  if (page !== undefined && lireRoute().page !== page) return;
   try {
     history.replaceState(history.state, '', hash);
   } catch {

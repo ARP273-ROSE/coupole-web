@@ -144,6 +144,12 @@ export class OmbresEclipse extends Animation {
       const rj = this.rejeu();
       if (rj) this.lune = lune_rejeu(rj, this.instant.value());
     });
+    // réglages repris d'une adresse partagée (ou de la mémoire) : posés sans signal → on place la Lune d'après eux
+    const rj = this.rejeu();
+    this.instant.setVisible(rj !== null);
+    if (rj) this.lune = lune_rejeu(rj, this.instant.value());
+    else if (this.position.value() !== 180 || this.noeuds.value() !== 0)
+      this.lune = G.positionOrbite(G.D_LUNE_KM, this.position.value(), this.noeuds.value(), INCLINAISON_LUNE);
   }
 
   rejeu(): Rejeu | null {

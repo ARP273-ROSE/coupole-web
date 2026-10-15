@@ -53,8 +53,10 @@ d’éclipse en vraie géométrie.
   réglage rend le focus pour que le toucher suivant sur la toile ne serve pas qu’à le fermer (iPad).
 - Correctifs : une sauvegarde faite dans la même seconde que la précédente n’était pas reprise au rechargement (copie
   de secours ignorée à égalité de date) ; le bouton « Maintenant » de l’horloge de la Grande Ourse prenait l’heure
-  d’été pour l’heure solaire ; audit : adresse partageable lue avant sa réécriture (WebKit), première animation lente
-  sur un exécuteur chargé.
+  d’été pour l’heure solaire ; ouvrir une animation juste après le catalogue pouvait laisser le catalogue affiché (sa
+  réécriture d’adresse différée écrasait celle de l’animation) ; l’adresse partagée du simulateur d’ombres (éclipse
+  rejouée, position sur l’orbite) ne replaçait pas la Lune ; audit : adresse partageable lue avant sa réécriture
+  (WebKit).
 
 ## 0.5.0 — 2026-10-14
 
@@ -251,7 +253,9 @@ Bilingual search, favourites, library, app installation; “Now” and “Live�
 - **Dragging always works** on the canvases (day-night globe included), even after a lost pointer or a setting changed
   by touch (iPad).
 - Fixes: a save made in the same second as the previous one was not restored on reload; the Big Dipper clock’s “Now”
-  took daylight-saving time for solar time; audit: shareable address read before being rewritten (WebKit).
+  took daylight-saving time for solar time; opening an animation right after the catalogue could leave the catalogue
+  on screen (its delayed address rewrite overwrote the animation’s); the Shadow Simulator’s shared address (replayed
+  eclipse, orbit position) did not place the Moon; audit: shareable address read before being rewritten (WebKit).
 
 ### 0.5.0 — 2026-10-14
 

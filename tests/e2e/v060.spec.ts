@@ -180,3 +180,33 @@ test('bibliothèque : onglets par type, tout le contenu rangé par module, filtr
   expect(s.erreurs).toEqual([]);
   expect(s.externes).toEqual([]);
 });
+
+test('catalogue quitté aussitôt : sa réécriture d’adresse différée n’empêche pas la page suivante de s’afficher', async ({ page }) => {
+  // morceau des pages d'animation lent à venir (premier chargement, réseau chargé) : 1,5 s
+  await page.route(/page_animation-[^/]*\.js$/, async (r) => {
+    await new Promise((f) => setTimeout(f, 1500));
+    await r.continue();
+  });
+  await page.goto('./#/animations');
+  await expect(page.locator('a.carte').first()).toBeVisible();
+  // dans les 300 ms où le catalogue réécrit son adresse : l'animation doit s'ouvrir quand même
+  await page.evaluate(() => {
+    location.hash = '#/animations?q=lune';
+    location.hash = '#/a/shadowsim';
+  });
+  await expect(page.locator('.page-anim[data-anim="shadowsim"] .scene canvas')).toBeVisible({ timeout: 30_000 });
+  await page.waitForTimeout(600);
+  expect(new URL(page.url()).hash.split('?')[0]).toBe('#/a/shadowsim');
+});
+
+test('simulateur d’ombres : une adresse partagée « rejouer » replace la Lune comme l’éclipse rejouée', async ({ page }) => {
+  await page.goto('./#/a/shadowsim?rejouer=S0');
+  const v = page.locator('.page-anim[data-anim="shadowsim"] .valeurs');
+  await expect(v).toContainText('Éclipse rejouée');
+  // 20 mars 2015 : totale, Lune à 357 922 km (et non 384 400 km, la position par défaut)
+  await expect(v).toContainText('357 922 km');
+  await expect(v).not.toContainText('384 400 km');
+  await page.goto('about:blank');
+  await page.goto('./#/a/shadowsim?position=200');
+  await expect(page.locator('.page-anim[data-anim="shadowsim"] .valeurs')).not.toContainText('(0 km)');
+});

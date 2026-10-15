@@ -87,7 +87,7 @@ export async function pageRecherche(q0: string): Promise<Page> {
   const maj = async (): Promise<void> => {
     const n = ++jeton;
     const q = champ.value.trim();
-    remplacerAdresse('#/recherche' + (q ? '?q=' + encodeURIComponent(q) : ''));
+    remplacerAdresse('#/recherche' + (q ? '?q=' + encodeURIComponent(q) : ''), 'recherche');
     const idx = q ? await index() : null;
     if (n !== jeton) return;
     let r = idx ? idx.chercher(q).filter((x) => x.doc.g !== 'question' || okQ.has(x.doc.id)) : [];
