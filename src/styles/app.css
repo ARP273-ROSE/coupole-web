@@ -253,9 +253,19 @@ p {
   display: flex;
   gap: 4px;
   margin-left: 8px;
+  /* trop d'onglets pour la largeur : la barre défile au lieu d'écraser les pastilles */
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav a {
+  /* la pastille garde toujours la largeur de son texte (sinon le texte déborde de l'ovale) */
+  flex: none;
   white-space: nowrap;
   color: var(--texte-2);
   text-decoration: none;
