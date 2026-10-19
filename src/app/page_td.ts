@@ -97,7 +97,7 @@ function pageParallaxe(): Page {
       h('label', { class: 'td-champ' }, h('span', { text: tr('td_sigma_h') + ' (°)' }), sigmaH),
       h('label', { class: 'td-champ' }, h('span', { text: tr('td_sigma_pos') + ' (m)' }), sigmaPos),
       h('label', { class: 'td-champ' }, h('span', { text: tr('td_sigma_t') + ' (s)' }), sigmaT)),
-    h('fieldset', { class: 'td-eph' }, h('legend', { text: tr('td_eph') }), h('p', { text: tr('td_eph_etat_meeus') }), bTle, tle),
+    h('fieldset', { class: 'td-eph' }, h('legend', { text: tr('td_eph') }), h('p', { text: tr('web_td_eph') }), bTle, tle),
     h('div', { class: 'td-boutons' }, bCalculer, bExemple, bExporter), etat);
   const el = h('div', { class: 'page page-td' },
     h('nav', { class: 'fil', 'aria-label': tr('web_retour') }, h('a', { href: '#/td' }, icone('retour'), tr('web_nav_td'))),
@@ -117,29 +117,90 @@ function pageParallaxe(): Page {
   bCalculer.addEventListener('click', () => calculer());
   bExporter.addEventListener('click', () => exporter());
   zoom.addEventListener('input', () => dessiner());
+  zoomAuxDoigts(toile, zoom, () => dessiner());
   const obs = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => dessiner()) : null;
   obs?.observe(toile);
+
+  /** TLE du cache : { lignes, récupéré le (ms) } (l'ancien format, le texte seul, est encore lu). */
+  function tleEnCache(): { l: string; recupere: number } | null {
+    const c = lire<unknown>(CLE_TLE, null);
+    if (typeof c === 'string') return c ? { l: c, recupere: 0 } : null;
+    if (c && typeof (c as { l?: unknown }).l === 'string') return c as { l: string; recupere: number };
+    return null;
+  }
+
+  async function telechargerTle(): Promise<string> {
+    const arret = new AbortController();
+    const minuteur = setTimeout(() => arret.abort(), 8000);
+    try {
+      const r = await fetch(URL_TLE, { cache: 'no-store', signal: arret.signal });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const l = (await r.text()).split(/\r?\n/).map((x) => x.trim()).filter((x) => /^[12] /.test(x));
+      if (l.length < 2) throw new Error('TLE');
+      const texte = l.slice(0, 2).join('\n');
+      ecrire(CLE_TLE, { l: texte, recupere: Date.now() });
+      return texte;
+    } finally {
+      clearTimeout(minuteur);
+    }
+  }
+
+  /**
+   * TLE pour l'instant donné, sans rien demander : celui du cache s'il est à moins de 1,5 jour de l'instant (ou
+   * récupéré il y a moins de 6 h), sinon celui du jour chez CelesTrak (le plus proche qu'une source libre sans compte
+   * puisse donner), sinon le cache, sinon rien (hors ligne : le calcul se fait sans éphéméride).
+   */
+  async function tleAuto(t: Date): Promise<{ texte: string; source: 'cache' | 'celestrak' | ''; erreur: string }> {
+    const c = tleEnCache();
+    const proche = (x: string): number => {
+      const e = epoque(x.split('\n'));
+      return e ? Math.abs(t.getTime() - e.getTime()) / 86_400_000 : Infinity;
+    };
+    if (c && (proche(c.l) <= 1.5 || Date.now() - c.recupere < 6 * 3_600_000)) return { texte: c.l, source: 'cache', erreur: '' };
+    try {
+      const n = await telechargerTle();
+      if (!c || proche(n) <= proche(c.l)) return { texte: n, source: 'celestrak', erreur: '' };
+      return { texte: c.l, source: 'cache', erreur: '' };
+    } catch (err) {
+      return c ? { texte: c.l, source: 'cache', erreur: '' } : { texte: '', source: '', erreur: String(err).slice(0, 120) };
+    }
+  }
+
+  /** Le TLE du champ a-t-il été saisi (ou collé) par l'utilisateur ? (un TLE posé tout seul n'en est pas un) */
+  const tleSaisi = (): boolean => tle.value.trim() !== '' && tle.value !== (tle.dataset.pose ?? '');
+
+  function poserTle(texte: string, source: string): void {
+    tle.value = texte;
+    tle.dataset.pose = texte;
+    const l = texte.split('\n');
+    etatTle = tr('td_tle_recu', { date: epoque(l)?.toISOString().slice(0, 16).replace('T', ' ') ?? '—', age: nombre(age(l), 1), source: tr('td_tle_source_' + source) });
+  }
+
+  let etatTle = '';
 
   async function recupererTle(): Promise<void> {
     bTle.setAttribute('disabled', '');
     try {
-      const r = await fetch(URL_TLE, { cache: 'no-store' });
-      const texte = await r.text();
-      const l = texte.split(/\r?\n/).filter((x) => /^[12] /.test(x));
-      if (l.length < 2) throw new Error('TLE');
-      tle.value = l.slice(0, 2).join('\n');
-      ecrire(CLE_TLE, tle.value);
-      etat.textContent = tr('td_tle_recu', { date: epoque(l)?.toISOString().slice(0, 16).replace('T', ' ') ?? '—', age: nombre(age(l), 1), source: tr('td_tle_source_celestrak') });
-    } catch (err) {
-      const c = lire<string>(CLE_TLE, '');
-      if (c) {
-        tle.value = c;
-        etat.textContent = tr('td_tle_recu', { date: epoque(c.split('\n'))?.toISOString().slice(0, 16).replace('T', ' ') ?? '—', age: nombre(age(c.split('\n')), 1), source: tr('td_tle_source_cache') });
-      } else etat.textContent = tr('td_tle_aucun', { erreur: String(err).slice(0, 120) });
+      let texte = '';
+      let source: 'cache' | 'celestrak' = 'celestrak';
+      try {
+        texte = await telechargerTle();
+      } catch (err) {
+        const c = tleEnCache();
+        if (!c) {
+          etat.textContent = tr('td_tle_aucun', { erreur: String(err).slice(0, 120) });
+          return;
+        }
+        texte = c.l;
+        source = 'cache';
+      }
+      poserTle(texte, source);
+      etat.textContent = etatTle;
     } finally {
       bTle.removeAttribute('disabled');
     }
   }
+
 
   function epoque(l: string[]): Date | null {
     const m = /^1 .{16}(\d{2})(\d{3}\.\d+)/.exec(l.find((x) => x.startsWith('1 ')) ?? '');
@@ -204,7 +265,16 @@ function pageParallaxe(): Page {
       throw err;
     }
     void (async () => {
-      if (e.cible === 'iss' && e.instant) e.propagateur = await propagateur();
+      etatTle = '';
+      if (e.cible === 'iss' && e.instant) {
+        if (!tleSaisi()) {
+          etat.textContent = tr('td_tle_recherche');
+          const r = await tleAuto(e.instant);
+          if (r.texte) poserTle(r.texte, r.source);
+          else etatTle = tr('td_tle_aucun', { erreur: r.erreur });
+        }
+        e.propagateur = await propagateur();
+      }
       try {
         res = T.calculer(e);
       } catch (err) {
@@ -213,7 +283,7 @@ function pageParallaxe(): Page {
       }
       afficher(e, res);
       bExporter.removeAttribute('disabled');
-      etat.textContent = tr('td_calcul_fait');
+      etat.textContent = tr('td_calcul_fait') + (etatTle ? ' ' + etatTle : '');
     })();
   }
 
@@ -252,6 +322,72 @@ function pageParallaxe(): Page {
   if (memo.p1 && memo.h1 && memo.p2 && memo.h2) setTimeout(() => calculer(), 0);
   else setTimeout(() => dessiner(), 0);
   return { el, titre: tr('td_calc_parallaxe') + ' — Coupole Web', detruire: () => obs?.disconnect(), focus: champs.p1 };
+}
+
+// ------------------------------------------------------------------ zoom du schéma au doigt, à la molette
+/**
+ * Le curseur « Zoom » se commande aussi sur le schéma : pincement à deux doigts (Pointer Events ; sur Safari, iPhone,
+ * iPad et PWA installée, l'échelle de « gesturechange », qui tient même si WebKit annule les pointeurs), molette ou
+ * pincement du pavé tactile, double-tap ou double-clic pour revenir à ×1.  Un doigt seul fait défiler la page.
+ */
+export function zoomAuxDoigts(toile: HTMLElement, curseur: HTMLInputElement, redessiner: () => void): void {
+  const min = Number(curseur.min) || 10;
+  const max = Number(curseur.max) || 600;
+  const poser = (v: number): void => {
+    const n = String(Math.round(Math.max(min, Math.min(max, v))));
+    if (n === curseur.value) return;
+    curseur.value = n;
+    redessiner();
+  };
+  const doigts = new Map<number, [number, number]>();
+  let pince: { d0: number; v0: number } | null = null;
+  let safari: { v0: number } | null = null;
+  const ecart = (): number => {
+    const [a, b] = [...doigts.values()] as [[number, number], [number, number]];
+    return Math.max(10, Math.hypot(a[0] - b[0], a[1] - b[1]));
+  };
+  toile.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'touch') return;
+    doigts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (doigts.size === 2) pince = { d0: ecart(), v0: Number(curseur.value) };
+  });
+  toile.addEventListener('pointermove', (e) => {
+    if (!doigts.has(e.pointerId)) return;
+    doigts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pince && doigts.size >= 2 && !safari) poser((pince.v0 * ecart()) / pince.d0);
+  });
+  const fin = (e: PointerEvent): void => {
+    doigts.delete(e.pointerId);
+    if (doigts.size < 2) pince = null;
+  };
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture'] as const) toile.addEventListener(t, fin);
+  // deux doigts : ni défilement ni zoom de la page
+  const bloquer = (e: TouchEvent): void => {
+    if (e.cancelable && (e.touches?.length ?? 0) >= 2) e.preventDefault();
+  };
+  toile.addEventListener('touchstart', bloquer, { passive: false });
+  toile.addEventListener('touchmove', bloquer, { passive: false });
+  const geste = (e: Event): void => {
+    e.preventDefault();
+    const g = e as Event & { scale?: number };
+    if (e.type === 'gestureend') {
+      safari = null;
+      return;
+    }
+    if (e.type === 'gesturestart' || !safari) safari = { v0: Number(curseur.value) };
+    if (e.type !== 'gesturestart' && Number.isFinite(g.scale) && g.scale! > 0) poser(safari.v0 * g.scale!);
+  };
+  for (const t of ['gesturestart', 'gesturechange', 'gestureend']) toile.addEventListener(t, geste, { passive: false });
+  toile.addEventListener(
+    'wheel',
+    (e) => {
+      e.preventDefault();
+      const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
+      poser(Number(curseur.value) * Math.exp(-e.deltaY * unite * 0.0025));
+    },
+    { passive: false },
+  );
+  toile.addEventListener('dblclick', () => poser(min));
 }
 
 // ------------------------------------------------------------------ pas-à-pas (comme coupole/modules/td/presentation.py)

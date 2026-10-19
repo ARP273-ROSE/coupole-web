@@ -100,6 +100,8 @@ export class GraviteOrbites extends Animation {
   tMode = 1;
   tCible = 1;
   private transitionEnCours = false;
+  /** passage en cours : instant (performance.now) et vue de départ */
+  private passage: { t0: number; depart: number } | null = null;
   /** échelles des flèches : px par newton (propre à chaque corps), px par m·s⁻¹ (commune), en fraction de L */
   kF: number[] = [];
   kV = 0;
@@ -216,24 +218,29 @@ export class GraviteOrbites extends Animation {
     this.sys.avancer(dt * CONF[this.sc].rythme);
   }
 
-  /** Passage en douceur vers la vue choisie (aucune image de plus une fois arrivé). */
+  /**
+   * Passage en douceur vers la vue choisie, réglé sur l'horloge et non sur le nombre d'images : si le navigateur
+   * suspend les images (WebKit pendant la fermeture d'une liste, machine chargée, onglet caché), la première image
+   * qui suit rattrape le temps écoulé et termine le passage ; aucune image de plus une fois arrivé.
+   */
   private changerVue(): void {
     this.tCible = this.c_mode.currentData() === 'echelle' ? 0 : 1;
     const raf = (globalThis as { requestAnimationFrame?: (f: (t: number) => void) => number }).requestAnimationFrame;
-    if (!raf) {
+    if (!raf || typeof performance === 'undefined') {
       this.tMode = this.tCible;
       this.rafraichir();
       return;
     }
+    // départ (ou demi-tour) : on repart de la vue actuelle, à l'instant présent
+    this.passage = { t0: performance.now(), depart: this.tMode };
     if (this.transitionEnCours) return;
     this.transitionEnCours = true;
-    let avant = 0;
     const image = (t: number): void => {
-      const dt = avant ? Math.min(0.25, (t - avant) / 1000) : 0;
-      avant = t;
-      const pas = dt / DUREE_TRANSITION;
-      if (this.tMode < this.tCible) this.tMode = Math.min(this.tCible, this.tMode + pas);
-      else this.tMode = Math.max(this.tCible, this.tMode - pas);
+      const p = this.passage!;
+      const ecart = this.tCible - p.depart;
+      const maintenant = Number.isFinite(t) ? t : performance.now();
+      const fait = Math.max(0, maintenant - p.t0) / 1000 / DUREE_TRANSITION;
+      this.tMode = fait >= Math.abs(ecart) ? this.tCible : p.depart + Math.sign(ecart) * fait;
       this.rafraichir();
       if (this.tMode !== this.tCible) raf(image);
       else this.transitionEnCours = false;

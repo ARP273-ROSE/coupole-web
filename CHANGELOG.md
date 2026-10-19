@@ -2,6 +2,28 @@
 
 *Français, puis [English](#english).*
 
+## 0.6.3 — 2026-10-19
+
+Corrections pour l'iPad et l'iPhone (PWA installée comprise).
+
+- **Le zoom marche de nouveau au doigt.** Depuis 0.6.1, la toile laissait le pincement au navigateur
+  (`touch-action: pan-y pinch-zoom`) ; WebKit annulait alors les pointeurs et ni la scène ni la page ne zoomaient.
+  La toile est en `pan-y` (un doigt fait défiler la page, deux doigts zooment la scène) et, sur Safari, l'échelle du
+  pincement mesurée par le système (`gesturechange`) commande le zoom, même si les pointeurs ont été annulés en cours
+  de geste ; le pincement du pavé tactile de Safari sur Mac zoome aussi.
+- **Calculateur de parallaxe : le schéma se zoome** au pincement, à la molette (ou pincement du pavé tactile) ;
+  double-tap pour revenir à ×1. Le curseur *Zoom* suit.
+- **TLE de l'ISS récupéré tout seul** au calcul, pour l'instant donné, sans clic : celui gardé dans le navigateur s'il
+  est proche de l'instant, sinon celui du jour chez CelesTrak ; hors ligne, celui gardé. La politique de sécurité de
+  la page bloquait l'appel à CelesTrak : elle l'autorise désormais (CelesTrak seulement). Rien n'est demandé à
+  l'ouverture de la page. CelesTrak, source libre sans compte, ne publie que les éléments du jour : pour un passage
+  ancien, l'avertissement dit que l'historique exige un compte Space-Track (gratuit) et qu'on peut coller le TLE de
+  la date. La Lune est calculée dans la page (rien à télécharger, hors ligne).
+- **Plus aucune image au repos après un passage de vue** (Gravité et orbites) : la transition « Modèle ↔ À
+  l'échelle » est réglée sur l'horloge et non sur le nombre d'images ; si Safari suspend les images, la suivante la
+  termine au lieu de la prolonger (batterie, chauffe). Même principe pour l'élan du globe (Jour et nuit), désormais
+  identique à 60 et 120 Hz.
+
 ## 0.6.2 — 2026-10-19
 
 Nouvelle rubrique **« Calculateurs de TD »** (lien *Calculateurs de TD* dans la navigation, adresse `#/td`) : des
@@ -309,6 +331,27 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.6.3 — 2026-10-19
+
+Fixes for iPad and iPhone (installed PWA included).
+
+- **Finger zoom works again.** Since 0.6.1 the canvas left pinching to the browser (`touch-action: pan-y
+  pinch-zoom`); WebKit then cancelled the pointers and neither the scene nor the page zoomed. The canvas is now
+  `pan-y` (one finger scrolls the page, two fingers zoom the scene) and, on Safari, the pinch scale measured by the
+  system (`gesturechange`) drives the zoom, even when pointers were cancelled mid-gesture; Safari trackpad pinch on
+  Mac zooms too.
+- **Parallax calculator: the diagram zooms** with a pinch or the wheel (or trackpad pinch); double-tap returns to ×1.
+  The *Zoom* slider follows.
+- **ISS TLE fetched automatically** when calculating, for the given instant, without a click: the one kept in the
+  browser if close to the instant, otherwise today's from CelesTrak; offline, the kept one. The page's security policy
+  blocked the CelesTrak call: it now allows it (CelesTrak only). Nothing is requested when the page opens. CelesTrak, a
+  free source with no account, only publishes current elements: for an old pass, the warning says that history
+  requires a Space-Track account (free) and that the TLE of that date can be pasted. The Moon is computed in the page
+  (nothing to download, offline).
+- **No more frames at rest after a view change** (Gravity and orbits): the “Model ↔ To scale” transition follows the
+  clock, not the frame count; if Safari suspends frames, the next one ends it instead of prolonging it (battery,
+  heat). Same for the globe's momentum (Day and night), now identical at 60 and 120 Hz.
 
 ### 0.6.2 — 2026-10-19
 

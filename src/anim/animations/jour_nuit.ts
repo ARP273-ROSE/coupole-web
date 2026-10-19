@@ -428,13 +428,26 @@ export class JourNuit extends Animation {
     let [vx, vy] = this.inertie;
     if (!(Math.hypot(vx, vy) >= 1.5) || typeof requestAnimationFrame === 'undefined') return;
     // une seule lancée à la fois : une nouvelle annule la précédente
+    // réglée sur l'horloge (vitesses en px par 1/60 s, amortie de 0,9 par 1/60 s) : même lancée à 60 ou 120 Hz,
+    // et une suspension des images (WebKit, machine chargée) la termine au lieu de la prolonger
     const jeton = ++this.elan;
-    const pas = (): void => {
-      vx *= 0.9;
-      vy *= 0.9;
+    let avant = typeof performance !== 'undefined' ? performance.now() : 0;
+    const pas = (t: number): void => {
+      // horodatage absent ou figé (environnement de test) : une image de 1/60 s
+      const n = Number.isFinite(t) && t > avant ? Math.min(30, (t - avant) / (1000 / 60)) : 1;
+      if (Number.isFinite(t)) avant = Math.max(avant, t);
+      const f = Math.pow(0.9, n);
+      // déplacement intégré sur l'intervalle : somme de la vitesse amortie (série géométrique)
+      const k = n > 0 ? (0.9 * (1 - f)) / (1 - 0.9) : 0;
+      const dx = vx * k;
+      const dy = vy * k;
+      vx *= f;
+      vy *= f;
       if (jeton !== this.elan || Math.hypot(vx, vy) < 0.3 || !this.disque || this._glisse !== null) return;
-      this.globe = tourner_globe(this.globe, vx, vy, this.disque[2]);
-      this.rafraichir();
+      if (k > 0) {
+        this.globe = tourner_globe(this.globe, dx, dy, this.disque[2]);
+        this.rafraichir();
+      }
       requestAnimationFrame(pas);
     };
     requestAnimationFrame(pas);

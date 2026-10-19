@@ -66,6 +66,10 @@ export const UI: Record<string, [string, string]> = {
   web_a_voir: ['Ce qu’il faut voir', 'What to look for'],
   web_encadre_sud: ['Dans l’hémisphère Sud', 'In the southern hemisphere'],
   web_nav_td: ['Calculateurs de TD', 'Course calculators'],
+  web_td_eph: [
+    'Lune : calculée dans la page (Meeus, tables de l’ERFA ; quelques km), hors ligne, rien à télécharger. ISS : TLE récupéré tout seul pour l’instant donné (CelesTrak, gardé pour le hors-ligne). CelesTrak ne publie que les éléments du jour : pour un passage ancien, l’historique exige un compte Space-Track (gratuit) ; collez alors le TLE de la date.',
+    'Moon: computed in the page (Meeus, ERFA tables; a few km), offline, nothing to download. ISS: TLE fetched automatically for the given instant (CelesTrak, kept for offline use). CelesTrak only publishes current elements: for an old pass, history requires a Space-Track account (free); then paste the TLE of that date.',
+  ],
   web_liste_reglages: ['Les réglages', 'The settings'],
   web_vitesse: ['Vitesse', 'Speed'],
   web_chargement: ['Chargement…', 'Loading…'],

@@ -29,12 +29,19 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     if (!localStorage.getItem('coupole-web:langue')) localStorage.setItem('coupole-web:langue', JSON.stringify('fr'));
     localStorage.setItem('coupole-web:installation', JSON.stringify({ visites: 0, utilise: 0, plusTard: 0, jamais: true }));
-    const w = window as unknown as { __raf: number };
+    // images demandées (__raf) et demandées mais pas encore servies (__attente) : une suspension des images par le
+    // navigateur (WebKit pendant la fermeture d'une liste, machine chargée) n'est pas un repos
+    const w = window as unknown as { __raf: number; __attente: number };
     w.__raf = 0;
+    w.__attente = 0;
     const o = window.requestAnimationFrame.bind(window);
     window.requestAnimationFrame = (f) => {
       w.__raf++;
-      return o(f);
+      w.__attente++;
+      return o((t) => {
+        w.__attente--;
+        f(t);
+      });
     };
   });
 });
@@ -109,14 +116,17 @@ test('glisser la Terre (sans focus préalable), lecture, période, vue à l’é
   await page.getByRole('combobox', { name: /Scénario/ }).selectOption({ label: 'Soleil, Terre et Lune' });
   await page.getByRole('combobox', { name: /^Vue/ }).selectOption({ label: 'À l’échelle' });
   await expect.poll(async () => (await toile.getAttribute('aria-label')) ?? '').toContain('À l’échelle');
-  // le passage (0,9 s, plus long sur une machine chargée) se termine, puis plus aucune image n'est demandée
+  // le passage (0,9 s, réglé sur l'horloge) se termine, puis plus aucune image n'est demandée ni en attente
   const images = async (ms: number): Promise<number> => {
     const r0 = await page.evaluate(() => (window as unknown as { __raf: number }).__raf);
     await page.waitForTimeout(ms);
-    return (await page.evaluate(() => (window as unknown as { __raf: number }).__raf)) - r0;
+    const [r1, attente] = await page.evaluate(() => {
+      const w = window as unknown as { __raf: number; __attente: number };
+      return [w.__raf, w.__attente];
+    });
+    return r1 - r0 + 100 * attente;
   };
-  // (WebKit peut suspendre les images pendant que la liste se ferme : on attend deux fenêtres calmes de suite)
-  await expect.poll(async () => (await images(800)) + (await images(800)), { timeout: 30_000, intervals: [0] }).toBeLessThanOrEqual(1);
+  await expect.poll(() => images(800), { timeout: 30_000, intervals: [0] }).toBeLessThanOrEqual(1);
   expect(await images(1200)).toBeLessThanOrEqual(1);
   await page.screenshot({ path: `test-results/captures/${test.info().project.name}-gravite-echelle.png` });
   expect(s.erreurs).toEqual([]);

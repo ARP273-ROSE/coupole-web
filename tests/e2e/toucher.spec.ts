@@ -127,6 +127,8 @@ test('un doigt : la scène à tourner laisse défiler, un objet est saisi ; appu
   // objet : la Terre de « Gravité et orbites » est saisie au doigt, la page ne défile pas, la Terre bouge
   await page.goto('./#/a/gravityorbits');
   await expect.poll(() => valeur(page, 'Distance Terre–Soleil')).toMatch(/^1,0000 ua/);
+  // titres posés par la première image de cette scène (WebKit : parfois après les valeurs)
+  await expect.poll(async () => (await toile.getAttribute('data-titres')) ?? '').toContain('Modèle');
   const t = JSON.parse((await toile.getAttribute('data-titres'))!)[0];
   const [px, py, pw, ph] = t.panneau as number[];
   const hTitre = (t.boite as number[])[3]! / 0.95;
@@ -165,4 +167,80 @@ test('défilement réel de la page en partant de la toile (Chromium, téléphone
   const s0 = await page.evaluate(() => window.scrollY);
   await glisser(200);
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(s0 + 50);
+});
+
+/** zoom affiché de la scène (« Zoom 2,0× »), 1 sans zoom */
+async function zoomScene(page: Page): Promise<number> {
+  const t = await page.evaluate(() => document.querySelector('.zoom-info.visible span')?.textContent ?? '');
+  const m = /([\d,.]+)\s*×/.exec(t);
+  return m ? Number(m[1]!.replace(',', '.')) : 1;
+}
+
+test('pincer à deux doigts zoome la scène, pas la page : toile en « pan-y » (Chromium, réel)', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium' || !test.info().project.use.hasTouch, 'protocole de Chromium, tactile');
+  await page.goto('./#/a/gravityorbits');
+  const toile = page.locator('.scene canvas');
+  await expect.poll(async () => (await toile.boundingBox())?.width ?? 0).toBeGreaterThan(100);
+  // « pinch-zoom » rendait le pincement au navigateur : pointercancel, ni la scène ni la page ne zoomaient
+  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('pan-y');
+  await page.waitForTimeout(400);
+  const bb = (await toile.boundingBox())!;
+  const cdp = await page.context().newCDPSession(page);
+  const cx = bb.x + bb.width / 2,
+    cy = bb.y + bb.height / 2;
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: cx - 30, y: cy, id: 1 }, { x: cx + 30, y: cy, id: 2 }] });
+  for (let i = 1; i <= 12; i++) {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: cx - 30 - 6 * i, y: cy, id: 1 }, { x: cx + 30 + 6 * i, y: cy, id: 2 }] });
+    await page.waitForTimeout(16);
+  }
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => zoomScene(page)).toBeGreaterThan(1.8);
+  expect(await page.evaluate(() => window.visualViewport?.scale ?? 1)).toBeCloseTo(1, 2);
+});
+
+test('Safari : le pincement mesuré par gesturechange zoome la scène, même après pointercancel', async ({ page, browserName }) => {
+  test.skip(browserName !== 'webkit' || !test.info().project.use.hasTouch, 'WebKit tactile (iPhone, iPad)');
+  await page.goto('./#/a/gravityorbits');
+  const toile = page.locator('.scene canvas');
+  await expect.poll(async () => (await toile.boundingBox())?.width ?? 0).toBeGreaterThan(100);
+  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('pan-y');
+  await page.waitForTimeout(400);
+  const bb = (await toile.boundingBox())!;
+  const cx = bb.width / 2,
+    cy = bb.height / 2;
+  // deux doigts posés, puis WebKit annule les pointeurs (geste repris par le système) : le zoom vient des « gesture »
+  await poser(page, cx - 30, cy, 11);
+  await poser(page, cx + 30, cy, 12);
+  const empeche = await page.evaluate(
+    ([x, y]) => {
+      const c = document.querySelector('.scene canvas') as HTMLCanvasElement;
+      const r = c.getBoundingClientRect();
+      for (const id of [11, 12]) c.dispatchEvent(new PointerEvent('pointercancel', { pointerId: id, pointerType: 'touch', bubbles: true }));
+      const geste = (type: string, scale: number): Event => {
+        const e = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperties(e, { scale: { value: scale }, clientX: { value: r.left + x }, clientY: { value: r.top + y } });
+        c.dispatchEvent(e);
+        return e;
+      };
+      const d = geste('gesturestart', 1);
+      for (let i = 1; i <= 10; i++) geste('gesturechange', 1 + 0.15 * i);
+      geste('gestureend', 2.5);
+      return d.defaultPrevented;
+    },
+    [cx, cy] as const,
+  );
+  expect(empeche).toBe(true); // la page entière ne zoome pas
+  await expect.poll(() => zoomScene(page)).toBeCloseTo(2.5, 1);
+  // retour à ×1, puis pincement aux pointeurs seuls (navigateur sans « gesture ») : zoome aussi
+  await page.locator('.zoom-info button').click();
+  await expect.poll(() => zoomScene(page)).toBe(1);
+  await poser(page, cx - 30, cy, 11);
+  await poser(page, cx + 30, cy, 12);
+  for (let i = 1; i <= 6; i++) {
+    await bouger(page, cx - 30 - 6 * i, cy, 11);
+    await bouger(page, cx + 30 + 6 * i, cy, 12);
+  }
+  await lever(page, cx + 66, cy, 12);
+  await lever(page, cx - 66, cy, 11);
+  await expect.poll(() => zoomScene(page)).toBeCloseTo(2.2, 1);
 });

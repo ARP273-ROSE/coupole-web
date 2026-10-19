@@ -108,8 +108,9 @@ test('glisser sur le globe : après un réglage touché, le panneau défilé, un
   const toile = page.locator('.scene canvas').first();
   await expect(toile).toBeVisible();
   await page.waitForTimeout(800);
-  // un doigt seul fait défiler la page ; le globe se tourne à deux doigts ou après un appui long (300 ms)
-  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('pan-y pinch-zoom');
+  // un doigt seul fait défiler la page ; le globe se tourne à deux doigts ou après un appui long (300 ms) ; le
+  // pincement reste à la scène (« pinch-zoom » le donnait au navigateur : zoom inerte sur iPad, 0.6.3)
+  expect(await toile.evaluate((c) => getComputedStyle(c).touchAction)).toBe('pan-y');
   /** Glisser au doigt après un appui long (événements de pointeur « touch ») : n'importe quel moteur. */
   const glisserDoigt = async (id: number, relacher = true): Promise<void> => {
     await toile.evaluate(async (c, [id, rel]) => {

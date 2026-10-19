@@ -47,6 +47,8 @@ export class Scene implements Hote {
     /** deux doigts sur une scène à tourner : le milieu des doigts la fait tourner, l'écart zoome */
     rotation: boolean; mxp: number; myp: number;
   } | null = null;
+  /** pincement mesuré par Safari (gesturechange) : il commande le zoom, les pointeurs ne gardent que la rotation */
+  private gesteSafari: { k0: number; x0: number; y0: number; ox0: number; oy0: number } | null = null;
   private minuteurLong = 0;
   /**
    * Au doigt, le geste en cours manipule un objet ou la scène : la page ne défile pas (touchstart et touchmove
@@ -326,6 +328,36 @@ export class Scene implements Hote {
     };
     c.addEventListener('touchstart', bloquer, { passive: false });
     c.addEventListener('touchmove', bloquer, { passive: false });
+    // Safari (iPhone, iPad, et PWA installée) : le pincement arrive aussi en « gesturestart / gesturechange »
+    // (échelle mesurée par le système) ; on s'en sert pour le zoom, ce qui marche même si WebKit a annulé les
+    // pointeurs (pointercancel) en cours de geste, et on empêche le zoom de la page entière
+    const geste = (e: Event): void => {
+      const g = e as Event & { scale?: number; clientX?: number; clientY?: number };
+      e.preventDefault();
+      if (!this.anim) return;
+      if (e.type === 'gestureend') {
+        this.gesteSafari = null;
+        return;
+      }
+      const r = this.canvas.getBoundingClientRect();
+      if (e.type === 'gesturestart' || !this.gesteSafari) {
+        const x = Number.isFinite(g.clientX) ? g.clientX! - r.left : this.w / 2;
+        const y = Number.isFinite(g.clientY) ? g.clientY! - r.top : this.h / 2;
+        this.gesteSafari = { k0: this.k, x0: x, y0: y, ox0: this.ox, oy0: this.oy };
+        if (e.type === 'gesturestart') return;
+      }
+      const s0 = this.gesteSafari;
+      const echelle = Number.isFinite(g.scale) && g.scale! > 0 ? g.scale! : 1;
+      const k = Math.max(1, Math.min(ZOOM_MAX, s0.k0 * echelle));
+      // le point de la scène sous les doigts au départ reste sous les doigts
+      this.ox = s0.x0 - ((s0.x0 - s0.ox0) / s0.k0) * k;
+      this.oy = s0.y0 - ((s0.y0 - s0.oy0) / s0.k0) * k;
+      this.k = k;
+      this.borner();
+      this.observateur.zoom?.(this.k);
+      this.demander();
+    };
+    for (const t of ['gesturestart', 'gesturechange', 'gestureend']) c.addEventListener(t, geste, { passive: false });
     c.addEventListener(
       'wheel',
       (e) => {
@@ -510,11 +542,16 @@ export class Scene implements Hote {
         my = (a.y + b.y) / 2;
       const k = Math.max(1, Math.min(ZOOM_MAX, (this.pince.k0 * d) / this.pince.d0));
       if (this.pince.rotation) {
-        // rotation par le milieu des doigts, zoom autour du point de départ
+        // rotation par le milieu des doigts, zoom autour du point de départ (Safari : zoom par gesturechange)
         const dmx = mx - this.pince.mxp,
           dmy = my - this.pince.myp;
         this.pince.mxp = mx;
         this.pince.myp = my;
+        if (this.gesteSafari) {
+          if (dmx || dmy) this.anim.glisser(this.logique(mx, my), dmx / this.k, dmy / this.k);
+          this.demander();
+          return;
+        }
         this.ox = this.pince.mx0 - ((this.pince.mx0 - this.pince.ox0) / this.pince.k0) * k;
         this.oy = this.pince.my0 - ((this.pince.my0 - this.pince.oy0) / this.pince.k0) * k;
         this.k = k;
@@ -524,6 +561,8 @@ export class Scene implements Hote {
         this.demander();
         return;
       }
+      // Safari : le zoom vient de gesturechange (une seule source, pas de zoom en double)
+      if (this.gesteSafari) return;
       // le point de la scène sous le milieu des doigts suit les doigts
       this.ox = mx - ((this.pince.mx0 - this.pince.ox0) / this.pince.k0) * k;
       this.oy = my - ((this.pince.my0 - this.pince.oy0) / this.pince.k0) * k;

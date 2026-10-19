@@ -729,8 +729,9 @@ p {
   width: 100%;
   height: 100%;
   /* un doigt fait défiler la page, sauf s'il part d'un objet à manipuler (scene.ts : touchstart empêché) ; deux
-     doigts, un appui long ou le plein écran manipulent la scène */
-  touch-action: pan-y pinch-zoom;
+     doigts, un appui long ou le plein écran manipulent la scène.  Surtout pas « pinch-zoom » : le navigateur prendrait
+     le pincement pour lui et WebKit annulerait les pointeurs (pointercancel) : ni la scène ni la page ne zoomaient */
+  touch-action: pan-y;
   cursor: grab;
   -webkit-user-select: none;
   user-select: none;
@@ -2425,6 +2426,11 @@ math {
   min-height: 260px;
   border-radius: 10px;
   border: 1px solid var(--bord);
+  /* un doigt fait défiler la page ; deux doigts zooment le schéma (page_td.ts), pas la page */
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .td-zoom {

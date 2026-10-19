@@ -743,3 +743,18 @@ File d'attente :
 - Rien d’obligatoire. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur
   téléphone dans quelques animations. Pistes : tirages aléatoires identiques à ceux de Python (Mersenne Twister) pour le CCD et le
   télescope (seules les valeurs non affichées en dépendent) ; bouton « Version web » dans Coupole.
+
+## 0.6.3 (19/10/2026) — iPad : zoom au doigt, TLE automatique, repos après transition
+
+- Cause du zoom inerte : `touch-action: pan-y pinch-zoom` sur la toile (0.6.1) → le navigateur prend le pincement,
+  WebKit envoie `pointercancel`. Toile en `pan-y` ; `Scene` écoute `gesturestart/change/end` (Safari, échelle du
+  système, `preventDefault` contre le zoom de la page) ; le pincement aux pointeurs ne zoome pas en double quand un
+  geste Safari est en cours. Schéma du calculateur : `zoomAuxDoigts` (pointeurs, gesture, molette, double-tap).
+- TLE : CSP `connect-src 'self' https://celestrak.org` (le 0.6.2 était bloqué par la CSP), TLE automatique au calcul
+  (cache à moins de 1,5 j de l'instant ou de moins de 6 h, sinon CelesTrak, sinon cache), délai 8 s, rien à
+  l'ouverture ; TLE posé tout seul distingué d'un TLE saisi (`data-pose`).
+- Gravité et orbites : transition de vue réglée sur l'horloge (performance.now) ; cause de l'échec intermittent de
+  `gravite.spec.ts` sous WebKit : images suspendues > 1,6 s, prises pour un repos, puis la transition reprenait par
+  pas plafonnés à 0,25 s. Le test compte aussi les images demandées et pas encore servies (`__attente`).
+- Tests : `toucher.spec.ts` (pincement réel par le protocole de Chromium, toile `pan-y` ; Safari `gesturechange` après
+  `pointercancel`), `td.spec.ts` (TLE automatique simulé, hors ligne ; zoom du schéma).
