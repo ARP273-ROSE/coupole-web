@@ -719,6 +719,25 @@ File d'attente :
 - [x] Tests : `tests/unit/gravite.test.ts` (parité au bit, physique, SageMath, animation, durée), références de Coupole
       régénérées, `tests/e2e/gravite.spec.ts` (3 moteurs × 3 formats) ; 95 animations partout.
 
+## 0.6.2 (19/10/2026) — Calculateurs de TD, hémisphère Sud
+
+- Rubrique « Calculateurs de TD » : route `#/td` (liste) et `#/td/parallaxe` ; lien de navigation (icône `calcul`) ;
+  textes exportés de Coupole (`outils/exporter_coupole.py` → `src/i18n/genere/td.{fr,en}.json`, chargés à la
+  demande par `chargerTD`).
+- `src/calc/coordonnees.ts` (lecteur tolérant, cas communs `tests/references/td_coordonnees_cas.json`),
+  `src/calc/td_parallaxe.ts` (WGS84, Vincenty, flèche, calcul exact, incertitudes), `src/calc/lune_meeus.ts` (Meeus /
+  ERFA moon98 + nutation), ISS : satellite.js 6.0.1 (MIT ; la 7.x embarque du WASM et des fils de travail que la
+  construction refuse), TLE de CelesTrak (CORS ouvert) gardé dans le navigateur.
+- Références communes : `tests/references/td_parallaxe_sage.json` (SageMath), `td_parallaxe_reference.json`
+  (Coupole/astropy), `parallaxe_reference_skyfield.json` (skyfield + DE440), `temps_sideral_sud_sage.json`.
+- Animation « L'atmosphère terrestre » (96ᵉ) : `src/calc/atmosphere.ts`, `src/anim/animations/atmosphere.ts`,
+  données `src/donnees/genere/atmosphere_eso.json` (exportées de Coupole), références `tests/references/
+  atmosphere_sage.json` et `animations.json` (scénario du bureau).
+- Temps sidéral : arc de H par défaut, encadré « Dans l'hémisphère Sud » (texte identique au bureau, test d'égalité).
+- Essais : `td_parallaxe.test.ts`, `temps_sideral_sud.test.ts`, `tests/e2e/td.spec.ts`, routes `#/td` et
+  `#/td/parallaxe` dans le balayage axe-core. Note : l'essai axe-core de Firefox bureau échoue aussi localement sur
+  `main` (bulle `#bulle-apercu`) : préexistant, sans lien avec cette version.
+
 ## Reste à faire
 
 - Rien d’obligatoire. Petits recouvrements de textes sans cartouche (graduations, légendes) encore possibles sur

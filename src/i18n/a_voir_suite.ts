@@ -316,4 +316,8 @@ export const A_VOIR_SUITE: Record<string, [string, string]> = {
     'L’explosion n’est vue qu’après le temps que met sa lumière pour nous parvenir : une étoile à 6 500 années-lumière a explosé 6 500 ans avant qu’on la voie. Regarder loin, c’est regarder dans le passé : on voit les astres tels qu’ils étaient, et certains n’existent peut-être plus.',
     'The explosion is only seen after the time its light takes to reach us: a star 6,500 light-years away exploded 6,500 years before we saw it. Looking far is looking back in time: we see objects as they were, and some of them may no longer exist.',
   ],
+  earthatmosphere: [
+    'Près de l’horizon, la lumière traverse jusqu’à 38 fois plus d’air qu’au zénith : les étoiles y pâlissent (Δm = k X) et rougissent, car l’air diffuse le bleu bien plus que le rouge (Rayleigh, ∝ λ⁻⁴). L’atmosphère ne laisse passer que le visible, quelques fenêtres infrarouges et la radio : d’où les télescopes en altitude et dans l’espace. Elle courbe aussi les rayons : un astre paraît plus haut qu’il n’est (34′ à l’horizon, plus que le diamètre du Soleil), le Soleil couchant s’aplatit et se lève 2 à 3 min plus tôt. Dans le défi parallaxe, la réfraction se retire avant le calcul.',
+    "Near the horizon, light crosses up to 38 times more air than at the zenith: stars fade there (Δm = k X) and redden, because air scatters blue much more than red (Rayleigh, ∝ λ⁻⁴). The atmosphere only lets through the visible, a few infrared windows and radio: hence telescopes at altitude and in space. It also bends rays: an object looks higher than it is (34′ at the horizon, more than the Sun’s diameter), the setting Sun flattens and rises 2 to 3 min earlier. In the parallax challenge, refraction is removed before computing.",
+  ],
 };

@@ -3,8 +3,8 @@ import { ENTREES } from '../../src/anim/registre';
 import { aVoir, idsAvecAVoir } from '../../src/i18n/a_voir';
 
 describe('« Ce qu’il faut voir »', () => {
-  test('un texte FR et EN pour chacune des 95 animations', () => {
-    expect(ENTREES.length).toBe(95);
+  test('un texte FR et EN pour chacune des 96 animations', () => {
+    expect(ENTREES.length).toBe(96);
     for (const e of ENTREES) {
       expect(aVoir(e.id, 'fr').length, e.id).toBeGreaterThan(80);
       expect(aVoir(e.id, 'en').length, e.id).toBeGreaterThan(80);

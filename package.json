@@ -1,6 +1,6 @@
 {
   "name": "coupole-web",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "private": true,
   "description": "Coupole Web : modules d'astronomie (questions, animations, fiches, tables, images) dans le navigateur, d'après ClassAction (University of Nebraska-Lincoln Astronomy Education).",
   "license": "Apache-2.0",
@@ -23,5 +23,8 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.4"
+  },
+  "dependencies": {
+    "satellite.js": "6.0.1"
   }
 }

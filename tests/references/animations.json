@@ -7615,6 +7615,442 @@ false
 },
 "lecture_au_depart": true
 },
+"earthatmosphere": {
+"animee": false,
+"changements": [
+[
+"vue",
+"refraction"
+],
+[
+"hauteur",
+12.7
+],
+[
+"pression",
+944.0
+],
+[
+"temperature",
+-18.0
+],
+[
+"aerosols",
+0.27
+],
+[
+"latitude",
+1.5
+],
+[
+"exagerer",
+true
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Airmass sec z",
+"2.924"
+],
+[
+"Airmass (Kasten & Young)",
+"2.903"
+],
+[
+"Airmass (Pickering)",
+"2.900"
+],
+[
+"Path through 8 km of atmosphere",
+"23.3 km"
+],
+[
+"Refraction",
+"2.7′"
+],
+[
+"Apparent altitude",
+"20.0°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Airmass sec z",
+"4.549"
+],
+[
+"Airmass (Kasten & Young)",
+"4.464"
+],
+[
+"Airmass (Pickering)",
+"4.459"
+],
+[
+"Path through 8 km of atmosphere",
+"36.0 km"
+],
+[
+"Refraction",
+"4.5′"
+],
+[
+"Apparent altitude",
+"12.8°"
+],
+[
+"Flattening of the Sun at the horizon",
+"0.849"
+],
+[
+"Earlier rising, later setting",
+"2.3 min"
+],
+[
+"Dispersion 0.45 – 0.65 µm",
+"4.08″"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Airmass sec z",
+"2.924"
+],
+[
+"Airmass (Kasten & Young)",
+"2.903"
+],
+[
+"Airmass (Pickering)",
+"2.900"
+],
+[
+"Path through 8 km of atmosphere",
+"23.3 km"
+],
+[
+"Refraction",
+"2.7′"
+],
+[
+"Apparent altitude",
+"20.0°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Thickness crossed, extinction and reddening, atmospheric windows, refraction.",
+"cle": "vue",
+"defaut": "epaisseur",
+"options": [
+[
+"Thickness crossed",
+"epaisseur"
+],
+[
+"Extinction and reddening",
+"extinction"
+],
+[
+"Atmospheric windows",
+"fenetres"
+],
+[
+"Refraction",
+"refraction"
+]
+],
+"type": "choix"
+},
+{
+"aide": "True altitude of the object above the horizon.",
+"cle": "hauteur",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Altitude",
+"log": false,
+"maxi": 90.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 20.0
+},
+{
+"aide": "Ground pressure: 1013 hPa at sea level, ≈ 740 hPa at 2,600 m (Paranal), ≈ 615 hPa at 4,200 m (highest observatories).",
+"cle": "pression",
+"dec": 0,
+"defaut": 1010.0,
+"libelle": "Pressure",
+"log": false,
+"maxi": 1050.0,
+"mini": 500.0,
+"type": "curseur",
+"unite": "hPa",
+"valeur": 1010.0
+},
+{
+"aide": "Air temperature at the ground (refraction decreases when it is warm).",
+"cle": "temperature",
+"dec": 0,
+"defaut": 10.0,
+"libelle": "Temperature",
+"log": false,
+"maxi": 40.0,
+"mini": -30.0,
+"type": "curseur",
+"unite": "°C",
+"valeur": 10.0
+},
+{
+"aide": "Ångström turbidity β (aerosol optical depth at 1 µm): 0.02 very clean site, 0.05 good site, 0.2 dusty or polluted air.",
+"cle": "aerosols",
+"dec": 2,
+"defaut": 0.05,
+"libelle": "Aerosols",
+"log": false,
+"maxi": 0.3,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.05
+},
+{
+"aide": "Latitude of the place (for the earlier rising and later setting).",
+"cle": "latitude",
+"dec": 1,
+"defaut": 48.8,
+"libelle": "Latitude",
+"log": false,
+"maxi": 65.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 48.8
+},
+{
+"aide": "Multiplies refraction by 40 in the drawing of the ray to see its curvature (values stay true).",
+"cle": "exagerer",
+"defaut": false,
+"libelle": "Exaggerated refraction",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Masse d’air sec z",
+"2,924"
+],
+[
+"Masse d’air (Kasten & Young)",
+"2,903"
+],
+[
+"Masse d’air (Pickering)",
+"2,900"
+],
+[
+"Trajet dans 8 km d’atmosphère",
+"23,3 km"
+],
+[
+"Réfraction",
+"2,7′"
+],
+[
+"Hauteur apparente",
+"20,0°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Masse d’air sec z",
+"4,549"
+],
+[
+"Masse d’air (Kasten & Young)",
+"4,464"
+],
+[
+"Masse d’air (Pickering)",
+"4,459"
+],
+[
+"Trajet dans 8 km d’atmosphère",
+"36,0 km"
+],
+[
+"Réfraction",
+"4,5′"
+],
+[
+"Hauteur apparente",
+"12,8°"
+],
+[
+"Aplatissement du Soleil à l’horizon",
+"0,849"
+],
+[
+"Lever avancé, coucher retardé",
+"2,3 min"
+],
+[
+"Dispersion 0,45 – 0,65 µm",
+"4,08″"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Masse d’air sec z",
+"2,924"
+],
+[
+"Masse d’air (Kasten & Young)",
+"2,903"
+],
+[
+"Masse d’air (Pickering)",
+"2,900"
+],
+[
+"Trajet dans 8 km d’atmosphère",
+"23,3 km"
+],
+[
+"Réfraction",
+"2,7′"
+],
+[
+"Hauteur apparente",
+"20,0°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Épaisseur traversée, extinction et rougissement, fenêtres atmosphériques, réfraction.",
+"cle": "vue",
+"defaut": "epaisseur",
+"options": [
+[
+"Épaisseur traversée",
+"epaisseur"
+],
+[
+"Extinction et rougissement",
+"extinction"
+],
+[
+"Fenêtres atmosphériques",
+"fenetres"
+],
+[
+"Réfraction",
+"refraction"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Hauteur vraie de l’astre au-dessus de l’horizon.",
+"cle": "hauteur",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Hauteur",
+"log": false,
+"maxi": 90.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 20.0
+},
+{
+"aide": "Pression au sol : 1013 hPa au niveau de la mer, ≈ 740 hPa à 2 600 m (Paranal), ≈ 615 hPa à 4 200 m (plus hauts observatoires).",
+"cle": "pression",
+"dec": 0,
+"defaut": 1010.0,
+"libelle": "Pression",
+"log": false,
+"maxi": 1050.0,
+"mini": 500.0,
+"type": "curseur",
+"unite": "hPa",
+"valeur": 1010.0
+},
+{
+"aide": "Température de l’air au sol (la réfraction diminue quand il fait chaud).",
+"cle": "temperature",
+"dec": 0,
+"defaut": 10.0,
+"libelle": "Température",
+"log": false,
+"maxi": 40.0,
+"mini": -30.0,
+"type": "curseur",
+"unite": "°C",
+"valeur": 10.0
+},
+{
+"aide": "Trouble d’Ångström β (épaisseur optique des aérosols à 1 µm) : 0,02 site très pur, 0,05 bon site, 0,2 air chargé de poussières ou de pollution.",
+"cle": "aerosols",
+"dec": 2,
+"defaut": 0.05,
+"libelle": "Aérosols",
+"log": false,
+"maxi": 0.3,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.05
+},
+{
+"aide": "Latitude du lieu (pour l’avance du lever et le retard du coucher).",
+"cle": "latitude",
+"dec": 1,
+"defaut": 48.8,
+"libelle": "Latitude",
+"log": false,
+"maxi": 65.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 48.8
+},
+{
+"aide": "Multiplie la réfraction par 40 sur le dessin du rayon pour voir sa courbure (les valeurs restent vraies).",
+"cle": "exagerer",
+"defaut": false,
+"libelle": "Réfraction exagérée",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "earthorbitplot": {
 "animee": false,
 "changements": [
@@ -27416,7 +27852,7 @@ false
 ],
 [
 "arc",
-true
+false
 ]
 ],
 "en": {
@@ -27616,7 +28052,7 @@ true
 {
 "aide": "Draw the hour angle along the star’s parallel, from the meridian (positive toward west).",
 "cle": "arc",
-"defaut": false,
+"defaut": true,
 "libelle": "Hour angle arc",
 "type": "coche"
 }
@@ -27819,7 +28255,7 @@ true
 {
 "aide": "Tracer l’angle horaire le long du parallèle de l’étoile, depuis le méridien (positif vers l’ouest).",
 "cle": "arc",
-"defaut": false,
+"defaut": true,
 "libelle": "Arc de l’angle horaire",
 "type": "coche"
 }

@@ -2,6 +2,49 @@
 
 *Français, puis [English](#english).*
 
+## 0.6.2 — 2026-10-19
+
+Nouvelle rubrique **« Calculateurs de TD »** (lien *Calculateurs de TD* dans la navigation, adresse `#/td`) : des
+calculateurs qui suivent pas à pas la démarche des TD et TP du cours, avec vos nombres, puis montrent le calcul exact.
+Mêmes textes, mêmes formules et mêmes références que l'appli de bureau Coupole 0.8.0.
+
+- **Parallaxe (TP du cours)** (`#/td/parallaxe`), d'après le sujet officiel (ISS, Lune) : élévations h₁ et h₂
+  relevées dans Stellarium, 2α = h₁ − h₂ (ou 180° − h₁ − h₂ si l'objet est entre les lieux), distance R à la surface
+  (comme Google Earth) et en corde (comme EarthLocation d'astropy, WGS84 exact), D = R / 2α ; puis le calcul exact
+  (les deux horizons font l'angle θ ; triangulation avec ou sans azimuts), la **flèche** de la corde et sa profondeur
+  sous chaque horizon, les incertitudes (élévations, lieux, heure).
+- **Positions écrites de n'importe quelle façon** (décimal avec point ou virgule, signé ou N/S/E/O/W,
+  degrés-minutes-secondes avec ° ′ ″ ' " ou espaces, ordre libre si les lettres le disent) ; inversion latitude /
+  longitude corrigée ou signalée ; erreurs dites (minutes ≥ 60…). Le même lecteur que l'appli de bureau, avec la même
+  batterie de cas.
+- **Éphémérides** si l'heure est donnée (bouton *Maintenant*) : Lune par l'algorithme de Meeus (tables d'ERFA
+  moon98, nutation ; quelques secondes d'arc), élévations prédites ; ISS par le TLE de CelesTrak (*Récupérer le TLE*,
+  gardé dans le navigateur, âge affiché, avertissement au-delà de 3 jours) et SGP4 (satellite.js, licence MIT, chargé
+  seulement par ce calculateur).
+- **Dessin de tout l'exercice** : coupe de la Terre, corde, verticales, horizons, visées, h₁, h₂, 2α, θ, D, loupe sur
+  la flèche, zoom de l'exercice entier à la seule base ; pas-à-pas numéroté ; *Exemple* (données fictives) ; *Exporter
+  le détail* (CSV pour la feuille « Calculs » du partage).
+- **Vérifié** : corde, surface, flèche, profondeurs et calcul exact contre SageMath (corde à 1 mm) et contre Coupole
+  (astropy) ; Lune contre skyfield + DE440 (0,02° en élévation).
+
+**Nouvelle animation « L'atmosphère terrestre : absorption, épaisseur traversée, réfraction »** (96ᵉ, propre à
+Coupole, thème *Télescopes* : l'atmosphère est le premier instrument que traverse la lumière, elle décide où et comment
+on observe). Quatre vues : **épaisseur traversée** (coupe de la Terre et de l'atmosphère, couches, échelle de hauteur
+8 km, trajet qui s'allonge vers l'horizon ; masse d'air par sec z, Kasten & Young 1989, Pickering 2002 et coquille
+sphérique : ≈ 38 à l'horizon) ; **extinction et rougissement** (Rayleigh ∝ λ⁻⁴, aérosols d'Ångström, ozone ;
+Δm = k X en U B V R I ; couleur du Soleil transmis selon sa hauteur) ; **fenêtres atmosphériques** (transmission de
+0,3 à 30 µm d'après le modèle de ciel de l'ESO — SkyCalc, Paranal —, bandes J H K L M N Q et absorptions H₂O, CO₂,
+O₃ ; schéma des domaines γ, X, UV, infrarouge lointain, submillimétrique, radio, ionosphère ; pourquoi des télescopes
+en altitude et dans l'espace) ; **réfraction** (rayon dans des couches d'indice décroissant, exagération possible,
+hauteur apparente et vraie — Bennett, Sæmundsson, ≈ 34′ à l'horizon —, Soleil aplati à l'échelle, lever avancé et
+coucher retardé selon la latitude, dispersion par l'indice de Ciddor, pression et température). Formules vérifiées
+par SageMath, sources dans NOTICE ; mêmes formules et mêmes valeurs que l’appli de bureau ; lien avec le défi parallaxe et le calculateur de TD.
+
+**Démonstrateur du temps sidéral et de l'angle horaire** : l'arc de l'angle horaire est affiché par défaut (un choix
+déjà mémorisé est gardé) ; la fiche « Ce qu'il faut voir » porte un encadré **« Dans l'hémisphère Sud »**
+(H = TSL − α inchangé, culmination vers le nord, défilement de droite à gauche face au nord, σ Octantis, étoiles
+circumpolaires si δ < −(90° − |φ|)), texte identique à l'appli de bureau, affirmations vérifiées par SageMath.
+
 ## 0.6.1 — 2026-10-15
 
 Nouvelle animation **« Gravité et orbites »** (95ᵉ), d’après la simulation PhET « Gravity and Orbits » du projet PhET
@@ -266,6 +309,47 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.6.2 — 2026-10-19
+
+New **“Course calculators”** section (*Course calculators* link in the navigation, `#/td` address): calculators that
+follow the course exercises and practicals step by step, with your numbers, then show the exact calculation. Same
+texts, formulas and references as the Coupole 0.8.0 desktop app.
+
+- **Parallax (course practical)** (`#/td/parallaxe`), after the official practical (ISS, Moon): elevations h₁ and
+  h₂ read in Stellarium, 2α = h₁ − h₂ (or 180° − h₁ − h₂ if the object is between the places), distance R at the
+  surface (like Google Earth) and as a chord (like astropy's EarthLocation, exact WGS84), D = R / 2α; then the exact
+  calculation (the two horizons make the angle θ; triangulation with or without azimuths), the chord's **sagitta** and
+  its dip below each horizon, uncertainties (elevations, places, time).
+- **Positions written in any way** (decimal with point or comma, signed or N/S/E/O/W, degrees-minutes-seconds with
+  ° ′ ″ ' " or spaces, free order if the letters say so); latitude/longitude swap corrected or reported; errors stated
+  (minutes ≥ 60…). The same reader as the desktop app, with the same battery of cases.
+- **Ephemerides** if the time is given (*Now* button): Moon by Meeus's algorithm (ERFA moon98 tables, nutation; a
+  few arcseconds), predicted elevations; ISS by the CelesTrak TLE (*Get the TLE*, kept in the browser, age shown,
+  warning beyond 3 days) and SGP4 (satellite.js, MIT licence, loaded only by this calculator).
+- **Drawing of the whole exercise**: Earth cross-section, chord, verticals, horizons, lines of sight, h₁, h₂, 2α, θ,
+  D, magnifier on the sagitta, zoom from the whole exercise to the baseline alone; numbered steps; *Example*
+  (fictitious data); *Export the details* (CSV for the “Calculs” sheet of the share).
+- **Checked**: chord, surface, sagitta, dips and exact calculation against SageMath (chord within 1 mm) and Coupole
+  (astropy); Moon against skyfield + DE440 (0.02° in elevation).
+
+**New animation “Earth's atmosphere: absorption, thickness crossed, refraction”** (96th, Coupole's own, *Telescopes*
+theme: the atmosphere is the first instrument light goes through; it decides where and how we observe). Four views:
+**thickness crossed** (cross-section of the Earth and atmosphere, layers, 8 km scale height, path growing toward the
+horizon; airmass by sec z, Kasten & Young 1989, Pickering 2002 and spherical shell: ≈ 38 at the horizon);
+**extinction and reddening** (Rayleigh ∝ λ⁻⁴, Ångström aerosols, ozone; Δm = k X in U B V R I; colour of the
+transmitted Sun versus its altitude); **atmospheric windows** (transmission from 0.3 to 30 µm after the ESO sky model —
+SkyCalc, Paranal —, J H K L M N Q bands and H₂O, CO₂, O₃ absorptions; sketch of the γ, X, UV, far-infrared,
+submillimetre, radio and ionosphere domains; why telescopes go to altitude and to space); **refraction** (ray through
+layers of decreasing index, optional exaggeration, apparent and true altitude — Bennett, Sæmundsson, ≈ 34′ at the
+horizon —, flattened Sun to scale, earlier rising and later setting versus latitude, dispersion from Ciddor's index,
+pressure and temperature). Formulas checked with SageMath, sources in NOTICE; same formulas and values as the desktop app; link with the parallax challenge and
+the course calculator.
+
+**Sidereal Time and Hour Angle Demonstrator**: the hour angle arc is shown by default (a remembered choice is kept);
+the “What to look for” card has an **“In the southern hemisphere”** box (H = LST − α unchanged, culmination toward the
+north, sky moving right to left facing north, σ Octantis, circumpolar stars if δ < −(90° − |φ|)), same text as the
+desktop app, statements checked by SageMath.
 
 ### 0.6.1 — 2026-10-15
 

@@ -67,6 +67,7 @@ function construireEntete(): void {
     lien('#/', 'accueil', 'modules', 'web_nav_modules'),
     lien('#/bibliotheque', 'bibliotheque', 'bibliotheque', 'web_nav_bibliotheque'),
     lien('#/animations', 'catalogue', 'animation', 'web_nav_catalogue'),
+    lien('#/td', 'td', 'calcul', 'web_nav_td'),
     lien('#/favoris', 'favoris', 'etoile', 'web_nav_favoris'),
     lien('#/progression', 'progression', 'progres', 'web_nav_progression'),
     lien('#/apropos', 'apropos', 'info', 'web_nav_apropos'),
@@ -144,6 +145,10 @@ async function afficher(route: Route, deplacerFocus = true): Promise<void> {
     const m = await import('./app/page_animation');
     nouvelle = await m.pageAnimation(route.id, route.etat);
   } else if (route.page === 'apropos') nouvelle = pageApropos(route.installer);
+  else if (route.page === 'td') {
+    const m = await import('./app/page_td');
+    nouvelle = await m.pageTD(route.id);
+  }
   else if (route.page === 'catalogue') {
     await stockage.pret();
     nouvelle = pageCatalogue(route.q, route.theme);

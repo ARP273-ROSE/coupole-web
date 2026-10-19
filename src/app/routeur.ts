@@ -9,6 +9,7 @@
  *   #/favoris?t=<genre>&tri=<ordre>   mes favoris ; #/mes-modules : collections (ex-« Mes modules »)
  *   #/bibliotheque[/<onglet>]?m=<module>&f=1   tout le contenu d'un type, par module (présentation de ClassAction)
  *   #/mes-modules, #/progression, #/recherche?q=…, #/r/<fiche|table|image>/<id>, #/apropos[?installer]
+ *   #/td, #/td/<calculateur>     les « Calculateurs de TD » (0.6.2)
  */
 import type { EtatReglages } from '../anim/base';
 
@@ -24,7 +25,8 @@ export type Route =
   | { page: 'ressource'; genre: string; id: string }
   | { page: 'catalogue'; q: string; theme: string }
   | { page: 'animation'; id: string; etat: EtatReglages }
-  | { page: 'apropos'; installer: boolean };
+  | { page: 'apropos'; installer: boolean }
+  | { page: 'td'; id: string };
 
 export function lireRoute(hash = location.hash): Route {
   const brut = hash.replace(/^#/, '');
@@ -42,6 +44,7 @@ export function lireRoute(hash = location.hash): Route {
     return { page: 'animation', id: decodeURIComponent(morceaux[1]), etat };
   }
   if (morceaux[0] === 'apropos') return { page: 'apropos', installer: params.has('installer') };
+  if (morceaux[0] === 'td') return { page: 'td', id: decodeURIComponent(morceaux[1] ?? '').slice(0, 40) };
   const id = (x: string | undefined): string => decodeURIComponent(x ?? '').slice(0, 80);
   if ((morceaux[0] === 'm' || morceaux[0] === 'mm') && morceaux[1]) {
     const perso = morceaux[0] === 'mm';

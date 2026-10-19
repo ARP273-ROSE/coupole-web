@@ -4,7 +4,7 @@
  */
 import { Animation, Bouton, type EtatReglages, Reglage } from '../anim/base';
 import { charger, disponible, type Entree, HORS_CLASSACTION, PAR_ID } from '../anim/registre';
-import { aVoir } from '../i18n/a_voir';
+import { aVoir, encadreSud } from '../i18n/a_voir';
 import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
 import { choisirTheme, type Theme } from '../noyau/dessin';
 import { annoncer, h, icone, pageIntrouvable } from './dom';
@@ -253,6 +253,8 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   fiche.append(desc);
   const voir = aVoir(e.id, langue());
   if (voir) fiche.append(h('h3', { text: tr('web_a_voir') }), h('p', {}, ...enrichir(voir)));
+  const sud = encadreSud(e.id, langue());
+  if (sud) fiche.append(h('aside', { class: 'encadre' }, h('h4', { text: tr('web_encadre_sud') }), h('p', {}, ...enrichir(sud))));
   const items = flux
     .filter((x) => !(x instanceof Bouton) && 'texte' in x && (x as { texte: string }).texte)
     .map((x) => {

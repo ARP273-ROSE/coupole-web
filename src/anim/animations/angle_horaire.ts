@@ -44,7 +44,7 @@ export class AngleHoraire extends Animation {
     this.tsl = this.curseur('tsl', 0.0, 24.0, 2.0, { dec: 2, unite: 'h', cle_texte: 'anim_c_tsl' });
     this.ra = this.curseur('ra', 0.0, 24.0, 4.0, { dec: 2, unite: 'h', cle_texte: 'anim_c_ra' });
     this.dec = this.curseur('dec', -90.0, 90.0, 30.0, { dec: 1, unite: '°', cle_texte: 'anim_c_dec' });
-    this.c_arc = this.coche('arc', false);
+    this.c_arc = this.coche('arc', true); // 0.6.2 : arc de H affiché par défaut (un choix mémorisé est gardé)
   }
 
   override avancer(dt: number): void {

@@ -1171,6 +1171,23 @@ select option {
   font-size: 0.95rem;
 }
 
+.fiche .encadre {
+  margin: 12px 0 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--bord-fort);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+}
+
+.fiche .encadre h4 {
+  margin: 0 0 4px;
+  font-size: 0.92rem;
+}
+
+.fiche .encadre p {
+  margin: 0;
+}
+
 .fiche ul {
   margin: 0;
   padding-left: 1.1em;
@@ -2292,4 +2309,144 @@ math {
   margin: 6px 0 0;
   color: var(--texte-2);
   font-size: 0.86rem;
+}
+
+/* ------------------------------------------------------------------ Calculateurs de TD (0.6.2) */
+.grille-td {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.carte-td {
+  padding: 16px 18px;
+}
+
+.carte-td h2 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+
+.carte-td p {
+  margin: 0;
+  color: var(--texte-2);
+}
+
+.td-grille {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .td-grille {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.td-formulaire {
+  display: grid;
+  gap: 10px;
+}
+
+.td-champ {
+  display: grid;
+  gap: 3px;
+  font-size: 0.9rem;
+  color: var(--texte-2);
+}
+
+.td-champ input,
+.td-champ select,
+.td-eph textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--bord-fort);
+  background: var(--surface-2);
+  color: var(--texte);
+  font: inherit;
+}
+
+.td-lieu,
+.td-eph {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+}
+
+.td-lieu legend,
+.td-eph legend {
+  padding: 0 6px;
+  color: var(--texte);
+}
+
+.td-ligne {
+  display: flex;
+  gap: 8px;
+  align-items: end;
+}
+
+.td-ligne .td-champ {
+  flex: 1;
+}
+
+.td-sigmas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.td-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.td-etat {
+  min-height: 1.4em;
+  color: var(--texte-2);
+}
+
+.td-resultats {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.td-schema {
+  width: 100%;
+  height: min(52vh, 460px);
+  min-height: 260px;
+  border-radius: 10px;
+  border: 1px solid var(--bord);
+}
+
+.td-zoom {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--texte-2);
+}
+
+.td-zoom input {
+  flex: 1;
+}
+
+.td-alerte {
+  color: var(--accent);
+}
+
+.td-etapes li {
+  margin-bottom: 8px;
+  color: var(--texte-2);
+}
+
+.td-etapes b {
+  color: var(--texte);
 }

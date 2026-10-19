@@ -53,6 +53,14 @@ def main(coupole: Path) -> None:
         ecrire(ICI / 'src' / 'i18n' / 'genere' / ('catalogue.%s.json' % lg), cat)
         ecrire(ICI / 'src' / 'i18n' / 'genere' / ('anim.%s.json' % lg), reste)
     assert all(('anim_nom_' + i) in tt for i in ids)
+    # transmission de l'atmosphère (animation « L'atmosphère terrestre », 0.6.2) : modèle de ciel de l'ESO
+    ecrire(ICI / 'src' / 'donnees' / 'genere' / 'atmosphere_eso.json',
+           json.loads((anim / 'donnees' / 'atmosphere_eso.json').read_text(encoding='utf-8')))
+    # textes des « Calculateurs de TD » (0.6.2) : mêmes clés que Coupole ; la ligne de commande reste au bureau
+    from coupole.modules.td.textes import TEXTES as TD
+    for lg in ('fr', 'en'):
+        ecrire(ICI / 'src' / 'i18n' / 'genere' / ('td.%s.json' % lg),
+               {k: v[lg] for k, v in TD.items() if not k.startswith(('td_cli_', 'td_meta_'))})
 
     # ------------------------------------------------------------ catalogue
     ecrire(ICI / 'src' / 'donnees' / 'genere' / 'catalogue.json', {

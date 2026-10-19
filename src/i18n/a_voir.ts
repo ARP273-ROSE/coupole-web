@@ -97,6 +97,23 @@ export function aVoir(id: string, l: Langue): string {
   return t ? t[l === 'fr' ? 0 : 1] : '';
 }
 
+/**
+ * Encadrés qui complètent « Ce qu'il faut voir » (0.6.2) ; textes identiques à ceux de l'appli de bureau
+ * (anim_<clé>_sud), affirmations vérifiées par SageMath (tests/references/temps_sideral_sud_sage.json).
+ */
+const ENCADRES_SUD: Record<string, [string, string]> = {
+  siderealTimeAndHourAngleDemo: [
+    'H = TSL − α ne change pas : l’angle horaire se compte toujours vers l’ouest depuis le méridien, H < 0 avant la culmination, H > 0 après. Mais la plupart des astres culminent vers le NORD (tous ceux dont δ > φ). Face au nord, l’est est à droite : le ciel défile de droite à gauche. Le pôle Sud céleste, à une hauteur égale à |φ|, n’a pas d’étoile brillante : la plus proche visible à l’œil nu, σ Octantis (magnitude 5,4), en est à environ 1°. Une étoile est circumpolaire (jamais couchée) si δ < −(90° − |φ|) : à 34° S, toutes celles de déclinaison inférieure à −56°.',
+    'H = LST − α does not change: the hour angle is still counted westward from the meridian, H < 0 before culmination, H > 0 after. But most objects culminate toward the NORTH (all those with δ > φ). Facing north, east is on the right: the sky moves from right to left. The south celestial pole, at an altitude equal to |φ|, has no bright star: the nearest one visible to the naked eye, σ Octantis (magnitude 5.4), lies about 1° from it. A star is circumpolar (never sets) if δ < −(90° − |φ|): at 34° S, all those with a declination below −56°.',
+  ],
+};
+
+/** Encadré « Dans l'hémisphère Sud » d'une animation ('' s'il n'y en a pas). */
+export function encadreSud(id: string, l: Langue): string {
+  const t = ENCADRES_SUD[id];
+  return t ? t[l === 'fr' ? 0 : 1] : '';
+}
+
 export function idsAvecAVoir(): string[] {
   return [...Object.keys(A_VOIR), ...Object.keys(A_VOIR_SUITE)];
 }

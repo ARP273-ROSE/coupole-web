@@ -18,12 +18,15 @@
 <p align="center"><img src="docs/captures/telephone.webp" alt="Un module sur téléphone, barre de navigation en bas" width="260" /></p>
 
 **22 modules d’astronomie** comme dans ClassAction : **517 questions** à discuter en groupe (variantes, figures,
-réponse qui clignote, indice, explication, ressources liées ★), **95 animations**, **110 fiches**, **14 tables** et des
+réponse qui clignote, indice, explication, ressources liées ★), **96 animations**, **110 fiches**, **14 tables** et des
 images libres (crédit et licence affichés), une **bibliothèque** qui montre tout le contenu d’un type rangé par module
 (la présentation d’origine de ClassAction), une **recherche bilingue** (en français ou en anglais, accents, pluriels et
 petites fautes tolérés, mots trouvés surlignés), des **favoris** (étoile sur tout : module, animation, question, fiche,
 table, image ; collections au second plan) et **Ma progression** ; tout est gardé dans le navigateur et s’exporte dans
-un fichier que lit aussi Coupole.
+un fichier que lit aussi Coupole. Depuis 0.6.2, des **Calculateurs de TD** : *Parallaxe (TP du cours)* suit la
+démarche du sujet (élévations, 2α = h₁ − h₂, distance entre les lieux, D = R / 2α) avec vos nombres, puis montre le
+calcul exact (courbure, flèche de la corde, éphémérides de la Lune et de l'ISS, incertitudes) et le dessin de tout
+l'exercice.
 
 Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupole), dans le navigateur : sphère
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
@@ -79,7 +82,7 @@ du Python de Coupole. Deux jeux de références, produits par l’application de
 
 - `tests/references/calculs.json` : plus de 4 000 appels de fonctions (et des arrondis de Python), que les tests
   TypeScript doivent retrouver à 10⁻⁹ près (relatif) ;
-- `tests/references/animations.json` : pour chacune des 95 animations, ses réglages (bornes, défauts, décimales,
+- `tests/references/animations.json` : pour chacune des 96 animations, ses réglages (bornes, défauts, décimales,
   unités, libellés, options) et les valeurs qu’elle affiche, au caractère près, en français et en anglais, dans un
   scénario fixe (création, pas d’animation, changement de tous les réglages, réinitialisation).
 
@@ -118,12 +121,15 @@ ClassAction (Apache 2.0), fiches, tables et schémas écrits pour Coupole, photo
 *Screenshots: see above (home, a question, the Antikythera Mechanism, Orion in 3D, Gravity and Orbits, a module on a phone).*
 
 **22 astronomy modules** as in ClassAction: **517 questions** to discuss in groups (variants, figures, flashing
-answer, hint, explanation, related resources ★), **95 animations**, **110 outlines**, **14 tables** and free images
+answer, hint, explanation, related resources ★), **96 animations**, **110 outlines**, **14 tables** and free images
 (credit and licence shown), a **library** showing all the content of a type grouped by module (ClassAction’s original
 presentation), a **bilingual search** (in English or in French, accents, plurals and small typos tolerated, matches
 highlighted), **favourites** (a star on everything: module, animation, question, outline, table, image; collections
 in the background) and **My progress**; everything is kept in the browser and exports to a file that Coupole also
-reads.
+reads. Since 0.6.2, **Course calculators**: *Parallax (course practical)* follows the practical's approach
+(elevations, 2α = h₁ − h₂, distance between the places, D = R / 2α) with your numbers, then shows the exact
+calculation (curvature, the chord's sagitta, Moon and ISS ephemerides, uncertainties) and a drawing of the whole
+exercise.
 
 The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), in the browser: celestial sphere,
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar
@@ -172,7 +178,7 @@ keyboard: type, magnitudes, distance with its uncertainty, temperature, sources)
 
 The computations are transposed from Coupole’s Python. Two reference sets, produced by the desktop application
 itself, check them: `tests/references/calculs.json` (more than 4,000 function calls, matched to 10⁻⁹ relative) and
-`tests/references/animations.json` (for each of the 95 animations, its settings and the values it displays, character
+`tests/references/animations.json` (for each of the 96 animations, its settings and the values it displays, character
 for character, in French and English, through a fixed scenario).
 
 ## Develop

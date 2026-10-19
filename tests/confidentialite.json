@@ -1,1 +1,16 @@
-{"min_fichiers": 500}
+{
+  "min_fichiers": 500,
+  "empreintes_depot": [
+    "0acc071ab536402e",
+    "1e350e725fe2f42b",
+    "34f5d3ccc938b8e8",
+    "3af9387e7980739e",
+    "5af6dfd6587ba76e",
+    "7e0732dc8a367f5f",
+    "9bfb7edb8a917985",
+    "b99f796a560536b5",
+    "c58492b344e89d0f",
+    "e17ca416da5fd771",
+    "fc28353a6ed48c2d"
+  ]
+}

@@ -77,10 +77,20 @@ export async function chargerAnimations(l: Langue): Promise<void> {
   chargees.add(k);
 }
 
+/** Textes des « Calculateurs de TD » (ceux de Coupole) : chargés à l'ouverture de la rubrique. */
+export async function chargerTD(l: Langue): Promise<void> {
+  const k = 'td.' + l;
+  if (chargees.has(k)) return;
+  const m = l === 'fr' ? await import('./genere/td.fr.json') : await import('./genere/td.en.json');
+  ajouter(l, m.default as Record<string, string>);
+  chargees.add(k);
+}
+
 /** Pour les tests (Node) : tout charger d'un coup. */
 export async function toutCharger(): Promise<void> {
   for (const l of LANGUES) {
     await chargerCatalogue(l);
     await chargerAnimations(l);
+    await chargerTD(l);
   }
 }

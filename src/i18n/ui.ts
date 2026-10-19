@@ -64,6 +64,8 @@ export const UI: Record<string, [string, string]> = {
   web_valeurs: ['Valeurs', 'Values'],
   web_fiche: ['Fiche', 'About this animation'],
   web_a_voir: ['Ce qu’il faut voir', 'What to look for'],
+  web_encadre_sud: ['Dans l’hémisphère Sud', 'In the southern hemisphere'],
+  web_nav_td: ['Calculateurs de TD', 'Course calculators'],
   web_liste_reglages: ['Les réglages', 'The settings'],
   web_vitesse: ['Vitesse', 'Speed'],
   web_chargement: ['Chargement…', 'Loading…'],

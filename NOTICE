@@ -57,6 +57,44 @@ Constantes et données / constants and data:
   - schéma d'intégration : H. Yoshida, « Construction of higher order symplectic integrators », Phys. Lett. A 150
     (1990) 262-268 ; vérification indépendante sous SageMath (DOP853 de SciPy).
 
+L'atmosphère terrestre (0.8.0) / Earth's atmosphere (src/calc/atmosphere.ts, src/anim/animations/atmosphere.ts)
+-----------------------------------------------------------------------------------------------------------------
+Animation propre à Coupole (pas dans ClassAction) ; formules réécrites d'après leurs publications et vérifiées par
+SageMath (outil atmosphere_verif.sage de Coupole) / Coupole's own animation; formulas rewritten from their
+publications and checked with SageMath :
+  - masse d'air : F. Kasten et A. T. Young, « Revised optical air mass tables and approximation formula », Applied
+    Optics 28 (1989) 4735-4738 ; K. A. Pickering, « The Southern Limits of the Ancient Star Catalog and the
+    Commentary of Hipparchos », DIO 12 (2002) 3-27 (formule de la masse d'air) ;
+  - diffusion Rayleigh : J. E. Hansen et L. D. Travis, « Light scattering in planetary atmospheres », Space Science
+    Reviews 16 (1974) 527-610 ; aérosols : A. Ångström, Geografiska Annaler 11 (1929) 156-166 ; ozone (bande de
+    Chappuis, modèle simplifié) : ordre de grandeur des sections efficaces de A. Serdyuchenko et al., Atmos. Meas.
+    Tech. 7 (2014) 625-636 ;
+  - réfraction : G. G. Bennett, « The Calculation of Astronomical Refraction in Marine Navigation », J. Navigation
+    35 (1982) 255-259 ; T. Sæmundsson, Sky & Telescope 72 (1986) 70 ; indice de l'air : P. E. Ciddor, « Refractive
+    index of air: new equations for the visible and near infrared », Applied Optics 35 (1996) 1566-1573 ;
+  - bandes photométriques U B V R I : longueurs d'onde effectives de M. S. Bessell, PASP 102 (1990) 1181 ;
+  - transmission de l'atmosphère de 0,3 à 30 µm (src/donnees/genere/atmosphere_eso.json, exporté de
+    Coupole) : modèle de ciel de l'ESO, SkyCalc 2.0.9 (S. Noll et al. 2012,
+    A&A 543, A92 ; A. Jones et al. 2013, A&A 560, A91), Paranal, masse d'air 1, 2,5 mm de vapeur d'eau
+    précipitable, moyennes par intervalle ; hors de ce domaine (γ, X, UV lointain, infrarouge lointain,
+    submillimétrique, radio, ionosphère) : schéma d'ordres de grandeur.
+
+Calculateurs de TD / Course calculators (src/calc/coordonnees.ts, td_parallaxe.ts, lune_meeus.ts, src/app/page_td.ts)
+-----------------------------------------------------------------------------------------------------------------
+« Parallaxe (TP du cours) » suit les sujets « Calcul de l'altitude de l'ISS par mesure de parallaxe » et « Calcul de
+la distance Terre-Lune par mesure de parallaxe » du DU « Explorer et Comprendre l'Univers » (Observatoire de Paris) :
+démarche et formules seulement, aucun texte ni image du sujet n'est repris. Formules et textes identiques à Coupole
+(module « Calculateurs de TD », GPL-3.0, même auteur). / Follows the course's ISS and Moon parallax practicals:
+approach and formulas only, no text or image of the subject is reused.
+  - ellipsoïde WGS84 (NIMA TR8350.2) ; distance à la surface : T. Vincenty, Survey Review 23 (1975) 88-93 ;
+  - position de la Lune : J. Meeus, Astronomical Algorithms, 2e éd. (1998), chap. 47, tables et arrondis repris de
+    ERFA eraMoon98 (Copyright (C) 2013-2023, NumFOCUS Foundation ; licence BSD à trois clauses, dérivée de SOFA,
+    IAU), nutation : Meeus chap. 22 (termes principaux), obliquité IAU 2006 ;
+  - ISS : satellite.js 6.0.1 (licence MIT, Copyright (C) 2013 Shashwat Kandadai, UCSC Jack Baskin School of Engineering,
+    https://github.com/shashwatak/satellite-js), SGP4 de Vallado et al. (2006), éléments orbitaux (TLE) de CelesTrak
+    (https://celestrak.org) téléchargés à la demande ;
+  - références des essais : SageMath, skyfield (MIT) et JPL DE440 (domaine public), via Coupole.
+
 Animations d'après ClassAction / Animations after ClassAction
 -------------------------------------------------------------
 Les animations sont refaites en TypeScript d'après ClassAction, University of Nebraska-Lincoln Astronomy Education,

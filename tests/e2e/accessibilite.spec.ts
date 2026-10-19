@@ -23,6 +23,8 @@ const PAGES: [string, string][] = [
   ['progression', '#/progression'],
   ['recherche', '#/recherche?q=lune'],
   ['apropos', '#/apropos'],
+  ['td', '#/td'],
+  ['td-parallaxe', '#/td/parallaxe'],
   ['animation', '#/a/seasonsim'],
   ['animation-3d', '#/a/orion3d'],
   ['introuvable', '#/r/fiche/nexiste_pas'],
