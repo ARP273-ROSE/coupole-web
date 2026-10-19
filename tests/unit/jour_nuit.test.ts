@@ -165,10 +165,12 @@ describe('globe 3D du simulateur jour-nuit', () => {
     const p = new Peintre(ctx);
     const r = new Rect(0, 0, 390, 560);
     a.peindre(p, r);
-    // durée d'une image : la meilleure de 5 séries de 8 (les autres fichiers de tests tournent en parallèle et
-    // peuvent ralentir une série entière sur la machine d'intégration continue)
+    // durée d'une image : la meilleure de séries de 8 (au moins 5, puis jusqu'à 1,5 s) — les autres fichiers de
+    // tests tournent en parallèle et ralentissent des séries entières sur la machine d'intégration continue ; la
+    // meilleure série mesure le dessin, pas les voisins (le seuil de 5 ms est inchangé ; ≈ 1 ms au calme)
     let ms = Infinity;
-    for (let serie = 0; serie < 5; serie++) {
+    const debut = performance.now();
+    for (let serie = 0; serie < 5 || (ms >= 5 && serie < 200 && performance.now() - debut < 1500); serie++) {
       const t0 = performance.now();
       for (let j = 0; j < 8; j++) {
         const i = serie * 8 + j;
