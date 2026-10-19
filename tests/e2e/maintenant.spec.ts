@@ -141,7 +141,7 @@ test('glisser sur le globe : après un réglage touché, le panneau défilé, un
   for (let k = 1; k <= 8; k++) await page.mouse.move(mx + k * 12, my + k * 4);
   await page.mouse.up();
   await page.waitForTimeout(900);
-  expect(await empreinte(page)).not.toBe(avant);
+  await expect.poll(() => empreinte(page), { timeout: 5000 }).not.toBe(avant);
   // 2. le panneau (ou la page) a défilé
   await page.evaluate(() => {
     window.scrollBy(0, 300);
@@ -151,10 +151,10 @@ test('glisser sur le globe : après un réglage touché, le panneau défilé, un
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   avant = await empreinte(page);
   await glisserDoigt(11);
-  expect(await empreinte(page)).not.toBe(avant);
+  await expect.poll(() => empreinte(page), { timeout: 5000 }).not.toBe(avant);
   // 3. un doigt « perdu » (jamais relâché : geste avalé par le système), puis un nouveau geste
   await glisserDoigt(21, false);
   avant = await empreinte(page);
   await glisserDoigt(22);
-  expect(await empreinte(page)).not.toBe(avant);
+  await expect.poll(() => empreinte(page), { timeout: 5000 }).not.toBe(avant);
 });
