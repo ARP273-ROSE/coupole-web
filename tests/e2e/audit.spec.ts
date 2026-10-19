@@ -149,7 +149,7 @@ test('animations : chaque réglage actionné, toile jamais vide, adresse partage
   const s = await surveiller(page);
   await page.goto('./#/animations');
   const ids = await page.locator('a.carte').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.replace('#/a/', '')));
-  expect(ids.length).toBe(95);
+  expect(ids.length).toBe(96);
   const fautes: string[] = [];
   let reglages = 0;
   let premiere = true;
