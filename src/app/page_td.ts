@@ -226,7 +226,7 @@ function pageParallaxe(): Page {
   async function propagateur(): Promise<T.Propagateur | null> {
     const l = tle.value.split(/\r?\n/).filter((x) => /^[12] /.test(x.trim())).map((x) => x.trim());
     if (l.length < 2) return null;
-    const sat = await import('satellite.js');
+    const sat = await import('../calc/sgp4');
     const rec = sat.twoline2satrec(l[0]!, l[1]!);
     const ep = epoque(l);
     return (t: Date) => {
