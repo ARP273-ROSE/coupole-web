@@ -273,19 +273,24 @@ export class Atmosphere extends Animation {
     ax.courbe(hs.map((x) => [x, 60 * A.refraction_vraie(x, P, T)] as [number, number]), 'accent1', 2.0);
     ax.verticale(h, 'soleil', 1.2, true, arcmin(A.refraction_vraie(h, P, T)));
     const r3 = dessin.cadre(p, droite, tr('anim_earthatmosphere_t_soleil_couchant'));
-    const ap = A.aplatissement(0.0, 0.2666, P, T);
+    const ap = A.aplatissement(h, 0.2666, P, T);
     const kk = (r3.h * 0.35) / 0.6;
     const cx = r3.cx;
-    const hy = r3.top + r3.h * 0.62;
-    p.setPen(dessin.stylo('horizon', 1.5));
-    p.drawLine(r3.left + 8, hy, r3.right - 8, hy);
+    const yc = Math.min(Math.max(r3.top + r3.h * 0.62 - h * kk, r3.top + r3.h * 0.4), r3.top + r3.h * 0.68);
+    const hy = yc + h * kk;
+    p.save();
+    p.setClipRect(r3);
+    if (hy < r3.bottom - 50) {
+      p.setPen(dessin.stylo('horizon', 1.5));
+      p.drawLine(r3.left + 8, hy, r3.right - 8, hy);
+    }
     p.setPen(dessin.stylo('doux', 1.0, null, true));
     p.setBrush(null);
-    p.drawEllipse(cx, hy, 0.2666 * kk, 0.2666 * kk);
+    p.drawEllipse(cx, yc, 0.2666 * kk, 0.2666 * kk);
     const forme = new Path2D();
     for (let i = 0; i < 73; i++) {
       const t = (2 * Math.PI * i) / 72;
-      const hv = 0.2666 * Math.sin(t);
+      const hv = h + 0.2666 * Math.sin(t);
       const ha = hv + A.refraction_vraie(hv, P, T);
       const x = cx + 0.2666 * kk * Math.cos(t);
       const y = hy - ha * kk;
@@ -295,8 +300,10 @@ export class Atmosphere extends Animation {
     p.setPen(dessin.stylo('soleil', 1.5));
     p.setBrush(dessin.c('soleil', 0.8));
     p.drawPath(forme);
-    dessin.etiquette(p, cx, hy - (ap.haut_apparent + 0.05) * kk, tr('anim_earthatmosphere_e_aplati', { r: nombre(ap.rapport, 2) }), 'texte');
-    dessin.etiquette(p, cx, hy + 0.35 * kk, tr('anim_earthatmosphere_e_vrai'), 'doux');
+    p.restore();
+    if (hy >= r3.bottom - 50) dessin.etiquette(p, cx, r3.bottom - 56, tr('anim_earthatmosphere_e_horizon_bas', { h: nombre(h, 1) }), 'doux');
+    dessin.etiquette(p, cx, hy - (ap.haut_apparent + 0.05) * kk, tr('anim_earthatmosphere_e_aplati', { r: nombre(ap.rapport, 3) }), 'texte');
+    dessin.etiquette(p, cx, yc + 0.35 * kk, tr('anim_earthatmosphere_e_vrai'), 'doux');
     dessin.etiquette(p, cx, r3.bottom - 34, tr('anim_earthatmosphere_e_avance', { t: nombre(A.avance_lever_min(this.latitude.value()), 1), lat: nombre(this.latitude.value(), 0) }), 'texte');
     const dd = [0.45, 0.55, 0.65].map((l) => (A.refraction_lambda(h, l, P, T) - A.refraction_lambda(h, 0.55, P, T)) * 3600);
     const x0 = r3.left + 40;
