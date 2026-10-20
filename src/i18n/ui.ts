@@ -7,7 +7,7 @@ export const UI: Record<string, [string, string]> = {
   ],
   web_evitement: ['Aller au contenu', 'Skip to content'],
   web_nav: ['Navigation principale', 'Main navigation'],
-  web_nav_catalogue: ['Catalogue', 'Catalogue'],
+  web_nav_catalogue: ['Animations', 'Animations'],
   web_nav_apropos: ['À propos', 'About'],
   web_marque_aide: ['Coupole Web — accueil', 'Coupole Web — home'],
   web_introuvable: ['Introuvable', 'Not found'],
@@ -38,7 +38,7 @@ export const UI: Record<string, [string, string]> = {
   web_resultat_1: ['1 animation', '1 animation'],
   web_aucun: ['Aucune animation ne correspond à « {q} ».', 'No animation matches “{q}”.'],
   web_vignette: ['Aperçu : {nom}', 'Preview: {nom}'],
-  web_retour: ['Catalogue', 'Catalogue'],
+  web_retour: ['Animations', 'Animations'],
   web_titre_origine: ['Titre d’origine : {titre}', 'Original title: {titre}'],
   web_scene: ['Animation « {nom} »', 'Animation “{nom}”'],
   web_scene_aide: [

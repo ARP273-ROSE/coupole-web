@@ -45,13 +45,13 @@ export const UI_060: Record<string, [string, string]> = {
   // bibliothèque
   web_bibliotheque: ['Bibliothèque', 'Library'],
   web_bibliotheque_texte: [
-    'Tout le contenu, comme dans ClassAction : chaque onglet montre toutes les questions, animations, fiches, tables ou images, rangées par module dans l’ordre d’origine.',
-    'All the content, as in ClassAction: each tab shows all the questions, animations, outlines, tables or images, grouped by module in the original order.',
+    'Comme dans ClassAction : chaque onglet montre toutes les questions, fiches, tables ou images, rangées par module dans l’ordre d’origine. Les animations ont leur propre page, « Animations ».',
+    'As in ClassAction: each tab shows all the questions, outlines, tables or images, grouped by module in the original order. Animations have their own page, “Animations”.',
   ],
-  web_bibliotheque_carte_titre: ['Tout le contenu, comme dans ClassAction', 'All the content, as in ClassAction'],
+  web_bibliotheque_carte_titre: ['Questions, fiches, tables et images', 'Questions, outlines, tables and images'],
   web_bibliotheque_carte_texte: [
-    'La bibliothèque : {q} questions, {a} animations, {f} fiches, {t} tables et {i} images, rangées par module, avec des filtres.',
-    'The library: {q} questions, {a} animations, {f} outlines, {t} tables and {i} images, grouped by module, with filters.',
+    'La bibliothèque : {q} questions, {f} fiches, {t} tables et {i} images, rangées par module, avec des filtres.',
+    'The library: {q} questions, {f} outlines, {t} tables and {i} images, grouped by module, with filters.',
   ],
   web_filtre_module: ['Module :', 'Module:'],
   web_tous_les_modules: ['tous les modules', 'all modules'],

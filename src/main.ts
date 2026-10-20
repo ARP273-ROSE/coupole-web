@@ -65,8 +65,8 @@ function construireEntete(): void {
   };
   nav.replaceChildren(
     lien('#/', 'accueil', 'modules', 'web_nav_modules'),
-    lien('#/bibliotheque', 'bibliotheque', 'bibliotheque', 'web_nav_bibliotheque'),
     lien('#/animations', 'catalogue', 'animation', 'web_nav_catalogue'),
+    lien('#/bibliotheque', 'bibliotheque', 'bibliotheque', 'web_nav_bibliotheque'),
     lien('#/td', 'td', 'calcul', 'web_nav_td'),
     lien('#/favoris', 'favoris', 'etoile', 'web_nav_favoris'),
     lien('#/progression', 'progression', 'progres', 'web_nav_progression'),

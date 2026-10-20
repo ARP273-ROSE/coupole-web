@@ -90,7 +90,8 @@ function montrerBulle(cible: HTMLElement, genre: GenreL, id: string): void {
       bulle = h('div', { class: 'bulle-apercu', role: 'tooltip', id: 'bulle-apercu', hidden: true });
       document.body.append(bulle);
     }
-    bulle.replaceChildren(c);
+    // nom lisible par les lecteurs d'écran : une photo ou un schéma seuls n'en donnent pas (rôle « tooltip »)
+    bulle.replaceChildren(h('span', { class: 'visuellement-cache', text: cible.querySelector('.ressource-titre')?.textContent ?? '' }), c);
     bulle.hidden = false;
     const r = cible.getBoundingClientRect();
     const l = 196;

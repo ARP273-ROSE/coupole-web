@@ -54,6 +54,7 @@ export function lireRoute(hash = location.hash): Route {
   if (morceaux[0] === 'mes-modules') return { page: 'mes-modules', nouveau: params.get('nouveau') === '1' };
   if (morceaux[0] === 'progression') return { page: 'progression' };
   if (morceaux[0] === 'favoris') return { page: 'favoris', genre: (params.get('t') ?? '').slice(0, 20), tri: (params.get('tri') ?? '').slice(0, 20) };
+  if (morceaux[0] === 'bibliotheque' && morceaux[1] === 'animations') return { page: 'catalogue', q: '', theme: '' };   // ancien onglet, devenu la page Animations
   if (morceaux[0] === 'bibliotheque') return { page: 'bibliotheque', onglet: id(morceaux[1]), module: (params.get('m') ?? '').slice(0, 80), favoris: params.get('f') === '1' };
   if (morceaux[0] === 'recherche') return { page: 'recherche', q: (params.get('q') ?? '').slice(0, 200) };
   if (morceaux[0] === 'r' && morceaux[1] && morceaux[2]) return { page: 'ressource', genre: id(morceaux[1]), id: id(morceaux[2]) };

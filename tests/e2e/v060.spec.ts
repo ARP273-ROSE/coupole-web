@@ -172,11 +172,10 @@ test('bibliothèque : onglets par type, tout le contenu rangé par module, filtr
   await page.locator('#biblio-favoris').check();
   await expect(page.locator('#panneau-images .carte-boite')).toHaveCount(1);
   await expect(page.locator('.compte')).toContainText('favoris');
-  // animations : vignettes dessinées par les animations
-  await page.locator('#biblio-favoris').uncheck();
-  await page.locator('#biblio-module').selectOption('');
-  await page.getByRole('tab', { name: /Animations/ }).click();
-  await expect(page.locator('#panneau-animations canvas.prete').first()).toBeVisible({ timeout: 20_000 });
+  // plus d'onglet Animations (doublon de la page Animations) ; l'ancienne adresse y mène
+  await expect(page.getByRole('tab', { name: /Animations/ })).toHaveCount(0);
+  await page.goto('./#/bibliotheque/animations');
+  await expect(page.locator('a[data-page="catalogue"][aria-current="page"]')).toBeVisible();
   expect(s.erreurs).toEqual([]);
   expect(s.externes).toEqual([]);
 });

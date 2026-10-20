@@ -1,12 +1,11 @@
 /**
  * Bibliothèque : la présentation d'origine de ClassAction (« showing: all images »…).  Un onglet par type —
- * Questions, Animations, Fiches, Tables, Images — montre TOUT le contenu de ce type, rangé par module dans l'ordre
- * d'origine ; filtres « module » et « favoris seulement » ; vignettes pour les animations (dessinées par les
- * animations elles-mêmes) et les images (photo ou schéma), aperçu au survol pour les fiches et tables, étoile favori
- * partout.  Adresse : #/bibliotheque/<onglet>?m=<module>&f=1.
+ * Questions, Fiches, Tables, Images — montre TOUT le contenu de ce type, rangé par module dans l'ordre d'origine ;
+ * filtres « module » et « favoris seulement » ; vignettes pour les images (photo ou schéma), aperçu au survol pour
+ * les fiches et tables, étoile favori partout.  Les animations ont leur propre page (#/animations) : l'ancien onglet
+ * Animations, qui la répétait, y renvoie.  Adresse : #/bibliotheque/<onglet>?m=<module>&f=1.
  */
 import * as S from '../contenu/sauvegarde';
-import { PAR_ID } from '../anim/registre';
 import { langue, tr } from '../i18n/i18n';
 import { h, icone } from './dom';
 import * as contenu from './contenu';
@@ -16,9 +15,9 @@ import type { Page } from './page_apropos';
 import { remplacerAdresse } from './routeur';
 import * as stockage from './stockage';
 
-const ONGLETS = ['questions', 'animations', 'fiches', 'tables', 'images'] as const;
+const ONGLETS = ['questions', 'fiches', 'tables', 'images'] as const;
 type Onglet = (typeof ONGLETS)[number];
-const GENRE: Record<Onglet, 'question' | 'animation' | 'fiche' | 'table' | 'image'> = { questions: 'question', animations: 'animation', fiches: 'fiche', tables: 'table', images: 'image' };
+const GENRE: Record<Onglet, 'question' | 'fiche' | 'table' | 'image'> = { questions: 'question', fiches: 'fiche', tables: 'table', images: 'image' };
 const TYPES = ['W', 'G', 'C', 'D'];
 
 function etatIcone(s: S.Sauvegarde, id: string): HTMLElement {
@@ -37,14 +36,12 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
   let favorisSeuls = favoris0;
 
   const titreDe = (g: Onglet, id: string): string => {
-    if (g === 'animations') return PAR_ID.has(id) ? tr('anim_nom_' + PAR_ID.get(id)!.cle) : id;
     if (g === 'questions') return id;
     return contenu.bi(titres[g === 'fiches' ? 'f' : g === 'tables' ? 't' : 'i'][id] ?? id);
   };
   /** Contenu d'un onglet pour un module, filtres appliqués (ordre d'origine). */
   const elements = (m: contenu.Module, g: Onglet): string[] => {
     let ids = g === 'questions' ? m.questions.map((q) => q.id) : (m[g] as string[]);
-    if (g === 'animations') ids = ids.filter((id) => PAR_ID.has(id));
     if (favorisSeuls) ids = ids.filter((id) => S.estFavori(s, GENRE[g], id));
     return ids;
   };
@@ -61,7 +58,6 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
 
   // ------------------------------------------------------------ panneaux
   const panneaux: Partial<Record<Onglet, HTMLElement>> = {};
-  let arreterVignettes: (() => void) | null = null;
   let detruite = false;
   let observateurImages: IntersectionObserver | null = null;
 
@@ -79,19 +75,6 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
     }, { rootMargin: '200px' });
     observateurImages.observe(boite);
     return boite;
-  };
-
-  const carteAnimation = (id: string): HTMLElement => {
-    const e = PAR_ID.get(id)!;
-    const nom = tr('anim_nom_' + e.cle);
-    return h(
-      'div',
-      { class: 'carte-boite', 'data-genre': 'animation', 'data-id': id },
-      h('a', { class: 'carte', href: `#/a/${encodeURIComponent(id)}` },
-        h('div', { class: 'vignette' }, h('canvas', { 'aria-hidden': 'true', 'data-anim': id, width: 320, height: 200 })),
-        h('div', { class: 'carte-corps' }, h('span', { class: 'etiquette-theme', text: tr('anim_theme_' + e.theme) }), h('h3', { class: 'carte-titre', text: nom }))),
-      boutonFavori('animation', id, nom),
-    );
   };
 
   const carteImage = (id: string): HTMLElement => {
@@ -112,12 +95,6 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
       const t0 = performance.now();
       while (file.length && (performance.now() - t0 < 12 || p.childElementCount < 2)) section(p, g, file.shift()!);
       if (file.length) (window.requestIdleCallback ?? ((f: () => void) => setTimeout(f, 30)))(suite, { timeout: 200 } as never);
-      else if (g === 'animations') {
-        arreterVignettes?.();
-        void import('./vignettes').then((v) => {
-          if (!detruite) arreterVignettes = v.observerVignettes(p);
-        });
-      }
     };
     if (!file.length) p.append(h('p', { class: 'vide', text: tr('web_bibliotheque_vide') }));
     else suite();
@@ -149,8 +126,7 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
           }
           corps.append(h('h3', { class: 'type-questions', text: tr('web_type_' + t) }), ol);
         }
-      } else if (g === 'animations') corps = h('div', { class: 'grille grille-biblio' }, ...ids.map(carteAnimation));
-      else if (g === 'images') corps = h('div', { class: 'grille grille-biblio' }, ...ids.map(carteImage));
+      } else if (g === 'images') corps = h('div', { class: 'grille grille-biblio' }, ...ids.map(carteImage));
       else corps = h('ul', { class: 'liste-ressources' }, ...ids.map((id) => elementRessource(GENRE[g], id, titreDe(g, id))));
       p.append(h('section', { class: 'groupe-ressources groupe-biblio', 'data-module': m.cle }, tete, corps));
     }
@@ -214,7 +190,6 @@ export async function pageBibliotheque(onglet0: string, module0: string, favoris
     titre: `${tr('web_bibliotheque')} — Coupole Web`,
     detruire() {
       detruite = true;
-      arreterVignettes?.();
       observateurImages?.disconnect();
       clearTimeout(attente);
       desabonner();
