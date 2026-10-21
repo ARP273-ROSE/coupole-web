@@ -29,6 +29,8 @@
 
 /* ------------------------------------------------------------------ jetons */
 :root {
+  /* haut sûr ; « ios27 » descend l'en-tête sous le flou qu'iOS 27 pose en haut des applis installées */
+  --haut-sur: env(safe-area-inset-top);
   --police: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --rayon-s: 10px;
   --rayon: 14px;
@@ -100,7 +102,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   /* l'en-tête collant (encoche comprise) ne masque jamais un titre atteint par un lien ou le focus */
-  scroll-padding-top: calc(var(--entete) + env(safe-area-inset-top) + 12px);
+  scroll-padding-top: calc(var(--entete) + var(--haut-sur) + 12px);
 }
 
 body {
@@ -193,7 +195,7 @@ p {
 }
 
 .evitement:focus {
-  top: calc(env(safe-area-inset-top) + 8px);
+  top: calc(var(--haut-sur) + 8px);
 }
 
 .noscript {
@@ -208,8 +210,8 @@ p {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: calc(var(--entete) + env(safe-area-inset-top));
-  padding: env(safe-area-inset-top) var(--marge) 0;
+  min-height: calc(var(--entete) + var(--haut-sur));
+  padding: var(--haut-sur) var(--marge) 0;
   background: var(--verre);
   -webkit-backdrop-filter: saturate(150%) blur(14px);
   backdrop-filter: saturate(150%) blur(14px);
@@ -715,14 +717,14 @@ p {
 
 .scene-boite {
   position: sticky;
-  top: calc(var(--entete) + env(safe-area-inset-top) + 12px);
+  top: calc(var(--entete) + var(--haut-sur) + 12px);
   display: grid;
   gap: 10px;
 }
 
 .scene {
   position: relative;
-  height: calc(100dvh - var(--entete) - env(safe-area-inset-top) - 200px);
+  height: calc(100dvh - var(--entete) - var(--haut-sur) - 200px);
   min-height: 300px;
   border-radius: var(--rayon-l);
   border: 1px solid var(--bord);
@@ -2465,4 +2467,8 @@ math {
 
 .td-etapes b {
   color: var(--texte);
+}
+
+:root.ios27 {
+  --haut-sur: calc(env(safe-area-inset-top) + 36px);
 }
