@@ -281,9 +281,9 @@ export class Atmosphere extends Animation {
     dessin.etiquette(p, ox + 60, oy - 18, tr('anim_earthatmosphere_e_apparente'), 'accent1');
     if (this.exagerer.isChecked()) dessin.etiquette(p, r.right - 90, r.top + 14, tr('anim_earthatmosphere_e_exagere'), 'doux');
     const r2 = dessin.cadre(p, new Rect(gauche.x, gauche.y + gauche.h * 0.55, gauche.w, gauche.h * 0.45), tr('anim_earthatmosphere_t_refraction'));
-    const ax = new Axes(r2, -1.0, 45.0, 0.0, 40.0, false, false, [40, 6, 12, 22]).avec(p);
+    const ax = new Axes(r2, -1.0, 90.0, 0.0, 40.0, false, false, [40, 6, 12, 22]).avec(p);
     ax.fond(p, { titre_x: `${tr('anim_earthatmosphere_hauteur')} (°)`, titre_y: '′', n_x: 9, n_y: 4 });
-    const hs = Array.from({ length: 185 }, (_, i) => -1.0 + i * 0.25);
+    const hs = Array.from({ length: 365 }, (_, i) => -1.0 + i * 0.25);
     ax.courbe(hs.map((x) => [x, 60 * A.refraction_vraie(x, P, T)] as [number, number]), 'accent1', 2.0);
     ax.verticale(h, 'soleil', 1.2, true, arcmin(A.refraction_vraie(h, P, T)));
     const r3 = dessin.cadre(p, droite, tr('anim_earthatmosphere_t_soleil_couchant'));
