@@ -5,6 +5,9 @@ ClassAction, University of Nebraska-Lincoln Astronomy Education, Apache 2.0).
 
 ## État courant
 
+- 22/10/2026 : plus de `viewport-fit=cover` — iOS 27 floutait le haut de l'application installée
+  (la page passait sous la barre d'état). Ne pas le remettre.
+
 - Socle complet : catalogue, fiche, toile, réglages, adresse partageable, mémoire, thèmes, langues, PWA hors ligne,
   sécurité, tests, CI, déploiement GitHub Pages.
 - Animations disponibles : **95** — les 92 de ClassAction, la machine d’Anticythère (0.2.0, adaptée d’Anticythere3D),
