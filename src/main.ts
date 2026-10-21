@@ -14,15 +14,6 @@ import { lireRoute, type Route } from './app/routeur';
 import { charger, PAR_ID } from './anim/registre';
 import * as installation from './app/installation';
 
-// iOS 27 floute le haut des applis installées : l'en-tête descend sous cette bande. Le numéro d'iOS ne se lit
-// que dans « Version/xx » ; localStorage « hdr27 » = on / off pour forcer.
-try {
-  const force = localStorage.getItem('hdr27');
-  const ver = navigator.userAgent.match(/Version\/(\d+)/);
-  const installee = (navigator as Navigator & { standalone?: boolean }).standalone || matchMedia('(display-mode: standalone)').matches;
-  if (force === 'on' || (force !== 'off' && installee && navigator.maxTouchPoints > 0 && ver && +ver[1] >= 27)) document.documentElement.classList.add('ios27');
-} catch { /* stockage indisponible : rien */ }
-
 // invite d'installation du navigateur : captée avant tout (elle peut arriver très tôt)
 installation.demarrer();
 

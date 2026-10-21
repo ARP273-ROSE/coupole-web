@@ -4,7 +4,7 @@
 
 ## En ligne, non numéroté
 
-- **iOS 27** : l'en-tête descend sous la bande floue qu'iOS 27 pose en haut des applications installées.
+- **iOS 27** : plus de flou en haut de l'application installée (la page ne passe plus sous la barre d'état).
 - **Barre de navigation dans un ordre logique** : Modules, Animations (l'ancien « Catalogue »), Bibliothèque,
   Calculateurs de TD, Favoris, Progression, À propos. La Bibliothèque perd son onglet « Animations », qui répétait la
   page Animations ; l'ancienne adresse `#/bibliotheque/animations` y mène.
@@ -348,7 +348,7 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ### Live, unnumbered
 
-- **iOS 27**: the header moves below the blurred band iOS 27 draws at the top of installed apps.
+- **iOS 27**: no more blur at the top of the installed app (the page no longer runs under the status bar).
 - **Navigation bar in a logical order**: Modules, Animations (formerly “Catalogue”), Library, Course calculators,
   Favourites, Progress, About. The Library loses its “Animations” tab, which repeated the Animations page; the old
   address `#/bibliotheque/animations` leads there.
