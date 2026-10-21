@@ -262,7 +262,7 @@ export class Atmosphere extends Animation {
       xs.push(xs[xs.length - 1]! + hauteur / n_couches / Math.tan(a));
       ys.push(ys[ys.length - 1]! + hauteur / n_couches);
     }
-    const kx = Math.min(1.0, (r.right - 12 - ox) / Math.max(xs[xs.length - 1]!, 1e-9));
+    const kx = 0.25; // compression horizontale FIXE (× 4) : l'angle dessiné suit la hauteur ; un rayon bas sort par le côté
     const chemin = new Path2D();
     chemin.moveTo(ox, oy);
     for (let i = 1; i < xs.length; i++) chemin.lineTo(ox + kx * xs[i]!, oy - ys[i]!);
@@ -276,7 +276,7 @@ export class Atmosphere extends Animation {
     const L0 = (1.2 * hauteur) / Math.tan(a0);
     p.drawLine(ox, oy, ox + kx * L0, oy - 1.2 * hauteur);
     p.restore();
-    if (kx < 0.999) dessin.etiquette(p, r.cx, r.bottom - 6, tr('anim_earthatmosphere_e_comprime', { k: nombre(1 / kx, 0) }), 'doux');
+    dessin.etiquette(p, r.cx, r.bottom - 6, tr('anim_earthatmosphere_e_comprime', { k: nombre(1 / kx, 0) }), 'doux');
     dessin.disque(p, ox, oy, 4, 'texte');
     dessin.etiquette(p, ox + 60, oy - 18, tr('anim_earthatmosphere_e_apparente'), 'accent1');
     if (this.exagerer.isChecked()) dessin.etiquette(p, r.right - 90, r.top + 14, tr('anim_earthatmosphere_e_exagere'), 'doux');
