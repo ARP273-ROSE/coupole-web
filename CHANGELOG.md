@@ -8,6 +8,8 @@
   Calculateurs de TD, Favoris, Progression, À propos. La Bibliothèque perd son onglet « Animations », qui répétait la
   page Animations ; l'ancienne adresse `#/bibliotheque/animations` y mène.
 - **L'atmosphère terrestre, vue Réfraction** : le Soleil à l'échelle suit le curseur de hauteur.
+- **L'atmosphère terrestre** : seuls les réglages utiles à la vue choisie sont affichés ; la vue Extinction trace aussi
+  l'épaisseur optique le long de la visée (τ × X), qui suit la hauteur.
 - **Accessibilité** (axe-core 4.14) : le nom du logo reprend son texte visible ; la bulle d'aperçu d'une image ou d'un
   schéma porte le titre de la ressource pour les lecteurs d'écran.
 - **satellite.js 7.1** : seule la partie JavaScript (SGP4) est importée, sans le module WASM que Vite ne sait pas
@@ -349,6 +351,8 @@ Première version de Coupole Web, la version navigateur des animations d’astro
   Favourites, Progress, About. The Library loses its “Animations” tab, which repeated the Animations page; the old
   address `#/bibliotheque/animations` leads there.
 - **Earth's atmosphere, Refraction view**: the to-scale Sun follows the altitude slider.
+- **Earth's atmosphere**: only the settings that matter for the chosen view are shown; the Extinction view also plots
+  the optical depth along the line of sight (τ × X), which follows the altitude.
 - **Accessibility** (axe-core 4.14): the logo's name includes its visible text; the preview bubble of an image or a
   diagram carries the resource title for screen readers.
 - **satellite.js 7.1**: only the JavaScript part (SGP4) is imported, without the WASM module Vite cannot bundle; ISS

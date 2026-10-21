@@ -37,6 +37,18 @@ export class Atmosphere extends Animation {
     this.beta = this.curseur('aerosols', 0.0, 0.3, 0.05, { dec: 2 });
     this.latitude = this.curseur('latitude', 0.0, 65.0, 48.8, { dec: 1, unite: '°' });
     this.exagerer = this.coche('exagerer', false);
+    this.vue_c.currentIndexChanged.connect(() => this.reglagesUtiles());
+    this.reglagesUtiles();
+  }
+
+  /** Seuls les réglages qui changent la vue affichée sont montrés (température et latitude : réfraction). */
+  private reglagesUtiles(): void {
+    const v = this.vue_c.currentData();
+    this.pression.setVisible(v !== 'fenetres');
+    this.temperature.setVisible(v === 'epaisseur' || v === 'refraction');
+    this.beta.setVisible(v === 'extinction');
+    this.latitude.setVisible(v === 'refraction');
+    this.exagerer.setVisible(v === 'refraction');
   }
 
   override valeurs(): [string, string][] {
@@ -154,19 +166,21 @@ export class Atmosphere extends Animation {
     const gauche = new Rect(rect.x, rect.y, rect.w * 0.66, rect.h);
     const droite = new Rect(gauche.right, rect.y, rect.w - gauche.w, rect.h);
     const r = dessin.cadre(p, gauche, tr('anim_earthatmosphere_t_tau'));
-    const ax = new Axes(r, 0.3, 1.0, 0.0, 1.2, false, false, [40, 6, 12, 22]).avec(p);
+    const ax = new Axes(r, 0.3, 1.0, 0.0, 1.2 * Math.min(Math.max(X, 1.0), 6.0), false, false, [40, 6, 12, 22]).avec(p);
     ax.bande_visible(0.15, 380.0, 750.0, 0.001);
     ax.fond(p, { titre_x: 'λ (µm)', titre_y: 'τ', n_x: 7, n_y: 4 });
     const ls = Array.from({ length: 141 }, (_, i) => 0.3 + i * 0.005);
+    // le long de la visée : τ × X (masse d'air à la hauteur choisie)
+    ax.courbe(ls.map((l) => [l, X * A.tau_total(l, P, beta)] as [number, number]), 'accent1', 1.6, 1.0, true);
     ax.courbe(ls.map((l) => [l, A.tau_rayleigh(l, P)] as [number, number]), 'accent2', 1.4);
     ax.courbe(ls.map((l) => [l, A.tau_aerosols(l, beta)] as [number, number]), 'doux', 1.4);
     ax.courbe(ls.map((l) => [l, A.tau_ozone(l)] as [number, number]), 'arc1', 1.4);
     ax.courbe(ls.map((l) => [l, A.tau_total(l, P, beta)] as [number, number]), 'accent1', 2.4);
     for (const [b, l] of Object.entries(A.BANDES)) ax.verticale(l, COULEURS_BANDES[b]!, 1.2, true, `${b} : k = ${nombre(A.k_bande(l, P, beta), 2)}`);
     dessin.police(p, 0.8);
-    let yy = r.top + 14;
-    for (const [cle, nom] of [['accent1', tr('anim_earthatmosphere_total')], ['accent2', 'Rayleigh ∝ λ⁻⁴'], ['doux', tr('anim_earthatmosphere_aerosols')], ['arc1', tr('anim_earthatmosphere_ozone')]] as [string, string][]) {
-      dessin.texte(p, ax.r.right - 90, yy, nom, cle);
+    let yy = r.top + r.h * 0.35;
+    for (const [cle, nom] of [['accent1', tr('anim_earthatmosphere_total')], ['accent1', '- - ' + tr('anim_earthatmosphere_visee', { x: nombre(X, 2) })], ['accent2', 'Rayleigh ∝ λ⁻⁴'], ['doux', tr('anim_earthatmosphere_aerosols')], ['arc1', tr('anim_earthatmosphere_ozone')]] as [string, string][]) {
+      dessin.texte(p, ax.r.right - 130, yy, nom, cle);
       yy += 14;
     }
     dessin.police(p, 1 / 0.8);
