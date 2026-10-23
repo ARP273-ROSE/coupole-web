@@ -207,14 +207,34 @@ function enregistrerServiceWorker(): void {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (recharger) location.reload();
   });
+  // une seule annonce à la fois : une version plus récente trouvée entre-temps remplace l'annonce (l'ancien
+  // bouton activait une version déjà remplacée : rien ne se passait, il fallait recliquer)
+  let reg: ServiceWorkerRegistration | null = null;
+  let fermerAnnonce: (() => void) | null = null;
+  // au clic : on reprend d'abord la toute dernière version publiée, puis on active celle qui attend
+  const activer = async (sw: ServiceWorker): Promise<void> => {
+    recharger = true;
+    if (reg) {
+      try {
+        await Promise.race([reg.update(), new Promise((r) => setTimeout(r, 4000))]);
+      } catch {
+        /* hors ligne */
+      }
+      const t0 = Date.now();
+      while (reg.installing && Date.now() - t0 < 15000) await new Promise((r) => setTimeout(r, 300));
+    }
+    ((reg && reg.waiting) || sw).postMessage({ type: 'activer' });
+  };
   const proposer = (sw: ServiceWorker): void => {
-    annoncer(
+    if (recharger) return; // mise à jour déjà acceptée : rechargement sur la dernière version, sans nouvelle annonce
+    if (fermerAnnonce) fermerAnnonce();
+    fermerAnnonce = annoncer(
       tr('web_maj'),
       {
         libelle: tr('web_maj_bouton'),
         faire: () => {
-          recharger = true;
-          sw.postMessage({ type: 'activer' });
+          fermerAnnonce = null;
+          void activer(sw);
         },
       },
       0,
@@ -223,10 +243,11 @@ function enregistrerServiceWorker(): void {
   const enregistrer = (): void => {
     navigator.serviceWorker
       .register('./sw.js', { scope: './' })
-      .then((reg) => {
-        if (reg.waiting && dejaControle) proposer(reg.waiting);
-        reg.addEventListener('updatefound', () => {
-          const nouveau = reg.installing;
+      .then((r) => {
+        reg = r;
+        if (r.waiting && dejaControle) proposer(r.waiting);
+        r.addEventListener('updatefound', () => {
+          const nouveau = r.installing;
           if (!nouveau) return;
           nouveau.addEventListener('statechange', () => {
             if (nouveau.state !== 'installed') return;
@@ -236,7 +257,7 @@ function enregistrerServiceWorker(): void {
         });
         // vérifier les mises à jour quand on revient sur l'onglet
         document.addEventListener('visibilitychange', () => {
-          if (!document.hidden) void reg.update().catch(() => {});
+          if (!document.hidden) void r.update().catch(() => {});
         });
       })
       .catch(() => {});

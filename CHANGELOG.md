@@ -4,6 +4,9 @@
 
 ## En ligne, non numéroté
 
+- **Mise à jour en un seul clic** : une seule annonce « nouvelle version » à la fois, remplacée si une version plus
+  récente arrive entre-temps ; le bouton installe la toute dernière version publiée (avant, l'ancienne annonce
+  restait et activait une version déjà remplacée : il fallait recliquer).
 - **iOS 27** : plus de flou en haut de l'application installée (la page ne passe plus sous la barre d'état).
 - **Barre de navigation dans un ordre logique** : Modules, Animations (l'ancien « Catalogue »), Bibliothèque,
   Calculateurs de TD, Favoris, Progression, À propos. La Bibliothèque perd son onglet « Animations », qui répétait la
@@ -348,6 +351,9 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ### Live, unnumbered
 
+- **One-click update**: a single “new version” notice at a time, replaced if a newer version arrives meanwhile;
+  the button installs the very latest published version (before, the old notice stayed and activated an already
+  superseded version: you had to click again).
 - **iOS 27**: no more blur at the top of the installed app (the page no longer runs under the status bar).
 - **Navigation bar in a logical order**: Modules, Animations (formerly “Catalogue”), Library, Course calculators,
   Favourites, Progress, About. The Library loses its “Animations” tab, which repeated the Animations page; the old
