@@ -5,10 +5,6 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-    ignore:
-      # @types/node suit la version de Node du projet (.nvmrc = 22) : pas de saut de version majeure
-      - dependency-name: '@types/node'
-        update-types: ['version-update:semver-major']
     groups:
       outils:
         patterns: ['*']
