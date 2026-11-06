@@ -2,7 +2,13 @@
 
 *Français, puis [English](#english).*
 
-## En ligne, non numéroté
+## 0.6.4 — 2026-11-06
+
+- **Calculateurs de TD, Parallaxe, schéma de la Lune** : à ×1, le schéma montre tout l'exercice, la Terre et la Lune
+  à la même échelle, avec les deux visées qui se rejoignent sur la Lune ; le curseur de zoom resserre jusqu'à la base
+  (h₁, h₂, R, horizons). Avant, pour la Lune, le cadre ne contenait que la base et le zoom ne changeait rien.
+
+### Déjà en ligne avant la 0.6.4
 
 - **Mise à jour en un seul clic** : une seule annonce « nouvelle version » à la fois, remplacée si une version plus
   récente arrive entre-temps ; le bouton installe la toute dernière version publiée (avant, l'ancienne annonce
@@ -349,7 +355,13 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ## English
 
-### Live, unnumbered
+### 0.6.4 — 2026-11-06
+
+- **Course calculators, Parallax, Moon diagram**: at ×1 the diagram shows the whole exercise, the Earth and the Moon
+  at the same scale, with both lines of sight meeting at the Moon; the zoom slider narrows down to the baseline
+  (h₁, h₂, R, horizons). Before, for the Moon, the frame held only the baseline and the zoom changed nothing.
+
+#### Already live before 0.6.4
 
 - **One-click update**: a single “new version” notice at a time, replaced if a newer version arrives meanwhile;
   the button installs the very latest published version (before, the old notice stayed and activated an already

@@ -443,6 +443,26 @@ function couleurs(): Record<string, string> {
   };
 }
 
+/**
+ * Cadre du schéma (km) : étendue et centre.  ×1 : tout l'exercice, objet compris (pour la Lune, la Terre et la Lune) ;
+ * ×60 : la base seule (objet lointain : la base et le départ des visées).  Étendue en progression géométrique ; le
+ * centre suit la même fraction, ce qui garde la base dans le cadre (comme `cadrage` de l'appli de bureau).
+ */
+export function cadrage(x1: number, y1: number, x2: number, y2: number, xm: number, ym: number, loin: boolean, zoom: number): [number, number, number] {
+  const boite = (xs: number[], ys: number[]): [number, number, number] => [
+    Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys), 50) * 1.35,
+    (Math.min(...xs) + Math.max(...xs)) / 2,
+    (Math.min(...ys) + Math.max(...ys)) / 2,
+  ];
+  const [eg, cxg, cyg] = boite([x1, x2, xm], [y1, y2, ym]);
+  let [el, cxl, cyl] = loin ? boite([x1, x2], [y1, y2, y1 + 0.35 * Math.abs(x2 - x1) + 50]) : [Math.max(Math.abs(x2 - x1), 1) * 1.3, (x1 + x2) / 2, (y1 + y2) / 2];
+  el = Math.min(el, eg);
+  const u = Math.min(1, Math.max(0, (zoom - 1) / 59));
+  const e = eg * (el / eg) ** u;
+  const f = eg > el ? (eg - e) / (eg - el) : 1;
+  return [e, cxg + f * (cxl - cxg), cyg + f * (cyl - cyg)];
+}
+
 export function dessinerSchema(p: CanvasRenderingContext2D, w: number, hh: number, res: T.Resultat | null, zoom: number): void {
   const c = couleurs();
   p.fillStyle = c.fond;
@@ -468,26 +488,18 @@ export function dessinerSchema(p: CanvasRenderingContext2D, w: number, hh: numbe
   const [xm, ym] = q(x.M);
   const rt = ny + g.fleche_km;
   const loin = Math.hypot(xm, ym) > 3 * rt;
-  const xs = [x1, x2];
-  const ys = [y1, y2];
-  if (!loin) {
-    xs.push(xm);
-    ys.push(ym);
-  } else ys.push(y1 + 0.35 * Math.abs(x2 - x1) + 50);
-  let cx = (Math.min(...xs) + Math.max(...xs)) / 2;
-  let cy = (Math.min(...ys) + Math.max(...ys)) / 2;
-  const tout = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys), 50) * 1.35;
-  const base = Math.max(Math.abs(x2 - x1), 1) * 1.3;
-  const u = Math.min(1, Math.max(0, (zoom - 1) / 59));
-  const etendue = tout * (Math.min(base, tout) / tout) ** u;
-  cx += u * ((x1 + x2) / 2 - cx);
-  cy += u * ((y1 + y2) / 2 - cy);
+  // zoom : de tout l'exercice, objet compris, même la Lune (×1), jusqu'à la base seule (×60)
+  const [etendue, cx, cy] = cadrage(x1, y1, x2, y2, xm, ym, loin, zoom);
   const k = Math.min(w, hh) / etendue;
   const P = (a: number, b: number): [number, number] => [w / 2 + (a - cx) * k, hh / 2 - (b - cy) * k];
+  const dedans = (pt: [number, number]): boolean => pt[0] >= 0 && pt[0] <= w && pt[1] >= 0 && pt[1] <= hh;
+  const M = P(xm, ym);
+  const vu = dedans(M);
+  const petit = Math.hypot((x2 - x1) * k, (y2 - y1) * k) < 40;
   const places: [number, number, number, number][] = [];
   const lw = 190;
   const lh = 110;
-  const pts = [P(x1, y1), P(x2, y2), ...(loin ? [] : [P(xm, ym)])];
+  const pts = [P(x1, y1), P(x2, y2), ...(vu ? [M] : [])];
   const coins: [number, number][] = [[w - lw - 8, 8], [8, 8], [w - lw - 8, hh - lh - 8], [8, hh - lh - 8]];
   const loupe = coins.reduce((best, cn) => {
     const dist = (co: [number, number]): number => Math.min(...pts.map(([a, b]) => Math.hypot(co[0] + lw / 2 - a, co[1] + lh / 2 - b)));
@@ -536,32 +548,28 @@ export function dessinerSchema(p: CanvasRenderingContext2D, w: number, hh: numbe
   p.stroke();
   const A = P(x1, y1);
   const B = P(x2, y2);
-  const M = P(xm, ym);
   for (const [[xa, ya], pt] of [[[x1, y1], A], [[x2, y2], B]] as [[number, number], [number, number]][]) {
     const n = Math.hypot(xa, ya);
     const [ux, uy] = [xa / n, ya / n];
-    const L = etendue * 0.18;
+    const L = loin ? Math.min(etendue * 0.18, 2 * Math.max(Math.abs(x2 - x1), 50)) : etendue * 0.18;
     ligne(pt, P(xa + ux * L, ya + uy * L), c.doux, 1, true);
     ligne(P(xa - uy * L, ya + ux * L), P(xa + uy * L, ya - ux * L), c.horizon, 1.4);
   }
   ligne(A, B, c.corde, 2.2);
-  if (loin) {
-    for (const [[xa, ya], pt] of [[[x1, y1], A], [[x2, y2], B]] as [[number, number], [number, number]][]) {
-      const [dx, dy] = [xm - xa, ym - ya];
-      const n = Math.hypot(dx, dy);
-      ligne(pt, P(xa + (dx / n) * etendue, ya + (dy / n) * etendue), c.visee, 1.8);
-    }
-    const t = tr('td_s_objet_loin', { d: nombre(x.distances_km[0], 0) });
-    etiquette(w / 2 - p.measureText(t).width / 2, 26, t, c.visee);
-  } else {
-    ligne(A, M, c.visee, 1.8);
-    ligne(B, M, c.visee, 1.8);
+  ligne(A, M, c.visee, 1.8);
+  ligne(B, M, c.visee, 1.8);
+  if (vu) {
     p.fillStyle = c.objet;
     p.beginPath();
     p.arc(M[0], M[1], 4, 0, 2 * Math.PI);
     p.fill();
     etiquette(M[0], M[1], tr('td_s_D', { d: nombre(x.distances_km[0], 0) }), c.visee);
-    etiquette((M[0] + A[0]) / 2, (M[1] + A[1]) / 2, '2α = ' + nombre(x.parallaxe_vraie_deg, 2) + '°', c.visee);
+    const mi: [number, number] = [(M[0] + A[0]) / 2, (M[1] + A[1]) / 2];
+    const ou = dedans(mi) ? mi : [M[0], M[1] + 22];
+    etiquette(ou[0]!, ou[1]!, '2α = ' + nombre(x.parallaxe_vraie_deg, 2) + '°', c.visee);
+  } else {
+    const t = tr('td_s_objet_loin', { d: nombre(x.distances_km[0], 0) });
+    etiquette(w / 2 - p.measureText(t).width / 2, 26, t, c.visee);
   }
   res.lieux.forEach((o, n) => {
     const pt = n === 0 ? A : B;
@@ -569,11 +577,13 @@ export function dessinerSchema(p: CanvasRenderingContext2D, w: number, hh: numbe
     p.beginPath();
     p.arc(pt[0], pt[1], 3.5, 0, 2 * Math.PI);
     p.fill();
-    etiquette(pt[0], pt[1], (n === 0 ? 'h₁ = ' : 'h₂ = ') + nombre(o.h, 3) + '°', c.texte);
+    if (!petit) etiquette(pt[0], pt[1], (n === 0 ? 'h₁ = ' : 'h₂ = ') + nombre(o.h, 3) + '°', c.texte);
   });
-  etiquette((A[0] + B[0]) / 2, (A[1] + B[1]) / 2, tr('td_s_R', { r: nombre(g.corde_km, 1) }), c.corde);
-  for (const [pt, prof] of [[A, g.profondeur_deg[0]], [B, g.profondeur_deg[1]]] as [[number, number], number][])
-    etiquette(pt[0], pt[1] + 16, tr('td_s_prof', { p: nombre(Math.abs(prof), 2) }), c.horizon);
+  if (!petit) {
+    etiquette((A[0] + B[0]) / 2, (A[1] + B[1]) / 2, tr('td_s_R', { r: nombre(g.corde_km, 1) }), c.corde);
+    for (const [pt, prof] of [[A, g.profondeur_deg[0]], [B, g.profondeur_deg[1]]] as [[number, number], number][])
+      etiquette(pt[0], pt[1] + 16, tr('td_s_prof', { p: nombre(Math.abs(prof), 2) }), c.horizon);
+  }
   etiquette(centre[0] >= 0 && centre[0] <= w && centre[1] >= 0 && centre[1] <= hh ? centre[0] : w / 2, centre[1] >= 0 && centre[1] <= hh ? centre[1] : hh - 30, 'θ = ' + nombre(g.angle_centre_deg, 3) + '°', c.doux);
   // loupe : la flèche
   const [lx, ly] = loupe;
