@@ -21571,6 +21571,906 @@ true
 },
 "lecture_au_depart": false
 },
+"newtoncannon": {
+"animee": true,
+"changements": [
+[
+"temps",
+1000
+],
+[
+"astre",
+"dimorphos"
+],
+[
+"altitude_terre",
+67.0
+],
+[
+"altitude_lune",
+3174.5
+],
+[
+"altitude_mars",
+590.0
+],
+[
+"altitude_ceres",
+3367.0
+],
+[
+"altitude_dimorphos",
+25.0
+],
+[
+"vitesse_terre",
+4.72
+],
+[
+"vitesse_lune",
+0.928
+],
+[
+"vitesse_mars",
+2.31
+],
+[
+"vitesse_ceres",
+531.6
+],
+[
+"vitesse_dimorphos",
+14.8
+],
+[
+"angle",
+-25.5
+],
+[
+"air",
+true
+],
+[
+"projectile",
+"satellite"
+],
+[
+"apercu",
+false
+],
+[
+"defi",
+"dimorphos"
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"At the cannon’s altitude",
+"v₁ = 7.84 km·s⁻¹ (circular orbit) · v₂ = 11.09 km·s⁻¹ (escape)"
+],
+[
+"Shot set",
+"5.00 km·s⁻¹ = 0.64 v₁ = 0.45 v₂ · angle 0.0°"
+],
+[
+"Predicted path (no air)",
+"falls back to the ground (piece of an ellipse) · e = 0.594"
+],
+[
+"Periapsis · apoapsis (altitudes)",
+"−4 727 km (below the surface) · 100 km"
+],
+[
+"Mechanical energy per kilogram",
+"−49.03 MJ·kg⁻¹ (< 0: bound to the body)"
+]
+]
+],
+[
+"pas",
+[
+[
+"At the cannon’s altitude",
+"v₁ = 7.84 km·s⁻¹ (circular orbit) · v₂ = 11.09 km·s⁻¹ (escape)"
+],
+[
+"Shot set",
+"5.00 km·s⁻¹ = 0.64 v₁ = 0.45 v₂ · angle 0.0°"
+],
+[
+"Predicted path (no air)",
+"falls back to the ground (piece of an ellipse) · e = 0.594"
+],
+[
+"Periapsis · apoapsis (altitudes)",
+"−4 727 km (below the surface) · 100 km"
+],
+[
+"Mechanical energy per kilogram",
+"−49.03 MJ·kg⁻¹ (< 0: bound to the body)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"At the cannon’s altitude",
+"v₁ = 5.79 cm·s⁻¹ (circular orbit) · v₂ = 8.19 cm·s⁻¹ (escape)"
+],
+[
+"Shot set",
+"14.80 cm·s⁻¹ = 2.55 v₁ = 1.81 v₂ · angle −25.5°"
+],
+[
+"Predicted path (no air)",
+"hyperbola: escaping · e = 5.006"
+],
+[
+"Periapsis · apoapsis (altitudes)",
+"0.2 m · at infinity"
+],
+[
+"Mechanical energy per kilogram",
+"7.60 mJ·kg⁻¹ (≥ 0: free)"
+],
+[
+"Challenge",
+"Put a ball in orbit around the asteroid Dimorphos. — set up then fire (Fire or Space)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"At the cannon’s altitude",
+"v₁ = 5.79 cm·s⁻¹ (circular orbit) · v₂ = 8.19 cm·s⁻¹ (escape)"
+],
+[
+"Shot set",
+"14.80 cm·s⁻¹ = 2.55 v₁ = 1.81 v₂ · angle −25.5°"
+],
+[
+"Predicted path (no air)",
+"hyperbola: escaping · e = 5.006"
+],
+[
+"Periapsis · apoapsis (altitudes)",
+"0.2 m · at infinity"
+],
+[
+"Mechanical energy per kilogram",
+"7.60 mJ·kg⁻¹ (≥ 0: free)"
+],
+[
+"Challenge",
+"Put a ball in orbit around the asteroid Dimorphos. — set up then fire (Fire or Space)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"At the cannon’s altitude",
+"v₁ = 7.84 km·s⁻¹ (circular orbit) · v₂ = 11.09 km·s⁻¹ (escape)"
+],
+[
+"Shot set",
+"5.00 km·s⁻¹ = 0.64 v₁ = 0.45 v₂ · angle 0.0°"
+],
+[
+"Predicted path (no air)",
+"falls back to the ground (piece of an ellipse) · e = 0.594"
+],
+[
+"Periapsis · apoapsis (altitudes)",
+"−4 727 km (below the surface) · 100 km"
+],
+[
+"Mechanical energy per kilogram",
+"−49.03 MJ·kg⁻¹ (< 0: bound to the body)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Time acceleration: at ×100, one second on screen is 100 s.",
+"cle": "temps",
+"defaut": 100,
+"options": [
+[
+"×1 (real time)",
+1
+],
+[
+"×10",
+10
+],
+[
+"×100",
+100
+],
+[
+"×1,000",
+1000
+]
+],
+"type": "choix"
+},
+{
+"aide": "Body on which the mountain stands (spherical, motionless, not rotating).",
+"cle": "astre",
+"defaut": "terre",
+"options": [
+[
+"Earth",
+"terre"
+],
+[
+"Moon",
+"lune"
+],
+[
+"Mars",
+"mars"
+],
+[
+"Ceres (dwarf planet)",
+"ceres"
+],
+[
+"Dimorphos (151 m asteroid)",
+"dimorphos"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Height of the mountain above the ground (logarithmic scale). The higher the cannon, the lower the orbital and escape speeds.",
+"cle": "altitude_terre",
+"dec": 0,
+"defaut": 100.0,
+"libelle": "Cannon altitude",
+"log": true,
+"maxi": 40000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 100.0
+},
+{
+"aide": "Height of the mountain above the ground (logarithmic scale). The higher the cannon, the lower the orbital and escape speeds.",
+"cle": "altitude_lune",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Cannon altitude",
+"log": true,
+"maxi": 20000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 10.0
+},
+{
+"aide": "Height of the mountain above the ground (logarithmic scale). The higher the cannon, the lower the orbital and escape speeds.",
+"cle": "altitude_mars",
+"dec": 0,
+"defaut": 50.0,
+"libelle": "Cannon altitude",
+"log": true,
+"maxi": 30000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 50.0
+},
+{
+"aide": "Height of the mountain above the ground (logarithmic scale). The higher the cannon, the lower the orbital and escape speeds.",
+"cle": "altitude_ceres",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Cannon altitude",
+"log": true,
+"maxi": 5000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 10.0
+},
+{
+"aide": "Height of the mountain above the ground (logarithmic scale). The higher the cannon, the lower the orbital and escape speeds.",
+"cle": "altitude_dimorphos",
+"dec": 0,
+"defaut": 10.0,
+"libelle": "Cannon altitude",
+"log": true,
+"maxi": 1000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "m",
+"valeur": 10.0
+},
+{
+"aide": "Speed of the ball leaving the cannon. Marks under the slider: v₁, circular orbital speed; v₂, escape speed. You can also drag the tip of the green arrow.",
+"cle": "vitesse_terre",
+"dec": 2,
+"defaut": 5.0,
+"libelle": "Muzzle speed",
+"log": false,
+"maxi": 16.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 5.0
+},
+{
+"aide": "Speed of the ball leaving the cannon. Marks under the slider: v₁, circular orbital speed; v₂, escape speed. You can also drag the tip of the green arrow.",
+"cle": "vitesse_lune",
+"dec": 3,
+"defaut": 1.0,
+"libelle": "Muzzle speed",
+"log": false,
+"maxi": 3.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 1.0
+},
+{
+"aide": "Speed of the ball leaving the cannon. Marks under the slider: v₁, circular orbital speed; v₂, escape speed. You can also drag the tip of the green arrow.",
+"cle": "vitesse_mars",
+"dec": 2,
+"defaut": 2.5,
+"libelle": "Muzzle speed",
+"log": false,
+"maxi": 7.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 2.5
+},
+{
+"aide": "Speed of the ball leaving the cannon. Marks under the slider: v₁, circular orbital speed; v₂, escape speed. You can also drag the tip of the green arrow.",
+"cle": "vitesse_ceres",
+"dec": 1,
+"defaut": 200.0,
+"libelle": "Muzzle speed",
+"log": false,
+"maxi": 750.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "m·s⁻¹",
+"valeur": 200.0
+},
+{
+"aide": "Speed of the ball leaving the cannon. Marks under the slider: v₁, circular orbital speed; v₂, escape speed. You can also drag the tip of the green arrow.",
+"cle": "vitesse_dimorphos",
+"dec": 2,
+"defaut": 4.0,
+"libelle": "Muzzle speed",
+"log": false,
+"maxi": 15.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "cm·s⁻¹",
+"valeur": 4.0
+},
+{
+"aide": "Angle above the horizontal (0°: horizontal shot, as in Newton).",
+"cle": "angle",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Firing angle",
+"log": false,
+"maxi": 90.0,
+"mini": -90.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "Air slows the ball down (drag ½ ρ v² × area × drag coefficient). Real density: Earth from 0 to 1,000 km in exponential layers (CIRA-72), Mars exponential (H = 11.1 km).",
+"cle": "air",
+"defaut": false,
+"libelle": "Atmosphere",
+"type": "coche"
+},
+{
+"aide": "Ballistic coefficient B = mass / (drag coefficient × area): the smaller it is, the more the air slows the object down.",
+"cle": "projectile",
+"defaut": "boulet",
+"options": [
+[
+"Cast-iron ball (B ≈ 1,300 kg·m⁻²)",
+"boulet"
+],
+[
+"Capsule (B ≈ 350 kg·m⁻²)",
+"capsule"
+],
+[
+"Satellite (B ≈ 50 kg·m⁻²)",
+"satellite"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Dotted line: the path the ball would follow without air (Kepler conic), updated while you set up the shot.",
+"cle": "apercu",
+"defaut": true,
+"libelle": "Predicted path",
+"type": "coche"
+},
+{
+"aide": "A goal; each shot is checked automatically.",
+"cle": "defi",
+"defaut": "aucun",
+"options": [
+[
+"None",
+"aucun"
+],
+[
+"Circular orbit",
+"cercle"
+],
+[
+"Just enough to escape",
+"liberation"
+],
+[
+"Orbit above the air",
+"au_dessus"
+],
+[
+"Hit the antipodes",
+"antipodes"
+],
+[
+"Satellite of Dimorphos",
+"dimorphos"
+]
+],
+"type": "choix"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"À l’altitude du canon",
+"v₁ = 7,84 km·s⁻¹ (satellisation) · v₂ = 11,09 km·s⁻¹ (libération)"
+],
+[
+"Tir réglé",
+"5,00 km·s⁻¹ = 0,64 v₁ = 0,45 v₂ · angle 0,0°"
+],
+[
+"Trajectoire prévue (sans air)",
+"retombe sur le sol (morceau d’ellipse) · e = 0,594"
+],
+[
+"Périapside · apoapside (altitudes)",
+"−4 727 km (sous la surface) · 100 km"
+],
+[
+"Énergie mécanique par kilogramme",
+"−49,03 MJ·kg⁻¹ (< 0 : lié à l’astre)"
+]
+]
+],
+[
+"pas",
+[
+[
+"À l’altitude du canon",
+"v₁ = 7,84 km·s⁻¹ (satellisation) · v₂ = 11,09 km·s⁻¹ (libération)"
+],
+[
+"Tir réglé",
+"5,00 km·s⁻¹ = 0,64 v₁ = 0,45 v₂ · angle 0,0°"
+],
+[
+"Trajectoire prévue (sans air)",
+"retombe sur le sol (morceau d’ellipse) · e = 0,594"
+],
+[
+"Périapside · apoapside (altitudes)",
+"−4 727 km (sous la surface) · 100 km"
+],
+[
+"Énergie mécanique par kilogramme",
+"−49,03 MJ·kg⁻¹ (< 0 : lié à l’astre)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"À l’altitude du canon",
+"v₁ = 5,79 cm·s⁻¹ (satellisation) · v₂ = 8,19 cm·s⁻¹ (libération)"
+],
+[
+"Tir réglé",
+"14,80 cm·s⁻¹ = 2,55 v₁ = 1,81 v₂ · angle −25,5°"
+],
+[
+"Trajectoire prévue (sans air)",
+"hyperbole : libéré · e = 5,006"
+],
+[
+"Périapside · apoapside (altitudes)",
+"0,2 m · à l’infini"
+],
+[
+"Énergie mécanique par kilogramme",
+"7,60 mJ·kg⁻¹ (≥ 0 : libre)"
+],
+[
+"Défi",
+"Mettre un boulet en orbite autour de l’astéroïde Dimorphos. — réglez puis tirez (Feu ou Espace)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"À l’altitude du canon",
+"v₁ = 5,79 cm·s⁻¹ (satellisation) · v₂ = 8,19 cm·s⁻¹ (libération)"
+],
+[
+"Tir réglé",
+"14,80 cm·s⁻¹ = 2,55 v₁ = 1,81 v₂ · angle −25,5°"
+],
+[
+"Trajectoire prévue (sans air)",
+"hyperbole : libéré · e = 5,006"
+],
+[
+"Périapside · apoapside (altitudes)",
+"0,2 m · à l’infini"
+],
+[
+"Énergie mécanique par kilogramme",
+"7,60 mJ·kg⁻¹ (≥ 0 : libre)"
+],
+[
+"Défi",
+"Mettre un boulet en orbite autour de l’astéroïde Dimorphos. — réglez puis tirez (Feu ou Espace)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"À l’altitude du canon",
+"v₁ = 7,84 km·s⁻¹ (satellisation) · v₂ = 11,09 km·s⁻¹ (libération)"
+],
+[
+"Tir réglé",
+"5,00 km·s⁻¹ = 0,64 v₁ = 0,45 v₂ · angle 0,0°"
+],
+[
+"Trajectoire prévue (sans air)",
+"retombe sur le sol (morceau d’ellipse) · e = 0,594"
+],
+[
+"Périapside · apoapside (altitudes)",
+"−4 727 km (sous la surface) · 100 km"
+],
+[
+"Énergie mécanique par kilogramme",
+"−49,03 MJ·kg⁻¹ (< 0 : lié à l’astre)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Accélération du temps : ×100, une seconde à l’écran vaut 100 s.",
+"cle": "temps",
+"defaut": 100,
+"options": [
+[
+"×1 (temps réel)",
+1
+],
+[
+"×10",
+10
+],
+[
+"×100",
+100
+],
+[
+"×1 000",
+1000
+]
+],
+"type": "choix"
+},
+{
+"aide": "Astre sur lequel se dresse la montagne (sphérique, immobile, sans rotation).",
+"cle": "astre",
+"defaut": "terre",
+"options": [
+[
+"Terre",
+"terre"
+],
+[
+"Lune",
+"lune"
+],
+[
+"Mars",
+"mars"
+],
+[
+"Cérès (planète naine)",
+"ceres"
+],
+[
+"Dimorphos (astéroïde de 151 m)",
+"dimorphos"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Hauteur de la montagne au-dessus du sol (échelle logarithmique). Plus le canon est haut, plus les vitesses de satellisation et de libération sont faibles.",
+"cle": "altitude_terre",
+"dec": 0,
+"defaut": 100.0,
+"libelle": "Altitude du canon",
+"log": true,
+"maxi": 40000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 100.0
+},
+{
+"aide": "Hauteur de la montagne au-dessus du sol (échelle logarithmique). Plus le canon est haut, plus les vitesses de satellisation et de libération sont faibles.",
+"cle": "altitude_lune",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Altitude du canon",
+"log": true,
+"maxi": 20000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 10.0
+},
+{
+"aide": "Hauteur de la montagne au-dessus du sol (échelle logarithmique). Plus le canon est haut, plus les vitesses de satellisation et de libération sont faibles.",
+"cle": "altitude_mars",
+"dec": 0,
+"defaut": 50.0,
+"libelle": "Altitude du canon",
+"log": true,
+"maxi": 30000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 50.0
+},
+{
+"aide": "Hauteur de la montagne au-dessus du sol (échelle logarithmique). Plus le canon est haut, plus les vitesses de satellisation et de libération sont faibles.",
+"cle": "altitude_ceres",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Altitude du canon",
+"log": true,
+"maxi": 5000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 10.0
+},
+{
+"aide": "Hauteur de la montagne au-dessus du sol (échelle logarithmique). Plus le canon est haut, plus les vitesses de satellisation et de libération sont faibles.",
+"cle": "altitude_dimorphos",
+"dec": 0,
+"defaut": 10.0,
+"libelle": "Altitude du canon",
+"log": true,
+"maxi": 1000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "m",
+"valeur": 10.0
+},
+{
+"aide": "Vitesse du boulet à la sortie du canon. Repères sous le curseur : v₁, vitesse de satellisation (orbite circulaire) ; v₂, vitesse de libération. On peut aussi tirer le bout de la flèche verte.",
+"cle": "vitesse_terre",
+"dec": 2,
+"defaut": 5.0,
+"libelle": "Vitesse de tir",
+"log": false,
+"maxi": 16.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 5.0
+},
+{
+"aide": "Vitesse du boulet à la sortie du canon. Repères sous le curseur : v₁, vitesse de satellisation (orbite circulaire) ; v₂, vitesse de libération. On peut aussi tirer le bout de la flèche verte.",
+"cle": "vitesse_lune",
+"dec": 3,
+"defaut": 1.0,
+"libelle": "Vitesse de tir",
+"log": false,
+"maxi": 3.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 1.0
+},
+{
+"aide": "Vitesse du boulet à la sortie du canon. Repères sous le curseur : v₁, vitesse de satellisation (orbite circulaire) ; v₂, vitesse de libération. On peut aussi tirer le bout de la flèche verte.",
+"cle": "vitesse_mars",
+"dec": 2,
+"defaut": 2.5,
+"libelle": "Vitesse de tir",
+"log": false,
+"maxi": 7.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 2.5
+},
+{
+"aide": "Vitesse du boulet à la sortie du canon. Repères sous le curseur : v₁, vitesse de satellisation (orbite circulaire) ; v₂, vitesse de libération. On peut aussi tirer le bout de la flèche verte.",
+"cle": "vitesse_ceres",
+"dec": 1,
+"defaut": 200.0,
+"libelle": "Vitesse de tir",
+"log": false,
+"maxi": 750.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "m·s⁻¹",
+"valeur": 200.0
+},
+{
+"aide": "Vitesse du boulet à la sortie du canon. Repères sous le curseur : v₁, vitesse de satellisation (orbite circulaire) ; v₂, vitesse de libération. On peut aussi tirer le bout de la flèche verte.",
+"cle": "vitesse_dimorphos",
+"dec": 2,
+"defaut": 4.0,
+"libelle": "Vitesse de tir",
+"log": false,
+"maxi": 15.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "cm·s⁻¹",
+"valeur": 4.0
+},
+{
+"aide": "Angle au-dessus de l’horizontale (0° : tir horizontal, comme chez Newton).",
+"cle": "angle",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Angle de tir",
+"log": false,
+"maxi": 90.0,
+"mini": -90.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "L’air freine le boulet (traînée ½ ρ v² × aire × coefficient de traînée). Densité réelle : Terre de 0 à 1 000 km par tranches exponentielles (CIRA-72), Mars exponentielle (H = 11,1 km).",
+"cle": "air",
+"defaut": false,
+"libelle": "Atmosphère",
+"type": "coche"
+},
+{
+"aide": "Coefficient balistique B = masse / (coefficient de traînée × aire) : plus il est petit, plus l’air freine.",
+"cle": "projectile",
+"defaut": "boulet",
+"options": [
+[
+"Boulet de fonte (B ≈ 1 300 kg·m⁻²)",
+"boulet"
+],
+[
+"Capsule (B ≈ 350 kg·m⁻²)",
+"capsule"
+],
+[
+"Satellite (B ≈ 50 kg·m⁻²)",
+"satellite"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Pointillés : la trajectoire qu’aurait le boulet sans air (conique de Kepler), mise à jour pendant qu’on règle le tir.",
+"cle": "apercu",
+"defaut": true,
+"libelle": "Trajectoire prévue",
+"type": "coche"
+},
+{
+"aide": "Un objectif ; chaque tir est vérifié automatiquement.",
+"cle": "defi",
+"defaut": "aucun",
+"options": [
+[
+"Aucun",
+"aucun"
+],
+[
+"Orbite circulaire",
+"cercle"
+],
+[
+"Libération au plus juste",
+"liberation"
+],
+[
+"Orbite au-dessus de l’air",
+"au_dessus"
+],
+[
+"Viser les antipodes",
+"antipodes"
+],
+[
+"Satellite de Dimorphos",
+"dimorphos"
+]
+],
+"type": "choix"
+}
+]
+},
+"lecture_au_depart": false
+},
 "obliquity": {
 "animee": false,
 "changements": [

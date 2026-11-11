@@ -157,7 +157,7 @@ test('bibliothèque : onglets par type, tout le contenu rangé par module, filtr
   await page.goto('./');
   await page.locator('.carte-bibliotheque').click();
   await expect(page).toHaveURL(/#\/bibliotheque/);
-  await expect(page.getByRole('tab', { name: /Questions/ })).toContainText('517');
+  await expect(page.getByRole('tab', { name: /Questions/ })).toContainText('522');
   await expect(page.locator('#panneau-questions .groupe-biblio').first()).toContainText('Notions de base');
   // images : toutes, avec vignettes
   await page.getByRole('tab', { name: /Images/ }).click();

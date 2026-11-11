@@ -234,6 +234,8 @@ export class Systeme {
   /** instant de départ des mesures (périodes, conservation) */
   t0 = 0.0;
   gravite = true;
+  /** accélérations ajoutées à la gravité (frottement de l'air du canon de Newton) : ajoute à ax, ay ; ou null */
+  acc_sup: ((cs: Corps[], ax: number[], ay: number[]) => void) | null = null;
   e0 = 0.0;
   l0 = 0.0;
   suivis: Suivi[] = [];
@@ -334,6 +336,7 @@ export class Systeme {
 
   private pousser(h: number): void {
     accelerations(this.corps, this.gravite, this.ax, this.ay);
+    if (this.acc_sup) this.acc_sup(this.corps, this.ax, this.ay);
     const cs = this.corps;
     for (let i = 0; i < cs.length; i++) {
       const c = cs[i]!;

@@ -46,6 +46,8 @@ export class Scene implements Hote {
     d0: number; k0: number; mx0: number; my0: number; ox0: number; oy0: number;
     /** deux doigts sur une scène à tourner : le milieu des doigts la fait tourner, l'écart zoome */
     rotation: boolean; mxp: number; myp: number;
+    /** écart des doigts au mouvement précédent (zoom propre de l'animation) */
+    dPrec?: number;
   } | null = null;
   /** pincement mesuré par Safari (gesturechange) : il commande le zoom, les pointeurs ne gardent que la rotation */
   private gesteSafari: { k0: number; x0: number; y0: number; ox0: number; oy0: number } | null = null;
@@ -182,6 +184,10 @@ export class Scene implements Hote {
    * dans le libellé accessible de la toile.
    */
   private majTitres(): void {
+    // poignées que l'animation propose de saisir (pixels CSS de la toile) : pour les essais de bout en bout
+    const pg = this.anim?.poignees() ?? [];
+    const sp = pg.length ? JSON.stringify(pg.map(([x, y]) => [Math.round(x * this.k + this.ox), Math.round(y * this.k + this.oy)])) : '';
+    if ((this.canvas.dataset.poignees ?? '') !== sp) this.canvas.dataset.poignees = sp;
     const d = this.dpr;
     this.titres = titresPoses().map((t) => ({
       x: t.boite.x / d, y: t.boite.y / d, w: t.boite.w / d, h: t.boite.h / d, complet: t.complet, abrege: t.abrege,
@@ -294,6 +300,11 @@ export class Scene implements Hote {
     this.demander();
   }
 
+  /** L'animation gère son propre zoom (le canon de Newton : cadrage qui suit le boulet). */
+  private zoomPropre(): boolean {
+    return Boolean(this.anim && (this.anim.constructor as typeof Animation).ZOOM_PROPRE);
+  }
+
   zoomRelatif(f: number): void {
     this.zoomer(this.k * f, this.w / 2, this.h / 2);
   }
@@ -343,11 +354,18 @@ export class Scene implements Hote {
       if (e.type === 'gesturestart' || !this.gesteSafari) {
         const x = Number.isFinite(g.clientX) ? g.clientX! - r.left : this.w / 2;
         const y = Number.isFinite(g.clientY) ? g.clientY! - r.top : this.h / 2;
-        this.gesteSafari = { k0: this.k, x0: x, y0: y, ox0: this.ox, oy0: this.oy };
+        this.gesteSafari = { k0: this.zoomPropre() ? 1 : this.k, x0: x, y0: y, ox0: this.ox, oy0: this.oy };
         if (e.type === 'gesturestart') return;
       }
       const s0 = this.gesteSafari;
       const echelle = Number.isFinite(g.scale) && g.scale! > 0 ? g.scale! : 1;
+      if (this.zoomPropre()) {
+        // zoom de l'animation elle-même : facteur depuis le dernier geste (k0 garde la dernière échelle)
+        this.anim.zoomer_vue(echelle / s0.k0, this.logique(s0.x0, s0.y0));
+        s0.k0 = echelle;
+        this.demander();
+        return;
+      }
       const k = Math.max(1, Math.min(ZOOM_MAX, s0.k0 * echelle));
       // le point de la scène sous les doigts au départ reste sous les doigts
       this.ox = s0.x0 - ((s0.x0 - s0.ox0) / s0.k0) * k;
@@ -364,7 +382,12 @@ export class Scene implements Hote {
         e.preventDefault();
         const p = this.position(e);
         const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
-        this.zoomer(this.k * Math.exp(-e.deltaY * unite * 0.0016), p.x, p.y);
+        const f = Math.exp(-e.deltaY * unite * 0.0016);
+        if (this.zoomPropre() && this.anim!.zoomer_vue(f, this.logique(p.x, p.y))) {
+          this.demander();
+          return;
+        }
+        this.zoomer(this.k * f, p.x, p.y);
       },
       { passive: false },
     );
@@ -563,6 +586,14 @@ export class Scene implements Hote {
       }
       // Safari : le zoom vient de gesturechange (une seule source, pas de zoom en double)
       if (this.gesteSafari) return;
+      if (this.zoomPropre()) {
+        // zoom de l'animation elle-même : rapport des écarts entre deux mouvements des doigts
+        const dPrec = this.pince.dPrec ?? this.pince.d0;
+        this.pince.dPrec = d;
+        this.anim.zoomer_vue(d / dPrec, this.logique(mx, my));
+        this.demander();
+        return;
+      }
       // le point de la scène sous le milieu des doigts suit les doigts
       this.ox = mx - ((this.pince.mx0 - this.pince.ox0) / this.pince.k0) * k;
       this.oy = my - ((this.pince.my0 - this.pince.oy0) / this.pince.k0) * k;
@@ -655,6 +686,10 @@ export class Scene implements Hote {
       e.preventDefault();
       return;
     }
+    if (a.touche(e.key, e.shiftKey)) {
+      e.preventDefault();
+      return;
+    }
     switch (e.key) {
       case 'ArrowLeft':
       case 'ArrowRight':
@@ -676,10 +711,12 @@ export class Scene implements Hote {
       }
       case '+':
       case '=':
+        if (this.zoomPropre() && a.zoomer_vue(1.25, new Pt(this.w / 2, this.h / 2))) break;
         this.zoomRelatif(1.25);
         break;
       case '-':
       case '_':
+        if (this.zoomPropre() && a.zoomer_vue(0.8, new Pt(this.w / 2, this.h / 2))) break;
         this.zoomRelatif(0.8);
         break;
       case '0':

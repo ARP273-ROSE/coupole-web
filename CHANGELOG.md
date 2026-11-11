@@ -2,6 +2,31 @@
 
 *Français, puis [English](#english).*
 
+## Prochaine version (0.7.0, non publiée) — Le canon de Newton
+
+- **Le canon de Newton** (97ᵉ animation, thème et module « Renaissance ») : l'expérience de pensée de Newton. Un canon
+  au sommet d'une montagne tire de plus en plus vite : le boulet retombe de plus en plus loin, fait le tour de l'astre,
+  puis s'échappe. Terre, Lune, Mars, Cérès ou l'astéroïde Dimorphos (où quelques centimètres par seconde suffisent).
+  - **En un geste** : gros bouton « Feu ! » (et touche Espace), pause, « Recommencer », temps ×1 à ×1 000 ; on tire le
+    bout de la flèche verte pour régler à la fois l'angle et la vitesse (aimantée à l'horizontale), curseurs et champs
+    synchronisés, flèches du clavier.
+  - **Repères** : vitesses de satellisation v₁ = √(GM/r) et de libération v₂ = √(2GM/r) à l'altitude du canon,
+    marquées sous le curseur de vitesse et en cercles autour du canon ; trajectoire prévue en pointillés pendant le
+    réglage ; type de trajectoire, excentricité, périapside et apoapside, période (3ᵉ loi de Kepler), énergie.
+  - **Cadrage automatique** qui suit le boulet (molette pour zoomer, glisser pour déplacer la vue zoomée,
+    « Recadrer » ou double-clic pour revenir) ; tirs précédents gardés en couleurs, avec leur légende.
+  - **Préréglages en un clic** (tombe au pied, tour au ras du sol, orbite de l'ISS, ellipse, juste libéré, hyperbole,
+    rentrée atmosphérique) et **défis** vérifiés automatiquement (orbite circulaire, libération au plus juste,
+    orbite au-dessus de l'air, antipodes, satellite de Dimorphos).
+  - **Atmosphère réelle** en option (Terre : modèle exponentiel par tranches de 0 à 1 000 km, CIRA-72 ; Mars) : boulet,
+    capsule ou satellite freinés ; une orbite basse se dégrade jusqu'à la rentrée.
+  - Calcul par le moteur de « Gravité et orbites » (Yoshida d'ordre 4) ; constantes UAI 2015, DE440, Dawn (Cérès),
+    DART (Dimorphos) ; valeurs vérifiées sous SageMath ; mêmes valeurs que Coupole Web au caractère près.
+- **Fiche « Le canon de Newton »** (définition, formules et ordres de grandeur, piège, « pour aller plus loin ») et
+  **5 questions** nouvelles dans le module Renaissance (G24 à G28), écrites pour Coupole.
+- Animations : un curseur peut porter des repères (v₁, v₂) ; une animation peut répondre au clavier et gérer son
+  propre zoom (molette, deux doigts) ; un geste principal (« Feu ! ») a son gros bouton dans la barre de lecture.
+
 ## 0.6.4 — 2026-11-06
 
 - **Calculateurs de TD, Parallaxe, schéma de la Lune** : à ×1, le schéma montre tout l'exercice, la Terre et la Lune
@@ -354,6 +379,30 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### Next version (0.7.0, unreleased) — Newton's cannon
+
+- **Newton's cannon** (97th animation, Renaissance theme and module): Newton's thought experiment. A cannon on top of a
+  mountain fires faster and faster: the ball lands farther and farther away, goes round the body, then escapes. Earth,
+  Moon, Mars, Ceres or the asteroid Dimorphos (where a few centimetres per second are enough).
+  - **One gesture**: big "Fire!" button (and Space key), pause, "Restart", time ×1 to ×1,000; drag the tip of the green
+    arrow to set both angle and speed (snaps to horizontal), synchronised sliders and fields, arrow keys.
+  - **Marks**: orbital speed v₁ = √(GM/r) and escape speed v₂ = √(2GM/r) at the cannon's altitude, marked under the
+    speed slider and as circles around the cannon; predicted path as a dotted line while setting up; path type,
+    eccentricity, periapsis and apoapsis, period (Kepler's 3rd law), energy.
+  - **Automatic framing** that follows the ball (wheel to zoom, drag to pan the zoomed view, "Reframe" or double-click
+    to go back); previous shots kept in colour, with their legend.
+  - **One-click presets** (falls nearby, round trip at ground level, ISS orbit, ellipse, just escaping, hyperbola,
+    atmospheric re-entry) and automatically checked **challenges** (circular orbit, just enough to escape, orbit above
+    the air, antipodes, satellite of Dimorphos).
+  - Optional **real atmosphere** (Earth: layered exponential model from 0 to 1,000 km, CIRA-72; Mars): ball, capsule
+    or satellite slowed down; a low orbit decays until re-entry.
+  - Computed by the "Gravity and Orbits" engine (4th-order Yoshida); IAU 2015, DE440, Dawn (Ceres), DART (Dimorphos)
+    constants; values checked with SageMath; same values as Coupole (desktop), character for character.
+- **"Newton's cannon" outline** (definition, formulas and orders of magnitude, pitfall, "going further") and **5 new
+  questions** in the Renaissance module (G24 to G28), written for Coupole.
+- Animations: a slider can carry marks (v₁, v₂); an animation can respond to the keyboard and handle its own zoom
+  (wheel, two fingers); a main gesture ("Fire!") gets its big button in the playback bar.
 
 ### 0.6.4 — 2026-11-06
 

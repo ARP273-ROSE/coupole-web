@@ -65,6 +65,8 @@
   --ombre-l: 0 2px 6px rgba(0, 0, 0, 0.4), 0 18px 48px rgba(0, 0, 0, 0.35);
   --verre: rgba(20, 23, 28, 0.72);
   --piste: #39404d;
+  --repere-accent2: #7cc4e8;
+  --repere-accent3: #f28c8c;
 }
 
 :root[data-theme='clair'] {
@@ -89,6 +91,8 @@
   --ombre-l: 0 2px 6px rgba(30, 30, 20, 0.1), 0 18px 48px rgba(30, 30, 20, 0.12);
   --verre: rgba(244, 243, 239, 0.78);
   --piste: #d3d0c7;
+  --repere-accent2: #1f6f99;
+  --repere-accent3: #a83a36;
 }
 
 /* ------------------------------------------------------------------ base */
@@ -865,6 +869,54 @@ p {
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-size: 0.9rem;
+}
+
+/* geste principal d'une animation (« Feu ! » du canon de Newton) */
+.transport .bouton.geste {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: 1.05rem;
+  font-weight: 720;
+  letter-spacing: 0.01em;
+}
+
+.transport .bouton.geste:hover {
+  background: var(--accent-fonce);
+  border-color: var(--accent-fonce);
+}
+
+/* repères sous un curseur (v₁, v₂) */
+.reglage .reperes {
+  position: relative;
+  height: 1.25rem;
+  margin-top: -2px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.reglage .repere {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  padding-top: 5px;
+  color: var(--couleur);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.reglage .repere::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 4px;
+  margin-left: -1px;
+  background: var(--couleur);
 }
 
 .transport .espace {

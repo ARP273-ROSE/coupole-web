@@ -44,20 +44,41 @@ export function vueReglage(r: Reglage): Vue {
     'aria-describedby': r.aide ? idAide : null,
   });
   const boite = h('span', { class: 'champ-nombre' }, champ, r.unite ? h('span', { class: 'unite', 'aria-hidden': 'true', text: r.unite }) : null);
+  // repères sous la glissière (v₁ et v₂ du canon de Newton) : décoratifs, décrits aussi dans aria-valuetext
+  const reperes = h('div', { class: 'reperes', 'aria-hidden': 'true' });
   const el = h(
     'div',
     { class: 'reglage' },
     h('div', { class: 'ligne' }, h('label', { for: id }, ...enrichir(r.texte)), boite),
     curseur,
+    reperes,
     r.aide ? h('span', { class: 'visuellement-cache', id: idAide, text: r.aide }) : null,
   );
+  let sigReperes = '';
   if (r.aide) el.title = r.aide;
   let saisieEnCours = false;
   const maj = (): void => {
     const pos = r.pos(r.value());
     curseur.value = String(pos);
     curseur.style.setProperty('--rempli', `${(pos / Reglage.PAS) * 100}%`);
-    curseur.setAttribute('aria-valuetext', `${texteNombre(r.valeurChamp(), r.dec)}${r.unite ? ' ' + r.unite : ''}`);
+    const rep = r.reperes.filter(([v]) => v >= r.mini && v <= r.maxi);
+    const desc = rep.map(([v, t]) => `${t} = ${texteNombre(v, r.dec)}${r.unite ? ' ' + r.unite : ''}`).join(' · ');
+    curseur.setAttribute('aria-valuetext', `${texteNombre(r.valeurChamp(), r.dec)}${r.unite ? ' ' + r.unite : ''}${desc ? ' (' + desc + ')' : ''}`);
+    const sig = desc + '|' + rep.map(([v]) => r.pos(v)).join(',');
+    if (sig !== sigReperes) {
+      sigReperes = sig;
+      reperes.replaceChildren(
+        ...rep.map(([v, t, k]) => {
+          const m = h('span', { class: 'repere', text: t });
+          // le centre du pouce (22 px) parcourt la glissière moins un pouce
+          m.style.left = `calc(11px + (100% - 22px) * ${r.pos(v) / Reglage.PAS})`;
+          m.style.setProperty("--couleur", `var(--repere-${k}, currentColor)`);
+          m.title = `${t} = ${texteNombre(v, r.dec)}${r.unite ? ' ' + r.unite : ''}`;
+          return m;
+        }),
+      );
+      reperes.hidden = rep.length === 0;
+    }
     if (!saisieEnCours) champ.value = texteNombre(r.valeurChamp(), r.dec);
     curseur.disabled = !r.actif;
     champ.disabled = !r.actif;

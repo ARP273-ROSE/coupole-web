@@ -27,6 +27,9 @@ const PAGES: [string, string][] = [
   ['td-parallaxe', '#/td/parallaxe'],
   ['animation', '#/a/seasonsim'],
   ['animation-3d', '#/a/orion3d'],
+  ['animation-canon', '#/a/newtoncannon'],
+  ['fiche-canon', '#/r/fiche/renaissance_canon_newton'],
+  ['question-canon', '#/m/renaissance/q/co_renaissance_canon_dimorphos'],
   ['introuvable', '#/r/fiche/nexiste_pas'],
 ];
 

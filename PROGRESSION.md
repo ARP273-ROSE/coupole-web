@@ -766,3 +766,20 @@ File d'attente :
 - Défaut : pour la Lune, ×1 ne cadrait que la base (l'objet « lointain » restait hors cadre), donc ×1 et ×60 donnaient le même cadre et le curseur de zoom ne faisait rien.
 - Correctif : `cadrage()` commun (bureau `coupole/modules/td/gui.py`, web `src/app/page_td.ts`). ×1 = tout l'exercice, Lune comprise ; ×60 = la base ; étendue en progression géométrique et centre qui suit la même fraction. Les visées vont jusqu'à l'objet, étiquettes locales masquées quand la base fait moins de 40 px, « objet à … km → » si l'objet sort du cadre.
 - Tests : `test_cadrage_zoom_lune` (bureau), `tests/unit/td_cadrage.test.ts` + e2e td (27/27) côté web.
+
+## 11/11/2026 — Le canon de Newton (97ᵉ animation ; branche `canon-newton`, prochaine version 0.7.0, NON publiée)
+Jumeau de Coupole (section du même jour dans son PROGRESSION.md : physique, constantes, vérifications SageMath).
+- [x] `src/calc/canon.ts` (= `canon_meca.py`, cas communs `tests/references/canon_cas.json` : sans air au bit près ;
+  exp/atan2 à 10⁻⁹), `src/anim/animations/canon_newton.ts`, textes exportés de Coupole, « Ce qu'il faut voir »,
+  module Renaissance, fiche, schéma et 5 questions réimportés (`outils/importer_contenu.py`).
+- [x] Socle : `Reglage.reperes` (repères sous le curseur, couleurs `--repere-accent2/3` contrastées dans les deux
+  thèmes, décrits dans `aria-valuetext`) ; `Animation.touche` (clavier sur la toile), `ZOOM_PROPRE` +
+  `zoomer_vue` (molette, deux doigts, gestes Safari, + et − passés à l'animation au lieu du zoom de la scène),
+  `poignees()` (exposées en `data-poignees` pour les essais) ; un `Bouton` principal du groupe « barre » devient un
+  gros bouton de la barre de lecture (« Feu ! ») ; le curseur de vitesse commun peut être masqué ; la liste « Les
+  réglages » de la fiche ne répète plus un même libellé (curseurs par astre).
+- [x] `tests/unit/canon.test.ts` (8), références de Coupole régénérées (`references_animations.py … newtoncannon`),
+  `tests/e2e/canon.spec.ts` (3 moteurs × 3 formats : recherche, module, fiche, question, Feu, Espace, repères,
+  flèche à la souris et au doigt, préréglage, défi Dimorphos, molette), trois pages de plus dans le balayage axe-core.
+- Captures (bureau 1440 px, iPhone 15, clair et sombre) : hors dépôt (dossier de travail local).
+- Publication (tag, Pages) : sur accord seulement.

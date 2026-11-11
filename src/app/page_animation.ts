@@ -8,7 +8,7 @@ import { aVoir, encadreSud } from '../i18n/a_voir';
 import { chargerAnimations, existe, langue, tr } from '../i18n/i18n';
 import { choisirTheme, type Theme } from '../noyau/dessin';
 import { annoncer, h, icone, pageIntrouvable } from './dom';
-import { texteNombre, type Vue, vueControle } from './controles';
+import { texteNombre, type Vue, vueBouton, vueControle } from './controles';
 import * as stockage from './stockage';
 import { boutonFavori } from './favoris';
 import { adresseAnimation, remplacerAdresse } from './routeur';
@@ -186,9 +186,23 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
       };
       curseur.addEventListener('input', () => r.depuisCurseur(Number(curseur.value)));
       curseur.title = r.aide;
-      transport.append(h('div', { class: 'vitesse' }, h('label', { for: id, text: tr('web_vitesse') }), curseur, sortie));
-      maj();
-      vues.push({ el: curseur, detacher: r.observer(maj) });
+      const boite = h('div', { class: 'vitesse' }, h('label', { for: id, text: tr('web_vitesse') }), curseur, sortie);
+      transport.append(boite);
+      const maj0 = maj;
+      // une animation peut masquer ce curseur (le canon de Newton règle son temps par ×1 … ×1 000)
+      const majVisible = (): void => {
+        maj0();
+        boite.hidden = !r.visible;
+      };
+      majVisible();
+      vues.push({ el: curseur, detacher: r.observer(majVisible) });
+      continue;
+    } else if (ctl instanceof Bouton && ctl.principal) {
+      // geste principal propre à l'animation (« Feu ! » du canon de Newton) : gros bouton juste après la lecture
+      const v = vueBouton(ctl);
+      v.el.classList.add('geste');
+      transport.insertBefore(v.el, boutonLecture ? boutonLecture.nextSibling : transport.firstChild);
+      vues.push(v);
     } else if (ctl instanceof Bouton && ctl.cle === 'reinitialiser') {
       const b = h('button', { type: 'button', class: 'bouton icone', 'aria-label': tr('web_reinitialiser'), title: ctl.aide || tr('web_reinitialiser') }, icone('reinit'));
       b.addEventListener('click', () => {
@@ -255,8 +269,16 @@ function construire(e: Entree, cls: Awaited<ReturnType<typeof charger>>, etatAdr
   if (voir) fiche.append(h('h3', { text: tr('web_a_voir') }), h('p', {}, ...enrichir(voir)));
   const sud = encadreSud(e.id, langue());
   if (sud) fiche.append(h('aside', { class: 'encadre' }, h('h4', { text: tr('web_encadre_sud') }), h('p', {}, ...enrichir(sud))));
+  // un même réglage décliné par cas (vitesse et altitude du canon de Newton, une par astre) n'est décrit qu'une fois
+  const vusListe = new Set<string>();
   const items = flux
     .filter((x) => !(x instanceof Bouton) && 'texte' in x && (x as { texte: string }).texte)
+    .filter((x) => {
+      const t = (x as unknown as { texte: string }).texte;
+      if (vusListe.has(t)) return false;
+      vusListe.add(t);
+      return true;
+    })
     .map((x) => {
       const t = (x as unknown as { texte: string; aide?: string }).texte;
       const a = (x as unknown as { aide?: string }).aide ?? '';

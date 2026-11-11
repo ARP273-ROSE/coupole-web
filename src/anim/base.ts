@@ -173,6 +173,14 @@ export class Reglage extends Controle {
     this.notifierVue();
   }
 
+  /** Repères sous le curseur : [valeur, texte, clé de couleur] (ex. v₁ et v₂ du canon de Newton). */
+  reperes: [number, string, string][] = [];
+
+  poser_reperes(r: [number, string, string][]): void {
+    this.reperes = r.map(([v, t, k]) => [v, t, k]);
+    this.notifierVue();
+  }
+
   /** Valeur affichée dans le champ. */
   valeurChamp(): number {
     return arrondiChamp(this.v, this.dec);
@@ -391,6 +399,8 @@ export abstract class Animation {
   static PAS_DIRECT = 1;
   /** l'heure de l'animation est une heure solaire (sinon TU ou sans heure) : l'affichage le précise */
   static HEURE_SOLAIRE = false;
+  /** l'animation gère elle-même son zoom (molette, deux doigts, + et −) au lieu du zoom de la scène */
+  static ZOOM_PROPRE = false;
 
   hote: Hote = HOTE_VIDE;
   controles: Controle[] = [];
@@ -537,6 +547,21 @@ export abstract class Animation {
   /** Aide propre à la version web, ajoutée à l'aide de la page (vide par défaut). */
   aide_supplementaire(): string {
     return '';
+  }
+
+  /** Poignées à saisir (pixels de la toile), exposées sur la toile pour les essais (data-poignees). */
+  poignees(): [number, number][] {
+    return [];
+  }
+
+  /** Touche pressée quand la toile a le focus (`key` de KeyboardEvent) : vrai si l'animation s'en sert. */
+  touche(_key: string, _maj: boolean): boolean {
+    return false;
+  }
+
+  /** Zoom propre de l'animation (ZOOM_PROPRE) : facteur f autour du point pos de la toile ; vrai s'il est fait. */
+  zoomer_vue(_f: number, _pos: Pt): boolean {
+    return false;
   }
 
   /** Double-clic sur la toile : vrai si l'animation l'a traité (sinon la scène revient au zoom 1). */
