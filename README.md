@@ -40,7 +40,7 @@ sphère céleste, M42 et la Tête de Cheval en volume à leur place) et **Gravit
 PhET « Gravity and Orbits » (University of Colorado Boulder ; code, dessins et textes propres) : Soleil, Terre, Lune,
 station spatiale et comète en gravitation (Yoshida d’ordre 4, positions réelles du 1ᵉʳ janvier 2026), vue « modèle » ou
 à l’échelle (la Terre et la Lune n’y font qu’un point), forces et vitesses à tirer, périodes mesurées comparées aux
-vraies, trajectoire de la Lune vue du Soleil ; et **le canon de Newton** (prochaine version) : boulet tiré d’une
+vraies, trajectoire de la Lune vue du Soleil ; et **le canon de Newton** (0.7.0) : boulet tiré d’une
 montagne sur la Terre, la Lune, Mars, Cérès ou Dimorphos, vitesses de satellisation et de libération, flèche à tirer,
 préréglages en un clic, défis, atmosphère réelle. Les spectres stellaires sont calculés
 (Saha–Boltzmann sur des atmosphères modèles, 133 raies NIST, bandes moléculaires) ; les étoiles réelles ont leur

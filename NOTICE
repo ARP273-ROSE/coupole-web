@@ -57,11 +57,15 @@ Constantes et données / constants and data:
   - schéma d'intégration : H. Yoshida, « Construction of higher order symplectic integrators », Phys. Lett. A 150
     (1990) 262-268 ; vérification indépendante sous SageMath (DOP853 de SciPy).
 
-Le canon de Newton (prochaine version) / Newton's cannon (src/calc/canon.ts, src/anim/animations/canon_newton.ts)
+Le canon de Newton (0.7.0) / Newton's cannon (src/calc/canon.ts, src/anim/animations/canon_newton.ts)
 -----------------------------------------------------------------------------------------------------------------
 Animation propre à Coupole (pas dans ClassAction), d'après l'expérience de pensée d'I. Newton, A Treatise of the
 System of the World (1728, domaine public) ; code, dessins et textes propres / Coupole's own animation, after Newton's
-thought experiment; own code, drawings and texts. Constantes et données (vérifiées par SageMath,
+thought experiment; own code, drawings and texts.
+Idée reprise du simulateur « Newton's cannon » de Science Étonnante
+(https://explorables.scienceetonnante.com/newton-cannon/) : aucune ligne de code, aucun dessin ni texte n'en est
+repris / idea taken from the Science Étonnante simulator; no code, drawing or text copied from it.
+Constantes et données (vérifiées par SageMath,
 outils/verif_anim/canon_newton_verif.sage de Coupole) / constants and data (checked with SageMath) :
   - G : CODATA 2018 ; Terre : GM et rayon équatorial nominaux, résolution B3 de l'UAI (2015) ; Lune, Mars : GM de
     l'éphéméride JPL DE440 (R. S. Park et al., AJ 161 (2021) 105), rayon moyen de la Lune (NASA Moon Fact Sheet),

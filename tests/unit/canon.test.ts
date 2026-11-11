@@ -244,3 +244,21 @@ describe('animation', () => {
     expect(meilleur).toBeLessThan(20);
   });
 });
+
+describe('aimant des repères v₁ et v₂', () => {
+  it('glisser près de v₁ ou v₂ donne la valeur exacte ; un pas du clavier en sort', async () => {
+    const { Reglage } = await import('../../src/anim/base');
+    const r = new Reglage('v', 'flux', 'v', 0, 16, 5, 2, 'km·s⁻¹');
+    const v1 = 7.899_2, v2 = 11.171_2;
+    r.poser_reperes([[v1, 'v₁', 'accent2'], [v2, 'v₂', 'accent3']]);
+    r.depuisCurseur(r.pos(v1) - 1 + 0); // départ loin : on glisse depuis 5 km/s
+    expect(r.value()).toBe(v1);
+    r.depuisCurseur(r.pos(5)); // repart loin
+    r.depuisCurseur(r.pos(v2) - 3);
+    expect(r.value()).toBe(v2);
+    r.depuisCurseur(r.pos(v2) + 1); // pas du clavier : quitte le repère
+    expect(r.value()).not.toBe(v2);
+    expect(r.aimanter(9.5)).toBe(9.5);
+    expect(r.aimanter(v1 + 0.03)).toBe(v1);
+  });
+});

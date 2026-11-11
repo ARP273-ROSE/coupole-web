@@ -133,6 +133,14 @@ export class Reglage extends Controle {
   depuisCurseur(pos: number): void {
     let v = arrondiChamp(this.val(pos), this.dec);
     const ici = this.pos(this.v);
+    // glisser (pas un simple pas du clavier) : aimant des repères, valeur exacte de v₁ ou v₂ (pas arrondie au champ)
+    if (Math.abs(pos - ici) > 1) {
+      const r = this.aimanter(this.val(pos));
+      if (this.reperes.some(([x]) => x === r)) {
+        this.appliquer(r);
+        return;
+      }
+    }
     // un pas du curseur plus fin que le champ (flèche du clavier, petit glisser) avance quand même d'une unité du champ
     if (v === this.valeurChamp() && pos !== ici) v = arrondiChamp(this.valeurChamp() + Math.sign(pos - ici) * 10 ** -this.dec, this.dec);
     this.appliquer(v);
@@ -179,6 +187,22 @@ export class Reglage extends Controle {
   poser_reperes(r: [number, string, string][]): void {
     this.reperes = r.map(([v, t, k]) => [v, t, k]);
     this.notifierVue();
+  }
+
+  /** Aimant des repères, en positions de la glissière (sur PAS). */
+  static AIMANT = 4;
+
+  /**
+   * Valeur exacte du repère le plus proche si v en est à moins de AIMANT positions de la glissière (sinon v) : posé
+   * « sur » v₁ ou v₂, le curseur donne v₁ ou v₂ exactement, pas un peu moins (le boulet s'écraserait ou reviendrait).
+   */
+  aimanter(v: number): number {
+    let best: [number, number] | null = null;
+    for (const [r] of this.reperes) {
+      const d = Math.abs(this.pos(v) - this.pos(r));
+      if (d <= Reglage.AIMANT && (!best || d < best[0])) best = [d, r];
+    }
+    return best ? best[1] : v;
   }
 
   /** Valeur affichée dans le champ. */

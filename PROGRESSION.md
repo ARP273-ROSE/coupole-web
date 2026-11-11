@@ -767,7 +767,7 @@ File d'attente :
 - Correctif : `cadrage()` commun (bureau `coupole/modules/td/gui.py`, web `src/app/page_td.ts`). ×1 = tout l'exercice, Lune comprise ; ×60 = la base ; étendue en progression géométrique et centre qui suit la même fraction. Les visées vont jusqu'à l'objet, étiquettes locales masquées quand la base fait moins de 40 px, « objet à … km → » si l'objet sort du cadre.
 - Tests : `test_cadrage_zoom_lune` (bureau), `tests/unit/td_cadrage.test.ts` + e2e td (27/27) côté web.
 
-## 11/11/2026 — Le canon de Newton (97ᵉ animation ; branche `canon-newton`, prochaine version 0.7.0, NON publiée)
+## 11/11/2026 — Le canon de Newton (97ᵉ animation ; branche `canon-newton`, version 0.7.0, publiée le 11/11)
 Jumeau de Coupole (section du même jour dans son PROGRESSION.md : physique, constantes, vérifications SageMath).
 - [x] `src/calc/canon.ts` (= `canon_meca.py`, cas communs `tests/references/canon_cas.json` : sans air au bit près ;
   exp/atan2 à 10⁻⁹), `src/anim/animations/canon_newton.ts`, textes exportés de Coupole, « Ce qu'il faut voir »,

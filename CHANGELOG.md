@@ -2,7 +2,11 @@
 
 *Français, puis [English](#english).*
 
-## Prochaine version (0.7.0, non publiée) — Le canon de Newton
+## 0.7.0 — 2026-11-11 — Le canon de Newton
+
+- **Aimant v₁ / v₂** : posé près d'un repère (glissière ou flèche), le curseur de vitesse prend la valeur exacte de
+  v₁ ou v₂. Avant, il tombait un peu en dessous : le boulet s'écrasait au ras du sol ou finissait par revenir.
+- Idée reprise du simulateur de Science Étonnante (cité dans NOTICE), refaite sans rien en copier.
 
 - **Le canon de Newton** (97ᵉ animation, thème et module « Renaissance ») : l'expérience de pensée de Newton. Un canon
   au sommet d'une montagne tire de plus en plus vite : le boulet retombe de plus en plus loin, fait le tour de l'astre,
@@ -380,7 +384,11 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ## English
 
-### Next version (0.7.0, unreleased) — Newton's cannon
+### 0.7.0 — 2026-11-11 — Newton's cannon
+
+- **v₁ / v₂ magnet**: dropped near a mark (slider or arrow), the speed slider takes the exact value of v₁ or v₂.
+  Before, it landed slightly below: the ball crashed near the ground or eventually came back.
+- Idea taken from the Science Étonnante simulator (credited in NOTICE), remade without copying anything.
 
 - **Newton's cannon** (97th animation, Renaissance theme and module): Newton's thought experiment. A cannon on top of a
   mountain fires faster and faster: the ball lands farther and farther away, goes round the body, then escapes. Earth,

@@ -315,7 +315,7 @@ export class CanonNewton extends Animation {
     let ang = (Math.atan2(dy, dx) * 180) / Math.PI;
     if (Math.abs(ang) <= 1.5) ang = 0.0; // aimanté à l'horizontale (le tir de Newton)
     this.r_angle.setValue(Math.max(-90.0, Math.min(90.0, ang)));
-    this.r_vit[a]!.setValue(Math.hypot(dx, dy) / this.kFleche() / C.REGLAGES[a]!.uv);
+    this.r_vit[a]!.setValue(this.r_vit[a]!.aimanter(Math.hypot(dx, dy) / this.kFleche() / C.REGLAGES[a]!.uv));
   }
 
   override relacher(pos: Pt): void {
