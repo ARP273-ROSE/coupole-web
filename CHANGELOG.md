@@ -2,7 +2,7 @@
 
 *Français, puis [English](#english).*
 
-## 0.7.1 — non publiée
+## 0.7.1 — 2026-11-12
 
 - **Canon de Newton, trajectoire prévue** : une ellipse qui sort du cadre (par exemple 10,06 km·s⁻¹ au ras du sol)
   gardait l'aller mais perdait le retour ; le cadrage montre maintenant l'ellipse entière, refermée sur le canon (au-delà
@@ -390,7 +390,7 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ## English
 
-### 0.7.1 — unreleased
+### 0.7.1 — 2026-11-12
 
 - **Newton's cannon, predicted path**: an ellipse leaving the frame (e.g. 10.06 km·s⁻¹ near the ground) kept the way
   out but lost the way back; the view now shows the whole ellipse, closed on the cannon (beyond 30 times the launch
