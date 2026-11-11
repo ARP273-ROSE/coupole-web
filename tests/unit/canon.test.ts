@@ -266,3 +266,15 @@ describe('aimant des repères v₁ et v₂', () => {
     expect(r.aimanter(v1 + 0.03)).toBe(v1);
   });
 });
+
+describe('aperçu d’une ellipse qui dépasse 4 rayons', () => {
+  it('10,06 km·s⁻¹ à 1 km : ellipse entière, refermée sur le canon', () => {
+    const A = C.ASTRES.terre!;
+    const [x, y, vx, vy] = C.etat_tir(A.r, 1000, 10060, 0);
+    const e = C.elements(A.gm, A.r, x, y, vx, vy);
+    const pts = C.conique(e, x, y, A.r, C.limite_apercu(e));
+    expect(pts.includes(null)).toBe(false);
+    const fin = pts[pts.length - 1]!;
+    expect(Math.hypot(fin[0] - x, fin[1] - y)).toBeLessThan(1e-3 * e.r);
+  });
+});

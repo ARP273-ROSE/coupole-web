@@ -461,7 +461,7 @@ export class CanonNewton extends Animation {
     const cle = [this.astre(), this.altitude_m(), this.vitesse_ms(), this.r_angle.value()].join('|');
     if (this.apercu.cle !== cle) {
       const [[x, y], el] = this.tirRegle();
-      this.apercu = { cle, pts: C.conique(el, x, y, A.r, 4 * el.r) };
+      this.apercu = { cle, pts: C.conique(el, x, y, A.r, C.limite_apercu(el)) };
     }
     return this.apercu.pts;
   }

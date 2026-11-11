@@ -5,7 +5,8 @@
 ## 0.7.1 — non publiée
 
 - **Canon de Newton, trajectoire prévue** : une ellipse qui sort du cadre (par exemple 10,06 km·s⁻¹ au ras du sol)
-  gardait l'aller mais perdait le retour ; le retour jusqu'au canon est maintenant tracé, la partie lointaine coupée.
+  gardait l'aller mais perdait le retour ; le cadrage montre maintenant l'ellipse entière, refermée sur le canon (au-delà
+  de 30 fois le rayon du tir, tout près de v₂, la partie lointaine est coupée et le retour reste tracé).
 
 ## 0.7.0 — 2026-11-11 — Le canon de Newton
 
@@ -392,7 +393,8 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ### 0.7.1 — unreleased
 
 - **Newton's cannon, predicted path**: an ellipse leaving the frame (e.g. 10.06 km·s⁻¹ near the ground) kept the way
-  out but lost the way back; the return to the cannon is now drawn, the far part cut off.
+  out but lost the way back; the view now shows the whole ellipse, closed on the cannon (beyond 30 times the launch
+  radius, very close to v₂, the far part is cut and the way back is still drawn).
 
 ### 0.7.0 — 2026-11-11 — Newton's cannon
 

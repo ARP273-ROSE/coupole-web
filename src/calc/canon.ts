@@ -163,6 +163,17 @@ export function intersection(x0: number, y0: number, x1: number, y1: number, R: 
   return [x0 + t * dx, y0 + t * dy];
 }
 
+/** Aperçu : rayon de cadrage d'une orbite ouverte, et plus grand apogée montré en entier (× rayon du tir). */
+export const APERCU_OUVERT = 4.0;
+export const APERCU_ELLIPSE_MAX = 30.0;
+
+/** Rayon jusqu'où l'aperçu est tracé (voir canon_meca.limite_apercu) : toute l'ellipse jusqu'à 30 fois le rayon du tir. */
+export function limite_apercu(el: Elements): number {
+  const r0 = el.r;
+  if (el.e < 1 && Number.isFinite(el.ra)) return Math.max(APERCU_OUVERT * r0, Math.min(1.05 * el.ra, APERCU_ELLIPSE_MAX * r0));
+  return APERCU_OUVERT * r0;
+}
+
 /** Points de la trajectoire prévue sans air (voir canon_meca.conique). */
 export function conique(el: Elements, x0: number, y0: number, R: number, r_lim: number, n = 240): ([number, number] | null)[] {
   const mu_h = el.h;
