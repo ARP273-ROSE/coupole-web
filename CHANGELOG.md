@@ -2,6 +2,11 @@
 
 *Français, puis [English](#english).*
 
+## 0.7.1 — non publiée
+
+- **Canon de Newton, trajectoire prévue** : une ellipse qui sort du cadre (par exemple 10,06 km·s⁻¹ au ras du sol)
+  gardait l'aller mais perdait le retour ; le retour jusqu'au canon est maintenant tracé, la partie lointaine coupée.
+
 ## 0.7.0 — 2026-11-11 — Le canon de Newton
 
 - **Aimant v₁ / v₂** : posé près d'un repère (glissière ou flèche), le curseur de vitesse prend la valeur exacte de
@@ -383,6 +388,11 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.7.1 — unreleased
+
+- **Newton's cannon, predicted path**: an ellipse leaving the frame (e.g. 10.06 km·s⁻¹ near the ground) kept the way
+  out but lost the way back; the return to the cannon is now drawn, the far part cut off.
 
 ### 0.7.0 — 2026-11-11 — Newton's cannon
 

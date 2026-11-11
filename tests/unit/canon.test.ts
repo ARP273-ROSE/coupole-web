@@ -50,6 +50,10 @@ describe('mécanique du canon, comme le bureau', () => {
       expect(pts.length).toBe(c.pts.length);
       // cos, sin, atan2, acos : le dernier bit peut différer d'un langage à l'autre
       pts.forEach((p, i) => {
+        if (p === null || c.pts[i] === null) {
+          expect(p).toBe(c.pts[i]);
+          return;
+        }
         expect(Math.abs(p[0] - c.pts[i][0])).toBeLessThan(1e-6 * e.r);
         expect(Math.abs(p[1] - c.pts[i][1])).toBeLessThan(1e-6 * e.r);
       });

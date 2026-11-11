@@ -164,7 +164,7 @@ export function intersection(x0: number, y0: number, x1: number, y1: number, R: 
 }
 
 /** Points de la trajectoire prévue sans air (voir canon_meca.conique). */
-export function conique(el: Elements, x0: number, y0: number, R: number, r_lim: number, n = 240): [number, number][] {
+export function conique(el: Elements, x0: number, y0: number, R: number, r_lim: number, n = 240): ([number, number] | null)[] {
   const mu_h = el.h;
   const e = el.e;
   const r0 = el.r;
@@ -197,8 +197,9 @@ export function conique(el: Elements, x0: number, y0: number, R: number, r_lim: 
     nu1 = Math.min(Math.acos(c), num - 1e-6);
     if (nu1 <= nu0) nu1 = nu0;
   }
-  const pts: [number, number][] = [];
+  const pts: ([number, number] | null)[] = [];
   let prec: [number, number] | null = null;
+  let dehors: [number, number] | null = null; // dernier point hors de r_lim (ellipse : on reprend au retour)
   for (let k = 0; k <= n; k++) {
     const nu = nu0 + ((nu1 - nu0) * k) / n;
     const den = 1 + e * Math.cos(nu);
@@ -212,9 +213,24 @@ export function conique(el: Elements, x0: number, y0: number, R: number, r_lim: 
       if (prec !== null) pts.push(intersection(prec[0], prec[1], x, y, R));
       break;
     }
+    if (r > r_lim) {
+      if (e >= 1) {
+        pts.push([x, y]);
+        break;
+      }
+      if (prec !== null) {
+        // sortie du cadre : point de sortie, puis coupure
+        pts.push([x, y]);
+        pts.push(null);
+        prec = null;
+      }
+      dehors = [x, y];
+      continue;
+    }
+    if (prec === null && dehors !== null) pts.push(dehors); // retour dans le cadre
+    dehors = null;
     pts.push([x, y]);
     prec = [x, y];
-    if (r > r_lim) break;
   }
   return pts;
 }

@@ -71,7 +71,7 @@ export class CanonNewton extends Animation {
   manuel: { s: number; ox: number; oy: number } | null = null;
   cam = { cx: 0, cy: 0, s: 1, ox: 0, oy: 0, L: 1 };
   panneau = new Rect(0, 0, 1, 1);
-  private apercu: { cle: string; pts: [number, number][] } = { cle: '', pts: [] };
+  private apercu: { cle: string; pts: ([number, number] | null)[] } = { cle: '', pts: [] };
   private departPan: [number, number, number, number] = [0, 0, 0, 0];
   /** cadrage figé (flèche tenue) */
   fige = false;
@@ -456,7 +456,7 @@ export class CanonNewton extends Animation {
   }
 
   // ------------------------------------------------------------ cadrage
-  private apercuPts(): [number, number][] {
+  private apercuPts(): ([number, number] | null)[] {
     const A = C.ASTRES[this.astre()]!;
     const cle = [this.astre(), this.altitude_m(), this.vitesse_ms(), this.r_angle.value()].join('|');
     if (this.apercu.cle !== cle) {
@@ -488,7 +488,7 @@ export class CanonNewton extends Animation {
       x1 = R,
       y0 = -R,
       y1 = Math.max(R, r0);
-    const pts: [number, number][] = this.c_apercu.isChecked() ? [...this.apercuPts()] : [];
+    const pts: [number, number][] = this.c_apercu.isChecked() ? this.apercuPts().filter((q): q is [number, number] => q !== null) : [];
     const t = this.courant();
     if (t && t.astre === this.astre()) {
       const n = t.x.length;
@@ -618,14 +618,19 @@ export class CanonNewton extends Animation {
   }
 
   private dessinerApercu(p: Peintre): void {
-    const pts = this.apercuPts();
-    if (pts.length < 2) return;
     p.setPen(dessin.stylo('doux', 1.3, 0.9, true));
     p.setBrush(null);
-    p.drawPolyline(pts.map(([x, y]) => {
-      const [X, Y] = this.versEcran(x, y);
-      return new Pt(X, Y);
-    }));
+    // null : coupure (ellipse sortie du cadre, puis retour)
+    let morceau: Pt[] = [];
+    for (const q of [...this.apercuPts(), null]) {
+      if (q !== null) {
+        const [X, Y] = this.versEcran(q[0], q[1]);
+        morceau.push(new Pt(X, Y));
+        continue;
+      }
+      if (morceau.length >= 2) p.drawPolyline(morceau);
+      morceau = [];
+    }
   }
 
   private trace(p: Peintre, t: TirA): void {
