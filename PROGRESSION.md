@@ -783,3 +783,11 @@ Jumeau de Coupole (section du même jour dans son PROGRESSION.md : physique, con
   flèche à la souris et au doigt, préréglage, défi Dimorphos, molette), trois pages de plus dans le balayage axe-core.
 - Captures (bureau 1440 px, iPhone 15, clair et sombre) : hors dépôt (dossier de travail local).
 - Publication (tag, Pages) : sur accord seulement.
+
+## 2026-11-11/12 — 0.7.0 puis 0.7.1 publiées sur Pages (canon de Newton)
+- 0.7.1 = jumelle de Coupole 0.9.1 : aimant v₁/v₂ (`Reglage.AIMANT = 4`, `aimanter`, dans `depuisCurseur`),
+  `limite_apercu` + `conique` renvoyant `([number, number] | null)[]` (dessin en morceaux).
+- Vérifié : vitest + Playwright verts, Pages déployé.
+
+### NOTE DE REPRISE (15/11/2026)
+- main = a4ae58d (0.7.1), en ligne. Rien en cours. Restes : ceux de Coupole (manuels, éventuelle animation parallaxe/ua).
