@@ -20793,6 +20793,662 @@ true
 },
 "lecture_au_depart": false
 },
+"meteorradiant": {
+"animee": true,
+"changements": [
+[
+"essaim",
+"geminides"
+],
+[
+"latitude",
+-42.3
+],
+[
+"heure",
+28.02
+],
+[
+"mlim",
+5.9
+],
+[
+"prolonger",
+false
+],
+[
+"etoiles",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Peak",
+"around August 12"
+],
+[
+"Radiant",
+"α = 3h 12m, δ = +58° — Perseus"
+],
+[
+"Atmospheric entry speed",
+"59 km·s⁻¹"
+],
+[
+"ZHR (zenithal hourly rate)",
+"100"
+],
+[
+"Time",
+"22:00"
+],
+[
+"Radiant altitude",
+"25.6°"
+],
+[
+"Expected rate (ZHR × sin h, limiting magnitude)",
+"≈ 43 per hour"
+],
+[
+"The radiant culminates",
+"5:45 — 77°"
+],
+[
+"Sun altitude",
+"−24° — full darkness"
+]
+]
+],
+[
+"pas",
+[
+[
+"Peak",
+"around August 12"
+],
+[
+"Radiant",
+"α = 3h 12m, δ = +58° — Perseus"
+],
+[
+"Atmospheric entry speed",
+"59 km·s⁻¹"
+],
+[
+"ZHR (zenithal hourly rate)",
+"100"
+],
+[
+"Time",
+"22:22"
+],
+[
+"Radiant altitude",
+"27.7°"
+],
+[
+"Expected rate (ZHR × sin h, limiting magnitude)",
+"≈ 46 per hour"
+],
+[
+"The radiant culminates",
+"5:45 — 77°"
+],
+[
+"Sun altitude",
+"−26° — full darkness"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Peak",
+"around December 14"
+],
+[
+"Radiant",
+"α = 7h 28m, δ = +33° — Gemini"
+],
+[
+"Atmospheric entry speed",
+"35 km·s⁻¹"
+],
+[
+"ZHR (zenithal hourly rate)",
+"150"
+],
+[
+"Time",
+"4:01"
+],
+[
+"Radiant altitude",
+"9.1°"
+],
+[
+"Expected rate (ZHR × sin h, limiting magnitude)",
+"≈ 13 per hour"
+],
+[
+"The radiant culminates",
+"1:53 — 15°"
+],
+[
+"Sun altitude",
+"−3° — twilight"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Peak",
+"around December 14"
+],
+[
+"Radiant",
+"α = 7h 28m, δ = +33° — Gemini"
+],
+[
+"Atmospheric entry speed",
+"35 km·s⁻¹"
+],
+[
+"ZHR (zenithal hourly rate)",
+"150"
+],
+[
+"Time",
+"4:23"
+],
+[
+"Radiant altitude",
+"7.1°"
+],
+[
+"Expected rate (ZHR × sin h, limiting magnitude)",
+"≈ 11 per hour"
+],
+[
+"The radiant culminates",
+"1:53 — 15°"
+],
+[
+"Sun altitude",
+"0° — daylight"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Peak",
+"around August 12"
+],
+[
+"Radiant",
+"α = 3h 12m, δ = +58° — Perseus"
+],
+[
+"Atmospheric entry speed",
+"59 km·s⁻¹"
+],
+[
+"ZHR (zenithal hourly rate)",
+"100"
+],
+[
+"Time",
+"22:00"
+],
+[
+"Radiant altitude",
+"25.6°"
+],
+[
+"Expected rate (ZHR × sin h, limiting magnitude)",
+"≈ 43 per hour"
+],
+[
+"The radiant culminates",
+"5:45 — 77°"
+],
+[
+"Sun altitude",
+"−24° — full darkness"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Shower observed on the night of its maximum (radiant, speed and ZHR from the International Meteor Organization calendar).",
+"cle": "essaim",
+"defaut": "perseides",
+"options": [
+[
+"Quadrantids (3–4 January)",
+"quadrantides"
+],
+[
+"Lyrids (22 April)",
+"lyrides"
+],
+[
+"Eta Aquariids (6 May)",
+"eta_aquarides"
+],
+[
+"Perseids (12 August)",
+"perseides"
+],
+[
+"Orionids (21 October)",
+"orionides"
+],
+[
+"Leonids (17 November)",
+"leonides"
+],
+[
+"Geminids (14 December)",
+"geminides"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Latitude of the observer, from −90° (South Pole) to +90° (North Pole).",
+"cle": "latitude",
+"dec": 1,
+"defaut": 45.0,
+"libelle": "Latitude",
+"log": false,
+"maxi": 70.0,
+"mini": -60.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 45.0
+},
+{
+"aide": "Mean solar time, from 6 pm to 6 am (30 h).",
+"cle": "heure",
+"dec": 2,
+"defaut": 22.0,
+"libelle": "Local time",
+"log": false,
+"maxi": 30.0,
+"mini": 18.0,
+"type": "curseur",
+"unite": "h",
+"valeur": 22.0
+},
+{
+"aide": "Faintest stars visible to the naked eye: 6.5 under a pure country sky, 4 in the suburbs, 3 in town. Each magnitude lost divides the rate by r (the shower’s population index, 2 to 2.6).",
+"cle": "mlim",
+"dec": 1,
+"defaut": 6.5,
+"libelle": "Sky limiting magnitude",
+"log": false,
+"maxi": 7.0,
+"mini": 3.0,
+"type": "curseur",
+"unite": "",
+"valeur": 6.5
+},
+{
+"aide": "Extends each trail backwards (dotted): they all cross at the radiant.",
+"cle": "prolonger",
+"defaut": true,
+"libelle": "Extend the trails",
+"type": "coche"
+},
+{
+"aide": "Background stars (random, not a real catalogue): they turn with the radiant.",
+"cle": "etoiles",
+"defaut": true,
+"libelle": "Stars",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Maximum",
+"vers le 12 août"
+],
+[
+"Radiant",
+"α = 3 h 12 min, δ = +58° — Persée"
+],
+[
+"Vitesse d’entrée dans l’atmosphère",
+"59 km·s⁻¹"
+],
+[
+"ZHR (taux horaire zénithal)",
+"100"
+],
+[
+"Heure",
+"22 h 00"
+],
+[
+"Hauteur du radiant",
+"25,6°"
+],
+[
+"Taux attendu (ZHR × sin h, magnitude limite)",
+"≈ 43 par heure"
+],
+[
+"Le radiant culmine",
+"5 h 45 — 77°"
+],
+[
+"Hauteur du Soleil",
+"−24° — nuit noire"
+]
+]
+],
+[
+"pas",
+[
+[
+"Maximum",
+"vers le 12 août"
+],
+[
+"Radiant",
+"α = 3 h 12 min, δ = +58° — Persée"
+],
+[
+"Vitesse d’entrée dans l’atmosphère",
+"59 km·s⁻¹"
+],
+[
+"ZHR (taux horaire zénithal)",
+"100"
+],
+[
+"Heure",
+"22 h 22"
+],
+[
+"Hauteur du radiant",
+"27,7°"
+],
+[
+"Taux attendu (ZHR × sin h, magnitude limite)",
+"≈ 46 par heure"
+],
+[
+"Le radiant culmine",
+"5 h 45 — 77°"
+],
+[
+"Hauteur du Soleil",
+"−26° — nuit noire"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Maximum",
+"vers le 14 décembre"
+],
+[
+"Radiant",
+"α = 7 h 28 min, δ = +33° — Gémeaux"
+],
+[
+"Vitesse d’entrée dans l’atmosphère",
+"35 km·s⁻¹"
+],
+[
+"ZHR (taux horaire zénithal)",
+"150"
+],
+[
+"Heure",
+"4 h 01"
+],
+[
+"Hauteur du radiant",
+"9,1°"
+],
+[
+"Taux attendu (ZHR × sin h, magnitude limite)",
+"≈ 13 par heure"
+],
+[
+"Le radiant culmine",
+"1 h 53 — 15°"
+],
+[
+"Hauteur du Soleil",
+"−3° — crépuscule"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Maximum",
+"vers le 14 décembre"
+],
+[
+"Radiant",
+"α = 7 h 28 min, δ = +33° — Gémeaux"
+],
+[
+"Vitesse d’entrée dans l’atmosphère",
+"35 km·s⁻¹"
+],
+[
+"ZHR (taux horaire zénithal)",
+"150"
+],
+[
+"Heure",
+"4 h 23"
+],
+[
+"Hauteur du radiant",
+"7,1°"
+],
+[
+"Taux attendu (ZHR × sin h, magnitude limite)",
+"≈ 11 par heure"
+],
+[
+"Le radiant culmine",
+"1 h 53 — 15°"
+],
+[
+"Hauteur du Soleil",
+"0° — jour"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Maximum",
+"vers le 12 août"
+],
+[
+"Radiant",
+"α = 3 h 12 min, δ = +58° — Persée"
+],
+[
+"Vitesse d’entrée dans l’atmosphère",
+"59 km·s⁻¹"
+],
+[
+"ZHR (taux horaire zénithal)",
+"100"
+],
+[
+"Heure",
+"22 h 00"
+],
+[
+"Hauteur du radiant",
+"25,6°"
+],
+[
+"Taux attendu (ZHR × sin h, magnitude limite)",
+"≈ 43 par heure"
+],
+[
+"Le radiant culmine",
+"5 h 45 — 77°"
+],
+[
+"Hauteur du Soleil",
+"−24° — nuit noire"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Essaim observé, la nuit de son maximum (radiant, vitesse et ZHR du calendrier de l’International Meteor Organization).",
+"cle": "essaim",
+"defaut": "perseides",
+"options": [
+[
+"Quadrantides (3–4 janvier)",
+"quadrantides"
+],
+[
+"Lyrides (22 avril)",
+"lyrides"
+],
+[
+"Êta Aquarides (6 mai)",
+"eta_aquarides"
+],
+[
+"Perséides (12 août)",
+"perseides"
+],
+[
+"Orionides (21 octobre)",
+"orionides"
+],
+[
+"Léonides (17 novembre)",
+"leonides"
+],
+[
+"Géminides (14 décembre)",
+"geminides"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Latitude de l’observateur, de −90° (pôle Sud) à +90° (pôle Nord).",
+"cle": "latitude",
+"dec": 1,
+"defaut": 45.0,
+"libelle": "Latitude",
+"log": false,
+"maxi": 70.0,
+"mini": -60.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 45.0
+},
+{
+"aide": "Heure solaire moyenne, de 18 h à 6 h du matin (30 h).",
+"cle": "heure",
+"dec": 2,
+"defaut": 22.0,
+"libelle": "Heure locale",
+"log": false,
+"maxi": 30.0,
+"mini": 18.0,
+"type": "curseur",
+"unite": "h",
+"valeur": 22.0
+},
+{
+"aide": "Étoiles les plus faibles visibles à l’œil nu : 6,5 sous un ciel pur de campagne, 4 en banlieue, 3 en ville. Chaque magnitude perdue divise le taux par r (indice de population de l’essaim, 2 à 2,6).",
+"cle": "mlim",
+"dec": 1,
+"defaut": 6.5,
+"libelle": "Magnitude limite du ciel",
+"log": false,
+"maxi": 7.0,
+"mini": 3.0,
+"type": "curseur",
+"unite": "",
+"valeur": 6.5
+},
+{
+"aide": "Prolonge chaque traînée vers l’arrière (pointillés) : toutes se croisent au radiant.",
+"cle": "prolonger",
+"defaut": true,
+"libelle": "Prolonger les traînées",
+"type": "coche"
+},
+{
+"aide": "Étoiles de fond (tirées au hasard, pas un vrai catalogue) : elles tournent avec le radiant.",
+"cle": "etoiles",
+"defaut": true,
+"libelle": "Étoiles",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "milkywayrotationalvelocity": {
 "animee": false,
 "changements": [
