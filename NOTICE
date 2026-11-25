@@ -57,6 +57,21 @@ Constantes et données / constants and data:
   - schéma d'intégration : H. Yoshida, « Construction of higher order symplectic integrators », Phys. Lett. A 150
     (1990) 262-268 ; vérification indépendante sous SageMath (DOP853 de SciPy).
 
+Animations de cours de la 0.10.0 / Course animations of 0.10.0 (src/calc/diagramme_ae.ts, assistance.ts, cratere.ts,
+libration.ts, precession.ts, resonances.ts, roche.ts ; src/anim/animations/ mêmes noms)
+---------------------------------------------------------------------------------------------------------------------
+Code, dessins et textes propres, jumeaux de Coupole 0.12.0 ; formules et valeurs vérifiées par SageMath
+(outils/verif_anim/ de Coupole : survols_impacts_verif.sage, libration_verif.sage, precession_verif.sage,
+resonances_verif.sage, roche_verif.sage) / own code, drawings and texts; formulas and values checked with SageMath :
+  - diagramme a–e : éléments des petits corps de la base SBDB du JPL (novembre 2026, arrondis) ; groupes de
+    géocroiseurs du CNEOS ; critère de Tisserand ;
+  - cratère d'impact : G. S. Collins, H. J. Melosh et R. A. Marcus, « Earth Impact Effects Program », Meteoritics &
+    Planetary Science 40, 817 (2005) ;
+  - libration : inclinaison de l'équateur lunaire 6,68° ; formations de la nomenclature planétaire de l'UAI ;
+  - précession : UAI 2006 (N. Capitaine et al., A&A 412, 567, 2003) ; Yale Bright Star Catalogue (CDS V/50) ;
+  - résonances : problème restreint circulaire (C. D. Murray et S. F. Dermott, Solar System Dynamics, 1999) ;
+  - limite de Roche : É. Roche (1849) ; densités des fiches planétaires de la NASA.
+
 Quatre animations de cours de plus (0.9.0) / Four more course animations (src/calc/interferometrie.ts,
 occultation.ts, kozai.ts, lagrange.ts ; src/anim/animations/interferometrie.ts, occultation.ts, kozai.ts, lagrange.ts)
 -----------------------------------------------------------------------------------------------------------------

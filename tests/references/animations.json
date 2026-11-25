@@ -1,4 +1,766 @@
 {
+"aediagram": {
+"animee": true,
+"changements": [
+[
+"objet",
+"eris"
+],
+[
+"a",
+33.782
+],
+[
+"e",
+0.154
+],
+[
+"i",
+66.7
+],
+[
+"familles",
+false
+],
+[
+"kirkwood",
+false
+],
+[
+"objets",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Perihelion q = a(1 − e)",
+"2.548 ua"
+],
+[
+"Aphelion Q = a(1 + e)",
+"2.992 ua"
+],
+[
+"Period P = a √a",
+"4.61 years"
+],
+[
+"Orbit class",
+"main belt"
+],
+[
+"Crosses the orbit of",
+"no planet"
+],
+[
+"Tisserand parameter T (with respect to Jupiter)",
+"3.31 : asteroid orbit (T > 3)"
+],
+[
+"Distance from the Sun right now",
+"2.548 ua"
+]
+]
+],
+[
+"pas",
+[
+[
+"Perihelion q = a(1 − e)",
+"2.548 ua"
+],
+[
+"Aphelion Q = a(1 + e)",
+"2.992 ua"
+],
+[
+"Period P = a √a",
+"4.61 years"
+],
+[
+"Orbit class",
+"main belt"
+],
+[
+"Crosses the orbit of",
+"no planet"
+],
+[
+"Tisserand parameter T (with respect to Jupiter)",
+"3.31 : asteroid orbit (T > 3)"
+],
+[
+"Distance from the Sun right now",
+"2.783 ua"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Perihelion q = a(1 − e)",
+"28.6 ua"
+],
+[
+"Aphelion Q = a(1 + e)",
+"39.0 ua"
+],
+[
+"Period P = a √a",
+"196.3 years"
+],
+[
+"Orbit class",
+"trans-Neptunian object"
+],
+[
+"Crosses the orbit of",
+"Neptune"
+],
+[
+"Tisserand parameter T (with respect to Jupiter)",
+"2.15 : Jupiter-family comet orbit (2 < T < 3)"
+],
+[
+"Distance from the Sun right now",
+"34.5 ua"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Perihelion q = a(1 − e)",
+"28.6 ua"
+],
+[
+"Aphelion Q = a(1 + e)",
+"39.0 ua"
+],
+[
+"Period P = a √a",
+"196.3 years"
+],
+[
+"Orbit class",
+"trans-Neptunian object"
+],
+[
+"Crosses the orbit of",
+"Neptune"
+],
+[
+"Tisserand parameter T (with respect to Jupiter)",
+"2.15 : Jupiter-family comet orbit (2 < T < 3)"
+],
+[
+"Distance from the Sun right now",
+"39.0 ua"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Perihelion q = a(1 − e)",
+"2.549 ua"
+],
+[
+"Aphelion Q = a(1 + e)",
+"2.991 ua"
+],
+[
+"Period P = a √a",
+"4.61 years"
+],
+[
+"Orbit class",
+"main belt"
+],
+[
+"Crosses the orbit of",
+"no planet"
+],
+[
+"Tisserand parameter T (with respect to Jupiter)",
+"3.31 : asteroid orbit (T > 3)"
+],
+[
+"Distance from the Sun right now",
+"2.991 ua"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "A real asteroid or comet (elements from JPL’s SBDB, rounded): its point is placed on the diagram.",
+"cle": "objet",
+"defaut": "ceres",
+"options": [
+[
+"(point chosen with the mouse)",
+"libre"
+],
+[
+"(163693) Atira",
+"atira"
+],
+[
+"(99942) Apophis",
+"apophis"
+],
+[
+"2010 TK7 (Earth Trojan)",
+"tk7"
+],
+[
+"(3753) Cruithne",
+"cruithne"
+],
+[
+"(101955) Bennu",
+"bennu"
+],
+[
+"(162173) Ryugu",
+"ryugu"
+],
+[
+"(25143) Itokawa",
+"itokawa"
+],
+[
+"(1566) Icarus",
+"icare"
+],
+[
+"(3200) Phaethon (Geminids)",
+"phaethon"
+],
+[
+"(65803) Didymos (DART)",
+"didymos"
+],
+[
+"(4179) Toutatis",
+"toutatis"
+],
+[
+"(433) Eros",
+"eros"
+],
+[
+"2P/Encke",
+"encke"
+],
+[
+"(4) Vesta",
+"vesta"
+],
+[
+"(1) Ceres",
+"ceres"
+],
+[
+"(2) Pallas",
+"pallas"
+],
+[
+"(10) Hygiea",
+"hygie"
+],
+[
+"67P/Churyumov-Gerasimenko",
+"tchouri"
+],
+[
+"(153) Hilda",
+"hilda"
+],
+[
+"(624) Hektor (Jupiter Trojan)",
+"hektor"
+],
+[
+"(944) Hidalgo",
+"hidalgo"
+],
+[
+"(2060) Chiron",
+"chiron"
+],
+[
+"1P/Halley",
+"halley"
+],
+[
+"109P/Swift-Tuttle (Perseids)",
+"swift_tuttle"
+],
+[
+"(134340) Pluto",
+"pluton"
+],
+[
+"(486958) Arrokoth",
+"arrokoth"
+],
+[
+"(136199) Eris",
+"eris"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Size of the orbit, in astronomical units (logarithmic scale); the period follows: P = a √a years.",
+"cle": "a",
+"dec": 3,
+"defaut": 2.77,
+"libelle": "Semi-major axis a",
+"log": true,
+"maxi": 100.0,
+"mini": 0.3,
+"type": "curseur",
+"unite": "ua",
+"valeur": 2.77
+},
+{
+"aide": "Elongation of the orbit: 0 for a circle, close to 1 for a very elongated ellipse (comet).",
+"cle": "e",
+"dec": 3,
+"defaut": 0.0797,
+"libelle": "Eccentricity e",
+"log": false,
+"maxi": 0.99,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.08
+},
+{
+"aide": "Inclination of the orbit to the ecliptic; it does not change the diagram, only the Tisserand parameter (beyond 90°, the orbit is retrograde, like Halley’s).",
+"cle": "i",
+"dec": 1,
+"defaut": 10.6,
+"libelle": "Inclination i",
+"log": false,
+"maxi": 180.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 10.6
+},
+{
+"aide": "Curves q = 1.017 au (Earth’s aphelion), q = 1.3 au (near-Earth limit), q = 1.666 au (Mars’s aphelion), Q = 0.983 au (Earth’s perihelion, dotted) and a = 1 au.",
+"cle": "familles",
+"defaut": true,
+"libelle": "Near-Earth object groups",
+"type": "coche"
+},
+{
+"aide": "Semi-major axes where the body makes p revolutions while Jupiter makes q: in red the Kirkwood gaps (3:1, 5:2, 7:3, 2:1), emptied by Jupiter; in blue the resonances that on the contrary hold asteroids (Hildas 3:2, Trojans 1:1).",
+"cle": "kirkwood",
+"defaut": true,
+"libelle": "Resonances with Jupiter",
+"type": "coche"
+},
+{
+"aide": "The 27 asteroids and comets of the list, as blue dots.",
+"cle": "objets",
+"defaut": true,
+"libelle": "Real small bodies",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Périhélie q = a(1 − e)",
+"2,548 ua"
+],
+[
+"Aphélie Q = a(1 + e)",
+"2,992 ua"
+],
+[
+"Période P = a √a",
+"4,61 ans"
+],
+[
+"Classe de l’orbite",
+"ceinture principale"
+],
+[
+"Croise l’orbite de",
+"aucune planète"
+],
+[
+"Paramètre de Tisserand T (vis-à-vis de Jupiter)",
+"3,31 : orbite d’astéroïde (T > 3)"
+],
+[
+"Distance au Soleil en ce moment",
+"2,548 ua"
+]
+]
+],
+[
+"pas",
+[
+[
+"Périhélie q = a(1 − e)",
+"2,548 ua"
+],
+[
+"Aphélie Q = a(1 + e)",
+"2,992 ua"
+],
+[
+"Période P = a √a",
+"4,61 ans"
+],
+[
+"Classe de l’orbite",
+"ceinture principale"
+],
+[
+"Croise l’orbite de",
+"aucune planète"
+],
+[
+"Paramètre de Tisserand T (vis-à-vis de Jupiter)",
+"3,31 : orbite d’astéroïde (T > 3)"
+],
+[
+"Distance au Soleil en ce moment",
+"2,783 ua"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Périhélie q = a(1 − e)",
+"28,6 ua"
+],
+[
+"Aphélie Q = a(1 + e)",
+"39,0 ua"
+],
+[
+"Période P = a √a",
+"196,3 ans"
+],
+[
+"Classe de l’orbite",
+"transneptunien"
+],
+[
+"Croise l’orbite de",
+"Neptune"
+],
+[
+"Paramètre de Tisserand T (vis-à-vis de Jupiter)",
+"2,15 : orbite de comète de la famille de Jupiter (2 < T < 3)"
+],
+[
+"Distance au Soleil en ce moment",
+"34,5 ua"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Périhélie q = a(1 − e)",
+"28,6 ua"
+],
+[
+"Aphélie Q = a(1 + e)",
+"39,0 ua"
+],
+[
+"Période P = a √a",
+"196,3 ans"
+],
+[
+"Classe de l’orbite",
+"transneptunien"
+],
+[
+"Croise l’orbite de",
+"Neptune"
+],
+[
+"Paramètre de Tisserand T (vis-à-vis de Jupiter)",
+"2,15 : orbite de comète de la famille de Jupiter (2 < T < 3)"
+],
+[
+"Distance au Soleil en ce moment",
+"39,0 ua"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Périhélie q = a(1 − e)",
+"2,549 ua"
+],
+[
+"Aphélie Q = a(1 + e)",
+"2,991 ua"
+],
+[
+"Période P = a √a",
+"4,61 ans"
+],
+[
+"Classe de l’orbite",
+"ceinture principale"
+],
+[
+"Croise l’orbite de",
+"aucune planète"
+],
+[
+"Paramètre de Tisserand T (vis-à-vis de Jupiter)",
+"3,31 : orbite d’astéroïde (T > 3)"
+],
+[
+"Distance au Soleil en ce moment",
+"2,991 ua"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Un astéroïde ou une comète réels (éléments de la base SBDB du JPL, arrondis) : son point se place sur le diagramme.",
+"cle": "objet",
+"defaut": "ceres",
+"options": [
+[
+"(point choisi à la souris)",
+"libre"
+],
+[
+"(163693) Atira",
+"atira"
+],
+[
+"(99942) Apophis",
+"apophis"
+],
+[
+"2010 TK7 (troyen de la Terre)",
+"tk7"
+],
+[
+"(3753) Cruithne",
+"cruithne"
+],
+[
+"(101955) Bennu",
+"bennu"
+],
+[
+"(162173) Ryugu",
+"ryugu"
+],
+[
+"(25143) Itokawa",
+"itokawa"
+],
+[
+"(1566) Icare",
+"icare"
+],
+[
+"(3200) Phaéton (Géminides)",
+"phaethon"
+],
+[
+"(65803) Didymos (DART)",
+"didymos"
+],
+[
+"(4179) Toutatis",
+"toutatis"
+],
+[
+"(433) Éros",
+"eros"
+],
+[
+"2P/Encke",
+"encke"
+],
+[
+"(4) Vesta",
+"vesta"
+],
+[
+"(1) Cérès",
+"ceres"
+],
+[
+"(2) Pallas",
+"pallas"
+],
+[
+"(10) Hygie",
+"hygie"
+],
+[
+"67P/Tchourioumov-Guérassimenko",
+"tchouri"
+],
+[
+"(153) Hilda",
+"hilda"
+],
+[
+"(624) Hektor (troyen de Jupiter)",
+"hektor"
+],
+[
+"(944) Hidalgo",
+"hidalgo"
+],
+[
+"(2060) Chiron",
+"chiron"
+],
+[
+"1P/Halley",
+"halley"
+],
+[
+"109P/Swift-Tuttle (Perséides)",
+"swift_tuttle"
+],
+[
+"(134340) Pluton",
+"pluton"
+],
+[
+"(486958) Arrokoth",
+"arrokoth"
+],
+[
+"(136199) Éris",
+"eris"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Taille de l’orbite, en unités astronomiques (échelle logarithmique) ; la période en découle : P = a √a ans.",
+"cle": "a",
+"dec": 3,
+"defaut": 2.77,
+"libelle": "Demi-grand axe a",
+"log": true,
+"maxi": 100.0,
+"mini": 0.3,
+"type": "curseur",
+"unite": "ua",
+"valeur": 2.77
+},
+{
+"aide": "Allongement de l’orbite : 0 pour un cercle, près de 1 pour une ellipse très allongée (comète).",
+"cle": "e",
+"dec": 3,
+"defaut": 0.0797,
+"libelle": "Excentricité e",
+"log": false,
+"maxi": 0.99,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.08
+},
+{
+"aide": "Inclinaison de l’orbite sur l’écliptique ; elle ne change pas le diagramme, seulement le paramètre de Tisserand (au-delà de 90°, l’orbite est rétrograde, comme celle de Halley).",
+"cle": "i",
+"dec": 1,
+"defaut": 10.6,
+"libelle": "Inclinaison i",
+"log": false,
+"maxi": 180.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 10.6
+},
+{
+"aide": "Courbes q = 1,017 ua (aphélie de la Terre), q = 1,3 ua (limite des géocroiseurs), q = 1,666 ua (aphélie de Mars), Q = 0,983 ua (périhélie de la Terre, pointillé) et a = 1 ua.",
+"cle": "familles",
+"defaut": true,
+"libelle": "Familles de géocroiseurs",
+"type": "coche"
+},
+{
+"aide": "Demi-grands axes où le corps fait p tours pendant que Jupiter en fait q : en rouge les lacunes de Kirkwood (3:1, 5:2, 7:3, 2:1), vidées par Jupiter ; en bleu les résonances qui retiennent au contraire des astéroïdes (Hilda 3:2, troyens 1:1).",
+"cle": "kirkwood",
+"defaut": true,
+"libelle": "Résonances avec Jupiter",
+"type": "coche"
+},
+{
+"aide": "Les 27 astéroïdes et comètes de la liste, en points bleus.",
+"cle": "objets",
+"defaut": true,
+"libelle": "Petits corps réels",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "altazimuth": {
 "animee": false,
 "changements": [
@@ -13213,6 +13975,664 @@ false
 },
 "lecture_au_depart": false
 },
+"gravityassist": {
+"animee": true,
+"changements": [
+[
+"planete",
+"saturne"
+],
+[
+"vinf",
+5.1
+],
+[
+"rp",
+21.22
+],
+[
+"angle",
+214.0
+],
+[
+"cote",
+"devant"
+],
+[
+"soleil",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Planet speed V",
+"13.06 km·s⁻¹"
+],
+[
+"Closest altitude",
+"285 968 km"
+],
+[
+"Deflection δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133.5°"
+],
+[
+"Speed at closest approach",
+"27.21 km·s⁻¹"
+],
+[
+"Change of velocity 2 v∞ sin(δ/2)",
+"10.29 km·s⁻¹"
+],
+[
+"Speed around the Sun, before → after",
+"7.61 km·s⁻¹ → 17.87 km·s⁻¹"
+],
+[
+"Gain",
+"+10.27 km·s⁻¹"
+],
+[
+"Orbit before the flyby",
+"from 1.04 to 5.22 au from the Sun"
+],
+[
+"Orbit after the flyby",
+"from 5.01 to 77.06 au from the Sun"
+]
+]
+],
+[
+"pas",
+[
+[
+"Planet speed V",
+"13.06 km·s⁻¹"
+],
+[
+"Closest altitude",
+"285 968 km"
+],
+[
+"Deflection δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133.5°"
+],
+[
+"Speed at closest approach",
+"27.21 km·s⁻¹"
+],
+[
+"Change of velocity 2 v∞ sin(δ/2)",
+"10.29 km·s⁻¹"
+],
+[
+"Speed around the Sun, before → after",
+"7.61 km·s⁻¹ → 17.87 km·s⁻¹"
+],
+[
+"Gain",
+"+10.27 km·s⁻¹"
+],
+[
+"Orbit before the flyby",
+"from 1.04 to 5.22 au from the Sun"
+],
+[
+"Orbit after the flyby",
+"from 5.01 to 77.06 au from the Sun"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Planet speed V",
+"9.64 km·s⁻¹"
+],
+[
+"Closest altitude",
+"1 218 619 km"
+],
+[
+"Deflection δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"64.4°"
+],
+[
+"Speed at closest approach",
+"9.24 km·s⁻¹"
+],
+[
+"Change of velocity 2 v∞ sin(δ/2)",
+"5.43 km·s⁻¹"
+],
+[
+"Speed around the Sun, before → after",
+"6.12 km·s⁻¹ → 5.85 km·s⁻¹"
+],
+[
+"Gain",
+"−0.28 km·s⁻¹"
+],
+[
+"Orbit before the flyby",
+"from 1.76 to 10.18 au from the Sun"
+],
+[
+"Orbit after the flyby",
+"from 1.64 to 10.04 au from the Sun"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Planet speed V",
+"9.64 km·s⁻¹"
+],
+[
+"Closest altitude",
+"1 218 619 km"
+],
+[
+"Deflection δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"64.4°"
+],
+[
+"Speed at closest approach",
+"9.24 km·s⁻¹"
+],
+[
+"Change of velocity 2 v∞ sin(δ/2)",
+"5.43 km·s⁻¹"
+],
+[
+"Speed around the Sun, before → after",
+"6.12 km·s⁻¹ → 5.85 km·s⁻¹"
+],
+[
+"Gain",
+"−0.28 km·s⁻¹"
+],
+[
+"Orbit before the flyby",
+"from 1.76 to 10.18 au from the Sun"
+],
+[
+"Orbit after the flyby",
+"from 1.64 to 10.04 au from the Sun"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Planet speed V",
+"13.06 km·s⁻¹"
+],
+[
+"Closest altitude",
+"285 968 km"
+],
+[
+"Deflection δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133.5°"
+],
+[
+"Speed at closest approach",
+"27.21 km·s⁻¹"
+],
+[
+"Change of velocity 2 v∞ sin(δ/2)",
+"10.29 km·s⁻¹"
+],
+[
+"Speed around the Sun, before → after",
+"7.61 km·s⁻¹ → 17.87 km·s⁻¹"
+],
+[
+"Gain",
+"+10.27 km·s⁻¹"
+],
+[
+"Orbit before the flyby",
+"from 1.04 to 5.22 au from the Sun"
+],
+[
+"Orbit after the flyby",
+"from 5.01 to 77.06 au from the Sun"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "The more massive the planet, the more it bends the trajectory; the faster it moves on its orbit, the larger the possible gain.",
+"cle": "planete",
+"defaut": "jupiter",
+"options": [
+[
+"Venus",
+"venus"
+],
+[
+"Earth",
+"terre"
+],
+[
+"Mars",
+"mars"
+],
+[
+"Jupiter",
+"jupiter"
+],
+[
+"Saturn",
+"saturne"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Speed of the probe relative to the planet, far from it (speed “at infinity”). It is the same on departure: seen from the planet, the probe gains nothing.",
+"cle": "vinf",
+"dec": 1,
+"defaut": 5.6,
+"libelle": "Arrival speed v∞",
+"log": false,
+"maxi": 20.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 5.6
+},
+{
+"aide": "Distance from the planet’s centre to the closest point, in planet radii (logarithmic scale): the closer the pass, the more the trajectory turns.",
+"cle": "rp",
+"dec": 2,
+"defaut": 5.0,
+"libelle": "Closest distance rₚ (in radii)",
+"log": true,
+"maxi": 50.0,
+"mini": 1.02,
+"type": "curseur",
+"unite": "",
+"valeur": 5.0
+},
+{
+"aide": "Direction of v∞ on arrival, measured from the direction of the planet’s motion (0°: moving the same way as the planet; 180°: coming head-on).",
+"cle": "angle",
+"dec": 0,
+"defaut": 170.0,
+"libelle": "Arrival direction",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 170.0
+},
+{
+"aide": "Side of the planet the probe passes: behind it (relative to its motion), the relative velocity is turned forwards; in front of it, backwards.",
+"cle": "cote",
+"defaut": "derriere",
+"options": [
+[
+"behind the planet",
+"derriere"
+],
+[
+"in front of the planet",
+"devant"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Orbit of the probe around the Sun before the flyby (dotted blue) and after (solid red).",
+"cle": "soleil",
+"defaut": true,
+"libelle": "Orbits around the Sun",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Vitesse V de la planète",
+"13,06 km·s⁻¹"
+],
+[
+"Altitude au plus près",
+"285 968 km"
+],
+[
+"Déviation δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133,5°"
+],
+[
+"Vitesse au plus près",
+"27,21 km·s⁻¹"
+],
+[
+"Variation de la vitesse 2 v∞ sin(δ/2)",
+"10,29 km·s⁻¹"
+],
+[
+"Vitesse autour du Soleil, avant → après",
+"7,61 km·s⁻¹ → 17,87 km·s⁻¹"
+],
+[
+"Gain",
+"+10,27 km·s⁻¹"
+],
+[
+"Orbite avant le survol",
+"de 1,04 à 5,22 ua du Soleil"
+],
+[
+"Orbite après le survol",
+"de 5,01 à 77,06 ua du Soleil"
+]
+]
+],
+[
+"pas",
+[
+[
+"Vitesse V de la planète",
+"13,06 km·s⁻¹"
+],
+[
+"Altitude au plus près",
+"285 968 km"
+],
+[
+"Déviation δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133,5°"
+],
+[
+"Vitesse au plus près",
+"27,21 km·s⁻¹"
+],
+[
+"Variation de la vitesse 2 v∞ sin(δ/2)",
+"10,29 km·s⁻¹"
+],
+[
+"Vitesse autour du Soleil, avant → après",
+"7,61 km·s⁻¹ → 17,87 km·s⁻¹"
+],
+[
+"Gain",
+"+10,27 km·s⁻¹"
+],
+[
+"Orbite avant le survol",
+"de 1,04 à 5,22 ua du Soleil"
+],
+[
+"Orbite après le survol",
+"de 5,01 à 77,06 ua du Soleil"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Vitesse V de la planète",
+"9,64 km·s⁻¹"
+],
+[
+"Altitude au plus près",
+"1 218 619 km"
+],
+[
+"Déviation δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"64,4°"
+],
+[
+"Vitesse au plus près",
+"9,24 km·s⁻¹"
+],
+[
+"Variation de la vitesse 2 v∞ sin(δ/2)",
+"5,43 km·s⁻¹"
+],
+[
+"Vitesse autour du Soleil, avant → après",
+"6,12 km·s⁻¹ → 5,85 km·s⁻¹"
+],
+[
+"Gain",
+"−0,28 km·s⁻¹"
+],
+[
+"Orbite avant le survol",
+"de 1,76 à 10,18 ua du Soleil"
+],
+[
+"Orbite après le survol",
+"de 1,64 à 10,04 ua du Soleil"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Vitesse V de la planète",
+"9,64 km·s⁻¹"
+],
+[
+"Altitude au plus près",
+"1 218 619 km"
+],
+[
+"Déviation δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"64,4°"
+],
+[
+"Vitesse au plus près",
+"9,24 km·s⁻¹"
+],
+[
+"Variation de la vitesse 2 v∞ sin(δ/2)",
+"5,43 km·s⁻¹"
+],
+[
+"Vitesse autour du Soleil, avant → après",
+"6,12 km·s⁻¹ → 5,85 km·s⁻¹"
+],
+[
+"Gain",
+"−0,28 km·s⁻¹"
+],
+[
+"Orbite avant le survol",
+"de 1,76 à 10,18 ua du Soleil"
+],
+[
+"Orbite après le survol",
+"de 1,64 à 10,04 ua du Soleil"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Vitesse V de la planète",
+"13,06 km·s⁻¹"
+],
+[
+"Altitude au plus près",
+"285 968 km"
+],
+[
+"Déviation δ = 2 arcsin(1/(1 + rₚv∞²/GM))",
+"133,5°"
+],
+[
+"Vitesse au plus près",
+"27,21 km·s⁻¹"
+],
+[
+"Variation de la vitesse 2 v∞ sin(δ/2)",
+"10,29 km·s⁻¹"
+],
+[
+"Vitesse autour du Soleil, avant → après",
+"7,61 km·s⁻¹ → 17,87 km·s⁻¹"
+],
+[
+"Gain",
+"+10,27 km·s⁻¹"
+],
+[
+"Orbite avant le survol",
+"de 1,04 à 5,22 ua du Soleil"
+],
+[
+"Orbite après le survol",
+"de 5,01 à 77,06 ua du Soleil"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Plus la planète est massive, plus elle tourne la trajectoire ; plus elle va vite sur son orbite, plus le gain possible est grand.",
+"cle": "planete",
+"defaut": "jupiter",
+"options": [
+[
+"Vénus",
+"venus"
+],
+[
+"Terre",
+"terre"
+],
+[
+"Mars",
+"mars"
+],
+[
+"Jupiter",
+"jupiter"
+],
+[
+"Saturne",
+"saturne"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Vitesse de la sonde par rapport à la planète, loin d’elle (vitesse « à l’infini »). Elle est la même au départ : vue de la planète, la sonde ne gagne rien.",
+"cle": "vinf",
+"dec": 1,
+"defaut": 5.6,
+"libelle": "Vitesse d’arrivée v∞",
+"log": false,
+"maxi": 20.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 5.6
+},
+{
+"aide": "Distance du centre de la planète au point le plus proche, en rayons de la planète (échelle logarithmique) : plus on passe près, plus la trajectoire tourne.",
+"cle": "rp",
+"dec": 2,
+"defaut": 5.0,
+"libelle": "Distance au plus près rₚ (en rayons)",
+"log": true,
+"maxi": 50.0,
+"mini": 1.02,
+"type": "curseur",
+"unite": "",
+"valeur": 5.0
+},
+{
+"aide": "Direction de v∞ à l’arrivée, comptée depuis le sens du mouvement de la planète (0° : la sonde la rattrape par l’arrière… dans le même sens ; 180° : elle vient à sa rencontre).",
+"cle": "angle",
+"dec": 0,
+"defaut": 170.0,
+"libelle": "Direction d’arrivée",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 170.0
+},
+{
+"aide": "Côté de la planète où passe la sonde : derrière elle (par rapport à son mouvement), la vitesse relative est tournée vers l’avant ; devant elle, vers l’arrière.",
+"cle": "cote",
+"defaut": "derriere",
+"options": [
+[
+"derrière la planète",
+"derriere"
+],
+[
+"devant la planète",
+"devant"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Orbite de la sonde autour du Soleil avant le survol (pointillé bleu) et après (trait rouge).",
+"cle": "soleil",
+"defaut": true,
+"libelle": "Orbites autour du Soleil",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "gravityorbits": {
 "animee": true,
 "changements": [
@@ -16427,6 +17847,650 @@ false
 },
 "lecture_au_depart": true
 },
+"impactcrater": {
+"animee": true,
+"changements": [
+[
+"exemple",
+"chicxulub"
+],
+[
+"L",
+2631.0
+],
+[
+"v",
+49.1
+],
+[
+"theta",
+35.0
+],
+[
+"impacteur",
+"fer"
+],
+[
+"cible",
+"cristalline"
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Impactor mass",
+"5.30 × 10¹² kg"
+],
+[
+"Energy ½ m v²",
+"1.06 × 10²¹ J = 2.54 × 10⁵ Mt of TNT"
+],
+[
+"Transient cavity (diameter × depth)",
+"15.6 km × 5.51 km"
+],
+[
+"Final crater diameter",
+"22.4 km"
+],
+[
+"Final crater depth",
+"1.02 km"
+],
+[
+"Shape",
+"complex crater (flat floor, central peak, rim collapsed into terraces)"
+],
+[
+"Crater diameter / impactor diameter",
+"14.9"
+],
+[
+"An impact this energetic on Earth",
+"every 1.79 × 10⁶ years on average"
+]
+]
+],
+[
+"pas",
+[
+[
+"Impactor mass",
+"5.30 × 10¹² kg"
+],
+[
+"Energy ½ m v²",
+"1.06 × 10²¹ J = 2.54 × 10⁵ Mt of TNT"
+],
+[
+"Transient cavity (diameter × depth)",
+"15.6 km × 5.51 km"
+],
+[
+"Final crater diameter",
+"22.4 km"
+],
+[
+"Final crater depth",
+"1.02 km"
+],
+[
+"Shape",
+"complex crater (flat floor, central peak, rim collapsed into terraces)"
+],
+[
+"Crater diameter / impactor diameter",
+"14.9"
+],
+[
+"An impact this energetic on Earth",
+"every 1.79 × 10⁶ years on average"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Impactor mass",
+"7.63 × 10¹³ kg"
+],
+[
+"Energy ½ m v²",
+"9.20 × 10²² J = 2.20 × 10⁷ Mt of TNT"
+],
+[
+"Transient cavity (diameter × depth)",
+"44.9 km × 15.9 km"
+],
+[
+"Final crater diameter",
+"74.1 km"
+],
+[
+"Final crater depth",
+"1.46 km"
+],
+[
+"Shape",
+"complex crater (flat floor, central peak, rim collapsed into terraces)"
+],
+[
+"Crater diameter / impactor diameter",
+"28.2"
+],
+[
+"An impact this energetic on Earth",
+"every 5.81 × 10⁷ years on average"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Impactor mass",
+"7.63 × 10¹³ kg"
+],
+[
+"Energy ½ m v²",
+"9.20 × 10²² J = 2.20 × 10⁷ Mt of TNT"
+],
+[
+"Transient cavity (diameter × depth)",
+"44.9 km × 15.9 km"
+],
+[
+"Final crater diameter",
+"74.1 km"
+],
+[
+"Final crater depth",
+"1.46 km"
+],
+[
+"Shape",
+"complex crater (flat floor, central peak, rim collapsed into terraces)"
+],
+[
+"Crater diameter / impactor diameter",
+"28.2"
+],
+[
+"An impact this energetic on Earth",
+"every 5.81 × 10⁷ years on average"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Impactor mass",
+"5.30 × 10¹² kg"
+],
+[
+"Energy ½ m v²",
+"1.06 × 10²¹ J = 2.54 × 10⁵ Mt of TNT"
+],
+[
+"Transient cavity (diameter × depth)",
+"15.6 km × 5.51 km"
+],
+[
+"Final crater diameter",
+"22.4 km"
+],
+[
+"Final crater depth",
+"1.02 km"
+],
+[
+"Shape",
+"complex crater (flat floor, central peak, rim collapsed into terraces)"
+],
+[
+"Crater diameter / impactor diameter",
+"14.9"
+],
+[
+"An impact this energetic on Earth",
+"every 1.79 × 10⁶ years on average"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "A ready-made case; you can then change each setting.",
+"cle": "exemple",
+"defaut": "cours",
+"options": [
+[
+"(free setting)",
+"libre"
+],
+[
+"The course example: 1.5 km at 20 km·s⁻¹",
+"cours"
+],
+[
+"50 m iron meteorite (Meteor Crater, Arizona)",
+"meteor_crater"
+],
+[
+"10 km asteroid (Chicxulub, end of the dinosaurs)",
+"chicxulub"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diameter of the asteroid or comet (logarithmic scale).",
+"cle": "L",
+"dec": 0,
+"defaut": 1500.0,
+"libelle": "Impactor diameter L",
+"log": true,
+"maxi": 20000.0,
+"mini": 10.0,
+"type": "curseur",
+"unite": "m",
+"valeur": 1500.0
+},
+{
+"aide": "At least 11.2 km·s⁻¹ (Earth’s escape speed), at most 72 km·s⁻¹ (head-on retrograde comet); about twenty km·s⁻¹ on average for an asteroid.",
+"cle": "v",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Impact speed v",
+"log": false,
+"maxi": 72.0,
+"mini": 11.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 20.0
+},
+{
+"aide": "90°: vertical fall; the most likely angle is 45°. The crater scales as ∛(sin θ).",
+"cle": "theta",
+"dec": 0,
+"defaut": 45.0,
+"libelle": "Angle to the ground θ",
+"log": false,
+"maxi": 90.0,
+"mini": 5.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 45.0
+},
+{
+"aide": "Nature, hence density, of the impactor.",
+"cle": "impacteur",
+"defaut": "rocheux",
+"options": [
+[
+"ice (comet), 1,000 kg·m⁻³",
+"glace"
+],
+[
+"porous rock, 1,500 kg·m⁻³",
+"poreux"
+],
+[
+"dense rock, 3,000 kg·m⁻³",
+"rocheux"
+],
+[
+"iron, 8,000 kg·m⁻³",
+"fer"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Target rock (density).",
+"cle": "cible",
+"defaut": "sedimentaire",
+"options": [
+[
+"sedimentary rock, 2,500 kg·m⁻³",
+"sedimentaire"
+],
+[
+"crystalline rock, 2,750 kg·m⁻³",
+"cristalline"
+]
+],
+"type": "choix"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Masse de l’impacteur",
+"5,30 × 10¹² kg"
+],
+[
+"Énergie ½ m v²",
+"1,06 × 10²¹ J = 2,54 × 10⁵ Mt de TNT"
+],
+[
+"Cavité transitoire (diamètre × profondeur)",
+"15,6 km × 5,51 km"
+],
+[
+"Diamètre du cratère final",
+"22,4 km"
+],
+[
+"Profondeur du cratère final",
+"1,02 km"
+],
+[
+"Forme",
+"cratère complexe (fond plat, piton central, bords effondrés en terrasses)"
+],
+[
+"Diamètre du cratère / diamètre de l’impacteur",
+"14,9"
+],
+[
+"Un impact aussi énergique sur la Terre",
+"tous les 1,79 × 10⁶ ans en moyenne"
+]
+]
+],
+[
+"pas",
+[
+[
+"Masse de l’impacteur",
+"5,30 × 10¹² kg"
+],
+[
+"Énergie ½ m v²",
+"1,06 × 10²¹ J = 2,54 × 10⁵ Mt de TNT"
+],
+[
+"Cavité transitoire (diamètre × profondeur)",
+"15,6 km × 5,51 km"
+],
+[
+"Diamètre du cratère final",
+"22,4 km"
+],
+[
+"Profondeur du cratère final",
+"1,02 km"
+],
+[
+"Forme",
+"cratère complexe (fond plat, piton central, bords effondrés en terrasses)"
+],
+[
+"Diamètre du cratère / diamètre de l’impacteur",
+"14,9"
+],
+[
+"Un impact aussi énergique sur la Terre",
+"tous les 1,79 × 10⁶ ans en moyenne"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Masse de l’impacteur",
+"7,63 × 10¹³ kg"
+],
+[
+"Énergie ½ m v²",
+"9,20 × 10²² J = 2,20 × 10⁷ Mt de TNT"
+],
+[
+"Cavité transitoire (diamètre × profondeur)",
+"44,9 km × 15,9 km"
+],
+[
+"Diamètre du cratère final",
+"74,1 km"
+],
+[
+"Profondeur du cratère final",
+"1,46 km"
+],
+[
+"Forme",
+"cratère complexe (fond plat, piton central, bords effondrés en terrasses)"
+],
+[
+"Diamètre du cratère / diamètre de l’impacteur",
+"28,2"
+],
+[
+"Un impact aussi énergique sur la Terre",
+"tous les 5,81 × 10⁷ ans en moyenne"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Masse de l’impacteur",
+"7,63 × 10¹³ kg"
+],
+[
+"Énergie ½ m v²",
+"9,20 × 10²² J = 2,20 × 10⁷ Mt de TNT"
+],
+[
+"Cavité transitoire (diamètre × profondeur)",
+"44,9 km × 15,9 km"
+],
+[
+"Diamètre du cratère final",
+"74,1 km"
+],
+[
+"Profondeur du cratère final",
+"1,46 km"
+],
+[
+"Forme",
+"cratère complexe (fond plat, piton central, bords effondrés en terrasses)"
+],
+[
+"Diamètre du cratère / diamètre de l’impacteur",
+"28,2"
+],
+[
+"Un impact aussi énergique sur la Terre",
+"tous les 5,81 × 10⁷ ans en moyenne"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Masse de l’impacteur",
+"5,30 × 10¹² kg"
+],
+[
+"Énergie ½ m v²",
+"1,06 × 10²¹ J = 2,54 × 10⁵ Mt de TNT"
+],
+[
+"Cavité transitoire (diamètre × profondeur)",
+"15,6 km × 5,51 km"
+],
+[
+"Diamètre du cratère final",
+"22,4 km"
+],
+[
+"Profondeur du cratère final",
+"1,02 km"
+],
+[
+"Forme",
+"cratère complexe (fond plat, piton central, bords effondrés en terrasses)"
+],
+[
+"Diamètre du cratère / diamètre de l’impacteur",
+"14,9"
+],
+[
+"Un impact aussi énergique sur la Terre",
+"tous les 1,79 × 10⁶ ans en moyenne"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Un cas tout prêt ; on peut ensuite changer chaque réglage.",
+"cle": "exemple",
+"defaut": "cours",
+"options": [
+[
+"(réglage libre)",
+"libre"
+],
+[
+"Le cas du cours : 1,5 km à 20 km·s⁻¹",
+"cours"
+],
+[
+"Météorite de fer de 50 m (Meteor Crater, Arizona)",
+"meteor_crater"
+],
+[
+"Astéroïde de 10 km (Chicxulub, fin des dinosaures)",
+"chicxulub"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diamètre de l’astéroïde ou de la comète (échelle logarithmique).",
+"cle": "L",
+"dec": 0,
+"defaut": 1500.0,
+"libelle": "Diamètre de l’impacteur L",
+"log": true,
+"maxi": 20000.0,
+"mini": 10.0,
+"type": "curseur",
+"unite": "m",
+"valeur": 1500.0
+},
+{
+"aide": "Au moins 11,2 km·s⁻¹ (vitesse de libération de la Terre), au plus 72 km·s⁻¹ (comète rétrograde de face) ; une vingtaine de km·s⁻¹ en moyenne pour un astéroïde.",
+"cle": "v",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Vitesse d’impact v",
+"log": false,
+"maxi": 72.0,
+"mini": 11.0,
+"type": "curseur",
+"unite": "km·s⁻¹",
+"valeur": 20.0
+},
+{
+"aide": "90° : chute verticale ; l’angle le plus probable est 45°. Le cratère varie comme ∛(sin θ).",
+"cle": "theta",
+"dec": 0,
+"defaut": 45.0,
+"libelle": "Angle avec le sol θ",
+"log": false,
+"maxi": 90.0,
+"mini": 5.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 45.0
+},
+{
+"aide": "Nature, donc densité, de l’impacteur.",
+"cle": "impacteur",
+"defaut": "rocheux",
+"options": [
+[
+"glace (comète), 1 000 kg·m⁻³",
+"glace"
+],
+[
+"roche poreuse, 1 500 kg·m⁻³",
+"poreux"
+],
+[
+"roche dense, 3 000 kg·m⁻³",
+"rocheux"
+],
+[
+"fer, 8 000 kg·m⁻³",
+"fer"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Roche de la cible (densité).",
+"cle": "cible",
+"defaut": "sedimentaire",
+"options": [
+[
+"roches sédimentaires, 2 500 kg·m⁻³",
+"sedimentaire"
+],
+[
+"roches cristallines, 2 750 kg·m⁻³",
+"cristalline"
+]
+],
+"type": "choix"
+}
+]
+},
+"lecture_au_depart": true
+},
 "interferometry": {
 "animee": true,
 "changements": [
@@ -19522,6 +21586,526 @@ true
 ]
 },
 "lecture_au_depart": false
+},
+"libration": {
+"animee": true,
+"changements": [
+[
+"e",
+0.2489
+],
+[
+"i",
+10.09
+],
+[
+"varpi",
+200.0
+],
+[
+"rotation",
+"aucune"
+],
+[
+"diurne",
+false
+],
+[
+"grille",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Since perigee",
+"0.0 days"
+],
+[
+"Libration in longitude l = ν − M",
+"0.00° (2e sin M : 0.00°)"
+],
+[
+"Libration in latitude b",
+"6.68°"
+],
+[
+"Earth-Moon distance",
+"363 296 km"
+],
+[
+"Surface seen at least once in a month",
+"56.5 %"
+],
+[
+"… over the years (ϖ turns)",
+"58.0 %"
+],
+[
+"Diurnal libration arcsin(R⊕/d)",
+"0.95°"
+]
+]
+],
+[
+"pas",
+[
+[
+"Since perigee",
+"4.4 days"
+],
+[
+"Libration in longitude l = ν − M",
+"5.55° (2e sin M : 5.36°)"
+],
+[
+"Libration in latitude b",
+"2.92°"
+],
+[
+"Earth-Moon distance",
+"374 253 km"
+],
+[
+"Surface seen at least once in a month",
+"56.5 %"
+],
+[
+"… over the years (ϖ turns)",
+"58.0 %"
+],
+[
+"Diurnal libration arcsin(R⊕/d)",
+"0.95°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Since perigee",
+"4.4 days"
+],
+[
+"Libration in longitude l = ν − M",
+"86.3°"
+],
+[
+"Libration in latitude b",
+"−9.68°"
+],
+[
+"Earth-Moon distance",
+"354 948 km"
+],
+[
+"Surface seen at least once in a month",
+"100.0 %"
+],
+[
+"… over the years (ϖ turns)",
+"100.0 %"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Since perigee",
+"8.9 days"
+],
+[
+"Libration in longitude l = ν − M",
+"138.7°"
+],
+[
+"Libration in latitude b",
+"−3.64°"
+],
+[
+"Earth-Moon distance",
+"443 582 km"
+],
+[
+"Surface seen at least once in a month",
+"100.0 %"
+],
+[
+"… over the years (ϖ turns)",
+"100.0 %"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Since perigee",
+"8.9 days"
+],
+[
+"Libration in longitude l = ν − M",
+"5.43° (2e sin M : 5.61°)"
+],
+[
+"Libration in latitude b",
+"−3.58°"
+],
+[
+"Earth-Moon distance",
+"394 868 km"
+],
+[
+"Surface seen at least once in a month",
+"56.5 %"
+],
+[
+"… over the years (ϖ turns)",
+"58.0 %"
+],
+[
+"Diurnal libration arcsin(R⊕/d)",
+"0.95°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "0.0549 for the Moon; it can be exaggerated to see the effect better: the Moon moves faster near the Earth, while its rotation stays uniform.",
+"cle": "e",
+"dec": 4,
+"defaut": 0.0549,
+"libelle": "Orbital eccentricity e",
+"log": false,
+"maxi": 0.3,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0549
+},
+{
+"aide": "Angle between the Moon’s equator and its orbital plane (6.68°): we see in turn a little beyond the north pole and the south pole.",
+"cle": "i",
+"dec": 2,
+"defaut": 6.68,
+"libelle": "Tilt of the lunar equator I",
+"log": false,
+"maxi": 20.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 6.68
+},
+{
+"aide": "Angle between the line of nodes of the lunar equator and the perigee; it goes round in a few years, which changes the shape of the libration curve.",
+"cle": "varpi",
+"dec": 0,
+"defaut": 90.0,
+"libelle": "Node – perigee angle ϖ",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 90.0
+},
+{
+"aide": "Synchronous (one turn per sidereal month, like the real Moon, braked by the tides) or none, to compare: we would then see the whole Moon within a month.",
+"cle": "rotation",
+"defaut": "synchrone",
+"options": [
+[
+"synchronous",
+"synchrone"
+],
+[
+"none (to compare)",
+"aucune"
+]
+],
+"type": "choix"
+},
+{
+"aide": "An observer on the Earth’s surface sees the Moon from a point shifted by up to one Earth radius: about 0.95° more at the edges (at moonrise and moonset).",
+"cle": "diurne",
+"defaut": true,
+"libelle": "Diurnal libration",
+"type": "coche"
+},
+{
+"aide": "Grid every 30°; in yellow the prime meridian, in blue the ±90° meridians (the edge of the Moon without libration).",
+"cle": "grille",
+"defaut": true,
+"libelle": "Meridians and parallels",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Depuis le périgée",
+"0,0 jours"
+],
+[
+"Libration en longitude l = ν − M",
+"0,00° (2e sin M : 0,00°)"
+],
+[
+"Libration en latitude b",
+"6,68°"
+],
+[
+"Distance Terre-Lune",
+"363 296 km"
+],
+[
+"Surface vue au moins une fois en un mois",
+"56,5 %"
+],
+[
+"… au fil des années (ϖ tourne)",
+"58,0 %"
+],
+[
+"Libration diurne arcsin(R⊕/d)",
+"0,95°"
+]
+]
+],
+[
+"pas",
+[
+[
+"Depuis le périgée",
+"4,4 jours"
+],
+[
+"Libration en longitude l = ν − M",
+"5,55° (2e sin M : 5,36°)"
+],
+[
+"Libration en latitude b",
+"2,92°"
+],
+[
+"Distance Terre-Lune",
+"374 253 km"
+],
+[
+"Surface vue au moins une fois en un mois",
+"56,5 %"
+],
+[
+"… au fil des années (ϖ tourne)",
+"58,0 %"
+],
+[
+"Libration diurne arcsin(R⊕/d)",
+"0,95°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Depuis le périgée",
+"4,4 jours"
+],
+[
+"Libration en longitude l = ν − M",
+"86,3°"
+],
+[
+"Libration en latitude b",
+"−9,68°"
+],
+[
+"Distance Terre-Lune",
+"354 948 km"
+],
+[
+"Surface vue au moins une fois en un mois",
+"100,0 %"
+],
+[
+"… au fil des années (ϖ tourne)",
+"100,0 %"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Depuis le périgée",
+"8,9 jours"
+],
+[
+"Libration en longitude l = ν − M",
+"138,7°"
+],
+[
+"Libration en latitude b",
+"−3,64°"
+],
+[
+"Distance Terre-Lune",
+"443 582 km"
+],
+[
+"Surface vue au moins une fois en un mois",
+"100,0 %"
+],
+[
+"… au fil des années (ϖ tourne)",
+"100,0 %"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Depuis le périgée",
+"8,9 jours"
+],
+[
+"Libration en longitude l = ν − M",
+"5,43° (2e sin M : 5,61°)"
+],
+[
+"Libration en latitude b",
+"−3,58°"
+],
+[
+"Distance Terre-Lune",
+"394 868 km"
+],
+[
+"Surface vue au moins une fois en un mois",
+"56,5 %"
+],
+[
+"… au fil des années (ϖ tourne)",
+"58,0 %"
+],
+[
+"Libration diurne arcsin(R⊕/d)",
+"0,95°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "0,0549 pour la Lune ; on peut l’exagérer pour mieux voir l’effet : la Lune va plus vite près de la Terre, alors que sa rotation reste uniforme.",
+"cle": "e",
+"dec": 4,
+"defaut": 0.0549,
+"libelle": "Excentricité de l’orbite e",
+"log": false,
+"maxi": 0.3,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0549
+},
+{
+"aide": "Angle entre l’équateur de la Lune et le plan de son orbite (6,68°) : on voit tour à tour un peu au-delà du pôle nord et du pôle sud.",
+"cle": "i",
+"dec": 2,
+"defaut": 6.68,
+"libelle": "Inclinaison de l’équateur lunaire I",
+"log": false,
+"maxi": 20.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 6.68
+},
+{
+"aide": "Angle entre la ligne des nœuds de l’équateur lunaire et le périgée ; il fait le tour en quelques années, ce qui change la forme de la courbe de libration.",
+"cle": "varpi",
+"dec": 0,
+"defaut": 90.0,
+"libelle": "Angle nœud – périgée ϖ",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 90.0
+},
+{
+"aide": "Synchrone (un tour en un mois sidéral, comme la vraie Lune, freinée par les marées) ou aucune, pour comparer : on verrait alors toute la Lune en un mois.",
+"cle": "rotation",
+"defaut": "synchrone",
+"options": [
+[
+"synchrone",
+"synchrone"
+],
+[
+"aucune (pour comparer)",
+"aucune"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Un observateur à la surface de la Terre voit la Lune d’un point déplacé de jusqu’à un rayon terrestre : environ 0,95° de plus sur les bords (au lever et au coucher).",
+"cle": "diurne",
+"defaut": true,
+"libelle": "Libration diurne",
+"type": "coche"
+},
+{
+"aide": "Grille tous les 30° ; en jaune le méridien origine, en bleu les méridiens ±90° (le bord de la Lune sans libration).",
+"cle": "grille",
+"defaut": true,
+"libelle": "Méridiens et parallèles",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
 },
 "lightcurve": {
 "animee": true,
@@ -28688,6 +31272,486 @@ false
 },
 "lecture_au_depart": false
 },
+"precession": {
+"animee": true,
+"changements": [
+[
+"annee",
+-6957.0
+],
+[
+"noms",
+false
+],
+[
+"dates",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Year",
+"2026"
+],
+[
+"Precession",
+"one turn in 25 772 years (50.29″ per year)"
+],
+[
+"Shift of the vernal point since 2000",
+"−0.36°"
+],
+[
+"Bright star closest to the pole",
+"Polaris (α UMi), 0.63° away"
+],
+[
+"Distance of Polaris from the pole",
+"0.63°"
+],
+[
+"Declination of Vega",
+"38.8°"
+],
+[
+"At the March equinox, the Sun is in front of",
+"Pisces"
+],
+[
+"Next constellation",
+"Aquarius, from 2598"
+]
+]
+],
+[
+"pas",
+[
+[
+"Year",
+"3506"
+],
+[
+"Precession",
+"one turn in 25 772 years (50.29″ per year)"
+],
+[
+"Shift of the vernal point since 2000",
+"−21.04°"
+],
+[
+"Bright star closest to the pole",
+"Errai (γ Cep), 4.12° away"
+],
+[
+"Distance of Polaris from the pole",
+"7.85°"
+],
+[
+"Declination of Vega",
+"41.0°"
+],
+[
+"At the March equinox, the Sun is in front of",
+"Aquarius"
+],
+[
+"Next constellation",
+"Capricornus, from 4327"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Year",
+"−6957 (6958 BC)"
+],
+[
+"Precession",
+"one turn in 25 772 years (50.29″ per year)"
+],
+[
+"Shift of the vernal point since 2000",
+"125.12°"
+],
+[
+"Bright star closest to the pole",
+"ι Dra, 11.65° away"
+],
+[
+"Distance of Polaris from the pole",
+"42.03°"
+],
+[
+"Declination of Vega",
+"60.7°"
+],
+[
+"At the March equinox, the Sun is in front of",
+"Cancer"
+],
+[
+"Next constellation",
+"Gemini, from −6446 (6447 BC)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Year",
+"−5477 (5478 BC)"
+],
+[
+"Precession",
+"one turn in 25 772 years (50.29″ per year)"
+],
+[
+"Shift of the vernal point since 2000",
+"104.45°"
+],
+[
+"Bright star closest to the pole",
+"ι Dra, 5.67° away"
+],
+[
+"Distance of Polaris from the pole",
+"37.37°"
+],
+[
+"Declination of Vega",
+"53.6°"
+],
+[
+"At the March equinox, the Sun is in front of",
+"Gemini"
+],
+[
+"Next constellation",
+"Taurus, from −4453 (4454 BC)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Year",
+"2026"
+],
+[
+"Precession",
+"one turn in 25 772 years (50.29″ per year)"
+],
+[
+"Shift of the vernal point since 2000",
+"−0.36°"
+],
+[
+"Bright star closest to the pole",
+"Polaris (α UMi), 0.63° away"
+],
+[
+"Distance of Polaris from the pole",
+"0.63°"
+],
+[
+"Declination of Vega",
+"38.8°"
+],
+[
+"At the March equinox, the Sun is in front of",
+"Pisces"
+],
+[
+"Next constellation",
+"Aquarius, from 2598"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Year (astronomical numbering: year 0 is 1 BC). When playing, time runs at a thousand years per second.",
+"cle": "annee",
+"dec": 0,
+"defaut": 2026.0,
+"libelle": "Year",
+"log": false,
+"maxi": 15000.0,
+"mini": -13000.0,
+"type": "curseur",
+"unite": "",
+"valeur": 2026.0
+},
+{
+"aide": "Polaris, Kochab, Thuban, Vega, Deneb, Alderamin, Errai…: the successive “pole stars”.",
+"cle": "noms",
+"defaut": true,
+"libelle": "Star names",
+"type": "coche"
+},
+{
+"aide": "Position of the celestial pole every 2,000 years.",
+"cle": "dates",
+"defaut": true,
+"libelle": "Dates on the pole circle",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Année",
+"2026"
+],
+[
+"Précession",
+"un tour en 25 772 ans (50,29″ par an)"
+],
+[
+"Recul du point vernal depuis l’an 2000",
+"−0,36°"
+],
+[
+"Étoile brillante la plus proche du pôle",
+"Polaris (α UMi), à 0,63°"
+],
+[
+"Distance de Polaris au pôle",
+"0,63°"
+],
+[
+"Déclinaison de Véga",
+"38,8°"
+],
+[
+"À l’équinoxe de mars, le Soleil est devant",
+"Poissons"
+],
+[
+"Constellation suivante",
+"Verseau, à partir de 2598"
+]
+]
+],
+[
+"pas",
+[
+[
+"Année",
+"3506"
+],
+[
+"Précession",
+"un tour en 25 772 ans (50,29″ par an)"
+],
+[
+"Recul du point vernal depuis l’an 2000",
+"−21,04°"
+],
+[
+"Étoile brillante la plus proche du pôle",
+"Errai (γ Cep), à 4,12°"
+],
+[
+"Distance de Polaris au pôle",
+"7,85°"
+],
+[
+"Déclinaison de Véga",
+"41,0°"
+],
+[
+"À l’équinoxe de mars, le Soleil est devant",
+"Verseau"
+],
+[
+"Constellation suivante",
+"Capricorne, à partir de 4327"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Année",
+"−6957 (6958 av. J.-C.)"
+],
+[
+"Précession",
+"un tour en 25 772 ans (50,29″ par an)"
+],
+[
+"Recul du point vernal depuis l’an 2000",
+"125,12°"
+],
+[
+"Étoile brillante la plus proche du pôle",
+"ι Dra, à 11,65°"
+],
+[
+"Distance de Polaris au pôle",
+"42,03°"
+],
+[
+"Déclinaison de Véga",
+"60,7°"
+],
+[
+"À l’équinoxe de mars, le Soleil est devant",
+"Cancer"
+],
+[
+"Constellation suivante",
+"Gémeaux, à partir de −6446 (6447 av. J.-C.)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Année",
+"−5477 (5478 av. J.-C.)"
+],
+[
+"Précession",
+"un tour en 25 772 ans (50,29″ par an)"
+],
+[
+"Recul du point vernal depuis l’an 2000",
+"104,45°"
+],
+[
+"Étoile brillante la plus proche du pôle",
+"ι Dra, à 5,67°"
+],
+[
+"Distance de Polaris au pôle",
+"37,37°"
+],
+[
+"Déclinaison de Véga",
+"53,6°"
+],
+[
+"À l’équinoxe de mars, le Soleil est devant",
+"Gémeaux"
+],
+[
+"Constellation suivante",
+"Taureau, à partir de −4453 (4454 av. J.-C.)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Année",
+"2026"
+],
+[
+"Précession",
+"un tour en 25 772 ans (50,29″ par an)"
+],
+[
+"Recul du point vernal depuis l’an 2000",
+"−0,36°"
+],
+[
+"Étoile brillante la plus proche du pôle",
+"Polaris (α UMi), à 0,63°"
+],
+[
+"Distance de Polaris au pôle",
+"0,63°"
+],
+[
+"Déclinaison de Véga",
+"38,8°"
+],
+[
+"À l’équinoxe de mars, le Soleil est devant",
+"Poissons"
+],
+[
+"Constellation suivante",
+"Verseau, à partir de 2598"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Année (numérotation astronomique : l’an 0 est l’an 1 av. J.-C.). En lecture, le temps défile de mille ans par seconde.",
+"cle": "annee",
+"dec": 0,
+"defaut": 2026.0,
+"libelle": "Année",
+"log": false,
+"maxi": 15000.0,
+"mini": -13000.0,
+"type": "curseur",
+"unite": "",
+"valeur": 2026.0
+},
+{
+"aide": "Polaris, Kochab, Thuban, Véga, Deneb, Alderamin, Errai… : les « étoiles polaires » successives.",
+"cle": "noms",
+"defaut": true,
+"libelle": "Noms des étoiles",
+"type": "coche"
+},
+{
+"aide": "Position du pôle céleste tous les 2 000 ans.",
+"cle": "dates",
+"defaut": true,
+"libelle": "Dates sur le cercle du pôle",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "ptolemaic": {
 "animee": true,
 "changements": [],
@@ -31019,6 +34083,588 @@ false
 },
 "lecture_au_depart": false
 },
+"resonances": {
+"animee": true,
+"changements": [
+[
+"cas",
+"comete"
+],
+[
+"a",
+3.149
+],
+[
+"e",
+0.0
+],
+[
+"phi",
+312.0
+],
+[
+"masse",
+"x10"
+],
+[
+"repere",
+"fixe"
+],
+[
+"jumeau",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Elapsed time",
+"0.0 Jupiter orbits (0 years)"
+],
+[
+"Semi-major axis a",
+"3.970 ua"
+],
+[
+"Eccentricity e",
+"0.150"
+],
+[
+"Jupiter’s period / the asteroid’s period",
+"1.500"
+],
+[
+"Nearest resonance",
+"3:2 at 3.97 au (0.0% away)"
+],
+[
+"Distance between the twins",
+"77.8 km (× 1.0 since the start)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Elapsed time",
+"1.5 Jupiter orbits (18 years)"
+],
+[
+"Semi-major axis a",
+"3.949 ua"
+],
+[
+"Eccentricity e",
+"0.148"
+],
+[
+"Jupiter’s period / the asteroid’s period",
+"1.512"
+],
+[
+"Nearest resonance",
+"3:2 at 3.97 au (−0.5% away)"
+],
+[
+"Distance between the twins",
+"6 397 km (× 82.2 since the start)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Elapsed time",
+"0.0 Jupiter orbits (0 years)"
+],
+[
+"Semi-major axis a",
+"3.149 ua"
+],
+[
+"Eccentricity e",
+"0.000"
+],
+[
+"Jupiter’s period / the asteroid’s period",
+"2.124"
+],
+[
+"Nearest resonance",
+"2:1 at 3.28 au (−3.9% away)"
+],
+[
+"Distance between the twins",
+"77.8 km (× 1.0 since the start)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Elapsed time",
+"1.5 Jupiter orbits (18 years)"
+],
+[
+"Semi-major axis a",
+"3.124 ua"
+],
+[
+"Eccentricity e",
+"0.124"
+],
+[
+"Jupiter’s period / the asteroid’s period",
+"2.149"
+],
+[
+"Nearest resonance",
+"2:1 at 3.28 au (−4.7% away)"
+],
+[
+"Distance between the twins",
+"3 502 km (× 45.0 since the start)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Elapsed time",
+"0.0 Jupiter orbits (0 years)"
+],
+[
+"Semi-major axis a",
+"3.970 ua"
+],
+[
+"Eccentricity e",
+"0.150"
+],
+[
+"Jupiter’s period / the asteroid’s period",
+"1.500"
+],
+[
+"Nearest resonance",
+"3:2 at 3.97 au (0.0% away)"
+],
+[
+"Distance between the twins",
+"77.8 km (× 1.0 since the start)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "A ready-made case (semi-major axis, eccentricity, position relative to Jupiter at the start); each setting can then be changed.",
+"cle": "cas",
+"defaut": "hilda",
+"options": [
+[
+"In the 3:1 Kirkwood gap (2.50 au)",
+"kirkwood"
+],
+[
+"Main belt, off resonance (2.30 au)",
+"ceinture"
+],
+[
+"Hilda, 3:2 resonance (3.97 au)",
+"hilda"
+],
+[
+"Trojan, 1:1 resonance (ahead of Jupiter, at L4)",
+"troyen"
+],
+[
+"2:1 gap (3.28 au)",
+"deux_un"
+],
+[
+"Comet crossing Jupiter’s orbit",
+"comete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Starting semi-major axis, around the Sun.",
+"cle": "a",
+"dec": 3,
+"defaut": 3.97,
+"libelle": "Semi-major axis a",
+"log": false,
+"maxi": 6.0,
+"mini": 1.8,
+"type": "curseur",
+"unite": "ua",
+"valeur": 3.97
+},
+{
+"aide": "Starting eccentricity; the asteroid starts from its perihelion.",
+"cle": "e",
+"dec": 2,
+"defaut": 0.15,
+"libelle": "Eccentricity e",
+"log": false,
+"maxi": 0.9,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.15
+},
+{
+"aide": "Angle, seen from the Sun, between Jupiter and the asteroid at the start.",
+"cle": "phi",
+"dec": 0,
+"defaut": 0.0,
+"libelle": "Angle from Jupiter φ₀",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "Real, or ten times larger to see Jupiter’s effects sooner.",
+"cle": "masse",
+"defaut": "reelle",
+"options": [
+[
+"real",
+"reelle"
+],
+[
+"× 10",
+"x10"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Rotating with Jupiter (a resonant orbit draws a closed figure in it) or fixed.",
+"cle": "repere",
+"defaut": "tournant",
+"options": [
+[
+"rotating with Jupiter",
+"tournant"
+],
+[
+"fixed",
+"fixe"
+]
+],
+"type": "choix"
+},
+{
+"aide": "A second asteroid released 78 km away (10⁻⁷ times Jupiter’s distance), in blue.",
+"cle": "jumeau",
+"defaut": true,
+"libelle": "Twin",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Temps écoulé",
+"0,0 orbites de Jupiter (0 ans)"
+],
+[
+"Demi-grand axe a",
+"3,970 ua"
+],
+[
+"Excentricité e",
+"0,150"
+],
+[
+"Période de Jupiter / période de l’astéroïde",
+"1,500"
+],
+[
+"Résonance la plus proche",
+"3:2 à 3,97 ua (écart 0,0 %)"
+],
+[
+"Écart entre les jumeaux",
+"77,8 km (× 1,0 depuis le départ)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Temps écoulé",
+"1,5 orbites de Jupiter (18 ans)"
+],
+[
+"Demi-grand axe a",
+"3,949 ua"
+],
+[
+"Excentricité e",
+"0,148"
+],
+[
+"Période de Jupiter / période de l’astéroïde",
+"1,512"
+],
+[
+"Résonance la plus proche",
+"3:2 à 3,97 ua (écart −0,5 %)"
+],
+[
+"Écart entre les jumeaux",
+"6 397 km (× 82,2 depuis le départ)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Temps écoulé",
+"0,0 orbites de Jupiter (0 ans)"
+],
+[
+"Demi-grand axe a",
+"3,149 ua"
+],
+[
+"Excentricité e",
+"0,000"
+],
+[
+"Période de Jupiter / période de l’astéroïde",
+"2,124"
+],
+[
+"Résonance la plus proche",
+"2:1 à 3,28 ua (écart −3,9 %)"
+],
+[
+"Écart entre les jumeaux",
+"77,8 km (× 1,0 depuis le départ)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Temps écoulé",
+"1,5 orbites de Jupiter (18 ans)"
+],
+[
+"Demi-grand axe a",
+"3,124 ua"
+],
+[
+"Excentricité e",
+"0,124"
+],
+[
+"Période de Jupiter / période de l’astéroïde",
+"2,149"
+],
+[
+"Résonance la plus proche",
+"2:1 à 3,28 ua (écart −4,7 %)"
+],
+[
+"Écart entre les jumeaux",
+"3 502 km (× 45,0 depuis le départ)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Temps écoulé",
+"0,0 orbites de Jupiter (0 ans)"
+],
+[
+"Demi-grand axe a",
+"3,970 ua"
+],
+[
+"Excentricité e",
+"0,150"
+],
+[
+"Période de Jupiter / période de l’astéroïde",
+"1,500"
+],
+[
+"Résonance la plus proche",
+"3:2 à 3,97 ua (écart 0,0 %)"
+],
+[
+"Écart entre les jumeaux",
+"77,8 km (× 1,0 depuis le départ)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Un cas tout prêt (demi-grand axe, excentricité, position par rapport à Jupiter au départ) ; chaque réglage peut ensuite être changé.",
+"cle": "cas",
+"defaut": "hilda",
+"options": [
+[
+"Dans la lacune de Kirkwood 3:1 (2,50 ua)",
+"kirkwood"
+],
+[
+"Ceinture principale, hors résonance (2,30 ua)",
+"ceinture"
+],
+[
+"Hilda, résonance 3:2 (3,97 ua)",
+"hilda"
+],
+[
+"Troyen, résonance 1:1 (devant Jupiter, en L4)",
+"troyen"
+],
+[
+"Lacune 2:1 (3,28 ua)",
+"deux_un"
+],
+[
+"Comète qui croise l’orbite de Jupiter",
+"comete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Demi-grand axe de départ, autour du Soleil.",
+"cle": "a",
+"dec": 3,
+"defaut": 3.97,
+"libelle": "Demi-grand axe a",
+"log": false,
+"maxi": 6.0,
+"mini": 1.8,
+"type": "curseur",
+"unite": "ua",
+"valeur": 3.97
+},
+{
+"aide": "Excentricité de départ ; l’astéroïde part de son périhélie.",
+"cle": "e",
+"dec": 2,
+"defaut": 0.15,
+"libelle": "Excentricité e",
+"log": false,
+"maxi": 0.9,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.15
+},
+{
+"aide": "Angle, vu du Soleil, entre Jupiter et l’astéroïde au départ.",
+"cle": "phi",
+"dec": 0,
+"defaut": 0.0,
+"libelle": "Angle avec Jupiter φ₀",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "Réelle, ou dix fois plus grande pour voir plus vite les effets de Jupiter.",
+"cle": "masse",
+"defaut": "reelle",
+"options": [
+[
+"réelle",
+"reelle"
+],
+[
+"× 10",
+"x10"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Tournant avec Jupiter (une orbite en résonance y dessine une figure fermée) ou fixe.",
+"cle": "repere",
+"defaut": "tournant",
+"options": [
+[
+"tournant avec Jupiter",
+"tournant"
+],
+[
+"fixe",
+"fixe"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Un second astéroïde lâché 78 km plus loin (10⁻⁷ fois la distance de Jupiter), en bleu.",
+"cle": "jumeau",
+"defaut": true,
+"libelle": "Jumeau",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "retrograde": {
 "animee": true,
 "changements": [
@@ -31388,6 +35034,506 @@ false
 ]
 },
 "lecture_au_depart": false
+},
+"roche": {
+"animee": true,
+"changements": [
+[
+"systeme",
+"jupiter_comete"
+],
+[
+"rapport",
+1.621
+],
+[
+"d0",
+2.54
+],
+[
+"modele",
+"rigide"
+],
+[
+"descente",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Roche limit, fluid satellite 2.44 R ∛(ρₚ/ρₛ)",
+"2.21 R (133 429 km)"
+],
+[
+"Limit, rigid satellite ∛3 R ∛(ρₚ/ρₛ)",
+"1.31 R (78 868 km)"
+],
+[
+"Distance of the satellite",
+"3.08 R (185 625 km)"
+],
+[
+"Tidal stretching / self-gravity 3 (ρₚ/ρₛ)(R/d)³",
+"0.077"
+],
+[
+"Elongation of a fluid satellite 15/4 (ρₚ/ρₛ)(R/d)³",
+"9.6 %"
+],
+[
+"State",
+"whole"
+]
+]
+],
+[
+"pas",
+[
+[
+"Roche limit, fluid satellite 2.44 R ∛(ρₚ/ρₛ)",
+"2.21 R (133 429 km)"
+],
+[
+"Limit, rigid satellite ∛3 R ∛(ρₚ/ρₛ)",
+"1.31 R (78 868 km)"
+],
+[
+"Distance of the satellite",
+"2.71 R (163 326 km)"
+],
+[
+"Tidal stretching / self-gravity 3 (ρₚ/ρₛ)(R/d)³",
+"0.113"
+],
+[
+"Elongation of a fluid satellite 15/4 (ρₚ/ρₛ)(R/d)³",
+"14.1 %"
+],
+[
+"State",
+"whole"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Roche limit, fluid satellite 2.44 R ∛(ρₚ/ρₛ)",
+"2.87 R (204 916 km)"
+],
+[
+"Limit, rigid satellite ∛3 R ∛(ρₚ/ρₛ)",
+"1.69 R (121 123 km)"
+],
+[
+"Distance of the satellite",
+"2.54 R (181 590 km)"
+],
+[
+"Tidal stretching / self-gravity 3 (ρₚ/ρₛ)(R/d)³",
+"0.297"
+],
+[
+"Elongation of a fluid satellite 15/4 (ρₚ/ρₛ)(R/d)³",
+"37.1 %"
+],
+[
+"State",
+"whole"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Roche limit, fluid satellite 2.44 R ∛(ρₚ/ρₛ)",
+"2.87 R (204 916 km)"
+],
+[
+"Limit, rigid satellite ∛3 R ∛(ρₚ/ρₛ)",
+"1.69 R (121 123 km)"
+],
+[
+"Distance of the satellite",
+"2.54 R (181 590 km)"
+],
+[
+"Tidal stretching / self-gravity 3 (ρₚ/ρₛ)(R/d)³",
+"0.297"
+],
+[
+"Elongation of a fluid satellite 15/4 (ρₚ/ρₛ)(R/d)³",
+"37.1 %"
+],
+[
+"State",
+"whole"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Roche limit, fluid satellite 2.44 R ∛(ρₚ/ρₛ)",
+"2.21 R (133 413 km)"
+],
+[
+"Limit, rigid satellite ∛3 R ∛(ρₚ/ρₛ)",
+"1.31 R (78 859 km)"
+],
+[
+"Distance of the satellite",
+"3.08 R (185 625 km)"
+],
+[
+"Tidal stretching / self-gravity 3 (ρₚ/ρₛ)(R/d)³",
+"0.077"
+],
+[
+"Elongation of a fluid satellite 15/4 (ρₚ/ρₛ)(R/d)³",
+"9.6 %"
+],
+[
+"State",
+"whole"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Planet and satellite: sets the density ratio and the starting distance.",
+"cle": "systeme",
+"defaut": "saturne_glace",
+"options": [
+[
+"Earth and Moon (brought closer: it is at 60 R)",
+"terre_lune"
+],
+[
+"Mars and Phobos (at 2.76 R, it is spiralling in)",
+"mars_phobos"
+],
+[
+"Saturn and a block of ice (at Mimas’s distance)",
+"saturne_glace"
+],
+[
+"Jupiter and a comet (ρ ≈ 500 kg·m⁻³)",
+"jupiter_comete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Density of the planet divided by that of the satellite (logarithmic scale): a low-density satellite breaks up further out.",
+"cle": "rapport",
+"dec": 3,
+"defaut": 0.7467391304347826,
+"libelle": "Density ratio ρₚ/ρₛ",
+"log": true,
+"maxi": 5.0,
+"mini": 0.2,
+"type": "curseur",
+"unite": "",
+"valeur": 0.747
+},
+{
+"aide": "Distance of the satellite from the planet’s centre, in planet radii.",
+"cle": "d0",
+"dec": 2,
+"defaut": 3.08,
+"libelle": "Starting distance",
+"log": false,
+"maxi": 10.0,
+"mini": 1.2,
+"type": "curseur",
+"unite": "",
+"valeur": 3.08
+},
+{
+"aide": "Fluid (the tide elongates it: limit 2.44 R ∛(ρₚ/ρₛ)) or rigid, without cohesion (sphere in synchronous rotation: 1.44 R ∛(ρₚ/ρₛ)).",
+"cle": "modele",
+"defaut": "fluide",
+"options": [
+[
+"fluid",
+"fluide"
+],
+[
+"rigid",
+"rigide"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Its orbit slowly shrinks, like Phobos’s, braked by the tides (much faster here: in reality, tens of millions of years).",
+"cle": "descente",
+"defaut": true,
+"libelle": "The satellite spirals in",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Limite de Roche, satellite fluide 2,44 R ∛(ρₚ/ρₛ)",
+"2,21 R (133 429 km)"
+],
+[
+"Limite, satellite rigide ∛3 R ∛(ρₚ/ρₛ)",
+"1,31 R (78 868 km)"
+],
+[
+"Distance du satellite",
+"3,08 R (185 625 km)"
+],
+[
+"Étirement de marée / gravité propre 3 (ρₚ/ρₛ)(R/d)³",
+"0,077"
+],
+[
+"Allongement d’un satellite fluide 15/4 (ρₚ/ρₛ)(R/d)³",
+"9,6 %"
+],
+[
+"État",
+"entier"
+]
+]
+],
+[
+"pas",
+[
+[
+"Limite de Roche, satellite fluide 2,44 R ∛(ρₚ/ρₛ)",
+"2,21 R (133 429 km)"
+],
+[
+"Limite, satellite rigide ∛3 R ∛(ρₚ/ρₛ)",
+"1,31 R (78 868 km)"
+],
+[
+"Distance du satellite",
+"2,71 R (163 326 km)"
+],
+[
+"Étirement de marée / gravité propre 3 (ρₚ/ρₛ)(R/d)³",
+"0,113"
+],
+[
+"Allongement d’un satellite fluide 15/4 (ρₚ/ρₛ)(R/d)³",
+"14,1 %"
+],
+[
+"État",
+"entier"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Limite de Roche, satellite fluide 2,44 R ∛(ρₚ/ρₛ)",
+"2,87 R (204 916 km)"
+],
+[
+"Limite, satellite rigide ∛3 R ∛(ρₚ/ρₛ)",
+"1,69 R (121 123 km)"
+],
+[
+"Distance du satellite",
+"2,54 R (181 590 km)"
+],
+[
+"Étirement de marée / gravité propre 3 (ρₚ/ρₛ)(R/d)³",
+"0,297"
+],
+[
+"Allongement d’un satellite fluide 15/4 (ρₚ/ρₛ)(R/d)³",
+"37,1 %"
+],
+[
+"État",
+"entier"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Limite de Roche, satellite fluide 2,44 R ∛(ρₚ/ρₛ)",
+"2,87 R (204 916 km)"
+],
+[
+"Limite, satellite rigide ∛3 R ∛(ρₚ/ρₛ)",
+"1,69 R (121 123 km)"
+],
+[
+"Distance du satellite",
+"2,54 R (181 590 km)"
+],
+[
+"Étirement de marée / gravité propre 3 (ρₚ/ρₛ)(R/d)³",
+"0,297"
+],
+[
+"Allongement d’un satellite fluide 15/4 (ρₚ/ρₛ)(R/d)³",
+"37,1 %"
+],
+[
+"État",
+"entier"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Limite de Roche, satellite fluide 2,44 R ∛(ρₚ/ρₛ)",
+"2,21 R (133 413 km)"
+],
+[
+"Limite, satellite rigide ∛3 R ∛(ρₚ/ρₛ)",
+"1,31 R (78 859 km)"
+],
+[
+"Distance du satellite",
+"3,08 R (185 625 km)"
+],
+[
+"Étirement de marée / gravité propre 3 (ρₚ/ρₛ)(R/d)³",
+"0,077"
+],
+[
+"Allongement d’un satellite fluide 15/4 (ρₚ/ρₛ)(R/d)³",
+"9,6 %"
+],
+[
+"État",
+"entier"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Planète et satellite : règle le rapport des densités et la distance de départ.",
+"cle": "systeme",
+"defaut": "saturne_glace",
+"options": [
+[
+"Terre et Lune (rapprochée : elle est à 60 R)",
+"terre_lune"
+],
+[
+"Mars et Phobos (à 2,76 R, il descend)",
+"mars_phobos"
+],
+[
+"Saturne et un bloc de glace (à la distance de Mimas)",
+"saturne_glace"
+],
+[
+"Jupiter et une comète (ρ ≈ 500 kg·m⁻³)",
+"jupiter_comete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Densité de la planète divisée par celle du satellite (échelle logarithmique) : un satellite peu dense se disloque plus loin.",
+"cle": "rapport",
+"dec": 3,
+"defaut": 0.7467391304347826,
+"libelle": "Rapport des densités ρₚ/ρₛ",
+"log": true,
+"maxi": 5.0,
+"mini": 0.2,
+"type": "curseur",
+"unite": "",
+"valeur": 0.747
+},
+{
+"aide": "Distance du satellite au centre de la planète, en rayons de la planète.",
+"cle": "d0",
+"dec": 2,
+"defaut": 3.08,
+"libelle": "Distance de départ",
+"log": false,
+"maxi": 10.0,
+"mini": 1.2,
+"type": "curseur",
+"unite": "",
+"valeur": 3.08
+},
+{
+"aide": "Fluide (il s’allonge sous la marée : limite 2,44 R ∛(ρₚ/ρₛ)) ou rigide, sans cohésion (sphère en rotation synchrone : 1,44 R ∛(ρₚ/ρₛ)).",
+"cle": "modele",
+"defaut": "fluide",
+"options": [
+[
+"fluide",
+"fluide"
+],
+[
+"rigide",
+"rigide"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Son orbite rétrécit peu à peu, comme celle de Phobos freinée par les marées (bien plus vite ici : en réalité, des dizaines de millions d’années).",
+"cle": "descente",
+"defaut": true,
+"libelle": "Le satellite descend",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
 },
 "seasonsim": {
 "animee": true,

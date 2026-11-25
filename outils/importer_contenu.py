@@ -32,9 +32,10 @@ ICI = Path(__file__).resolve().parent.parent
 SORTIE = ICI / 'public' / 'contenu'
 # Animations propres à Coupole ajoutées aux modules de ClassAction (l'original ne les connaît pas) : module → ids
 ANIMATIONS_AJOUTEES = {'renaissance': ['gravityorbits', 'newtoncannon', 'orbitalelements', 'hohmann', 'kozai',
-                                       'lagrange'],
+                                       'lagrange', 'gravityassist', 'resonances', 'roche'],
                        'telescopes': ['resolution', 'interferometry'],
-                       'solarsystemdebris': ['meteorradiant', 'occultation']}
+                       'solarsystemdebris': ['meteorradiant', 'occultation', 'aediagram', 'impactcrater'],
+                       'lunarcycles': ['libration'], 'coordsmotion': ['precession']}
 TYPES = {'warmup': 'W', 'general': 'G', 'challenge': 'C', 'discussion': 'D'}
 
 

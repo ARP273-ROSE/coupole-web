@@ -831,3 +831,10 @@ Jumelles de Coupole 0.11.0 (valeurs identiques au caractère près, FR et EN) :
 - Piège : pas de `style=` en ligne (CSP `style-src 'self'`) → classes `.pl-pt1/.pl-pt2`.
 - [ ] Publier avec Coupole 0.12.0 (version, date).
 
+## 25/11/2026 (suite) — animations de cours P6 à P10 (112 animations ; dans l'entrée 0.10.0, non publiée)
+Jumelles des sept animations de Coupole 0.12.0 (valeurs identiques au caractère près, FR et EN) : `src/calc/` et
+`src/anim/animations/` `diagramme_ae`, `assistance`, `cratere`, `libration`, `precession`, `resonances` (intégration de
+`calc/lagrange.ts`), `roche`. Conversions d'angles par `radians`/`degrees` de `noyau/py.ts` et `pmod` pour le modulo
+de Python (sinon un ulp d'écart). Textes, catalogue, références, modules, recherche régénérés ; « Ce qu'il faut voir » ;
+comptes 112 ; NOTICE, CHANGELOG, README. e2e : `--output` hors du dépôt quand un autre chantier lance Playwright.
+

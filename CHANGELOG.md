@@ -19,6 +19,24 @@ Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; réf
 - TLE de l'ISS : ARISS quand CelesTrak ne répond pas (aussi pour « Parallaxe (TP du cours) ») ; politique de
   sécurité : `connect-src` ouvre `live.ariss.org`.
 
+### Animations de cours (112 animations)
+
+Sept animations propres à Coupole, jumelles de celles de Coupole 0.12.0 (mêmes valeurs au caractère près, calculs
+vérifiés par SageMath) :
+
+- **Le diagramme a–e** (Petits corps) : géocroiseurs Atira, Aten, Apollo, Amor, lacunes de Kirkwood, 27 petits corps
+  réels (SBDB), clic dans le diagramme, orbite vue de dessus, paramètre de Tisserand.
+- **L'assistance gravitationnelle** (Renaissance) : hyperbole du survol, v = V + v∞, gain selon le côté du passage,
+  orbites autour du Soleil avant et après.
+- **Le cratère d'impact** (Petits corps) : lois d'échelle de Collins, Melosh et Marcus (2005), coupe animée ; 1,5 km à
+  20 km·s⁻¹ → 22,4 km.
+- **Rotation synchrone et libration** (Cycles de la Lune) : la Lune vue de la Terre, l = ν − M, b, part de la surface
+  vue (58 %).
+- **La précession des équinoxes** (Coordonnées et mouvements) : pôle en 25 772 ans, Thuban, Polaris, Véga ; point
+  vernal dans le zodiaque (Verseau en 2598).
+- **Résonances et chaos** (Renaissance) : Hilda, troyen, Kirkwood ; deux jumeaux qui divergent (chaos).
+- **La limite de Roche** (Renaissance) : satellite disloqué en anneau sous 2,44 R ∛(ρₚ/ρₛ).
+
 ## 0.9.0 — 2026-11-25 — Quatre animations de cours de plus
 
 Quatre animations propres à Coupole (105 en tout), jumelles de Coupole 0.11.0 (mêmes valeurs au caractère près,
@@ -443,6 +461,15 @@ planner** (Course calculators, `#/td/planif`) — for two places, the ISS passes
 once, ranked, with the practical's formula error, clock accuracy, reference star, both places' skies, CSV export and
 .ics calendar, a map/address place picker (OpenStreetMap, Nominatim, Open-Meteo elevation), and a 90-day ISS outlook (times within ± a margin from the measured TLE drift). ISS TLE from ARISS when
 CelesTrak does not answer.
+
+#### Course animations (112 animations)
+
+Seven animations of Coupole's own, twins of Coupole 0.12.0's (same values to the character, computations checked with
+SageMath): **the a–e diagram** (near-Earth groups, Kirkwood gaps, 27 real small bodies, Tisserand), **gravity assist**
+(flyby hyperbola, v = V + v∞, orbits before and after), **impact craters** (Collins, Melosh and Marcus 2005 scaling
+laws), **synchronous rotation and libration** (the Moon seen from the Earth, 58% of its surface), **precession of the
+equinoxes** (pole stars, vernal point in the zodiac), **resonances and chaos** (Hildas, Trojans, diverging twins) and
+**the Roche limit** (satellite breaking up into a ring).
 
 ### 0.9.0 — 2026-11-25 — Four more course animations
 
