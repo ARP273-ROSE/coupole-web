@@ -24491,6 +24491,818 @@ false
 },
 "lecture_au_depart": false
 },
+"occultation": {
+"animee": true,
+"changements": [
+[
+"objet",
+"libre"
+],
+[
+"diametre",
+125.2
+],
+[
+"forme",
+0.67
+],
+[
+"orientation",
+-20.0
+],
+[
+"distance",
+25.3
+],
+[
+"stations",
+9.0
+],
+[
+"espacement",
+13.1
+],
+[
+"decalage",
+-0.14
+],
+[
+"etoile",
+11.89
+],
+[
+"sigma",
+0.42
+],
+[
+"vraie",
+false
+],
+[
+"ajuster",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Shadow speed (at opposition)",
+"10.95 km·s⁻¹"
+],
+[
+"Distance from the Earth Δ",
+"1.50 ua"
+],
+[
+"Observers who see the star disappear",
+"6 of 7"
+],
+[
+"Longest disappearance",
+"8.49 s (chord of 93.0 km)"
+],
+[
+"Fitted ellipse 2a × 2b",
+"101 × 79.4 km"
+],
+[
+"Equivalent diameter √(2a · 2b)",
+"true 89.4 km, fitted 89.5 km"
+],
+[
+"Position error σ v",
+"1.1 km"
+],
+[
+"Fresnel scale √(λ Δ / 2)",
+"248 m"
+],
+[
+"Star projected at the asteroid’s distance",
+"109 m — sharp disappearance"
+]
+]
+],
+[
+"pas",
+[
+[
+"Shadow speed (at opposition)",
+"10.95 km·s⁻¹"
+],
+[
+"Distance from the Earth Δ",
+"1.50 ua"
+],
+[
+"Observers who see the star disappear",
+"6 of 7"
+],
+[
+"Longest disappearance",
+"8.49 s (chord of 93.0 km)"
+],
+[
+"Fitted ellipse 2a × 2b",
+"101 × 79.4 km"
+],
+[
+"Equivalent diameter √(2a · 2b)",
+"true 89.4 km, fitted 89.5 km"
+],
+[
+"Position error σ v",
+"1.1 km"
+],
+[
+"Fresnel scale √(λ Δ / 2)",
+"248 m"
+],
+[
+"Star projected at the asteroid’s distance",
+"109 m — sharp disappearance"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Shadow speed (at opposition)",
+"23.86 km·s⁻¹"
+],
+[
+"Distance from the Earth Δ",
+"24.30 ua"
+],
+[
+"Observers who see the star disappear",
+"7 of 9"
+],
+[
+"Longest disappearance",
+"4.88 s (chord of 117 km)"
+],
+[
+"Fitted ellipse 2a × 2b",
+"123 × 90.7 km"
+],
+[
+"Equivalent diameter √(2a · 2b)",
+"true 102 km, fitted 105 km"
+],
+[
+"Position error σ v",
+"10.0 km"
+],
+[
+"Fresnel scale √(λ Δ / 2)",
+"1 000 m"
+],
+[
+"Star projected at the asteroid’s distance",
+"210 km — gradual, even partial, disappearance"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Shadow speed (at opposition)",
+"23.86 km·s⁻¹"
+],
+[
+"Distance from the Earth Δ",
+"24.30 ua"
+],
+[
+"Observers who see the star disappear",
+"7 of 9"
+],
+[
+"Longest disappearance",
+"4.88 s (chord of 117 km)"
+],
+[
+"Fitted ellipse 2a × 2b",
+"123 × 90.7 km"
+],
+[
+"Equivalent diameter √(2a · 2b)",
+"true 102 km, fitted 105 km"
+],
+[
+"Position error σ v",
+"10.0 km"
+],
+[
+"Fresnel scale √(λ Δ / 2)",
+"1 000 m"
+],
+[
+"Star projected at the asteroid’s distance",
+"210 km — gradual, even partial, disappearance"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Shadow speed (at opposition)",
+"10.95 km·s⁻¹"
+],
+[
+"Distance from the Earth Δ",
+"1.50 ua"
+],
+[
+"Observers who see the star disappear",
+"6 of 7"
+],
+[
+"Longest disappearance",
+"8.49 s (chord of 93.0 km)"
+],
+[
+"Fitted ellipse 2a × 2b",
+"101 × 79.4 km"
+],
+[
+"Equivalent diameter √(2a · 2b)",
+"true 89.4 km, fitted 89.5 km"
+],
+[
+"Position error σ v",
+"1.1 km"
+],
+[
+"Fresnel scale √(λ Δ / 2)",
+"248 m"
+],
+[
+"Star projected at the asteroid’s distance",
+"109 m — sharp disappearance"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "An example sets the size, shape and distance; you can then change everything by hand.",
+"cle": "objet",
+"defaut": "ceinture",
+"options": [
+[
+"Main-belt asteroid (100 km)",
+"ceinture"
+],
+[
+"Small Jupiter Trojan (21 km, like Polymele)",
+"troyen"
+],
+[
+"Eris, dwarf planet (2,326 km)",
+"eris"
+],
+[
+"(free setting)",
+"libre"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Largest dimension of the asteroid, hence of its shadow (logarithmic scale).",
+"cle": "diametre",
+"dec": 1,
+"defaut": 100.0,
+"libelle": "Diameter (major axis)",
+"log": true,
+"maxi": 5000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 100.0
+},
+{
+"aide": "Minor axis divided by the major axis: 1 for a disc, less for an elongated asteroid.",
+"cle": "forme",
+"dec": 2,
+"defaut": 0.8,
+"libelle": "Elongation b / a",
+"log": false,
+"maxi": 1.0,
+"mini": 0.3,
+"type": "curseur",
+"unite": "",
+"valeur": 0.8
+},
+{
+"aide": "Angle of the major axis with the direction of motion of the shadow.",
+"cle": "orientation",
+"dec": 0,
+"defaut": 30.0,
+"libelle": "Orientation ψ",
+"log": false,
+"maxi": 90.0,
+"mini": -90.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 30.0
+},
+{
+"aide": "At opposition the shadow moves at √(GM☉/1 au) (1 − 1/√r): the Earth is faster than the asteroid. A distant object casts a fast shadow.",
+"cle": "distance",
+"dec": 1,
+"defaut": 2.5,
+"libelle": "Distance from the Sun r",
+"log": true,
+"maxi": 100.0,
+"mini": 1.5,
+"type": "curseur",
+"unite": "ua",
+"valeur": 2.5
+},
+{
+"aide": "Observers lined up across the predicted path, at regular intervals.",
+"cle": "stations",
+"dec": 0,
+"defaut": 7.0,
+"libelle": "Number of observers",
+"log": false,
+"maxi": 11.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 7.0
+},
+{
+"aide": "Distance between two neighbouring observers, across the path (logarithmic scale).",
+"cle": "espacement",
+"dec": 1,
+"defaut": 15.0,
+"libelle": "Spacing of the observers",
+"log": true,
+"maxi": 1000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 15.0
+},
+{
+"aide": "Offset between the actual path of the shadow and the predicted one, in diameters: observers at the edges then record a “negative”.",
+"cle": "decalage",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Prediction error",
+"log": false,
+"maxi": 1.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.1
+},
+{
+"aide": "In milliarcseconds: 0.1 mas for an ordinary star, about forty for a supergiant such as Betelgeuse, which the asteroid then only partly hides.",
+"cle": "etoile",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Apparent diameter of the star",
+"log": false,
+"maxi": 50.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "mas",
+"valeur": 0.1
+},
+{
+"aide": "Standard deviation of the error on each disappearance and reappearance time (reaction of a visual observer, badly set clock).",
+"cle": "sigma",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Timing error σ",
+"log": false,
+"maxi": 1.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "s",
+"valeur": 0.1
+},
+{
+"aide": "Actual outline of the asteroid, dotted, to judge the reconstruction.",
+"cle": "vraie",
+"defaut": true,
+"libelle": "True shape",
+"type": "coche"
+},
+{
+"aide": "Ellipse fitted by least squares to the ends of the chords (at least three chords are needed).",
+"cle": "ajuster",
+"defaut": true,
+"libelle": "Fitted ellipse",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Vitesse de l’ombre (à l’opposition)",
+"10,95 km·s⁻¹"
+],
+[
+"Distance de la Terre Δ",
+"1,50 ua"
+],
+[
+"Observateurs qui voient l’étoile disparaître",
+"6 sur 7"
+],
+[
+"Plus longue disparition",
+"8,49 s (corde de 93,0 km)"
+],
+[
+"Ellipse ajustée 2a × 2b",
+"101 × 79,4 km"
+],
+[
+"Diamètre équivalent √(2a · 2b)",
+"vrai 89,4 km, ajusté 89,5 km"
+],
+[
+"Erreur de position σ v",
+"1,1 km"
+],
+[
+"Échelle de Fresnel √(λ Δ / 2)",
+"248 m"
+],
+[
+"Étoile projetée à la distance de l’astéroïde",
+"109 m — disparition franche"
+]
+]
+],
+[
+"pas",
+[
+[
+"Vitesse de l’ombre (à l’opposition)",
+"10,95 km·s⁻¹"
+],
+[
+"Distance de la Terre Δ",
+"1,50 ua"
+],
+[
+"Observateurs qui voient l’étoile disparaître",
+"6 sur 7"
+],
+[
+"Plus longue disparition",
+"8,49 s (corde de 93,0 km)"
+],
+[
+"Ellipse ajustée 2a × 2b",
+"101 × 79,4 km"
+],
+[
+"Diamètre équivalent √(2a · 2b)",
+"vrai 89,4 km, ajusté 89,5 km"
+],
+[
+"Erreur de position σ v",
+"1,1 km"
+],
+[
+"Échelle de Fresnel √(λ Δ / 2)",
+"248 m"
+],
+[
+"Étoile projetée à la distance de l’astéroïde",
+"109 m — disparition franche"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Vitesse de l’ombre (à l’opposition)",
+"23,86 km·s⁻¹"
+],
+[
+"Distance de la Terre Δ",
+"24,30 ua"
+],
+[
+"Observateurs qui voient l’étoile disparaître",
+"7 sur 9"
+],
+[
+"Plus longue disparition",
+"4,88 s (corde de 117 km)"
+],
+[
+"Ellipse ajustée 2a × 2b",
+"123 × 90,7 km"
+],
+[
+"Diamètre équivalent √(2a · 2b)",
+"vrai 102 km, ajusté 105 km"
+],
+[
+"Erreur de position σ v",
+"10,0 km"
+],
+[
+"Échelle de Fresnel √(λ Δ / 2)",
+"1 000 m"
+],
+[
+"Étoile projetée à la distance de l’astéroïde",
+"210 km — disparition progressive, voire partielle"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Vitesse de l’ombre (à l’opposition)",
+"23,86 km·s⁻¹"
+],
+[
+"Distance de la Terre Δ",
+"24,30 ua"
+],
+[
+"Observateurs qui voient l’étoile disparaître",
+"7 sur 9"
+],
+[
+"Plus longue disparition",
+"4,88 s (corde de 117 km)"
+],
+[
+"Ellipse ajustée 2a × 2b",
+"123 × 90,7 km"
+],
+[
+"Diamètre équivalent √(2a · 2b)",
+"vrai 102 km, ajusté 105 km"
+],
+[
+"Erreur de position σ v",
+"10,0 km"
+],
+[
+"Échelle de Fresnel √(λ Δ / 2)",
+"1 000 m"
+],
+[
+"Étoile projetée à la distance de l’astéroïde",
+"210 km — disparition progressive, voire partielle"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Vitesse de l’ombre (à l’opposition)",
+"10,95 km·s⁻¹"
+],
+[
+"Distance de la Terre Δ",
+"1,50 ua"
+],
+[
+"Observateurs qui voient l’étoile disparaître",
+"6 sur 7"
+],
+[
+"Plus longue disparition",
+"8,49 s (corde de 93,0 km)"
+],
+[
+"Ellipse ajustée 2a × 2b",
+"101 × 79,4 km"
+],
+[
+"Diamètre équivalent √(2a · 2b)",
+"vrai 89,4 km, ajusté 89,5 km"
+],
+[
+"Erreur de position σ v",
+"1,1 km"
+],
+[
+"Échelle de Fresnel √(λ Δ / 2)",
+"248 m"
+],
+[
+"Étoile projetée à la distance de l’astéroïde",
+"109 m — disparition franche"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Un exemple règle la taille, la forme et la distance ; on peut ensuite tout changer à la main.",
+"cle": "objet",
+"defaut": "ceinture",
+"options": [
+[
+"Astéroïde de la ceinture principale (100 km)",
+"ceinture"
+],
+[
+"Petit troyen de Jupiter (21 km, comme Polymele)",
+"troyen"
+],
+[
+"Éris, planète naine (2 326 km)",
+"eris"
+],
+[
+"(réglage libre)",
+"libre"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Plus grande dimension de l’astéroïde, donc de son ombre (échelle logarithmique).",
+"cle": "diametre",
+"dec": 1,
+"defaut": 100.0,
+"libelle": "Diamètre (grand axe)",
+"log": true,
+"maxi": 5000.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "km",
+"valeur": 100.0
+},
+{
+"aide": "Petit axe rapporté au grand axe : 1 pour un disque, moins pour un astéroïde allongé.",
+"cle": "forme",
+"dec": 2,
+"defaut": 0.8,
+"libelle": "Aplatissement b / a",
+"log": false,
+"maxi": 1.0,
+"mini": 0.3,
+"type": "curseur",
+"unite": "",
+"valeur": 0.8
+},
+{
+"aide": "Angle du grand axe avec la direction du mouvement de l’ombre.",
+"cle": "orientation",
+"dec": 0,
+"defaut": 30.0,
+"libelle": "Orientation ψ",
+"log": false,
+"maxi": 90.0,
+"mini": -90.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 30.0
+},
+{
+"aide": "À l’opposition, l’ombre court à √(GM☉/1 ua) (1 − 1/√r) : la Terre va plus vite que l’astéroïde. Un objet lointain donne une ombre rapide.",
+"cle": "distance",
+"dec": 1,
+"defaut": 2.5,
+"libelle": "Distance au Soleil r",
+"log": true,
+"maxi": 100.0,
+"mini": 1.5,
+"type": "curseur",
+"unite": "ua",
+"valeur": 2.5
+},
+{
+"aide": "Observateurs alignés en travers de la trajectoire prévue, à intervalles réguliers.",
+"cle": "stations",
+"dec": 0,
+"defaut": 7.0,
+"libelle": "Nombre d’observateurs",
+"log": false,
+"maxi": 11.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 7.0
+},
+{
+"aide": "Distance entre deux observateurs voisins, perpendiculairement à la trajectoire (échelle logarithmique).",
+"cle": "espacement",
+"dec": 1,
+"defaut": 15.0,
+"libelle": "Espacement des observateurs",
+"log": true,
+"maxi": 1000.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "km",
+"valeur": 15.0
+},
+{
+"aide": "Écart entre la trajectoire réelle de l’ombre et la trajectoire prévue, en diamètres : les observateurs des bords voient alors un « négatif ».",
+"cle": "decalage",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Erreur de prévision",
+"log": false,
+"maxi": 1.0,
+"mini": -1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.1
+},
+{
+"aide": "En millisecondes d’arc : 0,1 mas pour une étoile ordinaire, une quarantaine pour une supergéante comme Bételgeuse, que l’astéroïde ne cache alors qu’en partie.",
+"cle": "etoile",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Diamètre apparent de l’étoile",
+"log": false,
+"maxi": 50.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "mas",
+"valeur": 0.1
+},
+{
+"aide": "Écart type de l’erreur sur chaque instant de disparition et de réapparition (réaction d’un observateur à l’œil, horloge mal réglée).",
+"cle": "sigma",
+"dec": 2,
+"defaut": 0.1,
+"libelle": "Erreur de chronométrage σ",
+"log": false,
+"maxi": 1.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "s",
+"valeur": 0.1
+},
+{
+"aide": "Contour réel de l’astéroïde, en pointillés, pour juger la reconstitution.",
+"cle": "vraie",
+"defaut": true,
+"libelle": "Vraie forme",
+"type": "coche"
+},
+{
+"aide": "Ellipse ajustée par moindres carrés sur les extrémités des cordes (il faut au moins trois cordes).",
+"cle": "ajuster",
+"defaut": true,
+"libelle": "Ellipse ajustée",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "orbitalelements": {
 "animee": true,
 "changements": [
