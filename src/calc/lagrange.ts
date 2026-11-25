@@ -45,7 +45,19 @@ function bissection(f: (x: number) => number, a: number, b: number, n = 200): nu
   return 0.5 * (a + b);
 }
 
+const CACHE_POINTS = new Map<number, Record<'L1' | 'L2' | 'L3' | 'L4' | 'L5', [number, number]>>();
+
+/** Positions des cinq points (mises en cache par μ : elles servent plusieurs fois par image). */
 export function points_lagrange(mu: number): Record<'L1' | 'L2' | 'L3' | 'L4' | 'L5', [number, number]> {
+  let r = CACHE_POINTS.get(mu);
+  if (!r) {
+    r = calculer_points(mu);
+    CACHE_POINTS.set(mu, r);
+  }
+  return r;
+}
+
+function calculer_points(mu: number): Record<'L1' | 'L2' | 'L3' | 'L4' | 'L5', [number, number]> {
   const f = (x: number): number => gradient(mu, x, 0.0)[0];
   const eps = 1e-12;
   const x1 = bissection(f, -mu + eps, 1.0 - mu - eps);

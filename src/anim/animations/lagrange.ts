@@ -12,7 +12,7 @@ import { Animation, type Choix, type Coche, nombre, type Reglage } from '../base
 const VITESSE = 4.0 * Math.PI;
 const N_TRACE = 20000;
 const PAS_TRACE = 0.05;
-const N_GRILLE = 90;
+const N_GRILLE = 72;
 const EXPOSANTS: Record<string, string> = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻' };
 
 export function distance(x_a: number, a_km: number): string {
