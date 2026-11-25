@@ -18053,6 +18053,652 @@ true
 },
 "lecture_au_depart": false
 },
+"kozai": {
+"animee": true,
+"changements": [
+[
+"systeme",
+"exoplanete"
+],
+[
+"i0",
+42.8
+],
+[
+"e0",
+0.003
+],
+[
+"w0",
+68.0
+],
+[
+"trace",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"C = √(1 − e²) cos i (conserved)",
+"0.4221 (at the start 0.4221)"
+],
+[
+"Eccentricity e",
+"0.050"
+],
+[
+"Inclination i",
+"65.0°"
+],
+[
+"Argument of periapsis ω",
+"0°"
+],
+[
+"Critical inclination arccos √(3/5)",
+"39.23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (circular start)",
+"0.838"
+],
+[
+"Largest e reached",
+"0.050, with i = 65.0°"
+],
+[
+"Characteristic time tₖ",
+"5 291 years"
+],
+[
+"Period of the oscillations",
+"being measured (two maxima of e)"
+],
+[
+"Elapsed time",
+"0.0 tₖ = 0.0 years"
+]
+]
+],
+[
+"pas",
+[
+[
+"C = √(1 − e²) cos i (conserved)",
+"0.4221 (at the start 0.4221)"
+],
+[
+"Eccentricity e",
+"0.673"
+],
+[
+"Inclination i",
+"55.2°"
+],
+[
+"Argument of periapsis ω",
+"130°"
+],
+[
+"Critical inclination arccos √(3/5)",
+"39.23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (circular start)",
+"0.838"
+],
+[
+"Largest e reached",
+"0.760, with i = 49.5°"
+],
+[
+"Characteristic time tₖ",
+"5 291 years"
+],
+[
+"Period of the oscillations",
+"being measured (two maxima of e)"
+],
+[
+"Elapsed time",
+"3.0 tₖ = 15 661 years"
+]
+]
+],
+[
+"reglages",
+[
+[
+"C = √(1 − e²) cos i (conserved)",
+"0.7337 (at the start 0.7337)"
+],
+[
+"Eccentricity e",
+"0.003"
+],
+[
+"Inclination i",
+"42.8°"
+],
+[
+"Argument of periapsis ω",
+"68°"
+],
+[
+"Critical inclination arccos √(3/5)",
+"39.23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (circular start)",
+"0.321"
+],
+[
+"Largest e reached",
+"0.003, with i = 42.8°"
+],
+[
+"Characteristic time tₖ",
+"1.78 million years"
+],
+[
+"Period of the oscillations",
+"being measured (two maxima of e)"
+],
+[
+"Elapsed time",
+"0.0 tₖ = 0.0 years"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"C = √(1 − e²) cos i (conserved)",
+"0.7337 (at the start 0.7337)"
+],
+[
+"Eccentricity e",
+"0.017"
+],
+[
+"Inclination i",
+"42.8°"
+],
+[
+"Argument of periapsis ω",
+"69°"
+],
+[
+"Critical inclination arccos √(3/5)",
+"39.23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (circular start)",
+"0.321"
+],
+[
+"Largest e reached",
+"0.017, with i = 42.8°"
+],
+[
+"Characteristic time tₖ",
+"1.78 million years"
+],
+[
+"Period of the oscillations",
+"being measured (two maxima of e)"
+],
+[
+"Elapsed time",
+"3.0 tₖ = 5.27 million years"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"C = √(1 − e²) cos i (conserved)",
+"0.4221 (at the start 0.4221)"
+],
+[
+"Eccentricity e",
+"0.050"
+],
+[
+"Inclination i",
+"65.0°"
+],
+[
+"Argument of periapsis ω",
+"0°"
+],
+[
+"Critical inclination arccos √(3/5)",
+"39.23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (circular start)",
+"0.838"
+],
+[
+"Largest e reached",
+"0.050, with i = 65.0°"
+],
+[
+"Characteristic time tₖ",
+"5 291 years"
+],
+[
+"Period of the oscillations",
+"being measured (two maxima of e)"
+],
+[
+"Elapsed time",
+"0.0 tₖ = 0.0 years"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "The system sets the characteristic time tₖ = (M/M′)(a′/a)³ P/2π; the evolution, counted in tₖ, is the same for all.",
+"cle": "systeme",
+"defaut": "asteroide",
+"options": [
+[
+"Asteroid at 2.7 au, perturbed by Jupiter",
+"asteroide"
+],
+[
+"Satellite on a 12 h orbit, perturbed by the Moon",
+"satellite"
+],
+[
+"Planet at 5 au, companion star at 500 au",
+"exoplanete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Inclination of the orbit on the perturber’s plane at the start. Below 39.2° almost nothing happens; above it, the eccentricity climbs.",
+"cle": "i0",
+"dec": 1,
+"defaut": 65.0,
+"libelle": "Initial inclination i₀",
+"log": false,
+"maxi": 89.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 65.0
+},
+{
+"aide": "Eccentricity at the start (logarithmic scale): a nearly circular orbit takes longer to get going.",
+"cle": "e0",
+"dec": 3,
+"defaut": 0.05,
+"libelle": "Initial eccentricity e₀",
+"log": true,
+"maxi": 0.9,
+"mini": 0.001,
+"type": "curseur",
+"unite": "",
+"valeur": 0.05
+},
+{
+"aide": "Angle between the line of nodes and the periapsis at the start: it decides whether ω goes round (circulation) or swings around 90° or 270° (libration).",
+"cle": "w0",
+"dec": 0,
+"defaut": 0.0,
+"libelle": "Initial argument of periapsis ω₀",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "Leaves a trail of the (ω, e) states visited.",
+"cle": "trace",
+"defaut": true,
+"libelle": "Path in the phase portrait",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"C = √(1 − e²) cos i (conservée)",
+"0,4221 (au départ 0,4221)"
+],
+[
+"Excentricité e",
+"0,050"
+],
+[
+"Inclinaison i",
+"65,0°"
+],
+[
+"Argument du périastre ω",
+"0°"
+],
+[
+"Inclinaison critique arccos √(3/5)",
+"39,23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (départ circulaire)",
+"0,838"
+],
+[
+"e maximale atteinte",
+"0,050, avec i = 65,0°"
+],
+[
+"Temps caractéristique tₖ",
+"5 291 ans"
+],
+[
+"Période des oscillations",
+"en mesure (deux maxima de e)"
+],
+[
+"Temps écoulé",
+"0,0 tₖ = 0,0 ans"
+]
+]
+],
+[
+"pas",
+[
+[
+"C = √(1 − e²) cos i (conservée)",
+"0,4221 (au départ 0,4221)"
+],
+[
+"Excentricité e",
+"0,673"
+],
+[
+"Inclinaison i",
+"55,2°"
+],
+[
+"Argument du périastre ω",
+"130°"
+],
+[
+"Inclinaison critique arccos √(3/5)",
+"39,23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (départ circulaire)",
+"0,838"
+],
+[
+"e maximale atteinte",
+"0,760, avec i = 49,5°"
+],
+[
+"Temps caractéristique tₖ",
+"5 291 ans"
+],
+[
+"Période des oscillations",
+"en mesure (deux maxima de e)"
+],
+[
+"Temps écoulé",
+"3,0 tₖ = 15 661 ans"
+]
+]
+],
+[
+"reglages",
+[
+[
+"C = √(1 − e²) cos i (conservée)",
+"0,7337 (au départ 0,7337)"
+],
+[
+"Excentricité e",
+"0,003"
+],
+[
+"Inclinaison i",
+"42,8°"
+],
+[
+"Argument du périastre ω",
+"68°"
+],
+[
+"Inclinaison critique arccos √(3/5)",
+"39,23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (départ circulaire)",
+"0,321"
+],
+[
+"e maximale atteinte",
+"0,003, avec i = 42,8°"
+],
+[
+"Temps caractéristique tₖ",
+"1,78 millions d’années"
+],
+[
+"Période des oscillations",
+"en mesure (deux maxima de e)"
+],
+[
+"Temps écoulé",
+"0,0 tₖ = 0,0 ans"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"C = √(1 − e²) cos i (conservée)",
+"0,7337 (au départ 0,7337)"
+],
+[
+"Excentricité e",
+"0,017"
+],
+[
+"Inclinaison i",
+"42,8°"
+],
+[
+"Argument du périastre ω",
+"69°"
+],
+[
+"Inclinaison critique arccos √(3/5)",
+"39,23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (départ circulaire)",
+"0,321"
+],
+[
+"e maximale atteinte",
+"0,017, avec i = 42,8°"
+],
+[
+"Temps caractéristique tₖ",
+"1,78 millions d’années"
+],
+[
+"Période des oscillations",
+"en mesure (deux maxima de e)"
+],
+[
+"Temps écoulé",
+"3,0 tₖ = 5,27 millions d’années"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"C = √(1 − e²) cos i (conservée)",
+"0,4221 (au départ 0,4221)"
+],
+[
+"Excentricité e",
+"0,050"
+],
+[
+"Inclinaison i",
+"65,0°"
+],
+[
+"Argument du périastre ω",
+"0°"
+],
+[
+"Inclinaison critique arccos √(3/5)",
+"39,23°"
+],
+[
+"eₘₐₓ = √(1 − 5/3 cos² i₀) (départ circulaire)",
+"0,838"
+],
+[
+"e maximale atteinte",
+"0,050, avec i = 65,0°"
+],
+[
+"Temps caractéristique tₖ",
+"5 291 ans"
+],
+[
+"Période des oscillations",
+"en mesure (deux maxima de e)"
+],
+[
+"Temps écoulé",
+"0,0 tₖ = 0,0 ans"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Le système fixe le temps caractéristique tₖ = (M/M′)(a′/a)³ P/2π ; l’évolution, comptée en tₖ, est la même pour tous.",
+"cle": "systeme",
+"defaut": "asteroide",
+"options": [
+[
+"Astéroïde à 2,7 ua, perturbé par Jupiter",
+"asteroide"
+],
+[
+"Satellite sur orbite de 12 h, perturbé par la Lune",
+"satellite"
+],
+[
+"Planète à 5 ua, étoile compagne à 500 ua",
+"exoplanete"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Inclinaison de l’orbite sur le plan du perturbateur au départ. Sous 39,2°, presque rien ne se passe ; au-dessus, l’excentricité grimpe.",
+"cle": "i0",
+"dec": 1,
+"defaut": 65.0,
+"libelle": "Inclinaison de départ i₀",
+"log": false,
+"maxi": 89.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 65.0
+},
+{
+"aide": "Excentricité au départ (échelle logarithmique) : une orbite presque circulaire met plus longtemps à démarrer.",
+"cle": "e0",
+"dec": 3,
+"defaut": 0.05,
+"libelle": "Excentricité de départ e₀",
+"log": true,
+"maxi": 0.9,
+"mini": 0.001,
+"type": "curseur",
+"unite": "",
+"valeur": 0.05
+},
+{
+"aide": "Angle entre la ligne des nœuds et le périastre au départ : il décide si ω tourne (circulation) ou oscille autour de 90° ou 270° (libration).",
+"cle": "w0",
+"dec": 0,
+"defaut": 0.0,
+"libelle": "Argument du périastre de départ ω₀",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.0
+},
+{
+"aide": "Laisse la trace des états (ω, e) parcourus.",
+"cle": "trace",
+"defaut": true,
+"libelle": "Trajectoire dans le portrait de phase",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "latsim": {
 "animee": false,
 "changements": [
