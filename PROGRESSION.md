@@ -838,3 +838,16 @@ Jumelles des sept animations de Coupole 0.12.0 (valeurs identiques au caractère
 de Python (sinon un ulp d'écart). Textes, catalogue, références, modules, recherche régénérés ; « Ce qu'il faut voir » ;
 comptes 112 ; NOTICE, CHANGELOG, README. e2e : `--output` hors du dépôt quand un autre chantier lance Playwright.
 
+## 25/11/2026 (soir) — animations de cours P11 à P13 (115 animations ; dans l'entrée 0.10.0, non publiée)
+Jumelles de Coupole 0.12.0 (valeurs identiques au caractère près, FR et EN) : `src/calc/` et `src/anim/animations/`
+`seculaire` (précession séculaire, Laplace-Lagrange, MOID), `mutuels` (phénomènes mutuels des satellites galiléens,
+découpe de l'ombre par `save`/`setClipPath`/`restore` : sur une toile, `setClipRect` n'agrandit jamais une découpe),
+`trainees` (traînées de météoroïdes, `Aleatoire` de `calc/meteores.ts`, `pround` pour le `round` de Python). Textes,
+catalogue, références (`exporter_coupole.py`, `references_animations.py`), modules (ANIMATIONS_AJOUTEES : solar,
+solarsystemdebris) et recherche régénérés ; « Ce qu'il faut voir » ; comptes 115 ; NOTICE, CHANGELOG, README.
+Piège : une méthode `vue` masque `Animation.vue` (vues 3D) → `vue_dessus`.
+- P14 : orbites de halo dans `lagrange` (`calc/lagrange.ts` : `Halo` de Richardson, `pas_rk4_3`, `jacobi_etat`, état
+  plan ou 3D `EtatQ` ; panneau « vue du grand astre »). P15 : anneaux de Newton dans `interferometry` (choix
+  « montage », réglages de l'autre montage masqués par `setVisible`, `couleur_blanche` par `xyz`/`rgb_de_xyz` de
+  `calc/lumiere.ts`). Références régénérées.
+

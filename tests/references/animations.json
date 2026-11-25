@@ -18495,6 +18495,10 @@ false
 "animee": true,
 "changements": [
 [
+"montage",
+"anneaux"
+],
+[
 "instrument",
 "chara"
 ],
@@ -18529,6 +18533,22 @@ true
 [
 "enveloppe",
 false
+],
+[
+"rayon",
+0.68
+],
+[
+"indice",
+1.25
+],
+[
+"cote",
+"transmission"
+],
+[
+"blanche",
+true
 ]
 ],
 "en": {
@@ -18603,32 +18623,24 @@ false
 "reglages",
 [
 [
-"Fringe spacing λ / B",
-"21.2″"
+"Dark rings r₁, r₂, r₃ = √(kλR/n)",
+"0.628; 1.087; 1.403 mm"
 ],
 [
-"One telescope alone: 1.22 λ / d",
-"0.102″"
+"Gap from the 9th to the 10th ring (they tighten)",
+"0.148 mm"
 ],
 [
-"Gain in sharpness B / d",
-"× 0.0"
+"Centre (lens in contact)",
+"bright"
 ],
 [
-"Visibility V",
-"1.000 (100 %)"
+"Film thickness at the 1st ring",
+"290 nm"
 ],
 [
-"Fringes",
-"shifted by 0°"
-],
-[
-"Baseline of the first minimum λ / 2ρ",
-"1.90 m"
-],
-[
-"The source",
-"unresolved: baseline too short (V ≥ 0.9)"
+"In white light",
+"Newton’s colours near the centre, white further out"
 ]
 ]
 ],
@@ -18636,32 +18648,24 @@ false
 "reglages_pas",
 [
 [
-"Fringe spacing λ / B",
-"14.1″"
+"Dark rings r₁, r₂, r₃ = √(kλR/n)",
+"0.628; 1.087; 1.403 mm"
 ],
 [
-"One telescope alone: 1.22 λ / d",
-"0.102″"
+"Gap from the 9th to the 10th ring (they tighten)",
+"0.148 mm"
 ],
 [
-"Gain in sharpness B / d",
-"× 0.0"
+"Centre (lens in contact)",
+"bright"
 ],
 [
-"Visibility V",
-"1.000 (100 %)"
+"Film thickness at the 1st ring",
+"290 nm"
 ],
 [
-"Fringes",
-"shifted by 1°"
-],
-[
-"Baseline of the first minimum λ / 2ρ",
-"1.90 m"
-],
-[
-"The source",
-"unresolved: baseline too short (V ≥ 0.9)"
+"In white light",
+"Newton’s colours near the centre, white further out"
 ]
 ]
 ],
@@ -18712,6 +18716,22 @@ false
 "type": "curseur",
 "unite": "×",
 "valeur": 1.0
+},
+{
+"aide": "Two recombined telescopes (stellar interferometry), or Newton’s rings: a lens resting on a glass plate.",
+"cle": "montage",
+"defaut": "interferometre",
+"options": [
+[
+"interferometer (two telescopes)",
+"interferometre"
+],
+[
+"Newton’s rings",
+"anneaux"
+]
+],
+"type": "choix"
 },
 {
 "aide": "Choosing an instrument sets its baseline and the diameter of its apertures; you can then change them by hand.",
@@ -18855,6 +18875,55 @@ false
 "defaut": true,
 "libelle": "Envelopes",
 "type": "coche"
+},
+{
+"aide": "The flatter the lens (large R), the more slowly the air film thickens and the wider the rings: r ∝ √R.",
+"cle": "rayon",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Radius of curvature of the lens R",
+"log": true,
+"maxi": 20.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "m",
+"valeur": 1.0
+},
+{
+"aide": "1 for air, 1.33 for water slipped between lens and plate: the wavelength is n times shorter there, the rings tighten.",
+"cle": "indice",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Index of the film n",
+"log": false,
+"maxi": 1.7,
+"mini": 1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 1.0
+},
+{
+"aide": "In reflection (light sent back up: dark centre) or in transmission (light going through: complementary pattern, bright centre).",
+"cle": "cote",
+"defaut": "reflexion",
+"options": [
+[
+"in reflection",
+"reflexion"
+],
+[
+"in transmission",
+"transmission"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Each wavelength makes its own rings: they blend into Newton’s colours, then into white far from the centre.",
+"cle": "blanche",
+"defaut": false,
+"libelle": "White light",
+"type": "coche"
 }
 ]
 },
@@ -18930,32 +18999,24 @@ false
 "reglages",
 [
 [
-"Interfrange λ / B",
-"21,2″"
+"Anneaux sombres r₁, r₂, r₃ = √(kλR/n)",
+"0,628 ; 1,087 ; 1,403 mm"
 ],
 [
-"Un télescope seul : 1,22 λ / d",
-"0,102″"
+"Écart du 9ᵉ au 10ᵉ anneau (ils se resserrent)",
+"0,148 mm"
 ],
 [
-"Gain en finesse B / d",
-"× 0,0"
+"Centre (lentille au contact)",
+"clair"
 ],
 [
-"Visibilité V",
-"1,000 (100 %)"
+"Épaisseur de la lame au 1ᵉʳ anneau",
+"290 nm"
 ],
 [
-"Franges",
-"décalées de 0°"
-],
-[
-"Base du premier minimum λ / 2ρ",
-"1,90 m"
-],
-[
-"La source",
-"non résolue : base trop courte (V ≥ 0,9)"
+"En lumière blanche",
+"teintes de Newton près du centre, blanc au-delà"
 ]
 ]
 ],
@@ -18963,32 +19024,24 @@ false
 "reglages_pas",
 [
 [
-"Interfrange λ / B",
-"14,1″"
+"Anneaux sombres r₁, r₂, r₃ = √(kλR/n)",
+"0,628 ; 1,087 ; 1,403 mm"
 ],
 [
-"Un télescope seul : 1,22 λ / d",
-"0,102″"
+"Écart du 9ᵉ au 10ᵉ anneau (ils se resserrent)",
+"0,148 mm"
 ],
 [
-"Gain en finesse B / d",
-"× 0,0"
+"Centre (lentille au contact)",
+"clair"
 ],
 [
-"Visibilité V",
-"1,000 (100 %)"
+"Épaisseur de la lame au 1ᵉʳ anneau",
+"290 nm"
 ],
 [
-"Franges",
-"décalées de 1°"
-],
-[
-"Base du premier minimum λ / 2ρ",
-"1,90 m"
-],
-[
-"La source",
-"non résolue : base trop courte (V ≥ 0,9)"
+"En lumière blanche",
+"teintes de Newton près du centre, blanc au-delà"
 ]
 ]
 ],
@@ -19039,6 +19092,22 @@ false
 "type": "curseur",
 "unite": "×",
 "valeur": 1.0
+},
+{
+"aide": "Deux télescopes recombinés (interférométrie stellaire), ou les anneaux de Newton : une lentille posée sur une lame de verre.",
+"cle": "montage",
+"defaut": "interferometre",
+"options": [
+[
+"interféromètre (deux télescopes)",
+"interferometre"
+],
+[
+"anneaux de Newton",
+"anneaux"
+]
+],
+"type": "choix"
 },
 {
 "aide": "Choisir un instrument règle sa base et le diamètre de ses ouvertures ; on peut ensuite les changer à la main.",
@@ -19181,6 +19250,55 @@ false
 "cle": "enveloppe",
 "defaut": true,
 "libelle": "Enveloppes",
+"type": "coche"
+},
+{
+"aide": "Plus la lentille est plate (R grand), plus la lame d’air s’épaissit lentement et plus les anneaux sont larges : r ∝ √R.",
+"cle": "rayon",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Rayon de courbure de la lentille R",
+"log": true,
+"maxi": 20.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "m",
+"valeur": 1.0
+},
+{
+"aide": "1 pour de l’air, 1,33 pour de l’eau glissée entre la lentille et la lame : la longueur d’onde y est n fois plus courte, les anneaux se resserrent.",
+"cle": "indice",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Indice de la lame n",
+"log": false,
+"maxi": 1.7,
+"mini": 1.0,
+"type": "curseur",
+"unite": "",
+"valeur": 1.0
+},
+{
+"aide": "En réflexion (lumière renvoyée vers le haut : centre noir) ou en transmission (lumière qui traverse : figure complémentaire, centre clair).",
+"cle": "cote",
+"defaut": "reflexion",
+"options": [
+[
+"en réflexion",
+"reflexion"
+],
+[
+"en transmission",
+"transmission"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Chaque longueur d’onde donne ses anneaux : ils se mélangent en teintes de Newton, puis en blanc loin du centre.",
+"cle": "blanche",
+"defaut": false,
+"libelle": "Lumière blanche",
 "type": "coche"
 }
 ]
@@ -20772,7 +20890,7 @@ false
 ],
 [
 "cas",
-"l3"
+"halo_l2"
 ],
 [
 "delta",
@@ -20896,7 +21014,7 @@ false
 ],
 [
 "Jacobi constant C of the small body",
-"3.108055"
+"3.382538"
 ],
 [
 "C at the Lagrange points",
@@ -20909,6 +21027,14 @@ false
 [
 "Elapsed time",
 "0.0 revolutions of the two bodies"
+],
+[
+"Halo orbit: amplitudes Ax, Ay, Az; period",
+"1 671 km, 4 384 km, 78 km; 3.9 days"
+],
+[
+"Distance of the body from Richardson’s orbit",
+"0 km"
 ]
 ]
 ],
@@ -20937,7 +21063,7 @@ false
 ],
 [
 "Jacobi constant C of the small body",
-"3.120073"
+"3.382538"
 ],
 [
 "C at the Lagrange points",
@@ -20950,6 +21076,14 @@ false
 [
 "Elapsed time",
 "3.0 revolutions of the two bodies"
+],
+[
+"Halo orbit: amplitudes Ax, Ay, Az; period",
+"1 671 km, 4 384 km, 78 km; 3.9 days"
+],
+[
+"Distance of the body from Richardson’s orbit",
+"107 033 km"
 ]
 ]
 ],
@@ -21034,7 +21168,7 @@ false
 "type": "choix"
 },
 {
-"aide": "Where the small body is released, at rest (or on a circle) in the rotating frame.",
+"aide": "Where the small body is released, at rest (or on a circle) in the rotating frame; or on a halo orbit around L1 or L2, in three dimensions.",
 "cle": "cas",
 "defaut": "tetard",
 "options": [
@@ -21057,12 +21191,20 @@ false
 [
 "Right next to L3",
 "l3"
+],
+[
+"Halo orbit around L1",
+"halo_l1"
+],
+[
+"Halo orbit around L2",
+"halo_l2"
 ]
 ],
 "type": "choix"
 },
 {
-"aide": "Offset from the starting point, in units of the distance a between the two bodies (L1, L2, L3: δ/100). The larger it is, the wider the loop.",
+"aide": "Offset from the starting point, in units of the distance a between the two bodies (L1, L2, L3: δ/100). The larger it is, the wider the loop. Halo orbit: δ is the out-of-plane amplitude Az (in a, capped at 0.4 times the distance from the point to the small body; its sign picks the northern or southern family).",
 "cle": "delta",
 "dec": 4,
 "defaut": 0.005,
@@ -21199,7 +21341,7 @@ false
 ],
 [
 "Constante de Jacobi C du petit corps",
-"3,108055"
+"3,382538"
 ],
 [
 "C aux points de Lagrange",
@@ -21212,6 +21354,14 @@ false
 [
 "Temps écoulé",
 "0,0 tours des deux astres"
+],
+[
+"Orbite de halo : amplitudes Ax, Ay, Az ; période",
+"1 671 km, 4 384 km, 78 km ; 3,9 jours"
+],
+[
+"Écart du corps à l’orbite de Richardson",
+"0 km"
 ]
 ]
 ],
@@ -21240,7 +21390,7 @@ false
 ],
 [
 "Constante de Jacobi C du petit corps",
-"3,120073"
+"3,382538"
 ],
 [
 "C aux points de Lagrange",
@@ -21253,6 +21403,14 @@ false
 [
 "Temps écoulé",
 "3,0 tours des deux astres"
+],
+[
+"Orbite de halo : amplitudes Ax, Ay, Az ; période",
+"1 671 km, 4 384 km, 78 km ; 3,9 jours"
+],
+[
+"Écart du corps à l’orbite de Richardson",
+"107 033 km"
 ]
 ]
 ],
@@ -21337,7 +21495,7 @@ false
 "type": "choix"
 },
 {
-"aide": "Où l’on lâche le petit corps, au repos (ou sur un cercle) dans le repère tournant.",
+"aide": "Où l’on lâche le petit corps, au repos (ou sur un cercle) dans le repère tournant ; ou sur une orbite de halo autour de L1 ou L2, en trois dimensions.",
 "cle": "cas",
 "defaut": "tetard",
 "options": [
@@ -21360,12 +21518,20 @@ false
 [
 "Juste à côté de L3",
 "l3"
+],
+[
+"Orbite de halo autour de L1",
+"halo_l1"
+],
+[
+"Orbite de halo autour de L2",
+"halo_l2"
 ]
 ],
 "type": "choix"
 },
 {
-"aide": "Écart au point de départ, en unités de la distance a des deux astres (L1, L2, L3 : δ/100). Plus il est grand, plus la boucle est large.",
+"aide": "Écart au point de départ, en unités de la distance a des deux astres (L1, L2, L3 : δ/100). Plus il est grand, plus la boucle est large. Orbite de halo : δ est l’amplitude hors du plan Az (en a, bornée à 0,4 fois la distance du point au petit astre ; son signe choisit la famille nord ou sud).",
 "cle": "delta",
 "dec": 4,
 "defaut": 0.005,
@@ -25351,6 +25517,614 @@ true
 },
 "lecture_au_depart": false
 },
+"meteoroidtrails": {
+"animee": true,
+"changements": [
+[
+"comete",
+"fictive"
+],
+[
+"dv",
+31.8
+],
+[
+"taille",
+"dixieme"
+],
+[
+"cadrage",
+"orbite"
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Shower",
+"Leonids (55P/Tempel-Tuttle)"
+],
+[
+"Year",
+"1758"
+],
+[
+"Period of the comet",
+"33.2 years"
+],
+[
+"Radiation pressure / gravity β",
+"5.70 × 10⁻⁴"
+],
+[
+"Trails released",
+"0"
+],
+[
+"Node of the comet, offset from the Earth’s orbit",
+"0.9804 au (Δr = −0.0082 au)"
+],
+[
+"The Earth at the node",
+"November 16"
+],
+[
+"Grains met this year (|Δr| < 0.01 au, |Δt| < 10 d)",
+"0"
+],
+[
+"Richest year",
+"1865 (26 grains)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Shower",
+"Leonids (55P/Tempel-Tuttle)"
+],
+[
+"Year",
+"1769"
+],
+[
+"Period of the comet",
+"33.2 years"
+],
+[
+"Radiation pressure / gravity β",
+"5.70 × 10⁻⁴"
+],
+[
+"Trails released",
+"1"
+],
+[
+"Node of the comet, offset from the Earth’s orbit",
+"0.9804 au (Δr = −0.0082 au)"
+],
+[
+"The Earth at the node",
+"November 16"
+],
+[
+"Grains met this year (|Δr| < 0.01 au, |Δt| < 10 d)",
+"0"
+],
+[
+"Richest year",
+"1865 (26 grains)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Shower",
+"fictitious shower"
+],
+[
+"Year",
+"1769"
+],
+[
+"Period of the comet",
+"33.2 years"
+],
+[
+"Radiation pressure / gravity β",
+"57.00 × 10⁻⁴"
+],
+[
+"Trails released",
+"1"
+],
+[
+"Node of the comet, offset from the Earth’s orbit",
+"0.9886 au (Δr = 0.0000 au)"
+],
+[
+"The Earth at the node",
+"November 16"
+],
+[
+"Grains met this year (|Δr| < 0.01 au, |Δt| < 10 d)",
+"0"
+],
+[
+"Richest year",
+"1804 (7 grains)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Shower",
+"fictitious shower"
+],
+[
+"Year",
+"1781"
+],
+[
+"Period of the comet",
+"33.2 years"
+],
+[
+"Radiation pressure / gravity β",
+"57.00 × 10⁻⁴"
+],
+[
+"Trails released",
+"1"
+],
+[
+"Node of the comet, offset from the Earth’s orbit",
+"0.9886 au (Δr = 0.0000 au)"
+],
+[
+"The Earth at the node",
+"November 16"
+],
+[
+"Grains met this year (|Δr| < 0.01 au, |Δt| < 10 d)",
+"0"
+],
+[
+"Richest year",
+"1804 (7 grains)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Shower",
+"Leonids (55P/Tempel-Tuttle)"
+],
+[
+"Year",
+"1781"
+],
+[
+"Period of the comet",
+"33.2 years"
+],
+[
+"Radiation pressure / gravity β",
+"5.70 × 10⁻⁴"
+],
+[
+"Trails released",
+"1"
+],
+[
+"Node of the comet, offset from the Earth’s orbit",
+"0.9804 au (Δr = −0.0082 au)"
+],
+[
+"The Earth at the node",
+"November 16"
+],
+[
+"Grains met this year (|Δr| < 0.01 au, |Δt| < 10 d)",
+"0"
+],
+[
+"Richest year",
+"1865 (26 grains)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Parent comet of a shower (elements from JPL’s SBDB, rounded, kept fixed); the fictitious comet has 55P’s orbit, turned so that its node lies exactly on the Earth’s orbit.",
+"cle": "comete",
+"defaut": "tempel_tuttle",
+"options": [
+[
+"55P/Tempel-Tuttle (Leonids)",
+"tempel_tuttle"
+],
+[
+"109P/Swift-Tuttle (Perseids)",
+"swift_tuttle"
+],
+[
+"fictitious comet (node on the Earth’s orbit)",
+"fictive"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Largest speed of the grains relative to the nucleus (drawn at random in a ball): a few metres per second for millimetre grains.",
+"cle": "dv",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Ejection speed Δv",
+"log": true,
+"maxi": 50.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "m·s⁻¹",
+"valeur": 10.0
+},
+{
+"aide": "The smaller a grain, the harder sunlight pushes it (β = 5.7 × 10⁻⁵/(ρ s), ρ = 1 g·cm⁻³): it follows a larger orbit, with a longer period, and drifts away from the comet faster.",
+"cle": "taille",
+"defaut": "mm",
+"options": [
+[
+"1 cm (β = 5.7 × 10⁻⁵)",
+"cm"
+],
+[
+"1 mm (β = 5.7 × 10⁻⁴)",
+"mm"
+],
+[
+"0.1 mm (β = 5.7 × 10⁻³)",
+"dixieme"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Near the Sun (2 au around, where the Earth crosses the stream) or the comet’s whole orbit.",
+"cle": "cadrage",
+"defaut": "interieur",
+"options": [
+[
+"near the Sun",
+"interieur"
+],
+[
+"whole orbit",
+"orbite"
+]
+],
+"type": "choix"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Essaim",
+"Léonides (55P/Tempel-Tuttle)"
+],
+[
+"Année",
+"1758"
+],
+[
+"Période de la comète",
+"33,2 ans"
+],
+[
+"Pression de radiation / gravité β",
+"5,70 × 10⁻⁴"
+],
+[
+"Traînées lâchées",
+"0"
+],
+[
+"Nœud de la comète, écart à l’orbite terrestre",
+"0,9804 ua (Δr = −0,0082 ua)"
+],
+[
+"La Terre au nœud",
+"16 novembre"
+],
+[
+"Grains rencontrés cette année (|Δr| < 0,01 ua, |Δt| < 10 j)",
+"0"
+],
+[
+"Année la plus riche",
+"1865 (26 grains)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Essaim",
+"Léonides (55P/Tempel-Tuttle)"
+],
+[
+"Année",
+"1769"
+],
+[
+"Période de la comète",
+"33,2 ans"
+],
+[
+"Pression de radiation / gravité β",
+"5,70 × 10⁻⁴"
+],
+[
+"Traînées lâchées",
+"1"
+],
+[
+"Nœud de la comète, écart à l’orbite terrestre",
+"0,9804 ua (Δr = −0,0082 ua)"
+],
+[
+"La Terre au nœud",
+"16 novembre"
+],
+[
+"Grains rencontrés cette année (|Δr| < 0,01 ua, |Δt| < 10 j)",
+"0"
+],
+[
+"Année la plus riche",
+"1865 (26 grains)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Essaim",
+"essaim fictif"
+],
+[
+"Année",
+"1769"
+],
+[
+"Période de la comète",
+"33,2 ans"
+],
+[
+"Pression de radiation / gravité β",
+"57,00 × 10⁻⁴"
+],
+[
+"Traînées lâchées",
+"1"
+],
+[
+"Nœud de la comète, écart à l’orbite terrestre",
+"0,9886 ua (Δr = 0,0000 ua)"
+],
+[
+"La Terre au nœud",
+"16 novembre"
+],
+[
+"Grains rencontrés cette année (|Δr| < 0,01 ua, |Δt| < 10 j)",
+"0"
+],
+[
+"Année la plus riche",
+"1804 (7 grains)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Essaim",
+"essaim fictif"
+],
+[
+"Année",
+"1781"
+],
+[
+"Période de la comète",
+"33,2 ans"
+],
+[
+"Pression de radiation / gravité β",
+"57,00 × 10⁻⁴"
+],
+[
+"Traînées lâchées",
+"1"
+],
+[
+"Nœud de la comète, écart à l’orbite terrestre",
+"0,9886 ua (Δr = 0,0000 ua)"
+],
+[
+"La Terre au nœud",
+"16 novembre"
+],
+[
+"Grains rencontrés cette année (|Δr| < 0,01 ua, |Δt| < 10 j)",
+"0"
+],
+[
+"Année la plus riche",
+"1804 (7 grains)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Essaim",
+"Léonides (55P/Tempel-Tuttle)"
+],
+[
+"Année",
+"1781"
+],
+[
+"Période de la comète",
+"33,2 ans"
+],
+[
+"Pression de radiation / gravité β",
+"5,70 × 10⁻⁴"
+],
+[
+"Traînées lâchées",
+"1"
+],
+[
+"Nœud de la comète, écart à l’orbite terrestre",
+"0,9804 ua (Δr = −0,0082 ua)"
+],
+[
+"La Terre au nœud",
+"16 novembre"
+],
+[
+"Grains rencontrés cette année (|Δr| < 0,01 ua, |Δt| < 10 j)",
+"0"
+],
+[
+"Année la plus riche",
+"1865 (26 grains)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Comète mère d’un essaim (éléments de la base SBDB du JPL, arrondis, gardés fixes) ; la comète fictive a l’orbite de 55P tournée pour que son nœud soit exactement sur l’orbite de la Terre.",
+"cle": "comete",
+"defaut": "tempel_tuttle",
+"options": [
+[
+"55P/Tempel-Tuttle (Léonides)",
+"tempel_tuttle"
+],
+[
+"109P/Swift-Tuttle (Perséides)",
+"swift_tuttle"
+],
+[
+"comète fictive (nœud sur l’orbite terrestre)",
+"fictive"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Vitesse maximale des grains par rapport au noyau (tirées au hasard dans une boule) : quelques mètres par seconde pour des grains millimétriques.",
+"cle": "dv",
+"dec": 1,
+"defaut": 10.0,
+"libelle": "Vitesse d’éjection Δv",
+"log": true,
+"maxi": 50.0,
+"mini": 1.0,
+"type": "curseur",
+"unite": "m·s⁻¹",
+"valeur": 10.0
+},
+{
+"aide": "Plus un grain est petit, plus la lumière du Soleil le pousse (β = 5,7 × 10⁻⁵/(ρ s), ρ = 1 g·cm⁻³) : il suit une orbite plus grande, de plus longue période, et s’éloigne plus vite de la comète.",
+"cle": "taille",
+"defaut": "mm",
+"options": [
+[
+"1 cm (β = 5,7 × 10⁻⁵)",
+"cm"
+],
+[
+"1 mm (β = 5,7 × 10⁻⁴)",
+"mm"
+],
+[
+"0,1 mm (β = 5,7 × 10⁻³)",
+"dixieme"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Près du Soleil (2 ua autour, là où la Terre croise l’essaim) ou toute l’orbite de la comète.",
+"cle": "cadrage",
+"defaut": "interieur",
+"options": [
+[
+"près du Soleil",
+"interieur"
+],
+[
+"toute l’orbite",
+"orbite"
+]
+],
+"type": "choix"
+}
+]
+},
+"lecture_au_depart": true
+},
 "meteorradiant": {
 "animee": true,
 "changements": [
@@ -27302,6 +28076,650 @@ true
 ]
 },
 "lecture_au_depart": false
+},
+"mutualevents": {
+"animee": true,
+"changements": [
+[
+"actif",
+"callisto"
+],
+[
+"passif",
+"callisto"
+],
+[
+"genre",
+"eclipse"
+],
+[
+"B",
+1.404
+],
+[
+"phase",
+10.1
+],
+[
+"fx",
+-0.59
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Event",
+"2 O 1: Europa occults Io"
+],
+[
+"Time (0: encounter)",
+"0.0 min"
+],
+[
+"Brightness of the pair",
+"61.3%"
+],
+[
+"Distance between centres at the encounter (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Relative speed on the sky",
+"1.97 km·s⁻¹"
+],
+[
+"Duration",
+"58.4 min"
+],
+[
+"Largest drop in brightness",
+"38.7% (Δm = 0.53)"
+],
+[
+"Event possible if B is below",
+"0.713°"
+]
+]
+],
+[
+"pas",
+[
+[
+"Event",
+"2 O 1: Europa occults Io"
+],
+[
+"Time (0: encounter)",
+"11.3 min"
+],
+[
+"Brightness of the pair",
+"75.9%"
+],
+[
+"Distance between centres at the encounter (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Relative speed on the sky",
+"1.97 km·s⁻¹"
+],
+[
+"Duration",
+"58.4 min"
+],
+[
+"Largest drop in brightness",
+"38.7% (Δm = 0.53)"
+],
+[
+"Event possible if B is below",
+"0.713°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Event",
+"4 E 1: Callisto eclipses Io"
+],
+[
+"Time (0: encounter)",
+"11.3 min"
+],
+[
+"Brightness of the pair",
+"100.0%"
+],
+[
+"Distance between centres at the encounter (Y₁ − Y₂) sin B",
+"37 381 km"
+],
+[
+"Relative speed on the sky",
+"5.87 km·s⁻¹"
+],
+[
+"Duration",
+"—"
+],
+[
+"Largest drop in brightness",
+"none: the discs do not touch"
+],
+[
+"Event possible if B is below",
+"0.210°"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Event",
+"4 E 1: Callisto eclipses Io"
+],
+[
+"Time (0: encounter)",
+"17.6 min"
+],
+[
+"Brightness of the pair",
+"100.0%"
+],
+[
+"Distance between centres at the encounter (Y₁ − Y₂) sin B",
+"37 381 km"
+],
+[
+"Relative speed on the sky",
+"5.87 km·s⁻¹"
+],
+[
+"Duration",
+"—"
+],
+[
+"Largest drop in brightness",
+"none: the discs do not touch"
+],
+[
+"Event possible if B is below",
+"0.210°"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Event",
+"2 O 1: Europa occults Io"
+],
+[
+"Time (0: encounter)",
+"17.6 min"
+],
+[
+"Brightness of the pair",
+"85.6%"
+],
+[
+"Distance between centres at the encounter (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Relative speed on the sky",
+"1.97 km·s⁻¹"
+],
+[
+"Duration",
+"58.4 min"
+],
+[
+"Largest drop in brightness",
+"38.7% (Δm = 0.53)"
+],
+[
+"Event possible if B is below",
+"0.713°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "The one passing in front (occultation) or casting the shadow (eclipse): the closer to the Earth or the Sun at the time of the encounter.",
+"cle": "actif",
+"defaut": "europe",
+"options": [
+[
+"Io",
+"io"
+],
+[
+"Europa",
+"europe"
+],
+[
+"Ganymede",
+"ganymede"
+],
+[
+"Callisto",
+"callisto"
+]
+],
+"type": "choix"
+},
+{
+"aide": "The one hidden or eclipsed (if it is the same as the active one, the next one is taken).",
+"cle": "passif",
+"defaut": "io",
+"options": [
+[
+"Io",
+"io"
+],
+[
+"Europa",
+"europe"
+],
+[
+"Ganymede",
+"ganymede"
+],
+[
+"Callisto",
+"callisto"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Occultation: seen from the Earth, the active one passes in front of the passive one. Eclipse: seen from the Sun, it passes in front, and the passive one enters its shadow (and penumbra).",
+"cle": "genre",
+"defaut": "occultation",
+"options": [
+[
+"occultation (O)",
+"occultation"
+],
+[
+"eclipse (E)",
+"eclipse"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Height of the Earth (and the Sun) above the orbital plane, seen from Jupiter: it varies by ± 3° in 12 years and goes through 0 every six years; mutual events only happen when it is small.",
+"cle": "B",
+"dec": 3,
+"defaut": 0.1,
+"libelle": "Latitude of the Earth and the Sun B",
+"log": false,
+"maxi": 1.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.1
+},
+{
+"aide": "Sun-Jupiter-Earth angle (11° at most): for an eclipse, the Earth sees the shadow from the side, the two satellites apart.",
+"cle": "phase",
+"dec": 1,
+"defaut": 8.0,
+"libelle": "Phase angle φ",
+"log": false,
+"maxi": 11.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 8.0
+},
+{
+"aide": "Position of the encounter east or west of Jupiter, as a fraction of the inner orbit’s radius: far from Jupiter both move almost the same way, the encounter is slow.",
+"cle": "fx",
+"dec": 2,
+"defaut": 0.5,
+"libelle": "Place of the encounter x₀",
+"log": false,
+"maxi": 0.95,
+"mini": -0.95,
+"type": "curseur",
+"unite": "",
+"valeur": 0.5
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Phénomène",
+"2 O 1 : Europe occulte Io"
+],
+[
+"Instant (0 : rencontre)",
+"0,0 min"
+],
+[
+"Éclat de la paire",
+"61,3 %"
+],
+[
+"Écart des centres à la rencontre (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Vitesse relative sur le ciel",
+"1,97 km·s⁻¹"
+],
+[
+"Durée",
+"58,4 min"
+],
+[
+"Baisse d’éclat maximale",
+"38,7 % (Δm = 0,53)"
+],
+[
+"Phénomène possible si B est sous",
+"0,713°"
+]
+]
+],
+[
+"pas",
+[
+[
+"Phénomène",
+"2 O 1 : Europe occulte Io"
+],
+[
+"Instant (0 : rencontre)",
+"11,3 min"
+],
+[
+"Éclat de la paire",
+"75,9 %"
+],
+[
+"Écart des centres à la rencontre (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Vitesse relative sur le ciel",
+"1,97 km·s⁻¹"
+],
+[
+"Durée",
+"58,4 min"
+],
+[
+"Baisse d’éclat maximale",
+"38,7 % (Δm = 0,53)"
+],
+[
+"Phénomène possible si B est sous",
+"0,713°"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Phénomène",
+"4 E 1 : Callisto éclipse Io"
+],
+[
+"Instant (0 : rencontre)",
+"11,3 min"
+],
+[
+"Éclat de la paire",
+"100,0 %"
+],
+[
+"Écart des centres à la rencontre (Y₁ − Y₂) sin B",
+"37 381 km"
+],
+[
+"Vitesse relative sur le ciel",
+"5,87 km·s⁻¹"
+],
+[
+"Durée",
+"—"
+],
+[
+"Baisse d’éclat maximale",
+"aucune : les disques ne se touchent pas"
+],
+[
+"Phénomène possible si B est sous",
+"0,210°"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Phénomène",
+"4 E 1 : Callisto éclipse Io"
+],
+[
+"Instant (0 : rencontre)",
+"17,6 min"
+],
+[
+"Éclat de la paire",
+"100,0 %"
+],
+[
+"Écart des centres à la rencontre (Y₁ − Y₂) sin B",
+"37 381 km"
+],
+[
+"Vitesse relative sur le ciel",
+"5,87 km·s⁻¹"
+],
+[
+"Durée",
+"—"
+],
+[
+"Baisse d’éclat maximale",
+"aucune : les disques ne se touchent pas"
+],
+[
+"Phénomène possible si B est sous",
+"0,210°"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Phénomène",
+"2 O 1 : Europe occulte Io"
+],
+[
+"Instant (0 : rencontre)",
+"17,6 min"
+],
+[
+"Éclat de la paire",
+"85,6 %"
+],
+[
+"Écart des centres à la rencontre (Y₁ − Y₂) sin B",
+"474 km"
+],
+[
+"Vitesse relative sur le ciel",
+"1,97 km·s⁻¹"
+],
+[
+"Durée",
+"58,4 min"
+],
+[
+"Baisse d’éclat maximale",
+"38,7 % (Δm = 0,53)"
+],
+[
+"Phénomène possible si B est sous",
+"0,713°"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Celui qui passe devant (occultation) ou qui fait de l’ombre (éclipse) : le plus proche de la Terre ou du Soleil au moment de la rencontre.",
+"cle": "actif",
+"defaut": "europe",
+"options": [
+[
+"Io",
+"io"
+],
+[
+"Europe",
+"europe"
+],
+[
+"Ganymède",
+"ganymede"
+],
+[
+"Callisto",
+"callisto"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Celui qui est caché ou éclipsé (s’il est le même que l’actif, on prend le suivant).",
+"cle": "passif",
+"defaut": "io",
+"options": [
+[
+"Io",
+"io"
+],
+[
+"Europe",
+"europe"
+],
+[
+"Ganymède",
+"ganymede"
+],
+[
+"Callisto",
+"callisto"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Occultation : vu de la Terre, l’actif passe devant le passif. Éclipse : vu du Soleil, il passe devant, et le passif entre dans son ombre (puis sa pénombre).",
+"cle": "genre",
+"defaut": "occultation",
+"options": [
+[
+"occultation (O)",
+"occultation"
+],
+[
+"éclipse (E)",
+"eclipse"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Hauteur de la Terre (et du Soleil) au-dessus du plan des orbites, vue de Jupiter : elle varie de ± 3° en 12 ans et passe par 0 tous les six ans ; les phénomènes mutuels n’ont lieu que lorsqu’elle est petite.",
+"cle": "B",
+"dec": 3,
+"defaut": 0.1,
+"libelle": "Latitude de la Terre et du Soleil B",
+"log": false,
+"maxi": 1.5,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 0.1
+},
+{
+"aide": "Angle Soleil-Jupiter-Terre (11° au plus) : pour une éclipse, la Terre voit l’ombre de côté, les deux satellites séparés.",
+"cle": "phase",
+"dec": 1,
+"defaut": 8.0,
+"libelle": "Angle de phase φ",
+"log": false,
+"maxi": 11.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 8.0
+},
+{
+"aide": "Position de la rencontre à l’est ou à l’ouest de Jupiter, en fraction du rayon de l’orbite intérieure : loin de Jupiter les deux vont presque dans le même sens, la rencontre est lente.",
+"cle": "fx",
+"dec": 2,
+"defaut": 0.5,
+"libelle": "Lieu de la rencontre x₀",
+"log": false,
+"maxi": 0.95,
+"mini": -0.95,
+"type": "curseur",
+"unite": "",
+"valeur": 0.5
+}
+]
+},
+"lecture_au_depart": true
 },
 "newtoncannon": {
 "animee": true,
@@ -36146,6 +37564,630 @@ false
 ]
 },
 "lecture_au_depart": false
+},
+"secularprecession": {
+"animee": true,
+"changements": [
+[
+"objet",
+"toutatis"
+],
+[
+"a",
+1.53
+],
+[
+"e",
+0.296
+],
+[
+"i",
+7.1
+],
+[
+"o0",
+49.4
+],
+[
+"w0",
+70.6
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Date",
+"year 2026"
+],
+[
+"Precession A = (n/4) Σ (m/M☉) α² b(α)",
+"14.34″ per year"
+],
+[
+"Turn of ϖ (and of Ω, backwards) 2π/A",
+"90 367 years"
+],
+[
+"Turn of ω = ϖ − Ω: π/A",
+"45 183 years"
+],
+[
+"ω; Ω",
+"286.0°; 35.5°"
+],
+[
+"Nodes r☊; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0.874; 1.193 au"
+],
+[
+"Minimum distance to the Earth’s orbit (MOID)",
+"0.0282 au"
+],
+[
+"Next crossing",
+"year 22494 (ascending node)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Date",
+"year 4255"
+],
+[
+"Precession A = (n/4) Σ (m/M☉) α² b(α)",
+"14.34″ per year"
+],
+[
+"Turn of ϖ (and of Ω, backwards) 2π/A",
+"90 367 years"
+],
+[
+"Turn of ω = ϖ − Ω: π/A",
+"45 183 years"
+],
+[
+"ω; Ω",
+"303.8°; 26.6°"
+],
+[
+"Nodes r☊; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0.770; 1.465 au"
+],
+[
+"Minimum distance to the Earth’s orbit (MOID)",
+"0.0588 au"
+],
+[
+"Next crossing",
+"year 22494 (ascending node)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Date",
+"year 2026"
+],
+[
+"Precession A = (n/4) Σ (m/M☉) α² b(α)",
+"15.43″ per year"
+],
+[
+"Turn of ϖ (and of Ω, backwards) 2π/A",
+"83 985 years"
+],
+[
+"Turn of ω = ϖ − Ω: π/A",
+"41 993 years"
+],
+[
+"ω; Ω",
+"70.6°; 49.4°"
+],
+[
+"Nodes r☊; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"1.271; 1.548 au"
+],
+[
+"Minimum distance to the Earth’s orbit (MOID)",
+"0.1359 au"
+],
+[
+"Next crossing",
+"never: q > 1 au or Q < 1 au"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Date",
+"year 4098"
+],
+[
+"Precession A = (n/4) Σ (m/M☉) α² b(α)",
+"15.43″ per year"
+],
+[
+"Turn of ϖ (and of Ω, backwards) 2π/A",
+"83 985 years"
+],
+[
+"Turn of ω = ϖ − Ω: π/A",
+"41 993 years"
+],
+[
+"ω; Ω",
+"88.4°; 40.5°"
+],
+[
+"Nodes r☊; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"1.384; 1.408 au"
+],
+[
+"Minimum distance to the Earth’s orbit (MOID)",
+"0.1497 au"
+],
+[
+"Next crossing",
+"never: q > 1 au or Q < 1 au"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Date",
+"year 2026"
+],
+[
+"Precession A = (n/4) Σ (m/M☉) α² b(α)",
+"14.34″ per year"
+],
+[
+"Turn of ϖ (and of Ω, backwards) 2π/A",
+"90 367 years"
+],
+[
+"Turn of ω = ϖ − Ω: π/A",
+"45 183 years"
+],
+[
+"ω; Ω",
+"286.0°; 35.5°"
+],
+[
+"Nodes r☊; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0.874; 1.193 au"
+],
+[
+"Minimum distance to the Earth’s orbit (MOID)",
+"0.0282 au"
+],
+[
+"Next crossing",
+"year 22494 (ascending node)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "A real near-Earth asteroid (elements from JPL’s SBDB, epoch 2026, rounded); each element can then be changed.",
+"cle": "objet",
+"defaut": "apollo",
+"options": [
+[
+"(1862) Apollo",
+"apollo"
+],
+[
+"(1566) Icarus",
+"icare"
+],
+[
+"(3200) Phaethon (Geminids)",
+"phaethon"
+],
+[
+"(2101) Adonis",
+"adonis"
+],
+[
+"(4179) Toutatis",
+"toutatis"
+]
+],
+"type": "choix"
+},
+{
+"aide": "It does not change on average (secular theory); it sets the precession rate: the closer the asteroid to Jupiter, the faster it is.",
+"cle": "a",
+"dec": 2,
+"defaut": 1.47,
+"libelle": "Semi-major axis a",
+"log": false,
+"maxi": 3.0,
+"mini": 0.6,
+"type": "curseur",
+"unite": "ua",
+"valeur": 1.47
+},
+{
+"aide": "Constant in this model; the orbit can cross the Earth’s if its perihelion q = a(1 − e) is below 1 au and its aphelion Q = a(1 + e) above.",
+"cle": "e",
+"dec": 3,
+"defaut": 0.56,
+"libelle": "Eccentricity e",
+"log": false,
+"maxi": 0.95,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.56
+},
+{
+"aide": "Angle between the orbital plane and the ecliptic (constant in this model): the orbit pierces the ecliptic only at the two nodes.",
+"cle": "i",
+"dec": 2,
+"defaut": 6.35,
+"libelle": "Inclination i",
+"log": false,
+"maxi": 40.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 6.35
+},
+{
+"aide": "Direction of the ascending node today; it then moves back by A per year.",
+"cle": "o0",
+"dec": 1,
+"defaut": 35.5,
+"libelle": "Longitude of the node Ω in 2026",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 35.5
+},
+{
+"aide": "Angle from the ascending node to the perihelion today; it then turns by 2A per year and decides where the nodes lie.",
+"cle": "w0",
+"dec": 1,
+"defaut": 286.0,
+"libelle": "Argument of perihelion ω in 2026",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 286.0
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Date",
+"an 2026"
+],
+[
+"Précession A = (n/4) Σ (m/M☉) α² b(α)",
+"14,34″ par an"
+],
+[
+"Tour de ϖ (et de Ω, à l’envers) 2π/A",
+"90 367 ans"
+],
+[
+"Tour de ω = ϖ − Ω : π/A",
+"45 183 ans"
+],
+[
+"ω ; Ω",
+"286,0° ; 35,5°"
+],
+[
+"Nœuds r☊ ; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0,874 ; 1,193 ua"
+],
+[
+"Distance minimale à l’orbite terrestre (MOID)",
+"0,0282 ua"
+],
+[
+"Prochain croisement",
+"an 22494 (nœud ascendant)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Date",
+"an 4255"
+],
+[
+"Précession A = (n/4) Σ (m/M☉) α² b(α)",
+"14,34″ par an"
+],
+[
+"Tour de ϖ (et de Ω, à l’envers) 2π/A",
+"90 367 ans"
+],
+[
+"Tour de ω = ϖ − Ω : π/A",
+"45 183 ans"
+],
+[
+"ω ; Ω",
+"303,8° ; 26,6°"
+],
+[
+"Nœuds r☊ ; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0,770 ; 1,465 ua"
+],
+[
+"Distance minimale à l’orbite terrestre (MOID)",
+"0,0588 ua"
+],
+[
+"Prochain croisement",
+"an 22494 (nœud ascendant)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Date",
+"an 2026"
+],
+[
+"Précession A = (n/4) Σ (m/M☉) α² b(α)",
+"15,43″ par an"
+],
+[
+"Tour de ϖ (et de Ω, à l’envers) 2π/A",
+"83 985 ans"
+],
+[
+"Tour de ω = ϖ − Ω : π/A",
+"41 993 ans"
+],
+[
+"ω ; Ω",
+"70,6° ; 49,4°"
+],
+[
+"Nœuds r☊ ; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"1,271 ; 1,548 ua"
+],
+[
+"Distance minimale à l’orbite terrestre (MOID)",
+"0,1359 ua"
+],
+[
+"Prochain croisement",
+"jamais : q > 1 ua ou Q < 1 ua"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Date",
+"an 4098"
+],
+[
+"Précession A = (n/4) Σ (m/M☉) α² b(α)",
+"15,43″ par an"
+],
+[
+"Tour de ϖ (et de Ω, à l’envers) 2π/A",
+"83 985 ans"
+],
+[
+"Tour de ω = ϖ − Ω : π/A",
+"41 993 ans"
+],
+[
+"ω ; Ω",
+"88,4° ; 40,5°"
+],
+[
+"Nœuds r☊ ; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"1,384 ; 1,408 ua"
+],
+[
+"Distance minimale à l’orbite terrestre (MOID)",
+"0,1497 ua"
+],
+[
+"Prochain croisement",
+"jamais : q > 1 ua ou Q < 1 ua"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Date",
+"an 2026"
+],
+[
+"Précession A = (n/4) Σ (m/M☉) α² b(α)",
+"14,34″ par an"
+],
+[
+"Tour de ϖ (et de Ω, à l’envers) 2π/A",
+"90 367 ans"
+],
+[
+"Tour de ω = ϖ − Ω : π/A",
+"45 183 ans"
+],
+[
+"ω ; Ω",
+"286,0° ; 35,5°"
+],
+[
+"Nœuds r☊ ; r☋ = a(1 − e²)/(1 ± e cos ω)",
+"0,874 ; 1,193 ua"
+],
+[
+"Distance minimale à l’orbite terrestre (MOID)",
+"0,0282 ua"
+],
+[
+"Prochain croisement",
+"an 22494 (nœud ascendant)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Un géocroiseur réel (éléments de la base SBDB du JPL, époque 2026, arrondis) ; chaque élément peut ensuite être changé.",
+"cle": "objet",
+"defaut": "apollo",
+"options": [
+[
+"(1862) Apollo",
+"apollo"
+],
+[
+"(1566) Icare",
+"icare"
+],
+[
+"(3200) Phaéton (Géminides)",
+"phaethon"
+],
+[
+"(2101) Adonis",
+"adonis"
+],
+[
+"(4179) Toutatis",
+"toutatis"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Il ne change pas en moyenne (théorie séculaire) ; il fixe la vitesse de la précession : plus l’astéroïde est près de Jupiter, plus elle est rapide.",
+"cle": "a",
+"dec": 2,
+"defaut": 1.47,
+"libelle": "Demi-grand axe a",
+"log": false,
+"maxi": 3.0,
+"mini": 0.6,
+"type": "curseur",
+"unite": "ua",
+"valeur": 1.47
+},
+{
+"aide": "Constante dans ce modèle ; l’orbite coupe celle de la Terre si son périhélie q = a(1 − e) est sous 1 ua et son aphélie Q = a(1 + e) au-dessus.",
+"cle": "e",
+"dec": 3,
+"defaut": 0.56,
+"libelle": "Excentricité e",
+"log": false,
+"maxi": 0.95,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.56
+},
+{
+"aide": "Angle entre le plan de l’orbite et l’écliptique (constant dans ce modèle) : l’orbite ne perce l’écliptique qu’aux deux nœuds.",
+"cle": "i",
+"dec": 2,
+"defaut": 6.35,
+"libelle": "Inclinaison i",
+"log": false,
+"maxi": 40.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 6.35
+},
+{
+"aide": "Direction du nœud ascendant aujourd’hui ; elle recule ensuite de A par an.",
+"cle": "o0",
+"dec": 1,
+"defaut": 35.5,
+"libelle": "Longitude du nœud Ω en 2026",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 35.5
+},
+{
+"aide": "Angle du nœud ascendant au périhélie aujourd’hui ; il tourne ensuite de 2A par an et décide où sont les nœuds.",
+"cle": "w0",
+"dec": 1,
+"defaut": 286.0,
+"libelle": "Argument du périhélie ω en 2026",
+"log": false,
+"maxi": 360.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "°",
+"valeur": 286.0
+}
+]
+},
+"lecture_au_depart": true
 },
 "shadowsim": {
 "animee": false,

@@ -19,9 +19,9 @@ Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; réf
 - TLE de l'ISS : ARISS quand CelesTrak ne répond pas (aussi pour « Parallaxe (TP du cours) ») ; politique de
   sécurité : `connect-src` ouvre `live.ariss.org`.
 
-### Animations de cours (112 animations)
+### Animations de cours (115 animations)
 
-Sept animations propres à Coupole, jumelles de celles de Coupole 0.12.0 (mêmes valeurs au caractère près, calculs
+Dix animations propres à Coupole, jumelles de celles de Coupole 0.12.0 (mêmes valeurs au caractère près, calculs
 vérifiés par SageMath) :
 
 - **Le diagramme a–e** (Petits corps) : géocroiseurs Atira, Aten, Apollo, Amor, lacunes de Kirkwood, 27 petits corps
@@ -36,6 +36,17 @@ vérifiés par SageMath) :
   vernal dans le zodiaque (Verseau en 2598).
 - **Résonances et chaos** (Renaissance) : Hilda, troyen, Kirkwood ; deux jumeaux qui divergent (chaos).
 - **La limite de Roche** (Renaissance) : satellite disloqué en anneau sous 2,44 R ∛(ρₚ/ρₛ).
+- **Précession séculaire d'une orbite** (Petits corps) : théorie de Laplace-Lagrange, nœuds d'un géocroiseur qui
+  passent sur l'orbite terrestre quatre fois par tour de ω, distance minimale entre les orbites (MOID) ; Apollo, Icare,
+  Phaéton, Adonis, Toutatis.
+- **Phénomènes mutuels des satellites galiléens** (Système solaire) : occultations et éclipses (ombre et pénombre),
+  système vu du nord, courbe de lumière de la paire, latitude B limite.
+- **Traînées de météoroïdes** (Petits corps) : grains lâchés à chaque passage d'une comète, étirés le long de
+  l'orbite ; diagramme (Δt, Δr) au nœud, activité année par année (Léonides, Perséides, comète fictive).
+- **Points de Lagrange : orbites de halo** autour de L1 et L2 en trois dimensions (Richardson, 3ᵉ ordre), vues du
+  grand astre ; le corps lâché dessus la suit un tour puis s'en écarte (instabilité).
+- **Interférences : anneaux de Newton** (second montage) : anneaux sombres à √(kλR/n), réflexion ou transmission,
+  indice de la lame, lumière blanche.
 
 ## 0.9.0 — 2026-11-25 — Quatre animations de cours de plus
 
@@ -462,14 +473,19 @@ once, ranked, with the practical's formula error, clock accuracy, reference star
 .ics calendar, a map/address place picker (OpenStreetMap, Nominatim, Open-Meteo elevation), and a 90-day ISS outlook (times within ± a margin from the measured TLE drift). ISS TLE from ARISS when
 CelesTrak does not answer.
 
-#### Course animations (112 animations)
+#### Course animations (115 animations)
 
-Seven animations of Coupole's own, twins of Coupole 0.12.0's (same values to the character, computations checked with
+Ten animations of Coupole's own, twins of Coupole 0.12.0's (same values to the character, computations checked with
 SageMath): **the a–e diagram** (near-Earth groups, Kirkwood gaps, 27 real small bodies, Tisserand), **gravity assist**
 (flyby hyperbola, v = V + v∞, orbits before and after), **impact craters** (Collins, Melosh and Marcus 2005 scaling
 laws), **synchronous rotation and libration** (the Moon seen from the Earth, 58% of its surface), **precession of the
-equinoxes** (pole stars, vernal point in the zodiac), **resonances and chaos** (Hildas, Trojans, diverging twins) and
-**the Roche limit** (satellite breaking up into a ring).
+equinoxes** (pole stars, vernal point in the zodiac), **resonances and chaos** (Hildas, Trojans, diverging twins),
+**the Roche limit** (satellite breaking up into a ring), **secular precession of an orbit** (Laplace-Lagrange theory,
+nodes of a near-Earth asteroid crossing the Earth's orbit, MOID), **mutual events of the Galilean satellites**
+(occultations and eclipses, light curve) and **meteoroid trails** (grains released at each passage of a comet,
+(Δt, Δr) diagram at the node, activity year by year). Also **halo orbits** around L1 and L2 in the Lagrange points animation
+(Richardson, 3rd order, seen from the large body) and **Newton's rings** as a second set-up of the interference
+animation (dark rings at √(kλR/n), reflection or transmission, white light).
 
 ### 0.9.0 — 2026-11-25 — Four more course animations
 

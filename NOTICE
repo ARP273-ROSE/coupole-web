@@ -71,6 +71,18 @@ resonances_verif.sage, roche_verif.sage) / own code, drawings and texts; formula
   - précession : UAI 2006 (N. Capitaine et al., A&A 412, 567, 2003) ; Yale Bright Star Catalogue (CDS V/50) ;
   - résonances : problème restreint circulaire (C. D. Murray et S. F. Dermott, Solar System Dynamics, 1999) ;
   - limite de Roche : É. Roche (1849) ; densités des fiches planétaires de la NASA.
+  - précession séculaire d'une orbite (src/calc/seculaire.ts ; seculaire_verif.sage) : théorie de Laplace-Lagrange
+    (C. D. Murray et S. F. Dermott, Solar System Dynamics, 1999, chap. 7) ; planètes géantes : éléments moyens J2000
+    (E. M. Standish, JPL), masses UAI 2009 ; géocroiseurs : base SBDB du JPL (époque 2026, arrondis) ;
+  - phénomènes mutuels (src/calc/mutuels.ts ; mutuels_verif.sage) : satellites galiléens des fiches de la NASA
+    (demi-grands axes, rayons, périodes, albédos) ; rayon solaire nominal UAI 2015 ;
+  - traînées de météoroïdes (src/calc/trainees.ts ; trainees_verif.sage) : 55P/Tempel-Tuttle et 109P/Swift-Tuttle
+    (base SBDB du JPL, arrondis) ; β de J. A. Burns, P. L. Lamy et S. Soter, Icarus 40, 1 (1979) ; Terre : éléments
+    moyens J2000 de E. M. Standish (JPL).
+  - orbites de halo (src/calc/lagrange.ts ; halo_verif.sage) : D. L. Richardson, Celestial Mechanics 22, 241 (1980),
+    développement du 3e ordre ;
+  - anneaux de Newton (src/calc/interferometrie.ts ; newton_verif.sage) : lame mince e = r²/2R, fonctions
+    colorimétriques CIE 1931.
 
 Quatre animations de cours de plus (0.9.0) / Four more course animations (src/calc/interferometrie.ts,
 occultation.ts, kozai.ts, lagrange.ts ; src/anim/animations/interferometrie.ts, occultation.ts, kozai.ts, lagrange.ts)

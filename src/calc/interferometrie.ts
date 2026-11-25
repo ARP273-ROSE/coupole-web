@@ -6,6 +6,7 @@
  * Les nombres complexes sont des couples [partie réelle, partie imaginaire].
  */
 import { RAYLEIGH, SEC_PAR_RAD, airy, j1 } from './diffraction';
+import { rgb_de_xyz, xyz } from './lumiere';
 
 export const MAS_PAR_RAD = SEC_PAR_RAD * 1000.0;
 export type Complexe = [number, number];
@@ -95,3 +96,35 @@ export function verdict(genre: string, taille_mas: number, d_m: number, lam_nm: 
   if (taille_mas >= resolution_mas(d_m, lam_nm)) return 'v_seul';
   return v < SEUIL_RESOLU ? 'v_interferometre' : 'v_non_resolue';
 }
+
+// ------------------------------------------------------------------ anneaux de Newton
+/**
+ * Lentille plan-convexe (rayon de courbure R) sur une lame : lame d'épaisseur e(r) = r²/(2R) ; en réflexion
+ * I = (1 − cos(4π n e / λ))/2 (centre noir, anneaux sombres à √(kλR/n)), en transmission la figure complémentaire.
+ */
+export const N_ANNEAUX = 12;
+
+export const epaisseur_nm = (r_mm: number, R_m: number): number => ((r_mm * 1e-3) ** 2 / (2.0 * R_m)) * 1e9;
+
+export function newton_e(e_nm: number, lam_nm: number, n: number, cote: string): number {
+  const i = (1.0 - Math.cos((4.0 * Math.PI * n * e_nm) / lam_nm)) / 2.0;
+  return cote === 'reflexion' ? i : 1.0 - i;
+}
+
+export const newton = (r_mm: number, R_m: number, lam_nm: number, n: number, cote = 'reflexion'): number => newton_e(epaisseur_nm(r_mm, R_m), lam_nm, n, cote);
+
+export function rayon_sombre(k: number, R_m: number, lam_nm: number, n: number, cote = 'reflexion'): number {
+  const kk = cote === 'reflexion' ? k : k - 0.5;
+  return Math.sqrt((kk * lam_nm * 1e-9 * R_m) / n) * 1e3;
+}
+
+let Y_BLANC: number | null = null;
+
+export function couleur_blanche(r_mm: number, R_m: number, n: number, cote = 'reflexion'): [number, number, number] {
+  const e = epaisseur_nm(r_mm, R_m);
+  if (Y_BLANC === null) Y_BLANC = xyz(() => 1.0)[1];
+  const yw = Y_BLANC;
+  const [x, y, z] = xyz((w) => newton_e(e, w, n, cote));
+  return rgb_de_xyz(x / yw, y / yw, z / yw);
+}
+

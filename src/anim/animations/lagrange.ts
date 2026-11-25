@@ -7,6 +7,7 @@ import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import { Axes } from '../../noyau/graphe';
 import { type Peintre, Pt, Rect } from '../../noyau/peintre';
+import { pmod } from '../../noyau/py';
 import { Animation, type Choix, type Coche, nombre, type Reglage } from '../base';
 
 const VITESSE = 4.0 * Math.PI;
@@ -38,9 +39,9 @@ export class Lagrange extends Animation {
   delta!: Reglage;
   c_interdit!: Coche;
   c_hill!: Coche;
-  s: lg.Etat = [0, 0, 0, 0];
+  s: lg.EtatQ = [0, 0, 0, 0];
   t = 0.0;
-  trace: [number, number][] = [];
+  trace: number[][] = [];
   collision = false;
   private cle: string | null = null;
   private cas_applique: unknown = 'tetard';
@@ -68,11 +69,25 @@ export class Lagrange extends Animation {
     return [this.systeme.currentData(), this.cas.currentData(), this.delta.value()].join('|');
   }
 
+  est_halo(): boolean {
+    const c = this.cas.currentData();
+    return c === 'halo_l1' || c === 'halo_l2';
+  }
+
+  halo(): lg.Halo {
+    const [mu] = this.mu_a();
+    return lg.halo(mu, this.cas.currentData() === 'halo_l1' ? 'L1' : 'L2', this.delta.value());
+  }
+
+  private point(): number[] {
+    return this.s.length === 6 ? [this.s[0], this.s[1], this.s[2]] : [this.s[0], this.s[1]];
+  }
+
   recommencer(): void {
     const [mu] = this.mu_a();
     this.s = lg.depart(mu, String(this.cas.currentData()), this.delta.value());
     this.t = 0.0;
-    this.trace = [[this.s[0], this.s[1]]];
+    this.trace = [this.point()];
     this.collision = false;
     this.cle = this.cle_depart();
     this.rafraichir();
@@ -98,7 +113,7 @@ export class Lagrange extends Animation {
     for (let k = 0; k < n; k++) {
       [this.s, this.collision] = lg.integrer(mu, this.s, total / n);
       this.t += total / n;
-      this.trace.push([this.s[0], this.s[1]]);
+      this.trace.push(this.point());
       if (this.collision) break;
     }
     if (this.trace.length > N_TRACE) this.trace.splice(0, this.trace.length - N_TRACE);
@@ -108,7 +123,7 @@ export class Lagrange extends Animation {
     const [mu, a] = this.mu_a();
     const L = lg.points_lagrange(mu);
     const sec = 1.0 - mu;
-    const c = lg.jacobi(mu, ...this.s);
+    const c = lg.jacobi_etat(mu, this.s);
     const cl = (k: Cle): number => lg.jacobi(mu, L[k][0], L[k][1], 0.0, 0.0);
     const out: [string, string][] = [
       [tr('anim_lagrange_v_mu'), scientifique(mu)],
@@ -121,6 +136,19 @@ export class Lagrange extends Animation {
       [tr('anim_lagrange_v_regions'), tr('anim_lagrange_' + lg.regions(mu, c))],
       [tr('anim_lagrange_v_temps'), tr('anim_lagrange_orbites', { n: nombre(this.t / (2.0 * Math.PI), 1) })],
     ];
+    if (this.est_halo()) {
+      const h = this.halo();
+      const km = h.gamma * a;
+      const jours = (h.periode() / (2.0 * Math.PI)) * lg.PERIODES_J[String(this.systeme.currentData())]!;
+      out.push([
+        tr('anim_lagrange_v_halo'),
+        tr('anim_lagrange_halo', { ax: nombre(h.Ax * km, 0), ay: nombre(Math.abs(h.k) * h.Ax * km, 0), az: nombre(h.Az * km, 0), j: nombre(jours, 1) }),
+      ]);
+      const x0 = h.etat(2.0 * Math.PI * pmod(this.t / h.periode(), 1.0));
+      let somme = 0;
+      for (let i = 0; i < 3; i++) somme += (this.s[i]! - x0[i]!) ** 2;
+      out.push([tr('anim_lagrange_v_ecart'), nombre(Math.sqrt(somme) * a, 0) + ' km']);
+    }
     if (this.collision) out.push([tr('anim_lagrange_v_etat'), tr('anim_lagrange_contact')]);
     return out;
   }
@@ -131,7 +159,8 @@ export class Lagrange extends Animation {
     this.carte(p, dessin.cadre(p, z[0]!, tr('anim_lagrange_t_carte')), mu, [0.0, 0.0], 1.55, true);
     const rh = lg.rayon_hill(mu);
     this.carte(p, dessin.cadre(p, z[1]!, tr('anim_lagrange_t_zoom')), mu, [1.0 - mu, 0.0], 2.6 * rh, false);
-    this.potentiel(p, dessin.cadre(p, z[2]!, tr('anim_lagrange_t_potentiel')), mu);
+    if (this.est_halo()) this.vue_halo(p, dessin.cadre(p, z[2]!, tr('anim_lagrange_t_halo')));
+    else this.potentiel(p, dessin.cadre(p, z[2]!, tr('anim_lagrange_t_potentiel')), mu);
   }
 
   private carte(p: Peintre, r: Rect, mu: number, centre: [number, number], demi: number, grande: boolean): void {
@@ -140,7 +169,7 @@ export class Lagrange extends Animation {
     const cx = r.cx,
       cy = r.cy + 4;
     const pt = (x: number, y: number): Pt => new Pt(cx + k * (x - centre[0]), cy - k * (y - centre[1]));
-    const c = lg.jacobi(mu, ...this.s);
+    const c = lg.jacobi_etat(mu, this.s);
     if (this.c_interdit.isChecked()) {
       const n = N_GRILLE;
       const cle = [mu, c.toFixed(12), centre.join(','), demi, cote.toFixed(1)].join('|');
@@ -178,7 +207,7 @@ export class Lagrange extends Animation {
       p.setPen(dessin.stylo('accent2', 1.0, 0.8, true));
       p.drawEllipse(s2.x, s2.y, lg.rayon_hill(mu) * k, lg.rayon_hill(mu) * k);
     }
-    const tr_ = this.trace.map(([x, y]) => pt(x, y));
+    const tr_ = this.trace.map((q) => pt(q[0]!, q[1]!));
     if (tr_.length >= 2) {
       p.setPen(dessin.stylo('accent1', 1.2, 0.85));
       for (let q = 0; q + 1 < tr_.length; q++) {
@@ -215,7 +244,7 @@ export class Lagrange extends Animation {
       pts.push([x, Math.max(ymin - 1.0, -lg.omega(mu, x, 0.0))]);
     }
     ax.courbe(pts, 'accent2', 1.8);
-    const c = lg.jacobi(mu, ...this.s);
+    const c = lg.jacobi_etat(mu, this.s);
     ax.horizontale(-c / 2.0, 'accent3', 1.2);
     for (const nom of ['L1', 'L2', 'L3'] as Cle[]) {
       const x = L[nom][0];
@@ -226,5 +255,36 @@ export class Lagrange extends Animation {
       }
     }
     dessin.texte(p, ax.r.left + 6, ax.r.bottom - 10, tr('anim_lagrange_legende_pot'), 'doux', { centre: false, fond: true });
+  }
+
+  private vue_halo(p: Peintre, r: Rect): void {
+    const h = this.halo();
+    const courbe = h.courbe();
+    let m = 1e-9;
+    for (const [, y, z] of courbe) m = Math.max(m, Math.abs(y), Math.abs(z));
+    const demi = 1.25 * m;
+    const k = Math.min(r.w, r.h - 30) / (2.0 * demi);
+    const cx = r.cx,
+      cy = r.cy + 4;
+    const pt = (y: number, z: number): Pt => new Pt(cx - k * y, cy - k * z);
+    p.save();
+    p.setClipRect(r);
+    p.setPen(dessin.stylo('accent2', 1.4, 0.9, true));
+    for (let j = 0; j + 1 < courbe.length; j++) {
+      const a = pt(courbe[j]![1], courbe[j]![2]),
+        b = pt(courbe[j + 1]![1], courbe[j + 1]![2]);
+      p.drawLine(a.x, a.y, b.x, b.y);
+    }
+    const pts = this.trace.filter((q) => q.length === 3).map((q) => pt(q[1]!, q[2]!));
+    p.setPen(dessin.stylo('accent1', 1.3, 0.9));
+    for (let j = 0; j + 1 < pts.length; j++) p.drawLine(pts[j]!.x, pts[j]!.y, pts[j + 1]!.x, pts[j + 1]!.y);
+    const q = this.s.length === 6 ? pt(this.s[1], this.s[2]) : pt(0.0, 0.0);
+    dessin.disque(p, q.x, q.y, 4.0, 'accent3', 'texte');
+    p.setPen(dessin.stylo('accent2', 1.8));
+    p.drawLine(cx - 5, cy - 5, cx + 5, cy + 5);
+    p.drawLine(cx - 5, cy + 5, cx + 5, cy - 5);
+    dessin.etiquette(p, cx, cy, this.cas.currentData() === 'halo_l1' ? 'L1' : 'L2', 'accent2');
+    p.restore();
+    dessin.texte(p, r.left + 6, r.bottom - 10, tr('anim_lagrange_legende_halo'), 'doux', { centre: false, fond: true });
   }
 }

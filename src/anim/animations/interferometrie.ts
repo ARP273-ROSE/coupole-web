@@ -8,6 +8,7 @@ import { tr } from '../../i18n/i18n';
 import * as dessin from '../../noyau/dessin';
 import { Axes } from '../../noyau/graphe';
 import { type Peintre, Pt, Rect, rgb } from '../../noyau/peintre';
+import { couleur_longueur_onde } from '../../calc/lumiere';
 import { Animation, type Choix, type Coche, nombre, type Reglage } from '../base';
 import { angle_sec } from './resolution';
 
@@ -27,6 +28,7 @@ export function longueur(b: number): string {
 export class Interferometrie extends Animation {
   static override ID = 'interferometry';
 
+  montage!: Choix;
   instrument!: Choix;
   base!: Reglage;
   diametre!: Reglage;
@@ -36,11 +38,17 @@ export class Interferometrie extends Animation {
   dmag!: Reglage;
   c_balayer!: Coche;
   c_enveloppe!: Coche;
+  rayon!: Reglage;
+  indice!: Reglage;
+  cote!: Choix;
+  c_blanche!: Coche;
   t = 0.0;
+  private blanc_: [string, [number, number, number][]] | null = null;
   private instrument_applique: unknown = 'vlti_ut';
   private objet_applique: unknown = 'disque';
 
   override construire(): void {
+    this.montage = this.choix('montage', [['anim_interferometry_m_interferometre', 'interferometre'], ['anim_interferometry_m_anneaux', 'anneaux']], 'interferometre');
     this.instrument = this.choix('instrument', [['anim_interferometry_i_libre', 'libre'], ...itf.INSTRUMENTS.map(([k]) => ['anim_interferometry_i_' + k, k] as [string, string])], 'vlti_ut');
     this.base = this.curseur('base', B_MIN, B_MAX, 130.0, { dec: 4, unite: 'm', log: true });
     this.diametre = this.curseur('diametre', 0.0001, 10.0, 8.2, { dec: 4, unite: 'm', log: true });
@@ -50,9 +58,27 @@ export class Interferometrie extends Animation {
     this.dmag = this.curseur('dmag', 0.0, 5.0, 0.0, { dec: 1 });
     this.c_balayer = this.coche('balayer', false);
     this.c_enveloppe = this.coche('enveloppe', true);
+    this.rayon = this.curseur('rayon', 0.1, 20.0, 1.0, { dec: 2, unite: 'm', log: true });
+    this.indice = this.curseur('indice', 1.0, 1.7, 1.0, { dec: 2 });
+    this.cote = this.choix('cote', [['anim_interferometry_c_reflexion', 'reflexion'], ['anim_interferometry_c_transmission', 'transmission']], 'reflexion');
+    this.c_blanche = this.coche('blanche', false);
     this.instrument_applique = this.instrument.currentData();
     this.objet_applique = this.objet.currentData();
+    this.blanc_ = null;
     this.t = 0.0;
+    this.montage.currentIndexChanged.connect(() => this.reglagesUtiles());
+    this.reglagesUtiles();
+  }
+
+  anneaux(): boolean {
+    return this.montage.currentData() === 'anneaux';
+  }
+
+  /** Chaque montage ne montre que ses réglages (la longueur d'onde sert aux deux). */
+  private reglagesUtiles(): void {
+    const a = this.anneaux();
+    for (const w of [this.instrument, this.base, this.diametre, this.objet, this.taille, this.dmag, this.c_balayer, this.c_enveloppe]) w.setVisible(!a);
+    for (const w of [this.rayon, this.indice, this.cote, this.c_blanche]) w.setVisible(a);
   }
 
   override reglage_change(): void {
@@ -103,7 +129,7 @@ export class Interferometrie extends Animation {
 
   override avancer(dt: number): void {
     this.t += dt;
-    if (this.c_balayer.isChecked()) {
+    if (this.c_balayer.isChecked() && !this.anneaux()) {
       const [b0, b1] = this.axe_bases();
       const b = this.base.value() * 10 ** (0.12 * dt);
       this.base.setValue(b > b1 ? b0 : b);
@@ -111,6 +137,7 @@ export class Interferometrie extends Animation {
   }
 
   override valeurs(): [string, string][] {
+    if (this.anneaux()) return this.valeurs_anneaux();
     const b = this.base.value(),
       d = this.diametre.value(),
       lam = this.lam.value();
@@ -137,7 +164,30 @@ export class Interferometrie extends Animation {
     return out;
   }
 
+  private valeurs_anneaux(): [string, string][] {
+    const R = this.rayon.value(),
+      lam = this.lam.value(),
+      n = this.indice.value(),
+      cote = String(this.cote.currentData());
+    const rs = [1, 2, 3].map((k) => itf.rayon_sombre(k, R, lam, n, cote));
+    const out: [string, string][] = [
+      [tr('anim_interferometry_v_anneaux'), tr('anim_interferometry_trois', { a: nombre(rs[0]!, 3), b: nombre(rs[1]!, 3), c: nombre(rs[2]!, 3) })],
+      [tr('anim_interferometry_v_ecart10'), tr('anim_interferometry_mm', { x: nombre(itf.rayon_sombre(10, R, lam, n, cote) - itf.rayon_sombre(9, R, lam, n, cote), 3) })],
+      [tr('anim_interferometry_v_centre'), tr('anim_interferometry_centre_' + cote)],
+      [tr('anim_interferometry_v_lame'), tr('anim_interferometry_nm', { x: nombre(itf.epaisseur_nm(rs[0]!, R), 0) })],
+    ];
+    if (this.c_blanche.isChecked()) out.push([tr('anim_interferometry_v_blanche'), tr('anim_interferometry_teintes')]);
+    return out;
+  }
+
   override dessiner(p: Peintre, rect: Rect): void {
+    if (this.anneaux()) {
+      const z = dessin.zones_principale(rect, 2, 0.5);
+      this.dessin_anneaux(p, dessin.cadre(p, z[0]!, tr('anim_interferometry_t_anneaux')));
+      this.lame(p, dessin.cadre(p, z[1]!, tr('anim_interferometry_t_lame')));
+      this.profil(p, dessin.cadre(p, z[2]!, tr('anim_interferometry_t_profil')));
+      return;
+    }
     const z = dessin.zones_principale(rect, 2, 0.46);
     this.schema(p, dessin.cadre(p, z[0]!, tr('anim_interferometry_t_schema')));
     this.franges(p, dessin.cadre(p, z[1]!, tr('anim_interferometry_t_franges')));
@@ -271,4 +321,111 @@ export class Interferometrie extends Animation {
       dessin.texte(p, b > b1 ? ax.r.right - 18 : ax.r.left + 18, ax.r.top + 10, b > b1 ? 'B →' : '← B', 'accent3', { fond: true });
     }
   }
+
+  // ------------------------------------------------------------ anneaux de Newton
+  static readonly N_BANDES = 160;
+
+  private r_max(): number {
+    return itf.rayon_sombre(itf.N_ANNEAUX, this.rayon.value(), this.lam.value(), this.indice.value()) * 1.04;
+  }
+
+  private couleurs(): [number, [number, number, number][]] {
+    const R = this.rayon.value(),
+      lam = this.lam.value(),
+      n = this.indice.value(),
+      cote = String(this.cote.currentData());
+    const rmax = this.r_max();
+    const blanche = this.c_blanche.isChecked();
+    const cle = [R, lam, n, cote, blanche].join('|');
+    if (this.blanc_ !== null && this.blanc_[0] === cle) return [rmax, this.blanc_[1]];
+    const out: [number, number, number][] = [];
+    const base = couleur_longueur_onde(lam);
+    for (let j = 0; j < Interferometrie.N_BANDES; j++) {
+      const r = (rmax * (j + 0.5)) / Interferometrie.N_BANDES;
+      if (blanche) out.push(itf.couleur_blanche(r, R, n, cote));
+      else {
+        const i = itf.newton(r, R, lam, n, cote);
+        out.push([Math.round(base[0] * i), Math.round(base[1] * i), Math.round(base[2] * i)]);
+      }
+    }
+    this.blanc_ = [cle, out];
+    return [rmax, out];
+  }
+
+  private dessin_anneaux(p: Peintre, r: Rect): void {
+    const [rmax, cols] = this.couleurs();
+    const cx = r.cx,
+      cy = r.cy + 6;
+    const Rp = 0.46 * Math.min(r.w, r.h - 24);
+    p.save();
+    p.setPen(null);
+    const n = cols.length;
+    for (let j = n - 1; j >= 0; j--) {
+      const c = cols[j]!;
+      p.setBrush(rgb(c[0], c[1], c[2]));
+      const rr = (Rp * (j + 1)) / n;
+      p.drawEllipse(cx, cy, rr, rr);
+    }
+    p.restore();
+    const mm = Rp / rmax;
+    const y0 = r.bottom - 14;
+    if (mm < r.w * 0.8) {
+      p.setPen(dessin.stylo('texte', 1.6));
+      p.drawLine(r.left + 12, y0, r.left + 12 + mm, y0);
+      dessin.texte(p, r.left + 12 + mm / 2, y0 - 9, tr('anim_interferometry_mm', { x: '1' }), 'texte', { fond: true });
+    }
+  }
+
+  private lame(p: Peintre, r: Rect): void {
+    const w = r.w,
+      h = r.h;
+    const x0 = r.left + 0.08 * w,
+      x1 = r.right - 0.08 * w;
+    const xc = (x0 + x1) / 2.0;
+    const ybas = r.top + 0.66 * h;
+    const R_ecran = 1.6 * (x1 - x0);
+    p.save();
+    p.setPen(dessin.stylo('grille', 1.2));
+    p.setBrush(dessin.c('equateur', 0.25));
+    p.drawRect(new Rect(x0, ybas, x1 - x0, 0.14 * h));
+    const px: number[] = [],
+      py: number[] = [];
+    const m = 60;
+    for (let j = 0; j <= m; j++) {
+      const x = x0 + ((x1 - x0) * j) / m;
+      px.push(x);
+      py.push(ybas - (R_ecran - Math.sqrt(R_ecran ** 2 - (x - xc) ** 2)));
+    }
+    const ytop = Math.min(...py) - 0.22 * h;
+    p.drawPolygon([
+      [...px, x1, x0],
+      [...py, ytop, ytop],
+    ]);
+    for (const f of [0.22, 0.38]) {
+      const x = xc + f * (x1 - xc);
+      const e = R_ecran - Math.sqrt(R_ecran ** 2 - (x - xc) ** 2);
+      p.setPen(dessin.stylo('accent1', 1.4));
+      dessin.fleche(p, x, r.top + 22, x, ybas - e - 1, dessin.stylo('accent1', 1.4), 5);
+      dessin.fleche(p, x, ybas - e, x - 6, r.top + 26, dessin.stylo('accent2', 1.2, 0.9), 5);
+      dessin.fleche(p, x + 3, ybas, x + 9, r.top + 26, dessin.stylo('accent3', 1.2, 0.9), 5);
+    }
+    p.restore();
+    dessin.texte(p, xc, ybas + 0.07 * h, tr('anim_interferometry_verre'), 'doux');
+    dessin.texte(p, r.left + 6, r.bottom - 10, tr('anim_interferometry_legende_lame'), 'doux', { centre: false, fond: true });
+  }
+
+  private profil(p: Peintre, r: Rect): void {
+    const R = this.rayon.value(),
+      lam = this.lam.value(),
+      n = this.indice.value(),
+      cote = String(this.cote.currentData());
+    const rmax = this.r_max();
+    const ax = new Axes(r, 0.0, rmax, 0.0, 1.08, false, false, [40, 6, 8, 30]).avec(p);
+    ax.fond(p, { titre_x: tr('anim_interferometry_axe_r'), titre_y: tr('anim_interferometry_axe_i') });
+    const pts: [number, number][] = [];
+    for (let j = 0; j <= 400; j++) pts.push([(rmax * j) / 400.0, itf.newton((rmax * j) / 400.0, R, lam, n, cote)]);
+    ax.courbe(pts, 'accent1', 1.6);
+    for (let k = 1; k <= 3; k++) ax.verticale(itf.rayon_sombre(k, R, lam, n, cote), 'accent3', 1.0, true, 'r' + '₁₂₃'[k - 1]);
+  }
 }
+
