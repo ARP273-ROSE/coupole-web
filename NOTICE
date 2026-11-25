@@ -57,6 +57,23 @@ Constantes et données / constants and data:
   - schéma d'intégration : H. Yoshida, « Construction of higher order symplectic integrators », Phys. Lett. A 150
     (1990) 262-268 ; vérification indépendante sous SageMath (DOP853 de SciPy).
 
+Quatre animations de cours (0.8.0) / Four course animations (src/calc/diffraction.ts,
+elements_orbitaux.ts, hohmann.ts, meteores.ts ; src/anim/animations/resolution.ts, elements_orbite.ts, hohmann.ts,
+radiant.ts)
+-----------------------------------------------------------------------------------------------------------------
+Animations propres à Coupole (pas dans ClassAction) sur des notions classiques d'un premier cours d'astronomie ;
+code, dessins et textes propres, formules et valeurs vérifiées par SageMath (outils/verif_anim/ de Coupole : resolution_verif.sage,
+elements_orbite_verif.sage, hohmann_verif.sage, radiant_verif.sage) / Coupole's own animations on classic topics of
+a first astronomy course; own code, drawings and texts, formulas and values checked with SageMath :
+  - diffraction : tache d'Airy d'une pupille à obstruction centrale (formule classique, M. Born et E. Wolf,
+    Principles of Optics) ; J₁ et I₀ par les approximations rationnelles de W. H. Press et al., Numerical Recipes,
+    § 6.5-6.6 (coefficients numériques seulement) ; obstruction de Hubble 0,33 ;
+  - éléments d'une orbite et transfert de Hohmann : GM⊕ = 398 600,4418 km³·s⁻² (IERS 2010), GM☉ de l'UAI, jour
+    sidéral 86 164,0905 s, demi-grands axes moyens de Vénus, Mars et Jupiter (E. M. Standish, JPL) ;
+  - étoiles filantes : radiants, vitesses, ZHR et indices de population du calendrier des pluies de
+    l'International Meteor Organization ; taux horaire ZHR × sin h ÷ r^(6,5 − m_lim) (IMO) ; temps sidéral
+    IAU 1982 et Soleil d'après J. Meeus, Astronomical Algorithms (2e éd., 1998).
+
 Le canon de Newton (0.7.0) / Newton's cannon (src/calc/canon.ts, src/anim/animations/canon_newton.ts)
 -----------------------------------------------------------------------------------------------------------------
 Animation propre à Coupole (pas dans ClassAction), d'après l'expérience de pensée d'I. Newton, A Treatise of the

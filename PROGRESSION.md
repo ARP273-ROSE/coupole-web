@@ -791,3 +791,21 @@ Jumeau de Coupole (section du même jour dans son PROGRESSION.md : physique, con
 
 ### NOTE DE REPRISE (15/11/2026)
 - main = a4ae58d (0.7.1), en ligne. Rien en cours. Restes : ceux de Coupole (manuels, éventuelle animation parallaxe/ua).
+
+## 25/11/2026 — 0.8.0 : quatre animations de cours (101 animations ; branche `animations-cours`, fusionnée)
+Jumelles de Coupole 0.10.0 (méthode de transposition habituelle ; valeurs identiques au caractère près, FR et EN) :
+- `src/calc/diffraction.ts` + `src/anim/animations/resolution.ts` — diffraction et pouvoir de résolution (Télescopes) ;
+  image 72 × 72 en `fillRect` aux bords entiers (pas de liseré), même étirement logarithmique qu'au bureau.
+- `src/calc/elements_orbitaux.ts` + `elements_orbite.ts` — les éléments d'une orbite (Renaissance) ; côtes chargées à la
+  demande (`chargerCotes`), trace au sol par `cotesCarte`.
+- `src/calc/hohmann.ts` + `hohmann.ts` — le transfert de Hohmann (Renaissance).
+- `src/calc/meteores.ts` + `radiant.ts` — étoiles filantes et radiant (Petits corps) ; générateur de Park et Miller
+  (16807 x mod 2³¹ − 1, exact en double) : mêmes étoiles filantes qu'au bureau.
+- Textes, catalogue et références régénérés (`exporter_coupole.py`, `references_animations.py`), modules et recherche
+  (`importer_contenu.py`, ANIMATIONS_AJOUTEES), « Ce qu'il faut voir » (`a_voir_suite.ts`), comptes 101, NOTICE,
+  CHANGELOG, README.
+- Vérifié : `npm test` 1 204 réussis ; Playwright `audit.spec.ts` (chromium-bureau) 30/30, dont les 101 animations,
+  chaque réglage actionné ; garde-fou de confidentialité 3/3.
+
+### NOTE DE REPRISE (25/11/2026)
+- main = 0.8.0 (poussé ; Pages se publie depuis main). Reste : voir la note du même jour dans Coupole.

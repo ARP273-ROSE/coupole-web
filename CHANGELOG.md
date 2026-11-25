@@ -2,6 +2,20 @@
 
 *Français, puis [English](#english).*
 
+## 0.8.0 — 2026-11-25 — Quatre animations de cours
+
+Quatre animations propres à Coupole (101 en tout), jumelles de Coupole 0.10.0 (mêmes valeurs au caractère près,
+calculs vérifiés par SageMath) :
+
+- **Diffraction et pouvoir de résolution** (Télescopes) : image simulée de deux étoiles, coupe d'intensité, tache
+  d'Airy (1,22 λ / D), critère de Rayleigh, obstruction centrale, écart d'éclat, turbulence ; de l'œil à l'ELT.
+- **Les éléments d'une orbite** (Renaissance) : a, e, i, Ω, ω et le temps en 3D, trace au sol, orbite dans son
+  plan ; station spatiale, héliosynchrone, GPS, Molniya, géostationnaire.
+- **Le transfert de Hohmann** (Renaissance) : Δv, durée, angle de phase, fenêtres de tir ; de l'orbite basse à
+  Jupiter.
+- **Étoiles filantes et radiant** (Petits corps) : ciel vu de dessous, traînées prolongées jusqu'au radiant, taux
+  horaire au fil de la nuit (calendrier IMO).
+
 ## 0.7.1 — 2026-11-12
 
 - **Canon de Newton, trajectoire prévue** : une ellipse qui sort du cadre (par exemple 10,06 km·s⁻¹ au ras du sol)
@@ -389,6 +403,19 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.8.0 — 2026-11-25 — Four course animations
+
+Four animations of Coupole's own (101 in all), twins of Coupole 0.10.0 (same values to the character, calculations
+checked with SageMath):
+
+- **Diffraction and resolving power** (Telescopes): simulated image of two stars, intensity cut, Airy spot
+  (1.22 λ / D), Rayleigh criterion, central obstruction, brightness difference, turbulence; from the eye to the ELT.
+- **The elements of an orbit** (Renaissance): a, e, i, Ω, ω and time in 3D, ground track, the orbit in its own
+  plane; space station, Sun-synchronous, GPS, Molniya, geostationary.
+- **The Hohmann transfer** (Renaissance): Δv, trip time, phase angle, launch windows; from low orbit to Jupiter.
+- **Meteors and their radiant** (Small bodies): sky seen from below, trails extended back to the radiant, hourly
+  rate through the night (IMO calendar).
 
 ### 0.7.1 — 2026-11-12
 

@@ -18,7 +18,7 @@
 <p align="center"><img src="docs/captures/telephone.webp" alt="Un module sur téléphone, barre de navigation en bas" width="260" /></p>
 
 **22 modules d’astronomie** comme dans ClassAction : **517 questions** à discuter en groupe (variantes, figures,
-réponse qui clignote, indice, explication, ressources liées ★), **97 animations**, **110 fiches**, **14 tables** et des
+réponse qui clignote, indice, explication, ressources liées ★), **101 animations**, **110 fiches**, **14 tables** et des
 images libres (crédit et licence affichés), une **bibliothèque** qui montre tout le contenu d’un type rangé par module
 (la présentation d’origine de ClassAction), une **recherche bilingue** (en français ou en anglais, accents, pluriels et
 petites fautes tolérés, mots trouvés surlignés), des **favoris** (étoile sur tout : module, animation, question, fiche,
@@ -84,7 +84,7 @@ du Python de Coupole. Deux jeux de références, produits par l’application de
 
 - `tests/references/calculs.json` : plus de 4 000 appels de fonctions (et des arrondis de Python), que les tests
   TypeScript doivent retrouver à 10⁻⁹ près (relatif) ;
-- `tests/references/animations.json` : pour chacune des 97 animations, ses réglages (bornes, défauts, décimales,
+- `tests/references/animations.json` : pour chacune des 101 animations, ses réglages (bornes, défauts, décimales,
   unités, libellés, options) et les valeurs qu’elle affiche, au caractère près, en français et en anglais, dans un
   scénario fixe (création, pas d’animation, changement de tous les réglages, réinitialisation).
 
@@ -123,7 +123,7 @@ ClassAction (Apache 2.0), fiches, tables et schémas écrits pour Coupole, photo
 *Screenshots: see above (home, a question, the Antikythera Mechanism, Orion in 3D, Gravity and Orbits, a module on a phone).*
 
 **22 astronomy modules** as in ClassAction: **517 questions** to discuss in groups (variants, figures, flashing
-answer, hint, explanation, related resources ★), **97 animations**, **110 outlines**, **14 tables** and free images
+answer, hint, explanation, related resources ★), **101 animations**, **110 outlines**, **14 tables** and free images
 (credit and licence shown), a **library** showing all the content of a type grouped by module (ClassAction’s original
 presentation), a **bilingual search** (in English or in French, accents, plurals and small typos tolerated, matches
 highlighted), **favourites** (a star on everything: module, animation, question, outline, table, image; collections
@@ -180,7 +180,7 @@ keyboard: type, magnitudes, distance with its uncertainty, temperature, sources)
 
 The computations are transposed from Coupole’s Python. Two reference sets, produced by the desktop application
 itself, check them: `tests/references/calculs.json` (more than 4,000 function calls, matched to 10⁻⁹ relative) and
-`tests/references/animations.json` (for each of the 97 animations, its settings and the values it displays, character
+`tests/references/animations.json` (for each of the 101 animations, its settings and the values it displays, character
 for character, in French and English, through a fixed scenario).
 
 ## Develop
