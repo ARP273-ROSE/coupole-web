@@ -2,7 +2,7 @@
 
 *Français, puis [English](#english).*
 
-## 0.10.0 — en préparation — Planificateur de parallaxe
+## 0.10.0 — 2026-11-25 — Planificateur de parallaxe
 
 Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; références communes
 `tests/references/td_planif_reference.json`, contrôlées par skyfield) :
@@ -465,7 +465,7 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 ## English
 
-### 0.10.0 — in preparation — Parallax planner
+### 0.10.0 — 2026-11-25 — Parallax planner
 
 Twin of Coupole 0.12.0's planner (same slots, same scores; shared references checked against skyfield): **parallax
 planner** (Course calculators, `#/td/planif`) — for two places, the ISS passes and Moon evenings visible from both at
