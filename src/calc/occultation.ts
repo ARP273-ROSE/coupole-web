@@ -98,7 +98,7 @@ export function grille_etoile(n = N_ETOILE): [number, number][] {
 export const GRILLE = grille_etoile();
 
 export function fraction_cachee(el: Ellipse, x: number, y: number, r_etoile: number): number {
-  if (r_etoile <= 1e-9) return el.dedans(x, y) ? 1.0 : 0.0;
+  if (r_etoile <= 1e-3 * el.b) return el.dedans(x, y) ? 1.0 : 0.0;
   let n = 0;
   for (const [u, v] of GRILLE) if (el.dedans(x + u * r_etoile, y + v * r_etoile)) n++;
   return n / GRILLE.length;
