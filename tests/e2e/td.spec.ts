@@ -158,6 +158,14 @@ test.describe('Planificateur de parallaxe', () => {
     await expect(page.locator('.pl-tableau tbody tr').first()).toContainText('Δφ');
     expect(await page.locator('.pl-tableau tbody tr').count()).toBeGreaterThan(5);
     if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('planif_lune.png'), fullPage: true });
+    // tendance de l'ISS sur 60 jours : heures indicatives « ± n min », classement par date
+    await page.locator('#pl-cible').selectOption('iss');
+    await page.locator('#pl-tendance').check();
+    await page.locator('#pl-jours').fill('60');
+    await page.getByRole('button', { name: /^(Chercher|Search)$/ }).click();
+    await expect(page.locator('.pl-tableau tbody tr').last()).toContainText(/± \d+ min/);
+    expect(await page.locator('.pl-tableau tbody tr').count()).toBeGreaterThan(20);
+    await expect(page.locator('.td-etat')).toContainText(/2 ou 3 jours|2 or 3 days/);
     expect(erreurs).toEqual([]);
   });
 });

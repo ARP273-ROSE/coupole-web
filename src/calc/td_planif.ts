@@ -14,7 +14,9 @@ const R_EQ = 6378.137;
 const UA_KM = 149597870.7;
 const R_LUNE = 1737.4;
 const MAG_ISS_1000 = -1.8;
-export const JOURS_MAX = { iss: 14, lune: 400 } as const;
+export const JOURS_MAX = { iss: 14, lune: 400, tendance: 90 } as const;
+/** Dérive mesurée d'un TLE de l'ISS (≈ 3,8 s par jour d'âge) ; la marge affichée en vaut le double (comme Coupole). */
+export const DERIVE_TLE_S_PAR_JOUR = 3.8;
 
 export class ErreurPlanif extends Error {
   constructor(public cle: string, public valeurs: Record<string, string | number> = {}) {
@@ -35,11 +37,12 @@ export interface Criteres {
   phase_max: number;
   pas_s: number;
   max_resultats: number;
+  tendance: boolean;
 }
 
 export function criteres(cible: 'iss' | 'lune', debut: Date, autres: Partial<Criteres> = {}): Criteres {
   return { cible, debut, jours: cible === 'iss' ? 7 : 60, h_min: 20, soleil_max: -6, etoile_mag_max: 4.5, etoile_sep_max: 5,
-    phase_max: 0.95, pas_s: 0, max_resultats: 40, ...autres };
+    phase_max: 0.95, pas_s: 0, max_resultats: 40, tendance: false, ...autres };
 }
 
 export interface Etoile { nom: string; V: number; sep1: number; sep2: number; delta_arcmin: number; ideal_arcmin: number }
@@ -58,6 +61,7 @@ export interface Creneau {
   etoiles_proches: { nom: string; V: number; sep: number }[];
   trace: Point[];
   remarques: string[];
+  marge_s: number;
 }
 
 export interface Resultat {
@@ -70,6 +74,7 @@ export interface Resultat {
   source: string;
   sites: [Site, Site];
   alertes: string[];
+  tendance: boolean;
 }
 
 // ------------------------------------------------------------------ vecteurs
@@ -228,8 +233,8 @@ function noteLune(hmin: number, delta: number, phase: number, base_km: number): 
 export type PositionISS = (t: Date) => V3 | null;
 
 export function chercherISS(s1: Site, s2: Site, c: Criteres, iss: PositionISS, epoqueTle: Date | null): Resultat {
-  const jours = Math.min(Math.max(c.jours, 0.1), JOURS_MAX.iss);
-  const pas = c.pas_s || 5;
+  const jours = Math.min(Math.max(c.jours, 0.1), c.tendance ? JOURS_MAX.tendance : JOURS_MAX.iss);
+  const pas = c.pas_s || (c.tendance ? 10 : 5);
   const n = Math.floor((jours * 86400) / pas + 1e-9);
   const B = base(s1, s2);
   const O = [B.r1, B.r2];
@@ -303,7 +308,7 @@ export function chercherISS(s1: Site, s2: Site, c: Criteres, iss: PositionISS, e
       h: [H[0][bk]!, H[1][bk]!], az: [AZ[0][bk]!, AZ[1][bk]!], distance_km: [DI[0][bk]!, DI[1][bk]!], soleil: [HS[0][bk]!, HS[1][bk]!],
       parallaxe_deg: par, ecart_plan_deg: ecartPlan(B, x), entre, erreur_sujet_pct: errs[bk - i] ?? null,
       vitesse_deg_s: vit, synchro_s: vit > 0 ? (0.01 * par) / vit : Infinity, magnitude: mag,
-      altitude_km: nrm(x) - R_EQ, phase: null, etoile: null, etoiles_proches: [], trace: [], remarques: [],
+      altitude_km: nrm(x) - R_EQ, phase: null, etoile: null, etoiles_proches: [], trace: [], remarques: [], marge_s: 0,
     };
     if (CATALOGUE) {
       const idx = CATALOGUE.V.map((_, q) => q);
@@ -319,6 +324,10 @@ export function chercherISS(s1: Site, s2: Site, c: Criteres, iss: PositionISS, e
     if (!cr.entre && cr.ecart_plan_deg < 15) cr.remarques.push('pl_r_meme_cote');
     if (cr.ecart_plan_deg >= 15) cr.remarques.push('pl_r_hors_plan');
     if (Math.max(...mag) > 1.5) cr.remarques.push('pl_r_faible');
+    if (epoqueTle) {
+      cr.marge_s = Math.max(30, (2 * DERIVE_TLE_S_PAR_JOUR * Math.abs(cr.meilleur.getTime() - epoqueTle.getTime())) / 86_400_000);
+      if (cr.marge_s > 120) cr.remarques.push('pl_r_indicatif');
+    }
     out.push(cr);
   }
   const age = epoqueTle ? (c.debut.getTime() - epoqueTle.getTime()) / 86_400_000 : null;
@@ -392,7 +401,7 @@ export function chercherLune(s1: Site, s2: Site, c: Criteres, cat: Catalogue): R
       erreur_sujet_pct: dl > 0 ? 100 * (ideal / dl - 1) : null, vitesse_deg_s: vit,
       synchro_s: (0.01 * dl) / 60 / (0.55 / 3600), magnitude: [], altitude_km: null, phase: p.phase,
       etoile: { nom: cat.noms[e]!, V: cat.V[e]!, sep1: p1, sep2: p2, delta_arcmin: dl, ideal_arcmin: ideal },
-      etoiles_proches: [], trace: [], remarques: [],
+      etoiles_proches: [], trace: [], remarques: [], marge_s: 0,
     };
     const a = Math.max(i - 6, 0);
     const b = Math.min(j + 6, n - 1);
@@ -406,10 +415,13 @@ export function chercherLune(s1: Site, s2: Site, c: Criteres, cat: Catalogue): R
 }
 
 function finir(out: Creneau[], c: Criteres, B: Base, age: number | null, source: string, sites: [Site, Site], jours: number): Resultat {
-  out.sort((a, b) => b.note - a.note);
+  const tendance = c.tendance && c.cible === 'iss';
+  if (tendance) out.sort((a, b) => a.meilleur.getTime() - b.meilleur.getTime());
+  else out.sort((a, b) => b.note - a.note);
   const alertes: string[] = [];
-  if (c.cible === 'iss' && age !== null && age + jours > 5) alertes.push('pl_a_tle_vieux');
-  return { cible: c.cible, creneaux: out.slice(0, c.max_resultats), nombre_total: out.length, base_km: B.corde_km, age_tle_j: age,
+  if (tendance) alertes.push('pl_a_tendance');
+  else if (c.cible === 'iss' && age !== null && age + jours > 5) alertes.push('pl_a_tle_vieux');
+  return { cible: c.cible, tendance, creneaux: out.slice(0, tendance ? Math.max(c.max_resultats, 400) : c.max_resultats), nombre_total: out.length, base_km: B.corde_km, age_tle_j: age,
     debut: c.debut, fin: new Date(c.debut.getTime() + jours * 86_400_000), source, sites, alertes };
 }
 
@@ -419,14 +431,14 @@ const iso = (x: Date): string => x.toISOString().replace(/\.\d{3}Z$/, 'Z');
 export function csv(r: Resultat): string {
   const t = (x: Date): string => iso(x).replace('T', ' ').replace('Z', '+0000');
   const f = (x: number | null, c: number): string => (x === null || !Number.isFinite(x) ? '' : String(Math.round(x * 10 ** c) / 10 ** c));
-  const l = ['cible;debut;fin;meilleur;note;h1;az1;h2;az2;d1_km;d2_km;soleil1;soleil2;parallaxe_deg;ecart_plan_deg;entre;erreur_sujet_pct;vitesse_deg_s;synchro_s;mag1;mag2;phase;etoile;V;delta_arcmin'];
+  const l = ['cible;debut;fin;meilleur;note;h1;az1;h2;az2;d1_km;d2_km;soleil1;soleil2;parallaxe_deg;ecart_plan_deg;entre;erreur_sujet_pct;vitesse_deg_s;synchro_s;mag1;mag2;phase;etoile;V;delta_arcmin;marge_s'];
   for (const c of r.creneaux) {
     const e = c.etoile;
     l.push([c.cible, t(c.debut), t(c.fin), t(c.meilleur), f(c.note, 1), f(c.h[0], 2), f(c.az[0], 2), f(c.h[1], 2), f(c.az[1], 2),
       f(c.distance_km[0], 1), f(c.distance_km[1], 1), f(c.soleil[0], 1), f(c.soleil[1], 1), f(c.parallaxe_deg, 4), f(c.ecart_plan_deg, 2),
       c.entre ? '1' : '0', f(c.erreur_sujet_pct, 1), f(c.vitesse_deg_s, 4), f(c.synchro_s, 3),
       c.magnitude.length ? c.magnitude[0]!.toFixed(1) : '', c.magnitude.length ? c.magnitude[1]!.toFixed(1) : '',
-      f(c.phase, 3), e?.nom ?? '', e ? String(e.V) : '', e ? f(e.delta_arcmin, 2) : ''].join(';'));
+      f(c.phase, 3), e?.nom ?? '', e ? String(e.V) : '', e ? f(e.delta_arcmin, 2) : '', c.marge_s ? String(Math.round(c.marge_s)) : ''].join(';'));
   }
   return l.join('\n') + '\n';
 }
@@ -438,6 +450,7 @@ export function ics(r: Resultat): string {
   r.creneaux.forEach((c, k) => {
     const titre = (c.cible === 'iss' ? 'Parallaxe ISS' : 'Parallaxe Lune') + ` (${Math.round(c.note)}/100)`;
     let desc = `h1 ${c.h[0].toFixed(1)}° az1 ${c.az[0].toFixed(1)}° / h2 ${c.h[1].toFixed(1)}° az2 ${c.az[1].toFixed(1)}° ; meilleur instant ${iso(c.meilleur).slice(11, 19)} UTC`;
+    if (c.marge_s > 120) desc += ` ; heure indicative à ± ${Math.round(c.marge_s / 60)} min`;
     if (c.etoile) desc += ` ; étoile ${c.etoile.nom} (V ${c.etoile.V.toFixed(1)}), Δφ ${c.etoile.delta_arcmin.toFixed(2)}′`;
     out.push('BEGIN:VEVENT', `UID:coupole-planif-${f(c.meilleur)}-${k}@coupole`, 'DTSTAMP:' + now, 'DTSTART:' + f(c.debut),
       'DTEND:' + f(new Date(c.fin.getTime() + 1000)), 'SUMMARY:' + titre, 'DESCRIPTION:' + desc.replace(/;/g, '\\;').replace(/,/g, '\\,'), 'END:VEVENT');

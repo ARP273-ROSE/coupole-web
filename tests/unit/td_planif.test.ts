@@ -83,3 +83,20 @@ describe('formules (SageMath)', () => {
     expect(P.erreurSujet(B, 45, 45, false, 400)).toBeNull();
   });
 });
+
+describe('ISS : tendance (90 jours au plus)', () => {
+  const ep = new Date(Date.UTC(2026, 0, 1) + (329.13827943 - 1) * 86_400_000);
+  const r = P.chercherISS(S1, S2, P.criteres('iss', DEBUT, { jours: 30, tendance: true }), iss, ep);
+  test('classement par date, marge qui croît, même semaine que la recherche précise', () => {
+    const cs = r.creneaux;
+    expect(r.tendance).toBe(true);
+    expect(r.alertes).toContain('pl_a_tendance');
+    expect(cs.length).toBeGreaterThan(15);
+    for (let i = 1; i < cs.length; i++) expect(cs[i]!.meilleur.getTime()).toBeGreaterThanOrEqual(cs[i - 1]!.meilleur.getTime());
+    expect(cs.at(-1)!.marge_s).toBeGreaterThan(120);
+    expect(cs.at(-1)!.remarques).toContain('pl_r_indicatif');
+    const semaine = cs.filter((c) => c.meilleur.getTime() < DEBUT.getTime() + 7 * 86_400_000);
+    expect(semaine.length).toBe(REF.iss.length);
+    expect(P.csv(r).split('\n')[0]!.endsWith(';marge_s')).toBe(true);
+  });
+});

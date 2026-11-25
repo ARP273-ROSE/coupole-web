@@ -108,6 +108,9 @@ export function pagePlanif(): Page {
     nombreChamp('mag', tr('pl_mag'), 'pl_mag_aide', 4.5, 0, 5.5, 0.1),
     nombreChamp('sep', tr('pl_sep') + ' (°)', 'pl_sep_aide', 5, 0.5, 15, 0.5),
     nombreChamp('phase', tr('pl_phase') + ' (%)', 'pl_phase_aide', 95, 5, 100, 1));
+  const tendance = h('input', { type: 'checkbox', id: 'pl-tendance', title: tr('pl_tendance_aide') });
+  tendance.checked = memo.tendance === '1';
+  const caseTendance = h('label', { class: 'pl-case', for: 'pl-tendance' }, tendance, h('span', { text: tr('pl_tendance') }));
   const locale = h('input', { type: 'checkbox', id: 'pl-locale', title: tr('pl_locale_aide') });
   locale.checked = memo.locale === '1';
   const bChercher = h('button', { type: 'button', class: 'bouton principal', text: tr('pl_chercher'), title: tr('pl_chercher_aide') });
@@ -129,7 +132,7 @@ export function pagePlanif(): Page {
       nombreChamp('jours', tr('pl_jours') + ' (' + tr('pl_unite_j') + ')', 'pl_jours_aide', 7, 0.5, 400, 0.5),
       nombreChamp('hmin', tr('pl_hmin') + ' (°)', 'pl_hmin_aide', 20, 0, 85, 1),
       nombreChamp('soleil', tr('pl_soleil') + ' (°)', 'pl_soleil_aide', -6, -18, 0, 1)),
-    groupeLune,
+    groupeLune, caseTendance,
     h('label', { class: 'pl-case', for: 'pl-locale' }, locale, h('span', { text: tr('pl_locale') })),
     h('div', { class: 'td-boutons' }, bChercher, bExemple, bCsv, bIcs), etat);
   const el = h('div', { class: 'page page-td' },
@@ -139,13 +142,18 @@ export function pagePlanif(): Page {
 
   const majCible = (): void => {
     groupeLune.hidden = cible.value !== 'lune';
-    champs.jours!.max = String(P.JOURS_MAX[cible.value === 'lune' ? 'lune' : 'iss']);
+    caseTendance.hidden = cible.value === 'lune';
+    champs.jours!.max = String(P.JOURS_MAX[cible.value === 'lune' ? 'lune' : tendance.checked ? 'tendance' : 'iss']);
   };
   cible.addEventListener('change', () => {
     garder('cible', cible.value);
     majCible();
   });
   majCible();
+  tendance.addEventListener('change', () => {
+    garder('tendance', tendance.checked ? '1' : '0');
+    majCible();
+  });
   locale.addEventListener('change', () => {
     garder('locale', locale.checked ? '1' : '0');
     remplir();
@@ -193,7 +201,7 @@ export function pagePlanif(): Page {
       const v = (k: string): number => Number(champs[k]!.value);
       const cb = cible.value === 'lune' ? 'lune' : 'iss';
       c = P.criteres(cb, lireDebut(), { jours: v('jours'), h_min: v('hmin'), soleil_max: v('soleil'), etoile_mag_max: v('mag'),
-        etoile_sep_max: v('sep'), phase_max: v('phase') / 100 });
+        etoile_sep_max: v('sep'), phase_max: v('phase') / 100, tendance: cb === 'iss' && tendance.checked });
     } catch (e) {
       etat.textContent = e instanceof CoordonneeIllisible ? tr(e.cle, e.valeurs) : String(e).slice(0, 200);
       return;
@@ -248,7 +256,7 @@ export function pagePlanif(): Page {
     res.creneaux.forEach((c, i) => {
       const mesure = c.cible === 'iss' ? nombre(c.parallaxe_deg, 1) + '°' : `Δφ ${nombre(c.etoile!.delta_arcmin, 2)}′ (${c.etoile!.nom})`;
       const ligne = h('tr', { tabindex: '0', class: i === choisi ? 'choisi' : '', 'aria-selected': i === choisi ? 'true' : 'false' },
-        h('td', { text: t(c.meilleur, true, false) }), h('td', { text: t(c.meilleur, false) }), h('td', { class: 'nb', text: String(Math.round(c.note)) }),
+        h('td', { text: t(c.meilleur, true, false) }), h('td', { text: c.marge_s > 120 ? `${t(c.meilleur, false).replace(/:\d\d( UTC)?$/, '$1')} ± ${Math.round(c.marge_s / 60)} min` : t(c.meilleur, false) }), h('td', { class: 'nb', text: String(Math.round(c.note)) }),
         h('td', { text: `${nombre(c.h[0], 0)}° / ${nombre(c.h[1], 0)}°` }), h('td', { text: mesure }),
         h('td', { class: 'nb', text: c.erreur_sujet_pct === null ? '—' : nombre(c.erreur_sujet_pct, 1) + ' %' }),
         h('td', { text: c.remarques.map((k) => tr(k)).join(', ') }));
@@ -307,6 +315,10 @@ export function pagePlanif(): Page {
         p(tr('pl_d_plan', { e: nombre(c.ecart_plan_deg, 1), ou: tr(c.entre ? 'pl_d_entre' : 'pl_d_cote') })),
         p(c.erreur_sujet_pct === null ? tr('pl_d_sujet_na') : tr('pl_d_sujet', { e: nombre(c.erreur_sujet_pct, 1) })),
         p(tr('pl_d_synchro_iss', { v: nombre(c.vitesse_deg_s, 2), s: nombre(c.synchro_s, 2) })));
+      if (c.marge_s > 120) {
+        const m = h('p', {}, h('b', { text: tr('pl_d_marge', { m: String(Math.round(c.marge_s / 60)), a: nombre(c.marge_s / (2 * P.DERIVE_TLE_S_PAR_JOUR), 0) }) }));
+        detail.append(m);
+      }
       if (c.etoiles_proches.length) {
         detail.append(p(tr('pl_d_etoiles', { liste: c.etoiles_proches.map((x) => `${esc(x.nom)} (${nombre(x.V, 1)}, ${nombre(x.sep, 1)}°)`).join(', ') })));
       }
