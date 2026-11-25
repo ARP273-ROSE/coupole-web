@@ -14845,6 +14845,524 @@ false
 },
 "lecture_au_depart": false
 },
+"hohmann": {
+"animee": true,
+"changements": [
+[
+"scenario",
+"terre_jupiter"
+],
+[
+"auto",
+false
+],
+[
+"fantome",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"First burn Δv₁",
+"+2.945 km·s⁻¹ (29.785 → 32.729)"
+],
+[
+"Second burn Δv₂",
+"+2.649 km·s⁻¹ (21.480 → 24.129)"
+],
+[
+"Total Δv",
+"5.594 km·s⁻¹"
+],
+[
+"Transfer time (half-ellipse)",
+"258.9 days"
+],
+[
+"Target lead at departure (phase angle)",
+"44.3°"
+],
+[
+"One launch window every",
+"779.9 days"
+],
+[
+"Current target lead",
+"150.0°"
+],
+[
+"Spacecraft",
+"waiting — launch window in 228.9 days"
+]
+]
+],
+[
+"pas",
+[
+[
+"First burn Δv₁",
+"+2.945 km·s⁻¹ (29.785 → 32.729)"
+],
+[
+"Second burn Δv₂",
+"+2.649 km·s⁻¹ (21.480 → 24.129)"
+],
+[
+"Total Δv",
+"5.594 km·s⁻¹"
+],
+[
+"Transfer time (half-ellipse)",
+"258.9 days"
+],
+[
+"Target lead at departure (phase angle)",
+"44.3°"
+],
+[
+"One launch window every",
+"779.9 days"
+],
+[
+"Current target lead",
+"120.5°"
+],
+[
+"Spacecraft",
+"waiting — launch window in 165.1 days"
+]
+]
+],
+[
+"reglages",
+[
+[
+"First burn Δv₁",
+"+8.793 km·s⁻¹ (29.785 → 38.577)"
+],
+[
+"Second burn Δv₂",
+"+5.643 km·s⁻¹ (7.415 → 13.058)"
+],
+[
+"Total Δv",
+"14.436 km·s⁻¹"
+],
+[
+"Transfer time (half-ellipse)",
+"997.4 days"
+],
+[
+"Target lead at departure (phase angle)",
+"97.2°"
+],
+[
+"One launch window every",
+"398.9 days"
+],
+[
+"Current target lead",
+"40.0°"
+],
+[
+"Spacecraft",
+"waiting — launch window in 335.5 days"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"First burn Δv₁",
+"+8.793 km·s⁻¹ (29.785 → 38.577)"
+],
+[
+"Second burn Δv₂",
+"+5.643 km·s⁻¹ (7.415 → 13.058)"
+],
+[
+"Total Δv",
+"14.436 km·s⁻¹"
+],
+[
+"Transfer time (half-ellipse)",
+"997.4 days"
+],
+[
+"Target lead at departure (phase angle)",
+"97.2°"
+],
+[
+"One launch window every",
+"398.9 days"
+],
+[
+"Current target lead",
+"177.9°"
+],
+[
+"Spacecraft",
+"waiting — launch window in 89.5 days"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"First burn Δv₁",
+"+2.945 km·s⁻¹ (29.785 → 32.729)"
+],
+[
+"Second burn Δv₂",
+"+2.649 km·s⁻¹ (21.480 → 24.129)"
+],
+[
+"Total Δv",
+"5.594 km·s⁻¹"
+],
+[
+"Transfer time (half-ellipse)",
+"258.9 days"
+],
+[
+"Target lead at departure (phase angle)",
+"44.3°"
+],
+[
+"One launch window every",
+"779.9 days"
+],
+[
+"Current target lead",
+"150.0°"
+],
+[
+"Spacecraft",
+"waiting — launch window in 228.9 days"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Departure and arrival orbits, circular and in the same plane.",
+"cle": "scenario",
+"defaut": "terre_mars",
+"options": [
+[
+"Low orbit (200 km) → geostationary",
+"leo_geo"
+],
+[
+"Low orbit (200 km) → space station (417 km)",
+"leo_iss"
+],
+[
+"Low orbit → the Moon’s orbit",
+"terre_lune"
+],
+[
+"Earth → Mars (around the Sun)",
+"terre_mars"
+],
+[
+"Earth → Venus (around the Sun)",
+"terre_venus"
+],
+[
+"Earth → Jupiter (around the Sun)",
+"terre_jupiter"
+]
+],
+"type": "choix"
+},
+{
+"aide": "The spacecraft leaves by itself when the target has the right lead (phase angle); untick to leave with “Leave now”.",
+"cle": "auto",
+"defaut": true,
+"libelle": "Leave at the launch window",
+"type": "coche"
+},
+{
+"aide": "Dotted circle: where the target will be at arrival if we leave now. The launch window opens when it falls at the end of the half-ellipse.",
+"cle": "fantome",
+"defaut": true,
+"libelle": "Target at arrival",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Première poussée Δv₁",
+"+2,945 km·s⁻¹ (29,785 → 32,729)"
+],
+[
+"Seconde poussée Δv₂",
+"+2,649 km·s⁻¹ (21,480 → 24,129)"
+],
+[
+"Δv total",
+"5,594 km·s⁻¹"
+],
+[
+"Durée du transfert (demi-ellipse)",
+"258,9 jours"
+],
+[
+"Avance de la cible au départ (angle de phase)",
+"44,3°"
+],
+[
+"Une fenêtre de tir tous les",
+"779,9 jours"
+],
+[
+"Avance actuelle de la cible",
+"150,0°"
+],
+[
+"Vaisseau",
+"en attente — fenêtre de tir dans 228,9 jours"
+]
+]
+],
+[
+"pas",
+[
+[
+"Première poussée Δv₁",
+"+2,945 km·s⁻¹ (29,785 → 32,729)"
+],
+[
+"Seconde poussée Δv₂",
+"+2,649 km·s⁻¹ (21,480 → 24,129)"
+],
+[
+"Δv total",
+"5,594 km·s⁻¹"
+],
+[
+"Durée du transfert (demi-ellipse)",
+"258,9 jours"
+],
+[
+"Avance de la cible au départ (angle de phase)",
+"44,3°"
+],
+[
+"Une fenêtre de tir tous les",
+"779,9 jours"
+],
+[
+"Avance actuelle de la cible",
+"120,5°"
+],
+[
+"Vaisseau",
+"en attente — fenêtre de tir dans 165,1 jours"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Première poussée Δv₁",
+"+8,793 km·s⁻¹ (29,785 → 38,577)"
+],
+[
+"Seconde poussée Δv₂",
+"+5,643 km·s⁻¹ (7,415 → 13,058)"
+],
+[
+"Δv total",
+"14,436 km·s⁻¹"
+],
+[
+"Durée du transfert (demi-ellipse)",
+"997,4 jours"
+],
+[
+"Avance de la cible au départ (angle de phase)",
+"97,2°"
+],
+[
+"Une fenêtre de tir tous les",
+"398,9 jours"
+],
+[
+"Avance actuelle de la cible",
+"40,0°"
+],
+[
+"Vaisseau",
+"en attente — fenêtre de tir dans 335,5 jours"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Première poussée Δv₁",
+"+8,793 km·s⁻¹ (29,785 → 38,577)"
+],
+[
+"Seconde poussée Δv₂",
+"+5,643 km·s⁻¹ (7,415 → 13,058)"
+],
+[
+"Δv total",
+"14,436 km·s⁻¹"
+],
+[
+"Durée du transfert (demi-ellipse)",
+"997,4 jours"
+],
+[
+"Avance de la cible au départ (angle de phase)",
+"97,2°"
+],
+[
+"Une fenêtre de tir tous les",
+"398,9 jours"
+],
+[
+"Avance actuelle de la cible",
+"177,9°"
+],
+[
+"Vaisseau",
+"en attente — fenêtre de tir dans 89,5 jours"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Première poussée Δv₁",
+"+2,945 km·s⁻¹ (29,785 → 32,729)"
+],
+[
+"Seconde poussée Δv₂",
+"+2,649 km·s⁻¹ (21,480 → 24,129)"
+],
+[
+"Δv total",
+"5,594 km·s⁻¹"
+],
+[
+"Durée du transfert (demi-ellipse)",
+"258,9 jours"
+],
+[
+"Avance de la cible au départ (angle de phase)",
+"44,3°"
+],
+[
+"Une fenêtre de tir tous les",
+"779,9 jours"
+],
+[
+"Avance actuelle de la cible",
+"150,0°"
+],
+[
+"Vaisseau",
+"en attente — fenêtre de tir dans 228,9 jours"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Orbite de départ et d’arrivée, circulaires et dans le même plan.",
+"cle": "scenario",
+"defaut": "terre_mars",
+"options": [
+[
+"Orbite basse (200 km) → géostationnaire",
+"leo_geo"
+],
+[
+"Orbite basse (200 km) → station spatiale (417 km)",
+"leo_iss"
+],
+[
+"Orbite basse → orbite de la Lune",
+"terre_lune"
+],
+[
+"Terre → Mars (autour du Soleil)",
+"terre_mars"
+],
+[
+"Terre → Vénus (autour du Soleil)",
+"terre_venus"
+],
+[
+"Terre → Jupiter (autour du Soleil)",
+"terre_jupiter"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Le vaisseau part tout seul quand la cible a la bonne avance (angle de phase) ; décocher pour partir avec « Partir maintenant ».",
+"cle": "auto",
+"defaut": true,
+"libelle": "Partir à la fenêtre de tir",
+"type": "coche"
+},
+{
+"aide": "Cercle pointillé : où sera la cible à l’arrivée si l’on part maintenant. La fenêtre de tir s’ouvre quand il tombe au bout de la demi-ellipse.",
+"cle": "fantome",
+"defaut": true,
+"libelle": "Cible à l’arrivée",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "horizon": {
 "animee": true,
 "changements": [
