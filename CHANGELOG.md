@@ -2,6 +2,21 @@
 
 *Français, puis [English](#english).*
 
+## 0.9.0 — 2026-11-25 — Quatre animations de cours de plus
+
+Quatre animations propres à Coupole (105 en tout), jumelles de Coupole 0.11.0 (mêmes valeurs au caractère près,
+calculs vérifiés par SageMath) :
+
+- **Interférences et interférométrie** (Télescopes) : franges λ / B dans la tache d'Airy d'une ouverture, visibilité
+  d'une étoile, d'un disque (premier zéro à 1,22 λ / θ) et d'un couple ; des fentes d'Young au VLTI et à CHARA.
+- **Occultation d'une étoile par un astéroïde** (Petits corps) : l'ombre balaie les observateurs, courbes de lumière,
+  cordes et ellipse ajustée ; vitesse de l'ombre, échelle de Fresnel, étoile géante cachée en partie.
+- **Le mécanisme de Kozai-Lidov** (Renaissance) : échange e–i à C = √(1 − e²) cos i constant, inclinaison critique
+  39,23°, eₘₐₓ = √(1 − 5/3 cos² i₀) ; orbite en 3D, e(t), i(t), portrait de phase.
+- **Les points de Lagrange** (Renaissance) : repère tournant, L1 à L5, zones interdites, têtards et fers à cheval,
+  rayon de Hill ; Soleil-Terre, Terre-Lune, Soleil-Jupiter, Pluton-Charon.
+- Modules et recherche régénérés ; comptes 105.
+
 ## 0.8.0 — 2026-11-25 — Quatre animations de cours
 
 Quatre animations propres à Coupole (101 en tout), jumelles de Coupole 0.10.0 (mêmes valeurs au caractère près,
@@ -403,6 +418,13 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.9.0 — 2026-11-25 — Four more course animations
+
+Four animations of Coupole's own (105 in all), twins of Coupole 0.11.0 (same values to the character, computations
+checked with SageMath): **interference and interferometry** (Telescopes), **occultation of a star by an asteroid**
+(Small bodies), **the Kozai-Lidov mechanism** and **the Lagrange points** (Renaissance). Modules and search
+regenerated; counts 105.
 
 ### 0.8.0 — 2026-11-25 — Four course animations
 

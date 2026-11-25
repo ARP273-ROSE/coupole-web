@@ -31,8 +31,10 @@ from pathlib import Path
 ICI = Path(__file__).resolve().parent.parent
 SORTIE = ICI / 'public' / 'contenu'
 # Animations propres à Coupole ajoutées aux modules de ClassAction (l'original ne les connaît pas) : module → ids
-ANIMATIONS_AJOUTEES = {'renaissance': ['gravityorbits', 'newtoncannon', 'orbitalelements', 'hohmann'],
-                       'telescopes': ['resolution'], 'solarsystemdebris': ['meteorradiant']}
+ANIMATIONS_AJOUTEES = {'renaissance': ['gravityorbits', 'newtoncannon', 'orbitalelements', 'hohmann', 'kozai',
+                                       'lagrange'],
+                       'telescopes': ['resolution', 'interferometry'],
+                       'solarsystemdebris': ['meteorradiant', 'occultation']}
 TYPES = {'warmup': 'W', 'general': 'G', 'challenge': 'C', 'discussion': 'D'}
 
 

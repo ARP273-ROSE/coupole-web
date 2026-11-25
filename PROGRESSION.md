@@ -809,3 +809,13 @@ Jumelles de Coupole 0.10.0 (méthode de transposition habituelle ; valeurs ident
 
 ### NOTE DE REPRISE (25/11/2026)
 - main = 0.8.0 (poussé ; Pages se publie depuis main). Reste : voir la note du même jour dans Coupole.
+
+## 25/11/2026 (suite) — 0.9.0 : quatre animations de cours de plus (105 animations ; branche `animations-cours-2`)
+Jumelles de Coupole 0.11.0 (valeurs identiques au caractère près, FR et EN) :
+- `src/calc/interferometrie.ts` + `interferometrie.ts` (complexes en couples [re, im]) ;
+- `src/calc/occultation.ts` + `occultation.ts` (même élimination de Gauss, même générateur de Park et Miller) ;
+- `src/calc/kozai.ts` + `kozai.ts` (RK4 vectoriel sans trigonométrie : mêmes trajectoires) ;
+- `src/calc/lagrange.ts` + `lagrange.ts` (bissection, RK4 avec Coriolis, zones interdites mises en cache).
+- Textes, catalogue, références (`exporter_coupole.py`, `references_animations.py`), modules et recherche
+  (`importer_contenu.py`, ANIMATIONS_AJOUTEES ; cas de Coupole recopiés), « Ce qu'il faut voir », comptes 105,
+  NOTICE, CHANGELOG, README, version 0.9.0.
