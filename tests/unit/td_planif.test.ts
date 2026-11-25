@@ -10,7 +10,9 @@ import REF from '../references/td_planif_reference.json';
 import ETOILES from '../../src/donnees/genere/etoiles_v55.json';
 
 const [S1, S2] = REF.sites.map(([lat, lon, alt]) => ({ lat: lat!, lon: lon!, alt_m: alt!, nom: '' })) as [P.Site, P.Site];
-const DEBUT = new Date(REF.debut);
+/** « 20261125T000000Z » → Date (format compact des références) */
+const date = (x: string): Date => new Date(x.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/, '$1-$2-$3T$4:$5:$6Z'));
+const DEBUT = date(REF.debut);
 const cat = P.poserEtoiles((ETOILES as unknown as { etoiles: [number, number, number, string][] }).etoiles);
 const rec = twoline2satrec(REF.tle[0]!, REF.tle[1]!);
 const iss: P.PositionISS = (t) => {
@@ -24,7 +26,7 @@ describe('ISS', () => {
   const r = P.chercherISS(S1, S2, P.criteres('iss', DEBUT, { jours: 7 }), iss, null);
   test('mêmes créneaux et mêmes instants que Coupole', () => {
     expect(r.creneaux.length).toBe(REF.iss.length);
-    const att = new Map(REF.iss.map((x) => [new Date(x.instant).getTime(), x]));
+    const att = new Map(REF.iss.map((x) => [date(x.instant).getTime(), x]));
     for (const c of r.creneaux) {
       const x = att.get(c.meilleur.getTime());
       expect(x, c.meilleur.toISOString()).toBeDefined();
@@ -54,7 +56,7 @@ describe('ISS', () => {
 describe('Lune', () => {
   const r = P.chercherLune(S1, S2, P.criteres('lune', DEBUT, { jours: 60 }), cat);
   test('créneaux comme Coupole (même algorithme de Meeus, étoiles précessées)', () => {
-    const att = new Map(REF.lune.map((x) => [new Date(x.instant).getTime(), x]));
+    const att = new Map(REF.lune.map((x) => [date(x.instant).getTime(), x]));
     let communs = 0;
     for (const c of r.creneaux) {
       const x = att.get(c.meilleur.getTime());
