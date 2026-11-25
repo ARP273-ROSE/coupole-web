@@ -16427,6 +16427,702 @@ false
 },
 "lecture_au_depart": true
 },
+"interferometry": {
+"animee": true,
+"changements": [
+[
+"instrument",
+"chara"
+],
+[
+"base",
+0.0141
+],
+[
+"diametre",
+3.5848
+],
+[
+"lambda",
+1448.0
+],
+[
+"objet",
+"capella"
+],
+[
+"taille",
+78.6
+],
+[
+"dmag",
+1.2
+],
+[
+"balayer",
+true
+],
+[
+"enveloppe",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Fringe spacing λ / B",
+"3.5 mas"
+],
+[
+"One telescope alone: 1.22 λ / d",
+"67 mas"
+],
+[
+"Gain in sharpness B / d",
+"× 15.9"
+],
+[
+"Visibility V",
+"0.103 (10 %)"
+],
+[
+"Fringes",
+"reversed: shifted by half a fringe (phase 180°)"
+],
+[
+"Baseline of the first zero 1.22 λ / θ",
+"111 m"
+],
+[
+"The source",
+"resolved by the interferometer only (V < 0.9)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Fringe spacing λ / B",
+"3.5 mas"
+],
+[
+"One telescope alone: 1.22 λ / d",
+"67 mas"
+],
+[
+"Gain in sharpness B / d",
+"× 15.9"
+],
+[
+"Visibility V",
+"0.103 (10 %)"
+],
+[
+"Fringes",
+"reversed: shifted by half a fringe (phase 180°)"
+],
+[
+"Baseline of the first zero 1.22 λ / θ",
+"111 m"
+],
+[
+"The source",
+"resolved by the interferometer only (V < 0.9)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Fringe spacing λ / B",
+"21.2″"
+],
+[
+"One telescope alone: 1.22 λ / d",
+"0.102″"
+],
+[
+"Gain in sharpness B / d",
+"× 0.0"
+],
+[
+"Visibility V",
+"1.000 (100 %)"
+],
+[
+"Fringes",
+"shifted by 0°"
+],
+[
+"Baseline of the first minimum λ / 2ρ",
+"1.90 m"
+],
+[
+"The source",
+"unresolved: baseline too short (V ≥ 0.9)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Fringe spacing λ / B",
+"14.1″"
+],
+[
+"One telescope alone: 1.22 λ / d",
+"0.102″"
+],
+[
+"Gain in sharpness B / d",
+"× 0.0"
+],
+[
+"Visibility V",
+"1.000 (100 %)"
+],
+[
+"Fringes",
+"shifted by 1°"
+],
+[
+"Baseline of the first minimum λ / 2ρ",
+"1.90 m"
+],
+[
+"The source",
+"unresolved: baseline too short (V ≥ 0.9)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Fringe spacing λ / B",
+"3.5 mas"
+],
+[
+"One telescope alone: 1.22 λ / d",
+"67 mas"
+],
+[
+"Gain in sharpness B / d",
+"× 15.9"
+],
+[
+"Visibility V",
+"0.103 (10 %)"
+],
+[
+"Fringes",
+"reversed: shifted by half a fringe (phase 180°)"
+],
+[
+"Baseline of the first zero 1.22 λ / θ",
+"111 m"
+],
+[
+"The source",
+"resolved by the interferometer only (V < 0.9)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Choosing an instrument sets its baseline and the diameter of its apertures; you can then change them by hand.",
+"cle": "instrument",
+"defaut": "vlti_ut",
+"options": [
+[
+"(free setting)",
+"libre"
+],
+[
+"Young’s slits (0.5 mm apart)",
+"young"
+],
+[
+"Michelson and Pease, 1920 (6.1 m baseline)",
+"michelson"
+],
+[
+"VLTI, two 8.2 m telescopes (130 m)",
+"vlti_ut"
+],
+[
+"VLTI, 1.8 m auxiliary telescopes (200 m)",
+"vlti_at"
+],
+[
+"CHARA, 1 m telescopes (331 m)",
+"chara"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Distance between the two telescopes (or the two slits), logarithmic scale. The fringe spacing on the sky is λ / B.",
+"cle": "base",
+"dec": 4,
+"defaut": 130.0,
+"libelle": "Baseline B",
+"log": true,
+"maxi": 1000.0,
+"mini": 0.0001,
+"type": "curseur",
+"unite": "m",
+"valeur": 130.0
+},
+{
+"aide": "Diameter of each aperture. On its own it only resolves 1.22 λ / d: the fringes sit inside its Airy spot.",
+"cle": "diametre",
+"dec": 4,
+"defaut": 8.2,
+"libelle": "Diameter d of one telescope",
+"log": true,
+"maxi": 10.0,
+"mini": 0.0001,
+"type": "curseur",
+"unite": "m",
+"valeur": 8.2
+},
+{
+"aide": "Observed wavelength: 550 nm in the middle of the visible range, 2,200 nm in the infrared (K band, used by the VLTI and CHARA).",
+"cle": "lambda",
+"dec": 0,
+"defaut": 2200.0,
+"libelle": "Wavelength λ",
+"log": false,
+"maxi": 2400.0,
+"mini": 350.0,
+"type": "curseur",
+"unite": "nm",
+"valeur": 2200.0
+},
+{
+"aide": "What the interferometer looks at: an unresolved star, the disc of a star or a close pair. The real stars set the size.",
+"cle": "objet",
+"defaut": "disque",
+"options": [
+[
+"Unresolved star (a point)",
+"point"
+],
+[
+"Disc of a star",
+"disque"
+],
+[
+"Pair of two stars",
+"couple"
+],
+[
+"Betelgeuse (47 mas disc)",
+"betelgeuse"
+],
+[
+"Sirius A (6 mas disc)",
+"sirius"
+],
+[
+"Capella (pair 56 mas apart)",
+"capella"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diameter θ of the disc, or separation ρ of the pair (measured along the baseline), in milliarcseconds (mas), logarithmic scale.",
+"cle": "taille",
+"dec": 1,
+"defaut": 5.0,
+"libelle": "Angular size θ or ρ",
+"log": true,
+"maxi": 100.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "mas",
+"valeur": 5.0
+},
+{
+"aide": "The second star of the pair is Δm magnitudes fainter: the visibility no longer drops to zero.",
+"cle": "dmag",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Brightness difference Δm of the pair",
+"log": false,
+"maxi": 5.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "While playing, the baseline grows (logarithmic scale) and starts again from the beginning of the axis: the fringes fade, then come back.",
+"cle": "balayer",
+"defaut": false,
+"libelle": "Lengthen the baseline while playing",
+"type": "coche"
+},
+{
+"aide": "Dotted: the Airy spot of a single telescope (grey) and the bounds (1 ± V) / 2 between which the fringes oscillate (red).",
+"cle": "enveloppe",
+"defaut": true,
+"libelle": "Envelopes",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Interfrange λ / B",
+"3,5 mas"
+],
+[
+"Un télescope seul : 1,22 λ / d",
+"67 mas"
+],
+[
+"Gain en finesse B / d",
+"× 15,9"
+],
+[
+"Visibilité V",
+"0,103 (10 %)"
+],
+[
+"Franges",
+"retournées : décalées d’une demi-frange (phase 180°)"
+],
+[
+"Base du premier zéro 1,22 λ / θ",
+"111 m"
+],
+[
+"La source",
+"résolue par l’interféromètre seulement (V < 0,9)"
+]
+]
+],
+[
+"pas",
+[
+[
+"Interfrange λ / B",
+"3,5 mas"
+],
+[
+"Un télescope seul : 1,22 λ / d",
+"67 mas"
+],
+[
+"Gain en finesse B / d",
+"× 15,9"
+],
+[
+"Visibilité V",
+"0,103 (10 %)"
+],
+[
+"Franges",
+"retournées : décalées d’une demi-frange (phase 180°)"
+],
+[
+"Base du premier zéro 1,22 λ / θ",
+"111 m"
+],
+[
+"La source",
+"résolue par l’interféromètre seulement (V < 0,9)"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Interfrange λ / B",
+"21,2″"
+],
+[
+"Un télescope seul : 1,22 λ / d",
+"0,102″"
+],
+[
+"Gain en finesse B / d",
+"× 0,0"
+],
+[
+"Visibilité V",
+"1,000 (100 %)"
+],
+[
+"Franges",
+"décalées de 0°"
+],
+[
+"Base du premier minimum λ / 2ρ",
+"1,90 m"
+],
+[
+"La source",
+"non résolue : base trop courte (V ≥ 0,9)"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Interfrange λ / B",
+"14,1″"
+],
+[
+"Un télescope seul : 1,22 λ / d",
+"0,102″"
+],
+[
+"Gain en finesse B / d",
+"× 0,0"
+],
+[
+"Visibilité V",
+"1,000 (100 %)"
+],
+[
+"Franges",
+"décalées de 1°"
+],
+[
+"Base du premier minimum λ / 2ρ",
+"1,90 m"
+],
+[
+"La source",
+"non résolue : base trop courte (V ≥ 0,9)"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Interfrange λ / B",
+"3,5 mas"
+],
+[
+"Un télescope seul : 1,22 λ / d",
+"67 mas"
+],
+[
+"Gain en finesse B / d",
+"× 15,9"
+],
+[
+"Visibilité V",
+"0,103 (10 %)"
+],
+[
+"Franges",
+"retournées : décalées d’une demi-frange (phase 180°)"
+],
+[
+"Base du premier zéro 1,22 λ / θ",
+"111 m"
+],
+[
+"La source",
+"résolue par l’interféromètre seulement (V < 0,9)"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Choisir un instrument règle sa base et le diamètre de ses ouvertures ; on peut ensuite les changer à la main.",
+"cle": "instrument",
+"defaut": "vlti_ut",
+"options": [
+[
+"(réglage libre)",
+"libre"
+],
+[
+"Fentes d’Young (écart 0,5 mm)",
+"young"
+],
+[
+"Michelson et Pease, 1920 (base de 6,1 m)",
+"michelson"
+],
+[
+"VLTI, deux télescopes de 8,2 m (130 m)",
+"vlti_ut"
+],
+[
+"VLTI, télescopes auxiliaires de 1,8 m (200 m)",
+"vlti_at"
+],
+[
+"CHARA, télescopes de 1 m (331 m)",
+"chara"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Distance entre les deux télescopes (ou les deux fentes), échelle logarithmique. L’interfrange sur le ciel vaut λ / B.",
+"cle": "base",
+"dec": 4,
+"defaut": 130.0,
+"libelle": "Base B",
+"log": true,
+"maxi": 1000.0,
+"mini": 0.0001,
+"type": "curseur",
+"unite": "m",
+"valeur": 130.0
+},
+{
+"aide": "Diamètre de chaque ouverture. Seule, elle ne résout que 1,22 λ / d : les franges sont prises dans sa tache d’Airy.",
+"cle": "diametre",
+"dec": 4,
+"defaut": 8.2,
+"libelle": "Diamètre d d’un télescope",
+"log": true,
+"maxi": 10.0,
+"mini": 0.0001,
+"type": "curseur",
+"unite": "m",
+"valeur": 8.2
+},
+{
+"aide": "Longueur d’onde observée : 550 nm au milieu du visible, 2 200 nm dans l’infrarouge (bande K, celle du VLTI et de CHARA).",
+"cle": "lambda",
+"dec": 0,
+"defaut": 2200.0,
+"libelle": "Longueur d’onde λ",
+"log": false,
+"maxi": 2400.0,
+"mini": 350.0,
+"type": "curseur",
+"unite": "nm",
+"valeur": 2200.0
+},
+{
+"aide": "Ce que regarde l’interféromètre : une étoile non résolue, le disque d’une étoile ou un couple serré. Les étoiles réelles règlent la taille.",
+"cle": "objet",
+"defaut": "disque",
+"options": [
+[
+"Étoile non résolue (un point)",
+"point"
+],
+[
+"Disque d’une étoile",
+"disque"
+],
+[
+"Couple de deux étoiles",
+"couple"
+],
+[
+"Bételgeuse (disque de 47 mas)",
+"betelgeuse"
+],
+[
+"Sirius A (disque de 6 mas)",
+"sirius"
+],
+[
+"Capella (couple à 56 mas)",
+"capella"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diamètre θ du disque, ou séparation ρ du couple (mesurée le long de la base), en millisecondes d’arc (mas), échelle logarithmique.",
+"cle": "taille",
+"dec": 1,
+"defaut": 5.0,
+"libelle": "Taille angulaire θ ou ρ",
+"log": true,
+"maxi": 100.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "mas",
+"valeur": 5.0
+},
+{
+"aide": "La seconde étoile du couple est plus faible de Δm magnitudes : la visibilité ne descend plus jusqu’à zéro.",
+"cle": "dmag",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Écart d’éclat Δm du couple",
+"log": false,
+"maxi": 5.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "Pendant la lecture, la base grandit (échelle logarithmique) et repart du début de l’axe : on voit les franges s’effacer puis revenir.",
+"cle": "balayer",
+"defaut": false,
+"libelle": "Allonger la base en lecture",
+"type": "coche"
+},
+{
+"aide": "Pointillés : la tache d’Airy d’un télescope seul (gris) et les bornes (1 ± V) / 2 entre lesquelles oscillent les franges (rouge).",
+"cle": "enveloppe",
+"defaut": true,
+"libelle": "Enveloppes",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "kepler": {
 "animee": true,
 "changements": [
