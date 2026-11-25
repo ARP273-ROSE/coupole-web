@@ -1902,6 +1902,11 @@ math {
 
 /* barre de navigation en bas sur téléphone : libellés visibles, pouce, plus de débordement à 320 px */
 @media (max-width: 640px) {
+  /* la barre de navigation fixée en bas ne masque jamais un élément atteint par le focus ou le défilement */
+  html {
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
   /* opaque : un titre qui passe dessous en défilant ne transparaît pas */
   .entete {
     -webkit-backdrop-filter: none;
