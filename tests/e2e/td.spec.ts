@@ -169,3 +169,48 @@ test.describe('Planificateur de parallaxe', () => {
     expect(erreurs).toEqual([]);
   });
 });
+
+test.describe('Choisir un lieu', () => {
+  test.use({ serviceWorkers: 'block' });
+  test('carte et adresse : Nominatim et Open-Meteo simulés, clic sur la carte, champs remplis', async ({ page }, info) => {
+    const erreurs: string[] = [];
+    page.on('console', (m) => {
+      if (m.type() === 'error' && !/Refused to apply a stylesheet|tile\.openstreetmap/i.test(m.text())) erreurs.push(m.text());
+    });
+    const requetes: string[] = [];
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsrq6uBwAE+gH+jTvL1gAAAABJRU5ErkJggg==', 'base64');
+    await page.route('https://tile.openstreetmap.org/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: png }));
+    await page.route('https://nominatim.openstreetmap.org/**', (r) => {
+      requetes.push(r.request().url());
+      return r.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+        body: JSON.stringify([{ display_name: "Observatoire, Avenue de l'Observatoire, Paris, France", name: '', lat: '48.8366', lon: '2.3360', address: { city: 'Paris' } }]) });
+    });
+    await page.route('https://api.open-meteo.com/**', (r) => {
+      requetes.push(r.request().url());
+      return r.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' }, body: '{"elevation":[62.0]}' });
+    });
+    await page.goto('./#/');
+    await page.evaluate(() => localStorage.clear());
+    await page.goto('./#/td/planif');
+    await page.locator('#lieu-carte-1').click();
+    await expect(page.locator('.lieu-dialogue')).toBeVisible();
+    expect(requetes).toEqual([]);                                   // rien n'est envoyé à l'ouverture
+    await page.locator('#lieu-adresse').fill("61 avenue de l'Observatoire");
+    await page.locator('.lieu-dialogue').getByRole('button', { name: /^(Chercher|Search)$/ }).click();
+    await expect(page.locator('.lieu-dialogue .td-etat')).toContainText('62 m');
+    await expect(page.locator('.lieu-dialogue .td-etat')).toContainText('48.83660 N, 2.33600 E');
+    // un clic au centre de la carte : nouveau lieu, altitude redemandée
+    const boite = await page.locator('.lieu-carte').boundingBox();
+    await page.mouse.click(boite!.x + boite!.width / 2 + 40, boite!.y + boite!.height / 2);
+    await expect(page.locator('.lieu-dialogue .td-etat')).not.toContainText('48.83660 N, 2.33600 E');
+    await expect(page.locator('.lieu-dialogue .td-etat')).toContainText('62 m');
+    if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('lieu.png') });
+    await page.getByRole('button', { name: /^(Utiliser ce lieu|Use this place)$/ }).click();
+    await expect(page.locator('.lieu-dialogue')).toHaveCount(0);
+    await expect(page.locator('#pl-p1')).toHaveValue(/^48\.83\d+ N, 2\.3\d+ E$/);
+    await expect(page.locator('#pl-alt1')).toHaveValue('62');
+    await expect(page.locator('#pl-nom1')).toHaveValue('Paris');
+    expect(requetes.length).toBe(3);
+    expect(erreurs).toEqual([]);
+  });
+});

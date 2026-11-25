@@ -11,6 +11,9 @@ Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; réf
   soirées de Lune visibles des deux à la fois, classés ; erreur de la formule du sujet, précision d'horloge,
   magnitude de l'ISS, étoiles voisines, étoile de repère et Δφ pour la Lune ; ciel des deux lieux ; export CSV et
   agenda .ics. Étoiles : Yale Bright Star Catalogue (V ≤ 5,5), précessées à la date.
+- **Choisir un lieu sur une carte ou par son adresse** (Parallaxe et Planificateur) : carte OpenStreetMap cliquable
+  (glisser, molette, boutons), adresse cherchée par Nominatim, altitude du terrain par Open-Meteo ; rien n'est envoyé
+  avant un clic ; politique de sécurité : tuiles OSM, nominatim.openstreetmap.org et api.open-meteo.com permis.
 - **Tendance sur 90 jours** (ISS) : heures à ± une marge tirée de la dérive mesurée des TLE (≈ 3,8 s par jour d'âge),
   classement par date ; les soirs de passage restent justes des semaines.
 - TLE de l'ISS : ARISS quand CelesTrak ne répond pas (aussi pour « Parallaxe (TP du cours) ») ; politique de
@@ -438,7 +441,7 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 Twin of Coupole 0.12.0's planner (same slots, same scores; shared references checked against skyfield): **parallax
 planner** (Course calculators, `#/td/planif`) — for two places, the ISS passes and Moon evenings visible from both at
 once, ranked, with the practical's formula error, clock accuracy, reference star, both places' skies, CSV export and
-.ics calendar, and a 90-day ISS outlook (times within ± a margin from the measured TLE drift). ISS TLE from ARISS when
+.ics calendar, a map/address place picker (OpenStreetMap, Nominatim, Open-Meteo elevation), and a 90-day ISS outlook (times within ± a margin from the measured TLE drift). ISS TLE from ARISS when
 CelesTrak does not answer.
 
 ### 0.9.0 — 2026-11-25 — Four more course animations

@@ -73,7 +73,8 @@ function pageParallaxe(): Page {
     h('option', { value: 'meme_cote', text: tr('td_conf_meme') }));
   const lieu = (n: number): HTMLElement => h('fieldset', { class: 'td-lieu' }, h('legend', { text: tr('td_lieu', { n }) }),
     champ('p' + n, 'td_p_aide', 'td_p_indice'), champ('alt' + n, 'td_alt_aide', 'td_alt_indice'),
-    champ('h' + n, 'td_h_aide', 'td_h_indice'), champ('az' + n, 'td_az_aide', 'td_az_indice'));
+    champ('h' + n, 'td_h_aide', 'td_h_indice'), champ('az' + n, 'td_az_aide', 'td_az_indice'),
+    boutonLieu(n, () => champs['p' + n]!, () => champs['alt' + n]!));
   const instant = champ('instant', 'td_instant_aide', 'td_instant_indice');
   const bMaintenant = h('button', { type: 'button', class: 'bouton', text: tr('td_maintenant'), title: tr('td_maintenant_aide') });
   const sigmaH = h('input', { type: 'number', step: '0.01', min: '0', value: '0.1', title: tr('td_sigma_h_aide') });
@@ -631,4 +632,29 @@ export function dessinerSchema(p: CanvasRenderingContext2D, w: number, hh: numbe
   p.fillText(tr('td_s_loupe'), lx + 6, ly + 4, lw - 12);
   p.textAlign = 'center';
   p.fillText(tr('td_s_fleche', { f: nombre(f * 1000, 0) }), x0, yc + 6, lw - 12);
+}
+
+/** Bouton « Carte / adresse… » d'un lieu : ouvre la carte, remplit position, altitude (et nom s'il est vide). */
+export function boutonLieu(n: number, pos: () => HTMLInputElement, alt: () => HTMLInputElement, nom?: () => HTMLInputElement): HTMLElement {
+  const b = h('button', { type: 'button', class: 'bouton', id: 'lieu-carte-' + n, text: tr('lieu_bouton'), title: tr('lieu_bouton_aide') });
+  b.addEventListener('click', async () => {
+    let depart: { lat: number; lon: number } | null = null;
+    try {
+      const p = lirePosition(pos().value);
+      depart = { lat: p.lat, lon: p.lon };
+    } catch {
+      /* rien de lisible : la carte s'ouvre sur la France */
+    }
+    const { choisirLieu, textePosition } = await import('./choix_lieu');
+    const c = await choisirLieu(depart);
+    if (!c) return;
+    const fixer = (i: HTMLInputElement, v: string): void => {
+      i.value = v;
+      i.dispatchEvent(new Event('change'));
+    };
+    fixer(pos(), textePosition(c.lat, c.lon));
+    if (c.alt !== null) fixer(alt(), String(Math.round(c.alt)));
+    if (nom && c.nom && !nom().value.trim()) fixer(nom(), c.nom.slice(0, 40));
+  });
+  return b;
 }

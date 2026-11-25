@@ -8,6 +8,7 @@ import { CoordonneeIllisible, lireAltitude, lirePosition } from '../calc/coordon
 import * as P from '../calc/td_planif';
 import { tr } from '../i18n/i18n';
 import { h, icone } from './dom';
+import { boutonLieu } from './page_td';
 import type { Page } from './page_apropos';
 
 const CLE_MEMOIRE = 'coupole-td-planif';
@@ -101,7 +102,8 @@ export function pagePlanif(): Page {
   const lieu = (n: number): HTMLElement => h('fieldset', { class: 'td-lieu' }, h('legend', { text: tr('pl_lieu', { n }) }),
     champ('nom' + n, tr('pl_nom'), 'pl_nom_aide', 'pl_nom_indice'),
     champ('p' + n, tr('td_p'), 'td_p_aide', 'td_p_indice'),
-    champ('alt' + n, tr('td_alt'), 'td_alt_aide', 'td_alt_indice'));
+    champ('alt' + n, tr('td_alt'), 'td_alt_aide', 'td_alt_indice'),
+    boutonLieu(n, () => champs['p' + n]!, () => champs['alt' + n]!, () => champs['nom' + n]!));
   const nombreChamp = (cle: string, libelle: string, aide: string, defaut: number, min: number, max: number, pas: number): HTMLElement =>
     champ(cle, libelle, aide, '', { type: 'number', min: String(min), max: String(max), step: String(pas), value: String(defaut) });
   const groupeLune = h('fieldset', { class: 'td-lieu' }, h('legend', { text: tr('td_cible_lune') }),

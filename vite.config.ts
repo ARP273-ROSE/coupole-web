@@ -58,10 +58,10 @@ const CSP = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://tile.openstreetmap.org",
   "font-src 'self'",
   // CelesTrak seulement : TLE de l'ISS du calculateur de TD (source libre, sans compte, CORS ouvert)
-  "connect-src 'self' https://celestrak.org https://live.ariss.org",
+  "connect-src 'self' https://celestrak.org https://live.ariss.org https://nominatim.openstreetmap.org https://api.open-meteo.com",
   "manifest-src 'self'",
   "worker-src 'self'",
   "media-src 'none'",

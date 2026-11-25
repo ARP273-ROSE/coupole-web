@@ -2592,3 +2592,111 @@ math {
 .pl-pt2 {
   color: #3a9be0;
 }
+
+/* Choisir un lieu (carte OpenStreetMap, adresse) */
+.lieu-dialogue {
+  width: min(920px, 96vw);
+  max-height: 94vh;
+  padding: 16px 18px;
+  border: 1px solid var(--bord-fort);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--texte);
+}
+
+.lieu-dialogue::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+.lieu-dialogue h2 {
+  margin: 0 0 6px;
+}
+
+.lieu-resultats {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  max-height: 120px;
+  overflow: auto;
+  border: 1px solid var(--bord);
+  border-radius: 8px;
+}
+
+.lieu-resultat {
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  border: 0;
+  background: none;
+  color: var(--texte);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lieu-resultat:hover,
+.lieu-resultat:focus-visible {
+  background: var(--surface-2);
+}
+
+.lieu-carte {
+  position: relative;
+  height: min(52vh, 440px);
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--bord);
+  background: #aad3df;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.lieu-tuiles img {
+  position: absolute;
+  width: 256px;
+  height: 256px;
+  pointer-events: none;
+}
+
+.lieu-repere {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #c0392b;
+  box-shadow: 0 0 0 1px #000;
+  pointer-events: none;
+}
+
+.lieu-boutons-zoom {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.lieu-zoom {
+  min-width: 34px;
+}
+
+.lieu-osm {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  padding: 0 4px;
+  font-size: 0.75rem;
+  color: #222;
+  background: rgb(255 255 255 / 75%);
+}
+
+.lieu-attribution {
+  font-size: 0.85rem;
+  color: var(--texte-2);
+}
+
+.lieu-fin {
+  justify-content: flex-end;
+}
