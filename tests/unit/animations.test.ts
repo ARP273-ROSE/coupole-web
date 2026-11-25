@@ -99,8 +99,8 @@ const FORMATS: [string, number, number][] = [
 ];
 
 describe('catalogue', () => {
-  it('104 animations (92 de ClassAction, la machine d’Anticythère, Orion en 3D, Gravité et orbites, L’atmosphère terrestre, le canon de Newton et sept animations tirées des cours), toutes dans les références de Coupole', () => {
-    expect(ENTREES.length).toBe(104);
+  it('105 animations (92 de ClassAction, la machine d’Anticythère, Orion en 3D, Gravité et orbites, L’atmosphère terrestre, le canon de Newton et huit animations tirées des cours), toutes dans les références de Coupole', () => {
+    expect(ENTREES.length).toBe(105);
     for (const e of ENTREES) expect(R[e.id], e.id).toBeDefined();
   });
 });

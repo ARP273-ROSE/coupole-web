@@ -18699,6 +18699,638 @@ false
 },
 "lecture_au_depart": true
 },
+"lagrange": {
+"animee": true,
+"changements": [
+[
+"systeme",
+"pluton_charon"
+],
+[
+"cas",
+"l3"
+],
+[
+"delta",
+0.004
+],
+[
+"interdit",
+false
+],
+[
+"hill",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"Mass ratio μ",
+"9.539 × 10⁻⁴"
+],
+[
+"L1: distance from the small body",
+"0.0667 a = 51.90 million km"
+],
+[
+"L2: distance from the small body",
+"0.0698 a = 54.31 million km"
+],
+[
+"Hill radius a ∛(μ/3)",
+"0.0683 a = 53.12 million km"
+],
+[
+"L4 and L5",
+"stable (μ < 0.0385)"
+],
+[
+"Jacobi constant C of the small body",
+"2.999122"
+],
+[
+"C at the Lagrange points",
+"L1 3.038761 · L2 3.037489 · L3 3.000954 · L4 2.999047"
+],
+[
+"Its energy lets it go",
+"also through L3; two forbidden islands remain, around L4 and L5 (tadpoles)"
+],
+[
+"Elapsed time",
+"0.0 revolutions of the two bodies"
+]
+]
+],
+[
+"pas",
+[
+[
+"Mass ratio μ",
+"9.539 × 10⁻⁴"
+],
+[
+"L1: distance from the small body",
+"0.0667 a = 51.90 million km"
+],
+[
+"L2: distance from the small body",
+"0.0698 a = 54.31 million km"
+],
+[
+"Hill radius a ∛(μ/3)",
+"0.0683 a = 53.12 million km"
+],
+[
+"L4 and L5",
+"stable (μ < 0.0385)"
+],
+[
+"Jacobi constant C of the small body",
+"2.999122"
+],
+[
+"C at the Lagrange points",
+"L1 3.038761 · L2 3.037489 · L3 3.000954 · L4 2.999047"
+],
+[
+"Its energy lets it go",
+"also through L3; two forbidden islands remain, around L4 and L5 (tadpoles)"
+],
+[
+"Elapsed time",
+"3.0 revolutions of the two bodies"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Mass ratio μ",
+"0.10858"
+],
+[
+"L1: distance from the small body",
+"0.2985 a = 5 849 km"
+],
+[
+"L2: distance from the small body",
+"0.3711 a = 7 272 km"
+],
+[
+"Hill radius a ∛(μ/3)",
+"0.3308 a = 6 482 km"
+],
+[
+"L4 and L5",
+"unstable (μ > 0.0385)"
+],
+[
+"Jacobi constant C of the small body",
+"3.108055"
+],
+[
+"C at the Lagrange points",
+"L1 3.620515 · L2 3.479429 · L3 3.108055 · L4 2.903213"
+],
+[
+"Its energy lets it go",
+"also beyond L2; the forbidden region forms a horseshoe through L4, L3 and L5"
+],
+[
+"Elapsed time",
+"0.0 revolutions of the two bodies"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Mass ratio μ",
+"0.10858"
+],
+[
+"L1: distance from the small body",
+"0.2985 a = 5 849 km"
+],
+[
+"L2: distance from the small body",
+"0.3711 a = 7 272 km"
+],
+[
+"Hill radius a ∛(μ/3)",
+"0.3308 a = 6 482 km"
+],
+[
+"L4 and L5",
+"unstable (μ > 0.0385)"
+],
+[
+"Jacobi constant C of the small body",
+"3.120073"
+],
+[
+"C at the Lagrange points",
+"L1 3.620515 · L2 3.479429 · L3 3.108055 · L4 2.903213"
+],
+[
+"Its energy lets it go",
+"also beyond L2; the forbidden region forms a horseshoe through L4, L3 and L5"
+],
+[
+"Elapsed time",
+"3.0 revolutions of the two bodies"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Mass ratio μ",
+"9.539 × 10⁻⁴"
+],
+[
+"L1: distance from the small body",
+"0.0667 a = 51.90 million km"
+],
+[
+"L2: distance from the small body",
+"0.0698 a = 54.31 million km"
+],
+[
+"Hill radius a ∛(μ/3)",
+"0.0683 a = 53.12 million km"
+],
+[
+"L4 and L5",
+"stable (μ < 0.0385)"
+],
+[
+"Jacobi constant C of the small body",
+"2.999122"
+],
+[
+"C at the Lagrange points",
+"L1 3.038761 · L2 3.037489 · L3 3.000954 · L4 2.999047"
+],
+[
+"Its energy lets it go",
+"also through L3; two forbidden islands remain, around L4 and L5 (tadpoles)"
+],
+[
+"Elapsed time",
+"0.0 revolutions of the two bodies"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Animation speed, from 0.1 to 10 times the normal speed (logarithmic scale).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Speed",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "The two bodies orbiting each other; μ is the mass fraction of the smaller one.",
+"cle": "systeme",
+"defaut": "soleil_jupiter",
+"options": [
+[
+"Sun and Earth (with the Moon)",
+"soleil_terre"
+],
+[
+"Earth and Moon",
+"terre_lune"
+],
+[
+"Sun and Jupiter",
+"soleil_jupiter"
+],
+[
+"Pluto and Charon (μ > 0.0385)",
+"pluton_charon"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Where the small body is released, at rest (or on a circle) in the rotating frame.",
+"cle": "cas",
+"defaut": "tetard",
+"options": [
+[
+"Near L4: a “tadpole”",
+"tetard"
+],
+[
+"Opposite the small body: a “horseshoe”",
+"fer_a_cheval"
+],
+[
+"Right next to L1",
+"l1"
+],
+[
+"Right next to L2",
+"l2"
+],
+[
+"Right next to L3",
+"l3"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Offset from the starting point, in units of the distance a between the two bodies (L1, L2, L3: δ/100). The larger it is, the wider the loop.",
+"cle": "delta",
+"dec": 4,
+"defaut": 0.005,
+"libelle": "Initial offset δ",
+"log": false,
+"maxi": 0.03,
+"mini": -0.03,
+"type": "curseur",
+"unite": "",
+"valeur": 0.005
+},
+{
+"aide": "In grey, where 2Ω < C: the small body lacks the energy to go there (zero-velocity curves).",
+"cle": "interdit",
+"defaut": true,
+"libelle": "Forbidden regions",
+"type": "coche"
+},
+{
+"aide": "Circle of radius a ∛(μ/3) around the small body: within it, the small body holds its satellites.",
+"cle": "hill",
+"defaut": true,
+"libelle": "Hill sphere",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"Rapport de masse μ",
+"9,539 × 10⁻⁴"
+],
+[
+"L1 : distance au petit astre",
+"0,0667 a = 51,90 millions de km"
+],
+[
+"L2 : distance au petit astre",
+"0,0698 a = 54,31 millions de km"
+],
+[
+"Rayon de Hill a ∛(μ/3)",
+"0,0683 a = 53,12 millions de km"
+],
+[
+"L4 et L5",
+"stables (μ < 0,0385)"
+],
+[
+"Constante de Jacobi C du petit corps",
+"2,999122"
+],
+[
+"C aux points de Lagrange",
+"L1 3,038761 · L2 3,037489 · L3 3,000954 · L4 2,999047"
+],
+[
+"Son énergie lui permet d’aller",
+"aussi par L3 ; restent deux îlots interdits, autour de L4 et de L5 (têtards)"
+],
+[
+"Temps écoulé",
+"0,0 tours des deux astres"
+]
+]
+],
+[
+"pas",
+[
+[
+"Rapport de masse μ",
+"9,539 × 10⁻⁴"
+],
+[
+"L1 : distance au petit astre",
+"0,0667 a = 51,90 millions de km"
+],
+[
+"L2 : distance au petit astre",
+"0,0698 a = 54,31 millions de km"
+],
+[
+"Rayon de Hill a ∛(μ/3)",
+"0,0683 a = 53,12 millions de km"
+],
+[
+"L4 et L5",
+"stables (μ < 0,0385)"
+],
+[
+"Constante de Jacobi C du petit corps",
+"2,999122"
+],
+[
+"C aux points de Lagrange",
+"L1 3,038761 · L2 3,037489 · L3 3,000954 · L4 2,999047"
+],
+[
+"Son énergie lui permet d’aller",
+"aussi par L3 ; restent deux îlots interdits, autour de L4 et de L5 (têtards)"
+],
+[
+"Temps écoulé",
+"3,0 tours des deux astres"
+]
+]
+],
+[
+"reglages",
+[
+[
+"Rapport de masse μ",
+"0,10858"
+],
+[
+"L1 : distance au petit astre",
+"0,2985 a = 5 849 km"
+],
+[
+"L2 : distance au petit astre",
+"0,3711 a = 7 272 km"
+],
+[
+"Rayon de Hill a ∛(μ/3)",
+"0,3308 a = 6 482 km"
+],
+[
+"L4 et L5",
+"instables (μ > 0,0385)"
+],
+[
+"Constante de Jacobi C du petit corps",
+"3,108055"
+],
+[
+"C aux points de Lagrange",
+"L1 3,620515 · L2 3,479429 · L3 3,108055 · L4 2,903213"
+],
+[
+"Son énergie lui permet d’aller",
+"aussi au-delà de L2 ; la zone interdite fait un fer à cheval par L4, L3 et L5"
+],
+[
+"Temps écoulé",
+"0,0 tours des deux astres"
+]
+]
+],
+[
+"reglages_pas",
+[
+[
+"Rapport de masse μ",
+"0,10858"
+],
+[
+"L1 : distance au petit astre",
+"0,2985 a = 5 849 km"
+],
+[
+"L2 : distance au petit astre",
+"0,3711 a = 7 272 km"
+],
+[
+"Rayon de Hill a ∛(μ/3)",
+"0,3308 a = 6 482 km"
+],
+[
+"L4 et L5",
+"instables (μ > 0,0385)"
+],
+[
+"Constante de Jacobi C du petit corps",
+"3,120073"
+],
+[
+"C aux points de Lagrange",
+"L1 3,620515 · L2 3,479429 · L3 3,108055 · L4 2,903213"
+],
+[
+"Son énergie lui permet d’aller",
+"aussi au-delà de L2 ; la zone interdite fait un fer à cheval par L4, L3 et L5"
+],
+[
+"Temps écoulé",
+"3,0 tours des deux astres"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"Rapport de masse μ",
+"9,539 × 10⁻⁴"
+],
+[
+"L1 : distance au petit astre",
+"0,0667 a = 51,90 millions de km"
+],
+[
+"L2 : distance au petit astre",
+"0,0698 a = 54,31 millions de km"
+],
+[
+"Rayon de Hill a ∛(μ/3)",
+"0,0683 a = 53,12 millions de km"
+],
+[
+"L4 et L5",
+"stables (μ < 0,0385)"
+],
+[
+"Constante de Jacobi C du petit corps",
+"2,999122"
+],
+[
+"C aux points de Lagrange",
+"L1 3,038761 · L2 3,037489 · L3 3,000954 · L4 2,999047"
+],
+[
+"Son énergie lui permet d’aller",
+"aussi par L3 ; restent deux îlots interdits, autour de L4 et de L5 (têtards)"
+],
+[
+"Temps écoulé",
+"0,0 tours des deux astres"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Vitesse de l’animation, de 0,1 à 10 fois la vitesse normale (échelle logarithmique).",
+"cle": "vitesse",
+"dec": 2,
+"defaut": 1.0,
+"libelle": "Vitesse",
+"log": true,
+"maxi": 10.0,
+"mini": 0.1,
+"type": "curseur",
+"unite": "×",
+"valeur": 1.0
+},
+{
+"aide": "Les deux astres qui tournent l’un autour de l’autre ; μ est la part de masse du plus petit.",
+"cle": "systeme",
+"defaut": "soleil_jupiter",
+"options": [
+[
+"Soleil et Terre (avec la Lune)",
+"soleil_terre"
+],
+[
+"Terre et Lune",
+"terre_lune"
+],
+[
+"Soleil et Jupiter",
+"soleil_jupiter"
+],
+[
+"Pluton et Charon (μ > 0,0385)",
+"pluton_charon"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Où l’on lâche le petit corps, au repos (ou sur un cercle) dans le repère tournant.",
+"cle": "cas",
+"defaut": "tetard",
+"options": [
+[
+"Près de L4 : un « têtard »",
+"tetard"
+],
+[
+"En face du petit astre : un « fer à cheval »",
+"fer_a_cheval"
+],
+[
+"Juste à côté de L1",
+"l1"
+],
+[
+"Juste à côté de L2",
+"l2"
+],
+[
+"Juste à côté de L3",
+"l3"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Écart au point de départ, en unités de la distance a des deux astres (L1, L2, L3 : δ/100). Plus il est grand, plus la boucle est large.",
+"cle": "delta",
+"dec": 4,
+"defaut": 0.005,
+"libelle": "Écart au départ δ",
+"log": false,
+"maxi": 0.03,
+"mini": -0.03,
+"type": "curseur",
+"unite": "",
+"valeur": 0.005
+},
+{
+"aide": "En gris, là où 2Ω < C : le petit corps n’a pas l’énergie d’y aller (courbes de vitesse nulle).",
+"cle": "interdit",
+"defaut": true,
+"libelle": "Zones interdites",
+"type": "coche"
+},
+{
+"aide": "Cercle de rayon a ∛(μ/3) autour du petit astre : là, c’est lui qui retient ses satellites.",
+"cle": "hill",
+"defaut": true,
+"libelle": "Sphère de Hill",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": true
+},
 "latsim": {
 "animee": false,
 "changements": [
