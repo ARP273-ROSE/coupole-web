@@ -819,3 +819,15 @@ Jumelles de Coupole 0.11.0 (valeurs identiques au caractère près, FR et EN) :
 - Textes, catalogue, références (`exporter_coupole.py`, `references_animations.py`), modules et recherche
   (`importer_contenu.py`, ANIMATIONS_AJOUTEES ; cas de Coupole recopiés), « Ce qu'il faut voir », comptes 105,
   NOTICE, CHANGELOG, README, version 0.9.0.
+
+## 25/11/2026 — Planificateur de parallaxe (0.10.0 en préparation, non publiée)
+- `src/calc/td_planif.ts` (jumeau de `coupole/modules/td/planif.py`) : ISS par satellite.js, Lune par lune_meeus
+  (même algorithme qu'erfa.moon98), Soleil Meeus chap. 25, étoiles BSC5 (`src/donnees/genere/etoiles_v55.json`, exporté
+  par `exporter_coupole.py`) précessées IAU 1976 + GAST. `src/app/page_td_planif.ts` (#/td/planif) : tableau, ciel des
+  deux lieux, détail, CSV, .ics. TLE : CelesTrak puis ARISS (CSP `connect-src` + live.ariss.org), aussi pour la page
+  Parallaxe.
+- Tests : `tests/unit/td_planif.test.ts` (créneaux et instants identiques à Coupole, skyfield ≤ 0,15°, Sage) ;
+  e2e `td.spec.ts` « Planificateur » (CelesTrak 503 → ARISS, 7 créneaux, agenda, Lune) sur les 9 projets.
+- Piège : pas de `style=` en ligne (CSP `style-src 'self'`) → classes `.pl-pt1/.pl-pt2`.
+- [ ] Publier avec Coupole 0.12.0 (version, date).
+

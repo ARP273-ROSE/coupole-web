@@ -61,7 +61,7 @@ const CSP = [
   "img-src 'self' data: blob:",
   "font-src 'self'",
   // CelesTrak seulement : TLE de l'ISS du calculateur de TD (source libre, sans compte, CORS ouvert)
-  "connect-src 'self' https://celestrak.org",
+  "connect-src 'self' https://celestrak.org https://live.ariss.org",
   "manifest-src 'self'",
   "worker-src 'self'",
   "media-src 'none'",

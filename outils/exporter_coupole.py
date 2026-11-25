@@ -60,7 +60,10 @@ def main(coupole: Path) -> None:
     from coupole.modules.td.textes import TEXTES as TD
     for lg in ('fr', 'en'):
         ecrire(ICI / 'src' / 'i18n' / 'genere' / ('td.%s.json' % lg),
-               {k: v[lg] for k, v in TD.items() if not k.startswith(('td_cli_', 'td_meta_'))})
+               {k: v[lg] for k, v in TD.items() if not k.startswith(('td_cli_', 'td_meta_', 'pl_cli'))})
+    # étoiles de repère du planificateur de parallaxe (0.12.0) : le même fichier que Coupole, décompressé
+    with gzip.open(coupole / 'coupole' / 'modules' / 'td' / 'donnees' / 'etoiles_v55.json.gz', 'rt', encoding='utf-8') as fh:
+        ecrire(ICI / 'src' / 'donnees' / 'genere' / 'etoiles_v55.json', json.load(fh))
 
     # ------------------------------------------------------------ catalogue
     ecrire(ICI / 'src' / 'donnees' / 'genere' / 'catalogue.json', {

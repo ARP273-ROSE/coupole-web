@@ -8,10 +8,11 @@ import { chargerTD, langue, tr } from '../i18n/i18n';
 import { h, icone } from './dom';
 import type { Page } from './page_apropos';
 
-export const CALCULATEURS: readonly [string, string][] = [['parallaxe', 'td_calc_parallaxe']];
+export const CALCULATEURS: readonly [string, string][] = [['parallaxe', 'td_calc_parallaxe'], ['planif', 'td_calc_planif']];
 const CLE_MEMOIRE = 'coupole-td-parallaxe';
 const CLE_TLE = 'coupole-td-tle';
 const URL_TLE = 'https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE';
+const URL_TLE_SECOURS = 'https://live.ariss.org/iss.txt';
 
 const nombre = (x: number | null | undefined, c = 1): string => {
   if (x === null || x === undefined || !Number.isFinite(x)) return '—';
@@ -38,6 +39,7 @@ function ecrire(cle: string, v: unknown): void {
 export async function pageTD(id: string): Promise<Page> {
   await chargerTD(langue());
   if (id === 'parallaxe') return pageParallaxe();
+  if (id === 'planif') return (await import('./page_td_planif')).pagePlanif();
   const liste = h('div', { class: 'grille-td' },
     ...CALCULATEURS.map(([i, cle]) => h('a', { class: 'carte carte-td', href: '#/td/' + i },
       h('h2', { text: tr(cle) }), h('p', { text: tr(cle + '_aide') }))));
@@ -130,10 +132,18 @@ function pageParallaxe(): Page {
   }
 
   async function telechargerTle(): Promise<string> {
+    try {
+      return await telechargerDe(URL_TLE);
+    } catch {
+      return await telechargerDe(URL_TLE_SECOURS);           // CelesTrak répond parfois 503 : ARISS
+    }
+  }
+
+  async function telechargerDe(url: string): Promise<string> {
     const arret = new AbortController();
     const minuteur = setTimeout(() => arret.abort(), 8000);
     try {
-      const r = await fetch(URL_TLE, { cache: 'no-store', signal: arret.signal });
+      const r = await fetch(url, { cache: 'no-store', signal: arret.signal });
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const l = (await r.text()).split(/\r?\n/).map((x) => x.trim()).filter((x) => /^[12] /.test(x));
       if (l.length < 2) throw new Error('TLE');

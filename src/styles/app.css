@@ -2521,3 +2521,74 @@ math {
   color: var(--texte);
 }
 
+
+/* Planificateur de parallaxe (#/td/planif) */
+.pl-defile {
+  max-height: 340px;
+  overflow: auto;
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+}
+
+.pl-tableau {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.pl-tableau th,
+.pl-tableau td {
+  padding: 6px 8px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--bord);
+}
+
+.pl-tableau th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  color: var(--texte);
+}
+
+.pl-tableau td.nb {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pl-tableau tbody tr {
+  cursor: pointer;
+}
+
+.pl-tableau tbody tr:hover,
+.pl-tableau tbody tr:focus-visible {
+  background: var(--surface-2);
+}
+
+.pl-tableau tbody tr.choisi {
+  background: var(--accent);
+  color: var(--sur-accent, #fff);
+}
+
+.pl-ciel {
+  width: 100%;
+  height: min(40vh, 320px);
+  min-height: 220px;
+  border-radius: 10px;
+  border: 1px solid var(--bord);
+}
+
+.pl-case {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--texte-2);
+}
+
+.pl-pt1 {
+  color: #e0803a;
+}
+
+.pl-pt2 {
+  color: #3a9be0;
+}

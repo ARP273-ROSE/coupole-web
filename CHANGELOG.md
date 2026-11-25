@@ -2,6 +2,18 @@
 
 *Français, puis [English](#english).*
 
+## 0.10.0 — en préparation — Planificateur de parallaxe
+
+Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; références communes
+`tests/references/td_planif_reference.json`, contrôlées par skyfield) :
+
+- **Planificateur de parallaxe** (Calculateurs de TD, `#/td/planif`) : pour deux lieux, les passages de l'ISS et les
+  soirées de Lune visibles des deux à la fois, classés ; erreur de la formule du sujet, précision d'horloge,
+  magnitude de l'ISS, étoiles voisines, étoile de repère et Δφ pour la Lune ; ciel des deux lieux ; export CSV et
+  agenda .ics. Étoiles : Yale Bright Star Catalogue (V ≤ 5,5), précessées à la date.
+- TLE de l'ISS : ARISS quand CelesTrak ne répond pas (aussi pour « Parallaxe (TP du cours) ») ; politique de
+  sécurité : `connect-src` ouvre `live.ariss.org`.
+
 ## 0.9.0 — 2026-11-25 — Quatre animations de cours de plus
 
 Quatre animations propres à Coupole (105 en tout), jumelles de Coupole 0.11.0 (mêmes valeurs au caractère près,
@@ -418,6 +430,13 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.10.0 — in preparation — Parallax planner
+
+Twin of Coupole 0.12.0's planner (same slots, same scores; shared references checked against skyfield): **parallax
+planner** (Course calculators, `#/td/planif`) — for two places, the ISS passes and Moon evenings visible from both at
+once, ranked, with the practical's formula error, clock accuracy, reference star, both places' skies, CSV export and
+.ics calendar. ISS TLE from ARISS when CelesTrak does not answer.
 
 ### 0.9.0 — 2026-11-25 — Four more course animations
 

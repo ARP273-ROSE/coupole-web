@@ -26,7 +26,9 @@ table, image ; collections au second plan) et **Ma progression** ; tout est gard
 un fichier que lit aussi Coupole. Depuis 0.6.2, des **Calculateurs de TD** : *Parallaxe (TP du cours)* suit la
 démarche du sujet (élévations, 2α = h₁ − h₂, distance entre les lieux, D = R / 2α) avec vos nombres, puis montre le
 calcul exact (courbure, flèche de la corde, éphémérides de la Lune et de l'ISS, incertitudes) et le dessin de tout
-l'exercice.
+l'exercice ; depuis 0.10.0, le *Planificateur de parallaxe* cherche, pour deux lieux, les passages de l'ISS et les
+soirées de Lune visibles des deux à la fois et les classe (formule du sujet juste, précision d'horloge, étoile de
+repère), avec le ciel des deux lieux, un export CSV et un agenda .ics pour son binôme.
 
 Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupole), dans le navigateur : sphère
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
@@ -131,7 +133,9 @@ in the background) and **My progress**; everything is kept in the browser and ex
 reads. Since 0.6.2, **Course calculators**: *Parallax (course practical)* follows the practical's approach
 (elevations, 2α = h₁ − h₂, distance between the places, D = R / 2α) with your numbers, then shows the exact
 calculation (curvature, the chord's sagitta, Moon and ISS ephemerides, uncertainties) and a drawing of the whole
-exercise.
+exercise; since 0.10.0, the *Parallax planner* finds, for two places, the ISS passes and Moon evenings visible from
+both at once and ranks them (where the practical's formula holds, clock accuracy, reference star), with both places'
+skies, a CSV export and an .ics calendar for one's partner.
 
 The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), in the browser: celestial sphere,
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar

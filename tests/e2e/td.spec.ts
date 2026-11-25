@@ -120,3 +120,44 @@ test('schéma : molette, pincement aux doigts et « gesturechange » de Safari c
   expect(empeche).toBe(true);
   await expect(curseur).toHaveValue('40');
 });
+
+test.describe('Planificateur de parallaxe', () => {
+  test.use({ serviceWorkers: 'block' });
+  test('ISS : CelesTrak en panne → ARISS ; créneaux, ciel, détail, agenda ; Lune', async ({ page }, info) => {
+    const ref = JSON.parse(readFileSync(new URL('../references/td_planif_reference.json', import.meta.url), 'utf-8'));
+    const erreurs: string[] = [];
+    page.on('console', (m) => {
+      if (m.type() === 'error' && !/celestrak|503|Refused to apply a stylesheet/i.test(m.text())) erreurs.push(m.text());
+    });
+    let ariss = 0;
+    await page.route('https://celestrak.org/**', (r) => r.fulfill({ status: 503, headers: { 'access-control-allow-origin': '*' }, body: '' }));
+    await page.route('https://live.ariss.org/**', (r) => {
+      ariss++;
+      return r.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*', 'content-type': 'text/plain' }, body: 'ISS (ZARYA)\n' + ref.tle.join('\n') + '\n' });
+    });
+    await page.goto('./#/');
+    await page.evaluate(() => localStorage.clear());
+    await page.goto('./#/td/planif');
+    await page.getByRole('button', { name: /^(Exemple|Example)$/ }).click();
+    await page.locator('#pl-debut').fill('2026-11-25');
+    await page.locator('#pl-jours').fill('7');
+    await page.getByRole('button', { name: /^(Chercher|Search)$/ }).click();
+    await expect(page.locator('.pl-tableau tbody tr')).toHaveCount(7);
+    expect(ariss).toBe(1);
+    await expect(page.locator('.pl-tableau tbody tr').first()).toContainText('28/11/2026');
+    await expect(page.locator('.td-detail')).toContainText(/ENTRE|BETWEEN/);
+    const telechargement = page.waitForEvent('download');
+    await page.getByRole('button', { name: /^(Agenda|Calendar) \(\.ics\)$/ }).click();
+    expect((await telechargement).suggestedFilename()).toBe('parallaxe_creneaux.ics');
+    await page.locator('.pl-tableau tbody tr').nth(2).click();
+    await expect(page.locator('.pl-tableau tbody tr').nth(2)).toHaveClass(/choisi/);
+    if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('planif_iss.png'), fullPage: true });
+    await page.locator('#pl-cible').selectOption('lune');
+    await page.locator('#pl-jours').fill('45');
+    await page.getByRole('button', { name: /^(Chercher|Search)$/ }).click();
+    await expect(page.locator('.pl-tableau tbody tr').first()).toContainText('Δφ');
+    expect(await page.locator('.pl-tableau tbody tr').count()).toBeGreaterThan(5);
+    if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('planif_lune.png'), fullPage: true });
+    expect(erreurs).toEqual([]);
+  });
+});
