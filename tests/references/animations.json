@@ -25913,6 +25913,506 @@ true
 },
 "lecture_au_depart": false
 },
+"resolution": {
+"animee": false,
+"changements": [
+[
+"instrument",
+"elt"
+],
+[
+"diametre",
+4.5
+],
+[
+"obstruction",
+0.38
+],
+[
+"lambda",
+1371.0
+],
+[
+"separation",
+5.839
+],
+[
+"dmag",
+2.3
+],
+[
+"seeing",
+2.4
+],
+[
+"etirer",
+false
+],
+[
+"anneau",
+false
+]
+],
+"en": {
+"etapes": [
+[
+"creation",
+[
+[
+"1.22 λ / D",
+"0.692″"
+],
+[
+"First dark ring",
+"0.692″"
+],
+[
+"Full width at half maximum of a star",
+"0.584″"
+],
+[
+"Separation / (1.22 λ / D)",
+"1.45"
+],
+[
+"Intensity in the dip between the peaks",
+"18 % of the fainter peak"
+],
+[
+"The two stars",
+"resolved"
+]
+]
+],
+[
+"reglages",
+[
+[
+"1.22 λ / D",
+"7.66″"
+],
+[
+"First dark ring",
+"6.72″"
+],
+[
+"Full width at half maximum of a star",
+"6.34″"
+],
+[
+"Separation / (1.22 λ / D)",
+"0.76"
+],
+[
+"Intensity in the dip between the peaks",
+"none: a single peak"
+],
+[
+"The two stars",
+"unresolved"
+],
+[
+"Diameter at which the Airy spot equals the seeing",
+"14.4 cm"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"1.22 λ / D",
+"0.692″"
+],
+[
+"First dark ring",
+"0.692″"
+],
+[
+"Full width at half maximum of a star",
+"0.584″"
+],
+[
+"Separation / (1.22 λ / D)",
+"1.45"
+],
+[
+"Intensity in the dip between the peaks",
+"18 % of the fainter peak"
+],
+[
+"The two stars",
+"resolved"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Choosing an instrument sets its diameter and central obstruction; you can then change them by hand.",
+"cle": "instrument",
+"defaut": "libre",
+"options": [
+[
+"(free setting)",
+"libre"
+],
+[
+"Eye (7 mm pupil)",
+"oeil"
+],
+[
+"80 mm refractor",
+"lunette80"
+],
+[
+"203 mm Schmidt-Cassegrain (ε = 0.34)",
+"sc200"
+],
+[
+"1 m telescope",
+"m1"
+],
+[
+"Hubble, 2.4 m (ε = 0.33)",
+"hubble"
+],
+[
+"One VLT telescope, 8.2 m (ε = 0.14)",
+"vlt"
+],
+[
+"ELT, 39.3 m (obstruction not modelled)",
+"elt"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diameter of the objective lens or primary mirror (logarithmic scale).",
+"cle": "diametre",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Diameter D",
+"log": true,
+"maxi": 4000.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "cm",
+"valeur": 20.0
+},
+{
+"aide": "Secondary mirror diameter divided by D (0: refractor). The obstruction slightly narrows the central spot but sends more light into the rings.",
+"cle": "obstruction",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Central obstruction ε",
+"log": false,
+"maxi": 0.6,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "Observed wavelength: 550 nm in the middle of the visible range, 2,200 nm in the infrared (K band). The spot grows with λ.",
+"cle": "lambda",
+"dec": 0,
+"defaut": 550.0,
+"libelle": "Wavelength λ",
+"log": false,
+"maxi": 2200.0,
+"mini": 350.0,
+"type": "curseur",
+"unite": "nm",
+"valeur": 550.0
+},
+{
+"aide": "Angular distance between the two stars, in arcseconds (logarithmic scale).",
+"cle": "separation",
+"dec": 3,
+"defaut": 1.0,
+"libelle": "Separation of the two stars",
+"log": true,
+"maxi": 20.0,
+"mini": 0.01,
+"type": "curseur",
+"unite": "″",
+"valeur": 1.0
+},
+{
+"aide": "The second star is Δm magnitudes fainter (flux divided by 2.512 for each magnitude): a faint companion gets lost in the rings of the bright star.",
+"cle": "dmag",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Brightness difference Δm",
+"log": false,
+"maxi": 5.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "Full width at half maximum of a star image in a long exposure through the atmosphere. 0: above the atmosphere (space telescope, or perfect adaptive optics).",
+"cle": "seeing",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Turbulence (seeing)",
+"log": false,
+"maxi": 3.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "″",
+"valeur": 0.0
+},
+{
+"aide": "Logarithmic intensity scale (three decades): the first ring is only 1.7% as bright as the centre, invisible without a stretch.",
+"cle": "etirer",
+"defaut": true,
+"libelle": "Stretch the image (see the rings)",
+"type": "coche"
+},
+{
+"aide": "Dotted circle at the radius of the first dark ring of each star.",
+"cle": "anneau",
+"defaut": true,
+"libelle": "First dark ring",
+"type": "coche"
+}
+]
+},
+"fr": {
+"etapes": [
+[
+"creation",
+[
+[
+"1,22 λ / D",
+"0,692″"
+],
+[
+"Premier anneau noir",
+"0,692″"
+],
+[
+"Largeur à mi-hauteur d’une étoile",
+"0,584″"
+],
+[
+"Séparation / (1,22 λ / D)",
+"1,45"
+],
+[
+"Intensité au creux entre les sommets",
+"18 % du plus faible sommet"
+],
+[
+"Les deux étoiles",
+"séparées"
+]
+]
+],
+[
+"reglages",
+[
+[
+"1,22 λ / D",
+"7,66″"
+],
+[
+"Premier anneau noir",
+"6,72″"
+],
+[
+"Largeur à mi-hauteur d’une étoile",
+"6,34″"
+],
+[
+"Séparation / (1,22 λ / D)",
+"0,76"
+],
+[
+"Intensité au creux entre les sommets",
+"aucun : un seul sommet"
+],
+[
+"Les deux étoiles",
+"confondues"
+],
+[
+"Diamètre où la tache d’Airy égale le seeing",
+"14,4 cm"
+]
+]
+],
+[
+"reinitialiser",
+[
+[
+"1,22 λ / D",
+"0,692″"
+],
+[
+"Premier anneau noir",
+"0,692″"
+],
+[
+"Largeur à mi-hauteur d’une étoile",
+"0,584″"
+],
+[
+"Séparation / (1,22 λ / D)",
+"1,45"
+],
+[
+"Intensité au creux entre les sommets",
+"18 % du plus faible sommet"
+],
+[
+"Les deux étoiles",
+"séparées"
+]
+]
+]
+],
+"reglages": [
+{
+"aide": "Choisir un instrument règle son diamètre et son obstruction centrale ; on peut ensuite les changer à la main.",
+"cle": "instrument",
+"defaut": "libre",
+"options": [
+[
+"(réglage libre)",
+"libre"
+],
+[
+"Œil (pupille de 7 mm)",
+"oeil"
+],
+[
+"Lunette de 80 mm",
+"lunette80"
+],
+[
+"Schmidt-Cassegrain de 203 mm (ε = 0,34)",
+"sc200"
+],
+[
+"Télescope de 1 m",
+"m1"
+],
+[
+"Hubble, 2,4 m (ε = 0,33)",
+"hubble"
+],
+[
+"Un télescope du VLT, 8,2 m (ε = 0,14)",
+"vlt"
+],
+[
+"ELT, 39,3 m (obstruction non modélisée)",
+"elt"
+]
+],
+"type": "choix"
+},
+{
+"aide": "Diamètre de l’objectif ou du miroir principal (échelle logarithmique).",
+"cle": "diametre",
+"dec": 1,
+"defaut": 20.0,
+"libelle": "Diamètre D",
+"log": true,
+"maxi": 4000.0,
+"mini": 0.5,
+"type": "curseur",
+"unite": "cm",
+"valeur": 20.0
+},
+{
+"aide": "Diamètre du miroir secondaire rapporté à D (0 : lunette). L’obstruction resserre un peu la tache centrale mais envoie plus de lumière dans les anneaux.",
+"cle": "obstruction",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Obstruction centrale ε",
+"log": false,
+"maxi": 0.6,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "Longueur d’onde observée : 550 nm au milieu du visible, 2 200 nm dans l’infrarouge (bande K). La tache grandit avec λ.",
+"cle": "lambda",
+"dec": 0,
+"defaut": 550.0,
+"libelle": "Longueur d’onde λ",
+"log": false,
+"maxi": 2200.0,
+"mini": 350.0,
+"type": "curseur",
+"unite": "nm",
+"valeur": 550.0
+},
+{
+"aide": "Écart angulaire entre les deux étoiles, en secondes d’arc (échelle logarithmique).",
+"cle": "separation",
+"dec": 3,
+"defaut": 1.0,
+"libelle": "Séparation des deux étoiles",
+"log": true,
+"maxi": 20.0,
+"mini": 0.01,
+"type": "curseur",
+"unite": "″",
+"valeur": 1.0
+},
+{
+"aide": "La seconde étoile est plus faible de Δm magnitudes (flux divisé par 2,512 à chaque magnitude) : un compagnon faible se perd dans les anneaux de l’étoile brillante.",
+"cle": "dmag",
+"dec": 1,
+"defaut": 0.0,
+"libelle": "Écart d’éclat Δm",
+"log": false,
+"maxi": 5.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "",
+"valeur": 0.0
+},
+{
+"aide": "Largeur à mi-hauteur de l’image d’une étoile en pose longue à travers l’atmosphère. 0 : au-dessus de l’atmosphère (télescope spatial, ou optique adaptative parfaite).",
+"cle": "seeing",
+"dec": 2,
+"defaut": 0.0,
+"libelle": "Turbulence (seeing)",
+"log": false,
+"maxi": 3.0,
+"mini": 0.0,
+"type": "curseur",
+"unite": "″",
+"valeur": 0.0
+},
+{
+"aide": "Échelle logarithmique de l’intensité (trois décades) : le premier anneau ne porte que 1,7 % de l’éclat du centre, invisible sans étirement.",
+"cle": "etirer",
+"defaut": true,
+"libelle": "Étirer l’image (voir les anneaux)",
+"type": "coche"
+},
+{
+"aide": "Cercle pointillé au rayon du premier anneau noir de chaque étoile.",
+"cle": "anneau",
+"defaut": true,
+"libelle": "Premier anneau noir",
+"type": "coche"
+}
+]
+},
+"lecture_au_depart": false
+},
 "retrograde": {
 "animee": true,
 "changements": [
