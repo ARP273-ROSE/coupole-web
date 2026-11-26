@@ -854,3 +854,6 @@ Piège : une méthode `vue` masque `Animation.vue` (vues 3D) → `vue_dessus`.
 
 ## 25/11/2026 (soir) — publication
 - Version publiée sur demande (« publie ») : Coupole Web 0.10.0, Pages (commit f5c6328). Reste : simulateurs NAAP des cours à venir, inventaire #86.
+
+## 26/11/2026
+- Choisir un lieu : zoom au pincement à deux doigts, molette autour du curseur et pas cumulés (0c5d7e9, a37092b), en ligne.
