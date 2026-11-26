@@ -142,13 +142,68 @@ export function choisirLieu(depart: { lat: number; lon: number } | null): Promis
       e.preventDefault();
       zoomer(e.deltaY < 0 ? 1 : -1);
     }, { passive: false });
+    // pincement à deux doigts : aperçu continu (mise à l'échelle des tuiles), zoom entier au lâcher, autour du milieu
+    const doigts = new Map<number, [number, number]>();
+    let pince: { d0: number; mx: number; my: number; s: number } | null = null;
+    const ecart = (): { d: number; mx: number; my: number } => {
+      const [a, b] = [...doigts.values()] as [[number, number], [number, number]];
+      const r = carte.getBoundingClientRect();
+      return { d: Math.hypot(a[0] - b[0], a[1] - b[1]), mx: (a[0] + b[0]) / 2 - r.left, my: (a[1] + b[1]) / 2 - r.top };
+    };
+    const finirPince = (): void => {
+      if (!pince) return;
+      const dz = Math.max(2, Math.min(18, z + Math.round(Math.log2(pince.s)))) - z;
+      tuiles.style.transform = '';
+      if (dz) {
+        // le point sous le milieu des doigts reste en place
+        const r = carte.getBoundingClientRect();
+        const [cx, cy] = versMonde(centre[0], centre[1], z);
+        const px = cx - r.width / 2 + pince.mx;
+        const py = cy - r.height / 2 + pince.my;
+        const [lon, lat] = versLonLat(px, py, z);
+        z += dz;
+        const [qx, qy] = versMonde(lon, lat, z);
+        centre = versLonLat(qx - pince.mx + r.width / 2, qy - pince.my + r.height / 2, z);
+      }
+      pince = null;
+      dessiner();
+    };
     let glisse: { x: number; y: number; c: [number, number]; bouge: boolean } | null = null;
     carte.addEventListener('pointerdown', (e) => {
       if ((e.target as HTMLElement).closest('button')) return;
-      glisse = { x: e.clientX, y: e.clientY, c: centre, bouge: false };
-      carte.setPointerCapture(e.pointerId);
+      doigts.set(e.pointerId, [e.clientX, e.clientY]);
+      try {
+        carte.setPointerCapture(e.pointerId);
+      } catch {
+        /* pointeur déjà relâché ou inconnu : on suit sans capture */
+      }
+      if (doigts.size === 2) {
+        glisse = null;                                             // deux doigts : ni glissement ni clic
+        const { d, mx, my } = ecart();
+        pince = { d0: Math.max(d, 1), mx, my, s: 1 };
+        return;
+      }
+      if (doigts.size === 1) glisse = { x: e.clientX, y: e.clientY, c: centre, bouge: false };
+    });
+    const lever = (e: PointerEvent): void => {
+      doigts.delete(e.pointerId);
+      if (pince && doigts.size < 2) finirPince();
+    };
+    carte.addEventListener('pointercancel', (e) => {
+      lever(e);
+      glisse = null;
     });
     carte.addEventListener('pointermove', (e) => {
+      if (doigts.has(e.pointerId)) doigts.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pince && doigts.size === 2) {
+        const { d } = ecart();
+        pince.s = Math.max(2 ** (2 - z), Math.min(2 ** (18 - z), d / pince.d0));
+        const o = `${pince.mx}px ${pince.my}px`;
+        tuiles.style.transformOrigin = o;
+        tuiles.style.transform = `scale(${pince.s})`;
+        repere.hidden = true;                                      // reposé au lâcher par dessiner()
+        return;
+      }
       if (!glisse) return;
       const dx = e.clientX - glisse.x;
       const dy = e.clientY - glisse.y;
@@ -159,6 +214,12 @@ export function choisirLieu(depart: { lat: number; lon: number } | null): Promis
       dessiner();
     });
     carte.addEventListener('pointerup', (e) => {
+      const enPince = pince !== null;
+      lever(e);
+      if (enPince) {
+        glisse = null;
+        return;
+      }
       if (glisse && !glisse.bouge) {
         const r = carte.getBoundingClientRect();
         const [cx, cy] = versMonde(centre[0], centre[1], z);

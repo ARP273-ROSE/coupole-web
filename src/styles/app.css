@@ -2656,6 +2656,11 @@ math {
   user-select: none;
 }
 
+.lieu-tuiles {
+  position: absolute;
+  inset: 0;
+}
+
 .lieu-tuiles img {
   position: absolute;
   width: 256px;

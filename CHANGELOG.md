@@ -2,6 +2,11 @@
 
 *Français, puis [English](#english).*
 
+## 0.10.1 — en préparation
+
+- **Choisir un lieu** : la carte se zoome et se dézoome au pincement à deux doigts (téléphone, tablette), autour du
+  milieu des doigts ; auparavant seuls les boutons + et − et la molette marchaient.
+
 ## 0.10.0 — 2026-11-25 — Planificateur de parallaxe
 
 Jumeau du planificateur de Coupole 0.12.0 (mêmes créneaux, mêmes notes ; références communes
@@ -464,6 +469,11 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 ---
 
 ## English
+
+### 0.10.1 — in preparation
+
+- **Choose a place**: the map now zooms in and out with a two-finger pinch (phone, tablet), around the fingers'
+  midpoint; before, only the + and − buttons and the mouse wheel worked.
 
 ### 0.10.0 — 2026-11-25 — Parallax planner
 

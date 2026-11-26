@@ -204,6 +204,33 @@ test.describe('Choisir un lieu', () => {
     await page.mouse.click(boite!.x + boite!.width / 2 + 40, boite!.y + boite!.height / 2);
     await expect(page.locator('.lieu-dialogue .td-etat')).not.toContainText('48.83660 N, 2.33600 E');
     await expect(page.locator('.lieu-dialogue .td-etat')).toContainText('62 m');
+    // pincement à deux doigts : écarter zoome d'un cran au moins (tuiles d'un niveau plus fin), resserrer dézoome
+    const niveau = (): Promise<number> => page.locator('.lieu-tuiles img').first().getAttribute('src').then((s) => Number(/org\/(\d+)\//.exec(s!)![1]));
+    const pincer = (de: number, a: number): Promise<void> => page.evaluate(([de, a]) => {
+      const c = document.querySelector('.lieu-carte') as HTMLElement;
+      const r = c.getBoundingClientRect();
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      const ev = (t: string, id: number, dx: number): void => {
+        c.dispatchEvent(new PointerEvent(t, { pointerId: id, pointerType: 'touch', clientX: x + dx, clientY: y, bubbles: true, isPrimary: id === 1 }));
+      };
+      ev('pointerdown', 1, -de);
+      ev('pointerdown', 2, de);
+      for (let k = 1; k <= 5; k++) {
+        const d = de + ((a - de) * k) / 5;
+        ev('pointermove', 1, -d);
+        ev('pointermove', 2, d);
+      }
+      ev('pointerup', 1, -a);
+      ev('pointerup', 2, a);
+    }, [de, a]);
+    const z0 = await niveau();
+    const avant = await page.locator('.lieu-dialogue .td-etat').textContent();
+    await pincer(30, 130);
+    await expect.poll(niveau).toBeGreaterThan(z0);
+    await pincer(130, 30);
+    await expect.poll(niveau).toBe(z0);
+    await expect(page.locator('.lieu-dialogue .td-etat')).toHaveText(avant!);   // un pincement ne pose pas de lieu
     if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('lieu.png') });
     await page.getByRole('button', { name: /^(Utiliser ce lieu|Use this place)$/ }).click();
     await expect(page.locator('.lieu-dialogue')).toHaveCount(0);
