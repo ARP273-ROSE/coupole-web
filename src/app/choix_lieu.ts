@@ -132,15 +132,34 @@ export function choisirLieu(depart: { lat: number; lon: number } | null): Promis
       });
     };
 
-    const zoomer = (dz: number): void => {
-      z = Math.max(2, Math.min(18, z + dz));
+    // change le zoom de dz niveaux ; le point (mx, my) de la carte, s'il est donné, reste en place
+    const zoomer = (dz: number, mx?: number, my?: number): void => {
+      const z2 = Math.max(2, Math.min(18, z + dz));
+      if (z2 === z) return;
+      if (mx !== undefined && my !== undefined) {
+        const w = carte.clientWidth || 600;
+        const hh = carte.clientHeight || 400;
+        const [cx, cy] = versMonde(centre[0], centre[1], z);
+        const [lon, lat] = versLonLat(cx - w / 2 + mx, cy - hh / 2 + my, z);
+        const [qx, qy] = versMonde(lon, lat, z2);
+        centre = versLonLat(qx - mx + w / 2, qy - my + hh / 2, z2);
+      }
+      z = z2;
       dessiner();
     };
     bPlus.addEventListener('click', () => zoomer(1));
     bMoins.addEventListener('click', () => zoomer(-1));
+    // molette : un cran (≈ 100 px) = un niveau ; pavé tactile (petits pas, pincement = ctrl + molette) : pas cumulés
+    let cumulMolette = 0;
     carte.addEventListener('wheel', (e) => {
       e.preventDefault();
-      zoomer(e.deltaY < 0 ? 1 : -1);
+      const px = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaMode === 2 ? e.deltaY * 400 : e.deltaY;
+      cumulMolette -= e.ctrlKey ? px * 3 : px;
+      const dz = Math.trunc(cumulMolette / 100);
+      if (!dz) return;
+      cumulMolette -= dz * 100;
+      const r = carte.getBoundingClientRect();
+      zoomer(dz, e.clientX - r.left, e.clientY - r.top);
     }, { passive: false });
     // pincement à deux doigts : aperçu continu (mise à l'échelle des tuiles), zoom entier au lâcher, autour du milieu
     const doigts = new Map<number, [number, number]>();
@@ -156,14 +175,10 @@ export function choisirLieu(depart: { lat: number; lon: number } | null): Promis
       tuiles.style.transform = '';
       if (dz) {
         // le point sous le milieu des doigts reste en place
-        const r = carte.getBoundingClientRect();
-        const [cx, cy] = versMonde(centre[0], centre[1], z);
-        const px = cx - r.width / 2 + pince.mx;
-        const py = cy - r.height / 2 + pince.my;
-        const [lon, lat] = versLonLat(px, py, z);
-        z += dz;
-        const [qx, qy] = versMonde(lon, lat, z);
-        centre = versLonLat(qx - pince.mx + r.width / 2, qy - pince.my + r.height / 2, z);
+        const p = pince;
+        pince = null;
+        zoomer(dz, p.mx, p.my);
+        return;
       }
       pince = null;
       dessiner();

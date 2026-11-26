@@ -231,6 +231,20 @@ test.describe('Choisir un lieu', () => {
     await pincer(130, 30);
     await expect.poll(niveau).toBe(z0);
     await expect(page.locator('.lieu-dialogue .td-etat')).toHaveText(avant!);   // un pincement ne pose pas de lieu
+    // molette : un cran = un niveau ; petits pas (pavé tactile) cumulés
+    const molette = (dy: number): Promise<void> => page.evaluate((dy) => {
+      const c = document.querySelector('.lieu-carte') as HTMLElement;
+      const r = c.getBoundingClientRect();
+      c.dispatchEvent(new WheelEvent('wheel', { deltaY: dy, clientX: r.left + 100, clientY: r.top + 80, bubbles: true, cancelable: true }));
+    }, dy);
+    await molette(-100);
+    await expect.poll(niveau).toBe(z0 + 1);
+    for (let k = 0; k < 4; k++) await molette(-20);
+    expect(await niveau()).toBe(z0 + 1);
+    await molette(-20);
+    await expect.poll(niveau).toBe(z0 + 2);
+    await molette(200);
+    await expect.poll(niveau).toBe(z0);
     if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('lieu.png') });
     await page.getByRole('button', { name: /^(Utiliser ce lieu|Use this place)$/ }).click();
     await expect(page.locator('.lieu-dialogue')).toHaveCount(0);

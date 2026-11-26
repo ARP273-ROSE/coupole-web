@@ -6,6 +6,8 @@
 
 - **Choisir un lieu** : la carte se zoome et se dézoome au pincement à deux doigts (téléphone, tablette), autour du
   milieu des doigts ; auparavant seuls les boutons + et − et la molette marchaient.
+- **Molette** : zoom autour du point visé par la souris ; sur un pavé tactile, petits défilements cumulés (un niveau
+  par cran) au lieu de sauter plusieurs niveaux d'un geste ; pincement du pavé tactile pris en compte.
 
 ## 0.10.0 — 2026-11-25 — Planificateur de parallaxe
 
@@ -474,6 +476,8 @@ Première version de Coupole Web, la version navigateur des animations d’astro
 
 - **Choose a place**: the map now zooms in and out with a two-finger pinch (phone, tablet), around the fingers'
   midpoint; before, only the + and − buttons and the mouse wheel worked.
+- **Mouse wheel**: zooms around the point under the cursor; on a touchpad, small scrolls add up (one level per notch)
+  instead of jumping several levels in one gesture; touchpad pinch handled.
 
 ### 0.10.0 — 2026-11-25 — Parallax planner
 
