@@ -2489,6 +2489,55 @@ math {
   min-width: 0;
 }
 
+/* Pluies de météores : onglets dans la colonne des résultats ; les tableaux larges défilent dans leur cadre */
+.td-resultats > .bloc-onglets,
+.td-resultats .panneau-onglet,
+.td-resultats .panneau-onglet > div {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.td-resultats .onglets {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--bord);
+  scrollbar-width: thin;
+}
+
+.td-resultats .onglet {
+  flex: none;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--texte-2);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.td-resultats .onglet:hover {
+  color: var(--texte);
+}
+
+.td-resultats .onglet[aria-selected='true'] {
+  color: var(--texte);
+  border-bottom-color: var(--accent);
+}
+
+.td-resultats .panneau-onglet {
+  padding: 14px 0 0;
+}
+
+.mt-graphe {
+  height: min(46vh, 360px);
+}
+
 .td-schema {
   width: 100%;
   height: min(52vh, 460px);

@@ -8,7 +8,8 @@ import { chargerTD, langue, tr } from '../i18n/i18n';
 import { h, icone } from './dom';
 import type { Page } from './page_apropos';
 
-export const CALCULATEURS: readonly [string, string][] = [['parallaxe', 'td_calc_parallaxe'], ['planif', 'td_calc_planif']];
+export const CALCULATEURS: readonly [string, string][] = [['parallaxe', 'td_calc_parallaxe'], ['planif', 'td_calc_planif'],
+  ['meteores', 'td_calc_meteores']];
 const CLE_MEMOIRE = 'coupole-td-parallaxe';
 const CLE_TLE = 'coupole-td-tle';
 const URL_TLE = 'https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE';
@@ -40,6 +41,7 @@ export async function pageTD(id: string): Promise<Page> {
   await chargerTD(langue());
   if (id === 'parallaxe') return pageParallaxe();
   if (id === 'planif') return (await import('./page_td_planif')).pagePlanif();
+  if (id === 'meteores') return (await import('./page_td_meteores')).pageMeteores();
   const liste = h('div', { class: 'grille-td' },
     ...CALCULATEURS.map(([i, cle]) => h('a', { class: 'carte carte-td', href: '#/td/' + i },
       h('h2', { text: tr(cle) }), h('p', { text: tr(cle + '_aide') }))));

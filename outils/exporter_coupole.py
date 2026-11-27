@@ -6,7 +6,7 @@ Usage : python3 outils/exporter_coupole.py CHEMIN_DU_DEPOT_COUPOLE
 Écrit (fichiers suivis par git, à régénérer quand Coupole change) :
   src/i18n/genere/{catalogue,anim}.{fr,en}.json   textes FR/EN (mêmes clés que Coupole)
   src/donnees/genere/catalogue.json               les 93 animations (id, thème, titre et fichier d'origine), lots
-  src/donnees/genere/*.json                       données des animations (spectres, binaires, étoiles… ; côtes : cotes_natural_earth.py)
+  src/donnees/genere/*.json                       données des animations et des calculateurs (meteores_imo.json…) (spectres, binaires, étoiles… ; côtes : cotes_natural_earth.py)
   tests/references/{spectres_physiques,couleurs_reference,orion3d_reference,nebuleuses_orion,typographie_reference,typographie_cas}.json   références communes au bureau et au web
 
 Seules les bibliothèques standard sont nécessaires ; les modules importés de Coupole sont ceux sans Qt."""
@@ -64,6 +64,9 @@ def main(coupole: Path) -> None:
     # étoiles de repère du planificateur de parallaxe (0.12.0) : le même fichier que Coupole, décompressé
     with gzip.open(coupole / 'coupole' / 'modules' / 'td' / 'donnees' / 'etoiles_v55.json.gz', 'rt', encoding='utf-8') as fh:
         ecrire(ICI / 'src' / 'donnees' / 'genere' / 'etoiles_v55.json', json.load(fh))
+    # pluies de météores (0.11.0) : calendrier IMO 2027 et pentes de Jenniskens, le même fichier que Coupole
+    ecrire(ICI / 'src' / 'donnees' / 'genere' / 'meteores_imo.json',
+           json.loads((coupole / 'coupole' / 'modules' / 'td' / 'donnees' / 'meteores_imo.json').read_text(encoding='utf-8')))
 
     # ------------------------------------------------------------ catalogue
     ecrire(ICI / 'src' / 'donnees' / 'genere' / 'catalogue.json', {

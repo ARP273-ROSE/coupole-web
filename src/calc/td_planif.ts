@@ -87,7 +87,7 @@ export function angle(u: V3, v: V3): number {
   return Math.acos(Math.max(-1, Math.min(1, ps(u, v) / (nrm(u) * nrm(v))))) / RAD;
 }
 
-function hauteurAz(s: Site, v: V3): [number, number, number] {
+export function hauteurAz(s: Site, v: V3): [number, number, number] {
   const [E, N, Z] = enu(s.lat, s.lon);
   const d = nrm(v);
   const h = Math.asin(Math.max(-1, Math.min(1, ps(v, Z) / d))) / RAD;
@@ -96,7 +96,7 @@ function hauteurAz(s: Site, v: V3): [number, number, number] {
 }
 
 /** Temps sidéral apparent de Greenwich (rad), UT1 ≈ UTC, comme lune_meeus. */
-function gast(t: Date): number {
+export function gast(t: Date): number {
   const jd = t.getTime() / 86_400_000 + 2_440_587.5;
   const T = (jd + 69.184 / 86400 - 2451545.0) / 36525;
   const Tu = (jd - 2451545.0) / 36525;
@@ -109,14 +109,14 @@ function gast(t: Date): number {
   return ((((gmst + dpsi * Math.cos(eps)) % 360) + 360) % 360) * RAD;
 }
 
-function versTerre(v: V3, th: number): V3 {
+export function versTerre(v: V3, th: number): V3 {
   const c = Math.cos(th);
   const s = Math.sin(th);
   return [c * v[0] + s * v[1], -s * v[0] + c * v[1], v[2]];
 }
 
 /** Soleil géocentrique dans le repère terrestre (km). */
-function soleilTerre(t: Date): V3 {
+export function soleilTerre(t: Date): V3 {
   const jd = t.getTime() / 86_400_000 + 2_440_587.5 + 69.184 / 86400;
   const s = soleil(jd);
   const r = s.distance * UA_KM;
@@ -126,7 +126,7 @@ function soleilTerre(t: Date): V3 {
 }
 
 /** Matrice de précession J2000 → date (IAU 1976, Lieske 1977 ; Meeus chap. 21). */
-function precession(t: Date): number[][] {
+export function precession(t: Date): number[][] {
   const T = (t.getTime() / 86_400_000 + 2_440_587.5 + 69.184 / 86400 - 2451545.0) / 36525;
   const z0 = ((2306.2181 + (0.30188 + 0.017998 * T) * T) * T) / 3600 * RAD;
   const z = ((2306.2181 + (1.09468 + 0.018203 * T) * T) * T) / 3600 * RAD;
@@ -199,7 +199,7 @@ export function magnitudeISS(d_km: number, phase_deg: number): number {
   return MAG_ISS_1000 + 5 * Math.log10(d_km / 1000) - 2.5 * Math.log10(Math.max(f, 1e-4));
 }
 
-function plages(ok: boolean[]): [number, number][] {
+export function plages(ok: boolean[]): [number, number][] {
   const out: [number, number][] = [];
   let i = -1;
   ok.forEach((x, k) => {

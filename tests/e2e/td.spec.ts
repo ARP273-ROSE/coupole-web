@@ -170,6 +170,60 @@ test.describe('Planificateur de parallaxe', () => {
   });
 });
 
+test.describe('Pluies de météores', () => {
+  test.use({ serviceWorkers: 'block' });
+  test('calendrier, nuit du maximum, campagne, réduction', async ({ page }, info) => {
+    const erreurs: string[] = [];
+    page.on('console', (m) => {
+      if (m.type() === 'error' && !/Refused to apply a stylesheet/i.test(m.text())) erreurs.push(m.text());
+    });
+    await page.goto('./#/');
+    await page.evaluate(() => localStorage.clear());
+    await page.goto('./#/td');
+    await page.getByRole('link', { name: /Pluies de météores|Meteor showers/ }).click();
+    await expect(page).toHaveURL(/#\/td\/meteores$/);
+    await page.getByRole('button', { name: /^(Exemple|Example)$/ }).click();
+    await page.locator('#mt-annee').fill('2026');
+    await page.locator('#mt-annee').dispatchEvent('change');
+    await expect(page.locator('#panneau-mt-calendrier .pl-tableau tbody tr')).toHaveCount(39);
+    const gem = page.locator('#panneau-mt-calendrier tr[data-code="GEM"]');
+    await expect(gem).toContainText(/14\/12,? 13:44 UTC/);
+    await expect(gem).toContainText(/04\/12 – 20\/12/);
+    await expect(gem).toContainText('150');
+    await gem.dblclick();
+    await expect(page.locator('#onglet-mt-nuit')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#mt-nuit')).toHaveValue('2026-12-14');
+    await expect(page.locator('#panneau-mt-nuit .td-detail')).toContainText(/Géminides|Geminids/);
+    if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('meteores_nuit.png'), fullPage: true });
+    await page.locator('#mt-nuit').fill('2026-12-13');
+    await page.locator('#mt-pluie').selectOption('');
+    await page.getByRole('button', { name: /^(Calculer|Compute)$/ }).click();
+    await expect(page.locator('#panneau-mt-nuit .td-detail')).toContainText(/452 météores attendus|452 meteors expected/);
+    await page.locator('#onglet-mt-campagne').click();
+    await page.locator('#mt-du').fill('2026-12-10');
+    await page.locator('#mt-au').fill('2026-12-16');
+    await page.getByRole('button', { name: /^(Chercher les nuits|Find nights)$/ }).click();
+    await expect(page.locator('#panneau-mt-campagne .pl-tableau tbody tr').first()).toBeVisible();
+    await expect(page.locator('#panneau-mt-campagne .pl-tableau')).toContainText('13/12/2026');
+    const telechargement = page.waitForEvent('download');
+    await page.getByRole('button', { name: /^(Agenda \.ics|\.ics calendar)$/ }).click();
+    expect((await telechargement).suggestedFilename()).toBe('meteores_nuits.ics');
+    await page.locator('#onglet-mt-reduction').click();
+    await page.locator('#mt-rpluie').selectOption('GEM');
+    await expect(page.locator('#mt-r')).toHaveValue('2.6');
+    await page.locator('#mt-rdeb').fill('2026-12-14 01:00');
+    await page.locator('#mt-rfin').fill('2026-12-14 02:00');
+    await page.locator('#mt-n').fill('48');
+    await page.getByRole('button', { name: /^(Calculer le ZHR|Compute the ZHR)$/ }).click();
+    await expect(page.locator('#panneau-mt-reduction .td-detail')).toContainText(/ZHR = \d/);
+    await page.locator('#mt-mags').fill('-1:2 0:4 1:9 2:21 3:38 4:55 5:30');
+    await page.getByRole('button', { name: /^(Estimer r|Estimate r)$/ }).click();
+    await expect(page.locator('#mt-r')).toHaveValue('1.99');
+    if (info.project.name.startsWith('chromium')) await page.screenshot({ path: info.outputPath('meteores_reduction.png'), fullPage: true });
+    expect(erreurs).toEqual([]);
+  });
+});
+
 test.describe('Choisir un lieu', () => {
   test.use({ serviceWorkers: 'block' });
   test('carte et adresse : Nominatim et Open-Meteo simulés, clic sur la carte, champs remplis', async ({ page }, info) => {

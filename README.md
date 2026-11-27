@@ -28,7 +28,9 @@ démarche du sujet (élévations, 2α = h₁ − h₂, distance entre les lieux,
 calcul exact (courbure, flèche de la corde, éphémérides de la Lune et de l'ISS, incertitudes) et le dessin de tout
 l'exercice ; depuis 0.10.0, le *Planificateur de parallaxe* cherche, pour deux lieux, les passages de l'ISS et les
 soirées de Lune visibles des deux à la fois et les classe (formule du sujet juste, précision d'horloge, étoile de
-repère), avec le ciel des deux lieux, un export CSV et un agenda .ics pour son binôme.
+repère), avec le ciel des deux lieux, un export CSV et un agenda .ics pour son binôme ; depuis 0.11.0, *Pluies de
+météores* (TP du cours) : calendrier de l'IMO, nuit d'observation à son lieu (radiant, Lune, taux attendu, champ à
+viser), meilleures nuits d'une campagne et calcul du ZHR de ses comptages.
 
 Les animations d’astronomie de [Coupole](https://github.com/ARP273-ROSE/coupole), dans le navigateur : sphère
 céleste, repères, mouvements du Soleil, saisons, phases et éclipses de la Lune, orbites de Kepler et de Ptolémée,
@@ -135,7 +137,9 @@ reads. Since 0.6.2, **Course calculators**: *Parallax (course practical)* follow
 calculation (curvature, the chord's sagitta, Moon and ISS ephemerides, uncertainties) and a drawing of the whole
 exercise; since 0.10.0, the *Parallax planner* finds, for two places, the ISS passes and Moon evenings visible from
 both at once and ranks them (where the practical's formula holds, clock accuracy, reference star), with both places'
-skies, a CSV export and an .ics calendar for one's partner.
+skies, a CSV export and an .ics calendar for one's partner; since 0.11.0, *Meteor showers* (course practical): IMO
+calendar, observing night at one's place (radiant, Moon, expected rate, field to aim at), best nights of a campaign
+and ZHR of one's counts.
 
 The astronomy animations of [Coupole](https://github.com/ARP273-ROSE/coupole), in the browser: celestial sphere,
 coordinate systems, motions of the Sun, seasons, lunar phases and eclipses, Kepler’s and Ptolemy’s orbits, stellar

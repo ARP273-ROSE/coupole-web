@@ -857,3 +857,12 @@ Piège : une méthode `vue` masque `Animation.vue` (vues 3D) → `vue_dessus`.
 
 ## 26/11/2026
 - Choisir un lieu : zoom au pincement à deux doigts, molette autour du curseur et pas cumulés (0c5d7e9, a37092b), en ligne.
+
+## 27/11/2026 — Pluies de météores (0.11.0, non publiée)
+- [x] `src/calc/td_meteores.ts` (jumeau de Coupole `td/meteores.py`), page `#/td/meteores` (`page_td_meteores.ts`,
+  onglets Calendrier / Une nuit / Campagne / Réduction) ; données exportées par `outils/exporter_coupole.py`
+  (`src/donnees/genere/meteores_imo.json`) ; fonctions de `td_planif.ts` exportées (gast, précession, Soleil…).
+- [x] Tests : `tests/unit/td_meteores.test.ts` (11 : Sage + références du bureau : calendriers 2026-2027 à la minute,
+  radiants et ZHR toute l'année, trois nuits à 0,02°, campagne), e2e « Pluies de météores » (3 formats).
+- [x] Piège : un grand tableau dans un panneau d'onglets débordait sur téléphone (page à 990 px) → `min-width: 0` sur
+  les panneaux de `.td-resultats` ; styles d'onglets copiés de classe.css (non chargée hors modules).
